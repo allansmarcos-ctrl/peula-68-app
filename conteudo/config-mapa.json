@@ -1,0 +1,21 @@
+{
+  "_instrucoes": [
+    "CONFIGURACAO DO MAPA. Edite este arquivo depois do scouting, sem tocar no codigo.",
+    "Formato de toda coordenada neste projeto: [latitude, longitude], graus decimais WGS84.",
+    "Exemplo: no Google Maps, clique com o botao direito num ponto e copie '31.77675, 35.22755'. Aqui vira [31.77675, 35.22755].",
+    "'cantos' fixa a imagem ilustrada no mundo real: 'noroeste' e o canto superior esquerdo da imagem, 'sudeste' e o canto inferior direito.",
+    "A imagem precisa estar com o norte para cima e com proporcao coerente com esses cantos. Formula da largura em metros: (lon_SE - lon_NO) x 111320 x cos(latitude media). Altura em metros: (lat_NO - lat_SE) x 110574.",
+    "Para ajustar fino em campo: abra o app com ?debug=1, ande ate um lugar conhecido e empurre os cantos ate a tocha cair no lugar certo. O painel gera este JSON pronto para copiar.",
+    "'zoom': 'inicial' e o zoom ao abrir, 'minimo'/'maximo' limitam o gesto de pinca."
+  ],
+  "imagem": "img/mapa-jerusalem-68.png",
+  "cantos": {
+    "noroeste": [31.784, 35.224],
+    "sudeste": [31.769, 35.24]
+  },
+  "zoom": {
+    "inicial": 16,
+    "minimo": 15,
+    "maximo": 19
+  }
+}

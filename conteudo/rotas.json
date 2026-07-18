@@ -1,0 +1,205 @@
+{
+  "_instrucoes": [
+    "AS QUATRO ROTAS. Edite este arquivo depois do scouting, sem tocar no codigo.",
+    "Toda coordenada e [latitude, longitude] em graus decimais (mesmo formato do Google Maps: botao direito no ponto, copiar, colar entre colchetes).",
+    "Cada rota e uma seita. 'senha_entrada' e a senha que o madrich da ao grupo no inicio: ela define qual rota aquele celular joga (maiusculas/minusculas e acentos nao importam).",
+    "Cada etapa tem: 'corredor' (lista de waypoints formando a linha do caminho certo, pode ter quantos pontos quiser), 'raio_m' (tolerancia em metros ao redor dessa linha; 40 a 60 recomendado, GPS na Cidade Velha e ruim), 'texto_diwan' (a historia da etapa), 'missao' (o que o grupo faz no lugar) e 'senha_desbloqueio' (a palavra que o grupo descobre ao cumprir a missao; digitada, avanca para a proxima etapa).",
+    "A ULTIMA senha_desbloqueio da rota leva a tela do fragmento final daquela seita.",
+    "'ponto_inicial' aparece como ponto vermelho no mapa. 'ponto_final' e o lugar da convergencia das quatro seitas.",
+    "Os textos abaixo sao PLACEHOLDER entre colchetes: trocar todos antes da peula."
+  ],
+  "rotas": [
+    {
+      "id": "fariseus",
+      "seita": "Fariseus",
+      "senha_entrada": "PERGUNTA",
+      "cor": "#b8860b",
+      "ponto_inicial": [31.7768, 35.2277],
+      "etapas": [
+        {
+          "id": 1,
+          "titulo": "A primeira porta",
+          "corredor": [
+            [31.7768, 35.2277],
+            [31.7766, 35.231]
+          ],
+          "raio_m": 50,
+          "texto_diwan": "[Texto da etapa 1 dos Fariseus. Escrever no estilo da peula, depois do scouting.]",
+          "missao": "[Missao da etapa 1: foto, tarefa ou enigma.]",
+          "senha_desbloqueio": "OFEL"
+        },
+        {
+          "id": 2,
+          "titulo": "O caminho desce",
+          "corredor": [
+            [31.7766, 35.231],
+            [31.7752, 35.2297],
+            [31.77475, 35.2309]
+          ],
+          "raio_m": 50,
+          "texto_diwan": "[Texto da etapa 2 dos Fariseus.]",
+          "missao": "[Missao da etapa 2.]",
+          "senha_desbloqueio": "SHOFAR"
+        },
+        {
+          "id": 3,
+          "titulo": "As pedras grandes",
+          "corredor": [
+            [31.77475, 35.2309],
+            [31.7756, 35.2326],
+            [31.7767, 35.2345]
+          ],
+          "raio_m": 50,
+          "texto_diwan": "[Texto da etapa 3 dos Fariseus.]",
+          "missao": "[Missao da etapa 3.]",
+          "senha_desbloqueio": "MENORA"
+        }
+      ],
+      "ponto_final": [31.7767, 35.2345],
+      "fragmento_final": "[Fragmento final dos Fariseus. Uma das quatro partes que so fazem sentido juntas. Escrever depois.]"
+    },
+    {
+      "id": "saduceus",
+      "seita": "Saduceus",
+      "senha_entrada": "ALTAR",
+      "cor": "#6d2857",
+      "ponto_inicial": [31.7742, 35.2338],
+      "etapas": [
+        {
+          "id": 1,
+          "titulo": "A sombra do muro",
+          "corredor": [
+            [31.7742, 35.2338],
+            [31.7751, 35.2343]
+          ],
+          "raio_m": 50,
+          "texto_diwan": "[Texto da etapa 1 dos Saduceus.]",
+          "missao": "[Missao da etapa 1.]",
+          "senha_desbloqueio": "KOHEN"
+        },
+        {
+          "id": 2,
+          "titulo": "A casa queimada",
+          "corredor": [
+            [31.7751, 35.2343],
+            [31.775, 35.2328],
+            [31.7756, 35.232]
+          ],
+          "raio_m": 50,
+          "texto_diwan": "[Texto da etapa 2 dos Saduceus.]",
+          "missao": "[Missao da etapa 2.]",
+          "senha_desbloqueio": "KETORET"
+        },
+        {
+          "id": 3,
+          "titulo": "De volta ao muro",
+          "corredor": [
+            [31.7756, 35.232],
+            [31.7767, 35.2345]
+          ],
+          "raio_m": 50,
+          "texto_diwan": "[Texto da etapa 3 dos Saduceus.]",
+          "missao": "[Missao da etapa 3.]",
+          "senha_desbloqueio": "KORBAN"
+        }
+      ],
+      "ponto_final": [31.7767, 35.2345],
+      "fragmento_final": "[Fragmento final dos Saduceus.]"
+    },
+    {
+      "id": "essenios",
+      "seita": "Essenios",
+      "senha_entrada": "DESERTO",
+      "cor": "#5a6b2f",
+      "ponto_inicial": [31.7716, 35.2295],
+      "etapas": [
+        {
+          "id": 1,
+          "titulo": "A porta do sul",
+          "corredor": [
+            [31.7716, 35.2295],
+            [31.7735, 35.2293]
+          ],
+          "raio_m": 50,
+          "texto_diwan": "[Texto da etapa 1 dos Essenios.]",
+          "missao": "[Missao da etapa 1.]",
+          "senha_desbloqueio": "YACHAD"
+        },
+        {
+          "id": 2,
+          "titulo": "O silencio entre casas",
+          "corredor": [
+            [31.7735, 35.2293],
+            [31.7744, 35.2306]
+          ],
+          "raio_m": 50,
+          "texto_diwan": "[Texto da etapa 2 dos Essenios.]",
+          "missao": "[Missao da etapa 2.]",
+          "senha_desbloqueio": "MIKVE"
+        },
+        {
+          "id": 3,
+          "titulo": "A agua e a pedra",
+          "corredor": [
+            [31.7744, 35.2306],
+            [31.7756, 35.2326],
+            [31.7767, 35.2345]
+          ],
+          "raio_m": 50,
+          "texto_diwan": "[Texto da etapa 3 dos Essenios.]",
+          "missao": "[Missao da etapa 3.]",
+          "senha_desbloqueio": "MIDBAR"
+        }
+      ],
+      "ponto_final": [31.7767, 35.2345],
+      "fragmento_final": "[Fragmento final dos Essenios.]"
+    },
+    {
+      "id": "zelotes",
+      "seita": "Zelotes",
+      "senha_entrada": "PUNHAL",
+      "cor": "#8f3a1e",
+      "ponto_inicial": [31.7803, 35.2364],
+      "etapas": [
+        {
+          "id": 1,
+          "titulo": "A porta dos leoes",
+          "corredor": [
+            [31.7803, 35.2364],
+            [31.7801, 35.2344]
+          ],
+          "raio_m": 50,
+          "texto_diwan": "[Texto da etapa 1 dos Zelotes.]",
+          "missao": "[Missao da etapa 1.]",
+          "senha_desbloqueio": "KANAI"
+        },
+        {
+          "id": 2,
+          "titulo": "O beco que desce",
+          "corredor": [
+            [31.7801, 35.2344],
+            [31.7785, 35.2339]
+          ],
+          "raio_m": 50,
+          "texto_diwan": "[Texto da etapa 2 dos Zelotes.]",
+          "missao": "[Missao da etapa 2.]",
+          "senha_desbloqueio": "SICA"
+        },
+        {
+          "id": 3,
+          "titulo": "O encontro",
+          "corredor": [
+            [31.7785, 35.2339],
+            [31.7767, 35.2345]
+          ],
+          "raio_m": 50,
+          "texto_diwan": "[Texto da etapa 3 dos Zelotes.]",
+          "missao": "[Missao da etapa 3.]",
+          "senha_desbloqueio": "MASSADA"
+        }
+      ],
+      "ponto_final": [31.7767, 35.2345],
+      "fragmento_final": "[Fragmento final dos Zelotes.]"
+    }
+  ]
+}

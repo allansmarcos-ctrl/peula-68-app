@@ -1,0 +1,473 @@
+/* ===== As Portas de Jerusalém: estilo ===== */
+/* Direcao: pergaminho envelhecido, tinta sepia, dourado, tipografia lapidada.
+   Nada de aparencia "de app". Fonte de titulo local (Cinzel, licenca OFL). */
+
+@font-face {
+  font-family: 'Cinzel';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('../vendor/fontes/cinzel-700.woff2') format('woff2');
+}
+
+:root {
+  --pergaminho: #efdcb4;
+  --pergaminho-claro: #f6ecd2;
+  --pergaminho-escuro: #d9bc85;
+  --tinta: #3f2d1c;
+  --sepia: #6b4a2a;
+  --sepia-claro: #9a744a;
+  --dourado: #b8860b;
+  --dourado-claro: #d4a017;
+  --sangue: #7a1f1f;
+  --noite: #1a120a;
+  --pedra: #2e2213;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body { height: 100%; }
+
+body {
+  font-family: Georgia, 'Times New Roman', serif;
+  background: var(--noite);
+  color: var(--tinta);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---- telas ---- */
+
+.tela { display: none; }
+.tela.ativa { display: flex; flex-direction: column; }
+
+.tela-pergaminho {
+  min-height: 100vh;
+  min-height: 100dvh;
+  align-items: center;
+  justify-content: center;
+  padding: 28px 20px 40px;
+  overflow-y: auto;
+  background:
+    radial-gradient(1100px 700px at 18% 8%, rgba(255, 246, 220, 0.6), transparent 60%),
+    radial-gradient(900px 700px at 85% 95%, rgba(110, 72, 35, 0.28), transparent 55%),
+    radial-gradient(700px 500px at 75% 25%, rgba(180, 140, 90, 0.2), transparent 60%),
+    radial-gradient(500px 400px at 8% 80%, rgba(120, 82, 40, 0.22), transparent 55%),
+    linear-gradient(160deg, #f2e3bf 0%, #e6cf9d 45%, #d9bc85 100%);
+  box-shadow: inset 0 0 140px rgba(58, 36, 12, 0.55);
+}
+
+.cartela-central {
+  width: 100%;
+  max-width: 430px;
+  text-align: center;
+}
+
+/* ---- tipografia ---- */
+
+.ano {
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: 14px;
+  letter-spacing: 0.38em;
+  text-transform: uppercase;
+  color: var(--sepia);
+  margin-bottom: 10px;
+}
+
+.titulo, .titulo-2 {
+  font-family: 'Cinzel', Georgia, serif;
+  font-weight: 700;
+  color: #4a3418;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-shadow: 0 1px 0 rgba(255, 250, 230, 0.6), 0 -1px 0 rgba(52, 34, 12, 0.45);
+}
+
+.titulo { font-size: clamp(30px, 8.5vw, 44px); line-height: 1.15; }
+.titulo-2 { font-size: clamp(22px, 6.5vw, 30px); line-height: 1.2; margin-bottom: 14px; }
+
+.ornamento {
+  color: var(--dourado);
+  letter-spacing: 0.7em;
+  margin: 16px 0;
+  font-size: 15px;
+  text-shadow: 0 1px 1px rgba(60, 40, 10, 0.4);
+}
+
+.abertura, .texto-diwan {
+  font-size: 17px;
+  line-height: 1.7;
+  color: var(--tinta);
+  margin-bottom: 18px;
+}
+
+.texto-diwan { text-align: left; }
+.texto-diwan.destaque {
+  font-style: italic;
+  font-size: 19px;
+  text-align: center;
+  padding: 14px 10px;
+  border-top: 1px solid var(--sepia-claro);
+  border-bottom: 1px solid var(--sepia-claro);
+}
+
+.assinatura {
+  margin-top: 26px;
+  font-style: italic;
+  font-size: 14px;
+  color: var(--sepia);
+}
+
+/* ---- formularios ---- */
+
+.rotulo {
+  display: block;
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: 12.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #56391b; /* um tom abaixo do sépia: legível sob sol */
+  margin: 18px 0 8px;
+}
+
+input[type="text"] {
+  width: 100%;
+  max-width: 300px;
+  padding: 13px 14px;
+  font-family: Georgia, serif;
+  font-size: 19px;
+  letter-spacing: 0.14em;
+  text-align: center;
+  text-transform: uppercase;
+  color: var(--tinta);
+  background: rgba(255, 250, 235, 0.72);
+  border: 2px solid var(--sepia);
+  border-radius: 6px;
+  outline: none;
+  box-shadow: inset 0 2px 6px rgba(80, 52, 20, 0.25);
+}
+
+input[type="text"]:focus { border-color: var(--dourado); }
+
+.botao {
+  display: inline-block;
+  margin-top: 14px;
+  padding: 13px 26px;
+  font-family: 'Cinzel', Georgia, serif;
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #f2e3bf;
+  background: linear-gradient(180deg, #6d4f28 0%, #4a3418 100%);
+  border: 2px solid #2e2009;
+  border-radius: 10px 14px 12px 16px / 14px 10px 16px 12px;
+  box-shadow: 0 3px 0 #241804, 0 6px 14px rgba(20, 12, 4, 0.45);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.botao:active { transform: translateY(2px); box-shadow: 0 1px 0 #241804; }
+
+.botao-claro {
+  color: var(--tinta);
+  background: linear-gradient(180deg, rgba(255, 250, 235, 0.85), rgba(230, 207, 157, 0.85));
+  border-color: var(--sepia);
+  box-shadow: 0 3px 0 #8a6335, 0 6px 14px rgba(20, 12, 4, 0.3);
+}
+
+.erro {
+  min-height: 44px;
+  margin-top: 14px;
+  font-style: italic;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--sangue);
+}
+
+/* ---- tela do mapa ---- */
+
+#tela-mapa { position: fixed; inset: 0; }
+
+#mapa {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(900px 600px at 20% 10%, rgba(255, 246, 220, 0.35), transparent 60%),
+    linear-gradient(160deg, #e6cf9d 0%, #d9bc85 100%);
+}
+
+#header-mapa {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1100;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: calc(10px + env(safe-area-inset-top)) 14px 10px;
+  background: linear-gradient(180deg, rgba(43, 29, 16, 0.94), rgba(43, 29, 16, 0.82));
+  border-bottom: 2px solid var(--dourado);
+  color: #f0deb6;
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: 14px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  user-select: none;
+}
+
+#selo-seita {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid #f0deb6;
+  background: var(--dourado);
+  flex: none;
+}
+
+#header-texto { flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+#badge-gps {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  flex: none;
+}
+#badge-gps.ok   { background: var(--dourado-claro); box-shadow: 0 0 8px 2px rgba(212, 160, 23, 0.8); }
+#badge-gps.sem  { background: #6f6353; }
+#badge-gps.mock { background: #7b5ea7; box-shadow: 0 0 8px 2px rgba(123, 94, 167, 0.8); }
+
+#controles-mapa {
+  position: absolute;
+  bottom: calc(16px + env(safe-area-inset-bottom));
+  left: 0;
+  right: 0;
+  z-index: 1100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 0 12px;
+}
+
+#controles-mapa .botao { margin-top: 0; padding: 12px 18px; font-size: 13px; }
+
+.botao-redondo {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: 2px solid #2e2009;
+  background: linear-gradient(180deg, #6d4f28, #4a3418);
+  color: #ffcf66;
+  box-shadow: 0 3px 0 #241804, 0 6px 14px rgba(20, 12, 4, 0.45);
+  cursor: pointer;
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  -webkit-tap-highlight-color: transparent;
+}
+.botao-redondo:active { transform: translateY(2px); box-shadow: 0 1px 0 #241804; }
+
+/* ---- marcador tocha (posicao do grupo) ---- */
+
+.tocha { position: relative; width: 34px; height: 48px; pointer-events: none; }
+
+.tocha .cabo {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 7px;
+  height: 20px;
+  transform: translateX(-50%);
+  background: linear-gradient(180deg, #7a5230, #4a2f14);
+  border: 1px solid #2e2009;
+  border-radius: 3px;
+}
+
+.tocha .chama {
+  position: absolute;
+  left: 50%;
+  bottom: 16px;
+  width: 20px;
+  height: 26px;
+  transform: translateX(-50%);
+  background: radial-gradient(circle at 50% 78%, #fff3c4 0%, #ffd257 32%, #ff9d2e 62%, rgba(200, 74, 18, 0.92) 82%, rgba(160, 50, 10, 0) 100%);
+  border-radius: 50% 50% 50% 50% / 62% 62% 38% 38%;
+  transform-origin: 50% 100%;
+  animation: chama-tremula 0.9s infinite alternate ease-in-out;
+  filter: drop-shadow(0 0 6px rgba(255, 160, 40, 0.75));
+}
+
+.tocha .chama.chama2 {
+  width: 11px;
+  height: 15px;
+  bottom: 19px;
+  background: radial-gradient(circle at 50% 75%, #fffbe6 0%, #ffe08a 55%, rgba(255, 170, 60, 0) 100%);
+  animation-duration: 0.65s;
+  animation-delay: 0.15s;
+}
+
+@keyframes chama-tremula {
+  0%   { transform: translateX(-50%) scale(1) rotate(-3deg); }
+  50%  { transform: translateX(-52%) scale(1.06, 0.95) rotate(2deg); }
+  100% { transform: translateX(-48%) scale(0.94, 1.08) rotate(-2deg); }
+}
+
+/* ---- estacao ---- */
+
+.cartela-missao {
+  margin: 6px 0 8px;
+  padding: 14px 16px;
+  text-align: left;
+  background: rgba(255, 250, 235, 0.55);
+  border: 1px solid var(--sepia-claro);
+  border-left: 4px solid var(--dourado);
+  border-radius: 4px;
+}
+
+.cartela-missao h3 {
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: 13px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--sepia);
+  margin-bottom: 6px;
+}
+
+.cartela-missao p { font-size: 16px; line-height: 1.6; }
+
+#botao-voltar { margin-top: 20px; }
+
+/* ---- aviso (fora do caminho) ---- */
+
+#aviso {
+  position: fixed;
+  inset: 0;
+  z-index: 3000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(16, 10, 4, 0.6);
+}
+
+.aviso-cartela {
+  max-width: 360px;
+  padding: 26px 24px;
+  text-align: center;
+  color: #f0deb6;
+  background:
+    radial-gradient(400px 260px at 30% 15%, rgba(120, 84, 40, 0.5), transparent 70%),
+    linear-gradient(165deg, #3a2a16, #241804);
+  border: 2px solid var(--dourado);
+  border-radius: 8px 12px 10px 14px / 12px 8px 14px 10px;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.6);
+}
+
+.aviso-cartela h3 {
+  font-family: 'Cinzel', Georgia, serif;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-size: 15px;
+  color: var(--dourado-claro);
+  margin-bottom: 12px;
+}
+
+.aviso-cartela p { font-size: 17px; line-height: 1.65; font-style: italic; }
+
+/* ---- toast ---- */
+
+#toast {
+  position: fixed;
+  bottom: calc(84px + env(safe-area-inset-bottom));
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3200;
+  max-width: 86vw;
+  padding: 12px 18px;
+  font-style: italic;
+  font-size: 15px;
+  line-height: 1.5;
+  text-align: center;
+  color: #f0deb6;
+  background: rgba(36, 24, 8, 0.94);
+  border: 1px solid var(--dourado);
+  border-radius: 6px;
+  opacity: 0;
+  transition: opacity 0.35s;
+  pointer-events: none;
+}
+#toast.visivel { opacity: 1; }
+
+/* ---- painel de calibracao (debug) ---- */
+
+#painel-debug {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 4000;
+  max-height: 46vh;
+  overflow-y: auto;
+  padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
+  font-family: Consolas, Menlo, monospace;
+  font-size: 11.5px;
+  line-height: 1.5;
+  color: #e8d3a8;
+  background: rgba(18, 12, 5, 0.95);
+  border-top: 2px solid var(--dourado);
+}
+
+#painel-debug .linha { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin: 4px 0; }
+
+#painel-debug button {
+  padding: 5px 9px;
+  font-family: inherit;
+  font-size: 11.5px;
+  color: #f0deb6;
+  background: #3a2a16;
+  border: 1px solid var(--sepia-claro);
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#painel-debug pre {
+  margin: 6px 0;
+  padding: 8px;
+  white-space: pre-wrap;
+  word-break: break-all;
+  background: rgba(0, 0, 0, 0.35);
+  border-radius: 4px;
+}
+
+/* ---- utilidades e Leaflet ---- */
+
+.oculto { display: none !important; }
+
+.leaflet-container {
+  background: transparent;
+  font-family: Georgia, serif;
+}
+
+.leaflet-top.leaflet-right .leaflet-control { margin-top: 76px; margin-right: 12px; }
+.leaflet-control-zoom { border: 2px solid #2e2009 !important; border-radius: 8px !important; overflow: hidden; }
+.leaflet-control-zoom a {
+  background: linear-gradient(180deg, #6d4f28, #4a3418) !important;
+  color: #f2e3bf !important;
+  border-bottom: 1px solid #2e2009 !important;
+}
+
+.leaflet-tooltip {
+  background: rgba(36, 24, 8, 0.92);
+  border: 1px solid var(--dourado);
+  color: #f0deb6;
+  font-style: italic;
+  border-radius: 4px;
+}
+.leaflet-tooltip-top:before { border-top-color: var(--dourado); }
+
+@media (min-width: 700px) {
+  .cartela-central { max-width: 520px; }
+  #controles-mapa .botao { font-size: 15px; }
+}
