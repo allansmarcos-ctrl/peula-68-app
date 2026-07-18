@@ -390,9 +390,11 @@ function ativarDebug() {
   p.classList.remove('oculto');
   p.innerHTML =
     '<div class="linha"><strong>CALIBRAÇÃO</strong>' +
+    '<button id="dbg-mini">recolher</button>' +
     '<button id="dbg-fechar">fechar</button>' +
     '<button id="dbg-reset">reiniciar jogo</button></div>' +
-    '<div class="linha" id="dbg-pos">posição: aguardando...</div>' +
+    '<div class="linha"><span id="dbg-pos">posição: aguardando...</span>' +
+    '<button id="dbg-copiar-pos">copiar posição</button></div>' +
     (mock
       ? '<div class="linha">andar (simulado): <button data-anda="n">▲</button><button data-anda="s">▼</button><button data-anda="o">◀</button><button data-anda="l">▶</button></div>'
       : '') +
@@ -403,7 +405,20 @@ function ativarDebug() {
 
   desenharCamadasDebug();
   atualizarPainelDebug();
+  ajustarAlturaDebug();
 
+  $('dbg-mini').addEventListener('click', () => {
+    p.classList.toggle('mini');
+    $('dbg-mini').textContent = p.classList.contains('mini') ? 'expandir' : 'recolher';
+    ajustarAlturaDebug();
+  });
+  $('dbg-copiar-pos').addEventListener('click', () => {
+    if (!posAtual) { toast(TEXTOS.sem_gps); return; }
+    const t = posAtual.lat.toFixed(6) + ', ' + posAtual.lng.toFixed(6);
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(t).then(() => toast('Copiada: ' + t)).catch(() => toast(t, 8000));
+    } else toast(t, 8000);
+  });
   $('dbg-fechar').addEventListener('click', desativarDebug);
   $('dbg-reset').addEventListener('click', () => {
     if (confirm('Apagar o progresso deste celular e voltar ao portão?')) {
@@ -432,6 +447,17 @@ function desativarDebug() {
   $('painel-debug').classList.add('oculto');
   camadasDebug.forEach(l => mapa.removeLayer(l));
   camadasDebug = [];
+  ajustarAlturaDebug();
+}
+
+// o mapa e os botões sobem a altura do painel, para nada ficar escondido atrás dele
+function ajustarAlturaDebug() {
+  requestAnimationFrame(() => {
+    const p = $('painel-debug');
+    const alt = p.classList.contains('oculto') ? 0 : p.offsetHeight;
+    document.documentElement.style.setProperty('--debug-alt', alt + 'px');
+    if (mapa) setTimeout(() => mapa.invalidateSize(), 80);
+  });
 }
 
 function desenharCamadasDebug() {
