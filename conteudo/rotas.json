@@ -15,47 +15,80 @@
       "senha_entrada": "PERGUNTA",
       "cor": "#b8860b",
       "ponto_inicial": [31.7768, 35.2277],
+      "_nota": "Rota real andada pelo Allan em 18/07/2026, saindo da Porta de Jaffa ate o ponto neutro sobre o Cardo. Ultimo waypoint da etapa 5 e ESTIMADO: confirmar com copiar posicao no local.",
       "etapas": [
         {
           "id": 1,
-          "titulo": "A primeira porta",
+          "titulo": "A porta do ocidente",
           "corredor": [
             [31.7768, 35.2277],
-            [31.7766, 35.231]
+            [31.77775, 35.22735],
+            [31.778597, 35.22732]
           ],
           "raio_m": 50,
-          "texto_diwan": "[Texto da etapa 1 dos Fariseus. Escrever no estilo da peula, depois do scouting.]",
-          "missao": "[Missao da etapa 1: foto, tarefa ou enigma.]",
+          "texto_diwan": "Ano 68. A porta do ocidente engole vocês para dentro das muralhas. Uma regra antes do primeiro passo: as placas de hoje são máscaras penduradas sobre a cidade de ontem. Leiam as máscaras, andem na cidade. Logo à esquerda, uma ladeira sobe com o nome dos sacerdotes gregos. Subam por ela, sem pressa e sem voz alta. Um pátio vai se oferecer no caminho, com nome de guerreiro que venceu um dragão. Não é para vocês. Sigam. Uma torre segura uma cruz contra o céu. Aos pés dela, degraus. Subam. Quando o caminho abrir duas bocas, desçam pela direita. Parem. Perguntem às muralhas se chegaram.",
+          "missao": "[Missão da etapa 1: foto, tarefa ou enigma.]",
+          "fotos": [],
           "senha_desbloqueio": "OFEL"
         },
         {
           "id": 2,
-          "titulo": "O caminho desce",
+          "titulo": "Os mensageiros",
           "corredor": [
-            [31.7766, 35.231],
-            [31.7752, 35.2297],
-            [31.77475, 35.2309]
+            [31.778597, 35.22732],
+            [31.7794, 35.2285],
+            [31.779624, 35.229645]
           ],
           "raio_m": 50,
-          "texto_diwan": "[Texto da etapa 2 dos Fariseus.]",
-          "missao": "[Missao da etapa 2.]",
+          "texto_diwan": "Vejam ao longe a torre verde. Ela vigia o caminho certo. Daqui em diante o bairro tem donos, e os donos não são da sua seita. Línguas dentro dos dentes. Passos de quem pede licença. Uma entrada à esquerda está ordenada para vocês. Duas máscaras vão disputar a escolha: recusem a do homem de Assis, aceitem a dos mensageiros, Ar-Rusul. Virem à direita e desçam com a rua. Ela vai tentar puxar vocês para a esquerda. Não deixem. Reto, até o chão pedir pausa. Perguntem às muralhas.",
+          "missao": "[Missão da etapa 2.]",
+          "fotos": [],
           "senha_desbloqueio": "SHOFAR"
         },
         {
           "id": 3,
-          "titulo": "As pedras grandes",
+          "titulo": "A descida que engana",
           "corredor": [
-            [31.77475, 35.2309],
-            [31.7756, 35.2326],
-            [31.7767, 35.2345]
+            [31.779624, 35.229645],
+            [31.7793, 35.2295],
+            [31.778958, 35.229195]
           ],
           "raio_m": 50,
-          "texto_diwan": "[Texto da etapa 3 dos Fariseus.]",
-          "missao": "[Missao da etapa 3.]",
+          "texto_diwan": "Uma imagem de um homem vai olhar vocês de uma parede. Não parem para discutir com ela. Sigam reto. No muro do mosteiro, virem à direita e desçam. Desçam mais. Um corredor vai imitar o grande mercado, cheirando a especiaria e couro. Parece. Não é. Virem à direita e subam, com a torre verde agora de frente. Na rua larga do quarteirão, a máscara dirá Christian Quarter. Virem à esquerda nela. Parem onde a rua respira. Perguntem às muralhas.",
+          "missao": "[Missão da etapa 3.]",
+          "fotos": [],
           "senha_desbloqueio": "MENORA"
+        },
+        {
+          "id": 4,
+          "titulo": "O corredor dos outros",
+          "corredor": [
+            [31.778958, 35.229195],
+            [31.7782, 35.2292],
+            [31.777513, 35.229932]
+          ],
+          "raio_m": 50,
+          "texto_diwan": "Um corredor comprido se abre. Atrás das lojas à esquerda dorme o santuário deles, o mais guardado de todos. Não é o destino de hoje. Não parem, não apontem, não discutam. Adiante, uma máscara pequena dirá Al Zoubor. À esquerda nela. Depois esquerda de novo, e depressa direita, e direita. O beco vai soltar vocês numa praça com uma fonte no meio. Respirem ali. Perguntem às muralhas.",
+          "missao": "[Missão da etapa 4.]",
+          "fotos": [],
+          "senha_desbloqueio": "KEREN"
+        },
+        {
+          "id": 5,
+          "titulo": "O mercado e a travessia",
+          "corredor": [
+            [31.777513, 35.229932],
+            [31.7766, 35.23025],
+            [31.7758, 35.2301]
+          ],
+          "raio_m": 60,
+          "texto_diwan": "Um portão marca a saída da praça. Colunas antigas seguram um nome de mulher: Sofia. Nas colunas, virem à direita. Agora sim, o grande mercado engole vocês. O céu ali é de pano e pedra, e as muralhas não escutam quem anda por baixo dele. Confiem nos olhos. Silêncio de mercadoria: quem fala, compra. À esquerda no mercado. Reto, até o mercado acabar. Na boca do fim, virem à direita, rumo ao bairro que guarda a memória. Sob os pés de vocês, uma rua de colunas dorme debaixo da rua de hoje. Em cima dela, parem. Os quatro caminhos param aqui. O que falta, só falta junto.",
+          "missao": "[Missão da etapa 5.]",
+          "fotos": [],
+          "senha_desbloqueio": "CHOTAM"
         }
       ],
-      "ponto_final": [31.7767, 35.2345],
+      "ponto_final": [31.7758, 35.2301],
       "fragmento_final": "[Fragmento final dos Fariseus. Uma das quatro partes que so fazem sentido juntas. Escrever depois.]"
     },
     {

@@ -10,7 +10,7 @@
   ],
   "imagem": "img/mapa-jerusalem-68.png",
   "cantos": {
-    "noroeste": [31.784, 35.224],
+    "noroeste": [31.78375, 35.22375],
     "sudeste": [31.769, 35.24]
   },
   "zoom": {

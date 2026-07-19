@@ -6,7 +6,7 @@
      Assim uma edição pós-scouting chega aos celulares sem trocar versão,
      e com sinal ruim vale a última cópia boa. */
 
-const VERSAO = 'p68-v4';
+const VERSAO = 'p68-v5';
 
 const NUCLEO = [
   './',
@@ -27,7 +27,20 @@ const NUCLEO = [
 
 self.addEventListener('install', (e) => {
   e.waitUntil(
-    caches.open(VERSAO).then((c) => c.addAll(NUCLEO)).then(() => self.skipWaiting())
+    caches.open(VERSAO)
+      .then(async (c) => {
+        await c.addAll(NUCLEO);
+        // fotos das etapas (rotas.json) entram no precache com melhor esforço:
+        // uma foto faltando não pode impedir o app de funcionar offline
+        try {
+          const r = await fetch('./conteudo/rotas.json', { cache: 'no-cache' });
+          const dados = await r.json();
+          const fotos = [];
+          (dados.rotas || []).forEach((rt) => (rt.etapas || []).forEach((et) => (et.fotos || []).forEach((f) => fotos.push(f))));
+          await Promise.all(fotos.map((f) => c.add(f).catch(() => null)));
+        } catch (err) { /* sem rotas.json agora, as fotos entram no uso */ }
+      })
+      .then(() => self.skipWaiting())
   );
 });
 

@@ -343,6 +343,15 @@ input[type="text"]:focus { border-color: var(--dourado); }
 
 #botao-voltar { margin-top: 20px; }
 
+#estacao-fotos img {
+  display: block;
+  width: 100%;
+  margin: 12px 0;
+  border: 2px solid var(--sepia);
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(50, 32, 12, 0.35);
+}
+
 /* ---- aviso (fora do caminho) ---- */
 
 #aviso {

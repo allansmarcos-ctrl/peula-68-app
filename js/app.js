@@ -233,6 +233,15 @@ function abrirEstacao() {
   $('estacao-titulo').textContent = et.titulo || TEXTOS.etapa_rotulo + ' ' + etapaAtual;
   $('estacao-texto').textContent = et.texto_diwan || '';
   $('estacao-missao').textContent = et.missao || '';
+  const fotosEl = $('estacao-fotos');
+  fotosEl.innerHTML = '';
+  (et.fotos || []).forEach((src) => {
+    const im = document.createElement('img');
+    im.src = src;
+    im.alt = '';
+    im.loading = 'lazy';
+    fotosEl.appendChild(im);
+  });
   $('senha-estacao').value = '';
   $('erro-estacao').textContent = '';
   mostrarTela('estacao');
