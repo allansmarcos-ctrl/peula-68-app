@@ -240,6 +240,7 @@ function abrirEstacao() {
     im.src = src;
     im.alt = '';
     im.loading = 'lazy';
+    im.onerror = () => im.remove(); // foto faltando não vira ícone quebrado
     fotosEl.appendChild(im);
   });
   $('senha-estacao').value = '';
