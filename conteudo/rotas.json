@@ -42,7 +42,7 @@
           "raio_m": 50,
           "texto_diwan": "Vejam ao longe a torre verde. Ela vigia o caminho certo. Daqui em diante o bairro tem donos, e os donos não são da sua seita. Línguas dentro dos dentes. Passos de quem pede licença. Uma entrada à esquerda está ordenada para vocês. Duas máscaras vão disputar a escolha: recusem a do homem de Assis, aceitem a dos mensageiros, Ar-Rusul. Adiante, uma mulher de pedra guarda uma roda sobre uma porta fechada. Diante da mulher da roda, virem à direita e desçam com a rua. Placas vão acenar à esquerda com duas portas da cidade. Nenhuma é a sua. Reto, até o chão pedir pausa. Perguntem às muralhas.",
           "missao": "[Missão da etapa 2.]",
-          "fotos": [],
+          "fotos": ["img/etapas/fariseus-e2-a.jpg", "img/etapas/fariseus-e2-b.jpg"],
           "senha_desbloqueio": "SHOFAR"
         },
         {
@@ -56,7 +56,7 @@
           "raio_m": 50,
           "texto_diwan": "Uma imagem de um homem vai olhar vocês de uma parede. Não parem para discutir com ela. Sigam reto. No muro do mosteiro, virem à direita e desçam. Desçam mais. Um corredor vai imitar o grande mercado, cheirando a especiaria e couro. Parece. Não é. Virem à direita e subam, com a torre verde agora de frente. Na rua larga do quarteirão, a máscara dirá Christian Quarter. Virem à esquerda nela. Parem onde a rua respira. Perguntem às muralhas.",
           "missao": "[Missão da etapa 3.]",
-          "fotos": [],
+          "fotos": ["img/etapas/fariseus-e3-a.jpg"],
           "senha_desbloqueio": "MENORA"
         },
         {
@@ -68,9 +68,9 @@
             [31.777513, 35.229932]
           ],
           "raio_m": 50,
-          "texto_diwan": "Um corredor comprido se abre. Atrás das lojas à esquerda dorme o santuário deles, o mais guardado de todos. Não é o destino de hoje. Não parem, não apontem, não discutam. Adiante, uma máscara pequena dirá Al Zoubor. À esquerda nela. Depois esquerda de novo, e depressa direita, e direita. O beco vai soltar vocês numa praça com uma fonte no meio. Respirem ali. Perguntem às muralhas.",
+          "texto_diwan": "Um corredor comprido se abre. Atrás das lojas à esquerda dorme o santuário deles, o mais guardado de todos. Não é o destino de hoje. Não parem, não apontem, não discutam. Adiante fica a casa de um barbeiro, e a placa dele guarda o nome: Al-Zouhor. Na casa do barbeiro, virem à esquerda. Depois esquerda de novo, e depressa direita, e direita. O beco vai soltar vocês numa praça com uma fonte no meio. Respirem ali. Perguntem às muralhas.",
           "missao": "[Missão da etapa 4.]",
-          "fotos": [],
+          "fotos": ["img/etapas/fariseus-e4-a.jpg"],
           "senha_desbloqueio": "KEREN"
         },
         {
@@ -84,7 +84,7 @@
           "raio_m": 60,
           "texto_diwan": "Um portão de colunas coroadas marca a saída da praça. Entre as colunas, procurem um nome de mulher: Sofia. Nas colunas, virem à direita. Agora sim, o grande mercado engole vocês. O céu ali é de pano e pedra, e as muralhas não escutam quem anda por baixo dele. Confiem nos olhos. Silêncio de mercadoria: quem fala, compra. À esquerda no mercado. Reto, até o mercado acabar. Na boca do fim, virem à direita, rumo ao bairro que guarda a memória. Sob os pés de vocês, uma rua de colunas dorme debaixo da rua de hoje. Em cima dela, parem. Os quatro caminhos param aqui. O que falta, só falta junto.",
           "missao": "[Missão da etapa 5.]",
-          "fotos": [],
+          "fotos": ["img/etapas/fariseus-e5-a.jpg"],
           "senha_desbloqueio": "CHOTAM"
         }
       ],
