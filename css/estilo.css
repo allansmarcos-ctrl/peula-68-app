@@ -376,6 +376,26 @@ input[type="text"]:focus { border-color: var(--dourado); }
   box-shadow: 0 4px 12px rgba(50, 32, 12, 0.35);
 }
 
+/* ---- histórico de cartas ---- */
+#controles-mapa { flex-wrap: wrap; }
+#cartas-lista { max-width: 430px; margin: 0 auto 6px; }
+.carta-item {
+  text-align: left;
+  margin-bottom: 16px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--sepia-claro);
+}
+.carta-item:last-child { border-bottom: none; }
+.carta-item h3 {
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: 15px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #4a3418;
+  margin-bottom: 6px;
+}
+.carta-item p { font-size: 15.5px; line-height: 1.65; color: var(--tinta); }
+
 /* ---- aviso (fora do caminho) ---- */
 
 #aviso {

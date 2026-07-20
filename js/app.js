@@ -10,6 +10,15 @@ const INTERVALO_AUTO_MS = 10 * 60 * 1000;      // verificação automática: 10 
 const COOLDOWN_AVISO_AUTO_MS = 5 * 60 * 1000;  // não repetir aviso automático antes disso
 const PASSO_MOCK_M = 12;                       // "andar" do GPS simulado no painel debug
 
+// Sincronia ao vivo do grupo: todos que entram na mesma corrente compartilham uma
+// "sala". Quando um avança, os outros revelam a próxima carta na consulta seguinte
+// (até ~1 min). Chave pública (anon) do Supabase: feita para o navegador; a proteção
+// está no banco (só a RPC escreve, e ela só deixa avançar de um em um). Sem sinal,
+// tudo cai no modo manual (digita a senha e avança local): nunca trava.
+const SB_URL = 'https://nwdacjcbafaizbfjoxzn.supabase.co';
+const SB_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im53ZGFjamNiYWZhaXpiZmpveHpuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODEyNDUyNTAsImV4cCI6MjA5NjgyMTI1MH0.Ko6R_GUWWrzF72lnQchVcN3kDK04dA0Enj5bACnB61k';
+const SYNC_MS = 35000;                          // consulta a sala a cada 35s
+
 // ---------- estado global ----------
 let TEXTOS = null, CONFIG = null, ROTAS = null;
 let rotaAtiva = null;
@@ -24,6 +33,9 @@ let precisaVerificarEntrada = false;
 let ultimoAvisoAutoTs = 0;
 let toastTimer = null;
 let watchId = null;
+let sala = null;               // sala de sincronia (todos da corrente compartilham)
+let syncTimer = null;
+let sincronizando = false;
 
 const $ = (id) => document.getElementById(id);
 
@@ -57,7 +69,7 @@ function toast(msg, ms) {
 
 function mostrarTela(nome) {
   $('aviso').classList.add('oculto'); // aviso é contextual: trocou de tela, morreu
-  ['portao', 'mapa', 'estacao', 'final'].forEach(t => $('tela-' + t).classList.toggle('ativa', t === nome));
+  ['portao', 'mapa', 'estacao', 'final', 'cartas'].forEach(t => $('tela-' + t).classList.toggle('ativa', t === nome));
   if (nome === 'mapa' && mapa) setTimeout(() => mapa.invalidateSize(), 60);
 }
 
@@ -168,6 +180,10 @@ function ligarEventos() {
   $('botao-verificar').addEventListener('click', () => verificar('botao'));
   $('botao-missao').addEventListener('click', abrirEstacao);
   $('botao-voltar').addEventListener('click', () => mostrarTela('mapa'));
+  $('botao-cartas').addEventListener('click', abrirCartas);
+  $('cartas-voltar').addEventListener('click', () => mostrarTela('mapa'));
+  // ao voltar o app para o primeiro plano, sincroniza na hora (não espera o timer)
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) puxarSincronia(); });
   $('botao-centrar').addEventListener('click', () => {
     if (posAtual && mapa) mapa.setView([posAtual.lat, posAtual.lng], Math.max(mapa.getZoom(), CONFIG.zoom.inicial));
     else toast(TEXTOS.sem_gps);
@@ -200,6 +216,7 @@ function entrarNoJogo(rota, etapa, novoJogo) {
   if (!mapa) montarMapa();
   atualizarHeader();
   iniciarGeolocalizacao();
+  iniciarSincronia();
   if (modoDebug) ativarDebug();
   if (etapa > rota.etapas.length) { mostrarFinal(); return; }
   if (novoJogo) {
@@ -260,6 +277,7 @@ function selarEtapa() {
   }
   etapaAtual++;
   salvarEstado();
+  empurrarSincronia(); // avisa a sala; os outros celulares revelam a nova carta
   if (etapaAtual > rotaAtiva.etapas.length) { mostrarFinal(); return; }
   atualizarHeader();
   toast(TEXTOS.etapa_avancou);
@@ -273,6 +291,85 @@ function mostrarFinal() {
   $('final-fragmento').textContent = rotaAtiva.fragmento_final || '';
   $('final-convergencia').textContent = TEXTOS.convergencia;
   mostrarTela('final');
+}
+
+// ---------- histórico de cartas (todos veem as pistas em ordem) ----------
+function abrirCartas() {
+  if (!rotaAtiva) return;
+  const lista = $('cartas-lista');
+  lista.innerHTML = '';
+  const total = rotaAtiva.etapas.length;
+  const ate = Math.min(etapaAtual, total);
+  for (let i = 0; i < ate; i++) {
+    const et = rotaAtiva.etapas[i];
+    const bloco = document.createElement('article');
+    bloco.className = 'carta-item';
+    const h = document.createElement('h3');
+    h.textContent = (i + 1) + '. ' + (et.titulo || (TEXTOS.etapa_rotulo + ' ' + (i + 1)));
+    const p = document.createElement('p');
+    p.textContent = et.texto_diwan || '';
+    bloco.appendChild(h);
+    bloco.appendChild(p);
+    lista.appendChild(bloco);
+  }
+  if (ate === 0) {
+    const p = document.createElement('p');
+    p.className = 'texto-diwan';
+    p.textContent = 'Ainda não chegou nenhuma carta.';
+    lista.appendChild(p);
+  }
+  mostrarTela('cartas');
+}
+
+// ---------- sincronia ao vivo (sala compartilhada; degrada para manual sem sinal) ----------
+async function rpcSup(nome, corpo) {
+  const r = await fetch(SB_URL + '/rest/v1/rpc/' + nome, {
+    method: 'POST',
+    headers: { 'apikey': SB_ANON, 'Authorization': 'Bearer ' + SB_ANON, 'Content-Type': 'application/json' },
+    body: JSON.stringify(corpo),
+  });
+  if (!r.ok) throw new Error('rpc ' + nome + ' ' + r.status);
+  return r.json();
+}
+
+function iniciarSincronia() {
+  if (!rotaAtiva) return;
+  sala = normalizar(rotaAtiva.senha_entrada); // todos da corrente compartilham a sala
+  rpcSup('peula_entrar', { p_sala: sala, p_corrente: rotaAtiva.id })
+    .then((r) => aplicarSincronia(r && r[0] && r[0].etapa)).catch(() => {});
+  clearInterval(syncTimer);
+  syncTimer = setInterval(puxarSincronia, SYNC_MS);
+}
+
+function puxarSincronia() {
+  if (!sala || sincronizando) return;
+  sincronizando = true;
+  rpcSup('peula_estado', { p_sala: sala })
+    .then((r) => aplicarSincronia(r && r[0] && r[0].etapa))
+    .catch(() => {})
+    .then(() => { sincronizando = false; });
+}
+
+function empurrarSincronia() {
+  if (!sala) return;
+  rpcSup('peula_avancar', { p_sala: sala, p_para: etapaAtual }).catch(() => {});
+}
+
+// Recebe a etapa do servidor. Se o grupo avançou, revela a(s) nova(s) carta(s).
+function aplicarSincronia(etapaServidor) {
+  if (!etapaServidor || !rotaAtiva || etapaServidor <= etapaAtual) return;
+  const total = rotaAtiva.etapas.length;
+  etapaAtual = Math.min(etapaServidor, total + 1);
+  salvarEstado();
+  if (etapaAtual > total) { mostrarFinal(); toast('O caminho chegou ao fim.'); return; }
+  atualizarHeader();
+  const tc = $('tela-cartas');
+  const emJogo = $('tela-mapa').classList.contains('ativa')
+    || $('tela-estacao').classList.contains('ativa')
+    || (tc && tc.classList.contains('ativa'));
+  toast('Uma nova carta chegou.');
+  if (emJogo) abrirEstacao(); // revela a nova pista na tela
+  precisaVerificarEntrada = true;
 }
 
 // ---------- geolocalização ----------
