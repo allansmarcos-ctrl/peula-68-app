@@ -6,7 +6,7 @@
      Assim uma edição pós-scouting chega aos celulares sem trocar versão,
      e com sinal ruim vale a última cópia boa. */
 
-const VERSAO = 'p68-v8';
+const VERSAO = 'p68-v9';
 
 const NUCLEO = [
   './',

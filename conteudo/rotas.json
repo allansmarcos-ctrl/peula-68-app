@@ -26,7 +26,7 @@
             [31.778597, 35.22732]
           ],
           "raio_m": 50,
-          "texto_diwan": "Ano 68. A porta do ocidente engole vocês para dentro das muralhas. Uma regra antes do primeiro passo: as placas de hoje são máscaras penduradas sobre a cidade de ontem. Leiam as máscaras, andem na cidade. Logo à esquerda, uma ladeira sobe com o nome dos sacerdotes gregos. Subam por ela, sem pressa e sem voz alta. Um pátio vai se oferecer no caminho, com nome de guerreiro que venceu um dragão. Não é para vocês. Sigam. Uma torre segura uma cruz contra o céu. Aos pés dela, degraus. Subam. Quando o caminho abrir duas bocas, desçam pela direita. Parem. Perguntem às muralhas se chegaram.",
+          "texto_diwan": "Chegou uma carta, da letra de Rabban Gamliel, o velho. 'Talmidim de Beit Hilel, vejam antes de julgar. Um mestre da Galileia, Yeshua de Natzrat, morreu numa cruz. Até aí, história velha. Só que a gente dele não se dispersou. Parte pão em Yerushalayim e insiste que a morte não foi o fim. Descubram o que é isto: mais um que vai armar e sangrar, ou coisa que a Casa nunca viu.' A porta do ocidente engole vocês. À esquerda, uma ladeira sobe com o nome dos sacerdotes gregos. Subam, sem voz alta. Uma torre segura uma cruz contra o céu. Aos pés dela, degraus, e vocês sobem. Onde o caminho abrir duas bocas, desçam pela direita. Perguntem às pedras se chegaram.",
           "missao": "Antes de atravessar a porta, montem a foto oficial da seita: pose de time de futebol. Metade agachada na frente, metade de pé atrás, capitão com o pé numa bola que não existe. Todos sérios como quem disputa uma final. Enviem ao madrich.",
           "fotos": [],
           "senha_desbloqueio": "OFEL"
@@ -40,7 +40,7 @@
             [31.779624, 35.229645]
           ],
           "raio_m": 50,
-          "texto_diwan": "Vejam ao longe a torre verde. Ela vigia o caminho certo. Daqui em diante o bairro tem donos, e os donos não são da sua seita. Línguas dentro dos dentes. Passos de quem pede licença. Uma entrada à esquerda está ordenada para vocês. Duas máscaras vão disputar a escolha: recusem a do homem de Assis, aceitem a dos mensageiros, Ar-Rusul. Adiante, uma mulher de pedra guarda uma roda sobre uma porta fechada. Diante da mulher da roda, virem à direita e desçam com a rua. Placas vão acenar à esquerda com duas portas da cidade. Nenhuma é a sua. Reto, até o chão pedir pausa. Perguntem às muralhas.",
+          "texto_diwan": "Primeira pista, num bilhete caído no chão: 'não têm espada, têm redes. Repartem o pão e esperam.' Vocês vieram caçar um bando armado. E se não for um bando? Daqui o bairro tem donos, e os donos não são vocês. Línguas nos dentes, passos de quem pede licença. Recusem a placa do homem de Assis, sigam a dos mensageiros, Ar-Rusul. Adiante, uma mulher de pedra guarda uma roda sobre uma porta. Diante dela, virem à direita e desçam com a rua. Placas vão acenar à esquerda com duas portas da cidade. Nenhuma é a sua. Reto, até o chão pedir pausa.",
           "missao": "Missão muda: diante da mulher da roda, uma única foto com todos apontando para ela ao mesmo tempo, sem emitir um som. Quem rir antes do clique, repete.",
           "fotos": ["img/etapas/fariseus-e2-a.jpg", "img/etapas/fariseus-e2-b.jpg"],
           "senha_desbloqueio": "SHOFAR"
@@ -54,7 +54,7 @@
             [31.778958, 35.229195]
           ],
           "raio_m": 50,
-          "texto_diwan": "Uma imagem de um homem vai olhar vocês de uma parede. Não parem para discutir com ela. Sigam reto. No muro do mosteiro, virem à direita e desçam. Desçam mais. Um corredor vai imitar o grande mercado, cheirando a especiaria e couro. Parece. Não é. Virem à direita e subam, com a torre verde agora de frente. Na rua larga do quarteirão, a máscara dirá Christian Quarter. Virem à esquerda nela. Parem onde a rua respira. Perguntem às muralhas.",
+          "texto_diwan": "Capitão, parem. Todos em círculo. Leia em voz alta: 'Uma imagem de um homem olha vocês da parede. É ele, o mestre de Natzrat, o que vocês vieram investigar. A gente dele acredita numa coisa que arrepia: que ele se levantou dos mortos. E aqui vem o susto. A ressurreição é a nossa fé, a mesma que nos separa dos saduceus, que riem dos mortos. Nesse ponto, essa gente está do nosso lado da sala. A briga não é sobre esperar o Mashiach. É sobre a hora. Eles dizem que já veio. Vocês olham pela janela: Roma ainda manda, o imposto ainda sobe, o mundo não foi consertado. Os dois esperam. Cada um lê uma hora diferente no mesmo céu.' Fechem o círculo e sigam. No muro do mosteiro, virem à direita e desçam. Um corredor vai imitar o grande mercado. Parece, não é. Virem à direita e subam, a torre verde de frente. Na rua larga, a placa dirá Christian Quarter. À esquerda nela. Parem onde a rua respira.",
           "missao": "Dez segundos de vídeo: o grupo passa em fila diante da imagem que olha da parede, um por um, cada rosto carregando um segredo que não pode contar. Sem palavras. O último olha para trás.",
           "fotos": ["img/etapas/fariseus-e3-a.jpg"],
           "senha_desbloqueio": "MENORA"
@@ -68,7 +68,7 @@
             [31.777513, 35.229932]
           ],
           "raio_m": 50,
-          "texto_diwan": "Um corredor comprido se abre. Atrás das lojas à esquerda dorme o santuário deles, o mais guardado de todos. Não é o destino de hoje. Não parem, não apontem, não discutam. Adiante fica a casa de um barbeiro, e a placa dele guarda o nome: Al-Zouhor. Na casa do barbeiro, virem à esquerda. Depois esquerda de novo, e depressa direita, e direita. O beco vai soltar vocês numa praça com uma fonte no meio. Respirem ali. Perguntem às muralhas.",
+          "texto_diwan": "Nova carta, e ela vira tudo do avesso: 'Shaul de Tarso, o que caçava essa gente casa por casa, caiu na estrada de Damasco e agora prega o que perseguia.' O caçador virou refém do próprio zelo. Guardem isto: zelo sem amor é lâmina que se volta contra a mão que a segura. Atrás das lojas à esquerda dorme o santuário deles, o mais guardado de todos. Não é o destino de hoje. Não parem, não apontem. Adiante, a casa de um barbeiro guarda o nome Al-Zouhor. Ali, virem à esquerda. Depois esquerda, e depressa direita, e direita. O beco solta vocês numa praça com uma fonte. Respirem.",
           "missao": "Na praça da fonte, círculo fechado. Um de vocês no centro solta um discurso de levantar muralha: 30 segundos para inflamar os rebeldes de Yerushalayim antes da hora mais escura. Os outros respondem como multidão, vozes e punhos ao alto. Gravem o vídeo inteiro.",
           "fotos": ["img/etapas/fariseus-e4-a.jpg"],
           "senha_desbloqueio": "KEREN"

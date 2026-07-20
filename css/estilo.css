@@ -277,6 +277,19 @@ input[type="text"]:focus { border-color: var(--dourado); }
 
 .tocha { position: relative; width: 34px; height: 48px; pointer-events: none; }
 
+/* halo de luz no chao: o unico elemento que pulsa, o "voce esta aqui" */
+.tocha::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -5px;
+  width: 30px;
+  height: 12px;
+  transform: translateX(-50%);
+  background: radial-gradient(ellipse at 50% 50%, rgba(255, 190, 80, 0.5), rgba(255, 160, 40, 0) 70%);
+  animation: tocha-pulso 1s infinite alternate ease-in-out;
+}
+
 .tocha .cabo {
   position: absolute;
   left: 50%;
@@ -316,6 +329,17 @@ input[type="text"]:focus { border-color: var(--dourado); }
   0%   { transform: translateX(-50%) scale(1) rotate(-3deg); }
   50%  { transform: translateX(-52%) scale(1.06, 0.95) rotate(2deg); }
   100% { transform: translateX(-48%) scale(0.94, 1.08) rotate(-2deg); }
+}
+
+@keyframes tocha-pulso {
+  0%   { opacity: 0.42; transform: translateX(-50%) scale(0.85); }
+  100% { opacity: 0.9;  transform: translateX(-50%) scale(1.18); }
+}
+
+/* acessibilidade: sem movimento, o pulso vira halo estatico e a chama para */
+@media (prefers-reduced-motion: reduce) {
+  .tocha .chama, .tocha::after { animation: none; }
+  .tocha::after { opacity: 0.7; }
 }
 
 /* ---- estacao ---- */
