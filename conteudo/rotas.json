@@ -5,7 +5,7 @@
     "Cada rota e uma seita. 'senha_entrada' e a senha que o madrich da ao grupo no inicio: ela define qual rota aquele celular joga (maiusculas/minusculas e acentos nao importam).",
     "Cada etapa tem: 'corredor' (lista de waypoints formando a linha do caminho certo, pode ter quantos pontos quiser), 'raio_m' (tolerancia em metros ao redor dessa linha; 40 a 60 recomendado, GPS na Cidade Velha e ruim), 'texto_diwan' (a historia da etapa), 'missao' (o que o grupo faz no lugar) e 'senha_desbloqueio' (a palavra que o grupo descobre ao cumprir a missao; digitada, avanca para a proxima etapa).",
     "A ULTIMA senha_desbloqueio da rota leva a tela do fragmento final daquela seita.",
-    "'ponto_inicial' aparece como ponto vermelho no mapa. 'ponto_final' e o lugar da convergencia das quatro seitas.",
+    "'ponto_inicial' aparece como ponto vermelho no mapa. 'ponto_final' e o lugar da convergencia das tres correntes.",
     "Os textos abaixo sao PLACEHOLDER entre colchetes: trocar todos antes da peula."
   ],
   "rotas": [
@@ -27,7 +27,7 @@
           ],
           "raio_m": 50,
           "texto_diwan": "Chegou uma carta, da letra de Rabban Gamliel, o velho. 'Talmidim de Beit Hilel, vejam antes de julgar. Um mestre da Galileia, Yeshua de Natzrat, morreu numa cruz. Até aí, história velha. Só que a gente dele não se dispersou. Parte pão em Yerushalayim e insiste que a morte não foi o fim. Descubram o que é isto: mais um que vai armar e sangrar, ou coisa que a Casa nunca viu.' A porta do ocidente engole vocês. À esquerda, uma ladeira sobe com o nome dos sacerdotes gregos. Subam, sem voz alta. Uma torre segura uma cruz contra o céu. Aos pés dela, degraus, e vocês sobem. Onde o caminho abrir duas bocas, desçam pela direita. Perguntem às pedras se chegaram.",
-          "missao": "Antes de atravessar a porta, montem a foto oficial da seita: pose de time de futebol. Metade agachada na frente, metade de pé atrás, capitão com o pé numa bola que não existe. Todos sérios como quem disputa uma final. Enviem ao madrich.",
+          "missao": "Antes de atravessar a porta, montem a foto oficial da corrente: pose de time de futebol. Metade agachada na frente, metade de pé atrás, capitão com o pé numa bola que não existe. Todos sérios como quem disputa uma final. Enviem ao madrich.",
           "fotos": [],
           "senha_desbloqueio": "OFEL"
         },
@@ -83,7 +83,7 @@
           ],
           "raio_m": 60,
           "texto_diwan": "Última carta antes do encontro: 'Voltamos a Gamliel e prestamos contas. Não é um exército. São irmãos que leem uma hora diferente no mesmo céu. Dá para ter razão sobre os mortos e perder tudo, se a gente odiar quem espera de outro jeito.' Um portão de colunas coroadas marca a saída da praça. Entre elas, achem um nome de mulher: Sofia. Nas colunas, virem à direita. Agora o grande mercado engole vocês. O céu é de pano e pedra, as muralhas não escutam quem anda por baixo. Silêncio de mercadoria: quem fala, compra. À esquerda no mercado, reto até o fim. Na boca do fim, à direita, rumo ao bairro que guarda a memória. Sob os pés de vocês, uma rua de colunas dorme. Em cima dela, parem. Os três caminhos param aqui.",
-          "missao": "Missão do encontro: em círculo, mãos ao centro. O grito da seita é uma palavra só, escolhida por vocês. Sussurrem três vezes, cada vez mais baixo. Na quarta, soltem de uma vez. Gravem, vai para o mural da peula.",
+          "missao": "Missão do encontro: em círculo, mãos ao centro. O grito da corrente é uma palavra só, escolhida por vocês. Sussurrem três vezes, cada vez mais baixo. Na quarta, soltem de uma vez. Gravem, vai para o mural da peula.",
           "fotos": ["img/etapas/fariseus-e5-a.jpg"],
           "senha_desbloqueio": "CHOTAM"
         }
