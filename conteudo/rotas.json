@@ -69,7 +69,7 @@
           ],
           "raio_m": 50,
           "texto_diwan": "Nova carta, e ela vira tudo do avesso: 'Shaul de Tarso, o que caçava essa gente casa por casa, caiu na estrada de Damasco e agora prega o que perseguia.' O caçador virou refém do próprio zelo. Guardem isto: zelo sem amor é lâmina que se volta contra a mão que a segura. Atrás das lojas à esquerda dorme o santuário deles, o mais guardado de todos. Não é o destino de hoje. Não parem, não apontem. Adiante, a casa de um barbeiro guarda o nome Al-Zouhor. Ali, virem à esquerda. Depois esquerda, e depressa direita, e direita. O beco solta vocês numa praça com uma fonte. Respirem.",
-          "missao": "Na praça da fonte, círculo fechado. Um de vocês no centro solta um discurso de levantar muralha: 30 segundos para inflamar os rebeldes de Yerushalayim antes da hora mais escura. Os outros respondem como multidão, vozes e punhos ao alto. Gravem o vídeo inteiro.",
+          "missao": "Na praça da fonte, círculo fechado. Um de vocês vira o rav no centro e solta uma drashá de 30 segundos: por que ainda vale esperar o Mashiach mais um dia, mesmo com Roma na porta. Os outros respondem 'amén' e batem o pé no chão. Gravem o vídeo.",
           "fotos": ["img/etapas/fariseus-e4-a.jpg"],
           "senha_desbloqueio": "KEREN"
         },
@@ -82,14 +82,14 @@
             [31.7758, 35.2301]
           ],
           "raio_m": 60,
-          "texto_diwan": "Um portão de colunas coroadas marca a saída da praça. Entre as colunas, procurem um nome de mulher: Sofia. Nas colunas, virem à direita. Agora sim, o grande mercado engole vocês. O céu ali é de pano e pedra, e as muralhas não escutam quem anda por baixo dele. Confiem nos olhos. Silêncio de mercadoria: quem fala, compra. À esquerda no mercado. Reto, até o mercado acabar. Na boca do fim, virem à direita, rumo ao bairro que guarda a memória. Sob os pés de vocês, uma rua de colunas dorme debaixo da rua de hoje. Em cima dela, parem. Os quatro caminhos param aqui. O que falta, só falta junto.",
+          "texto_diwan": "Última carta antes do encontro: 'Voltamos a Gamliel e prestamos contas. Não é um exército. São irmãos que leem uma hora diferente no mesmo céu. Dá para ter razão sobre os mortos e perder tudo, se a gente odiar quem espera de outro jeito.' Um portão de colunas coroadas marca a saída da praça. Entre elas, achem um nome de mulher: Sofia. Nas colunas, virem à direita. Agora o grande mercado engole vocês. O céu é de pano e pedra, as muralhas não escutam quem anda por baixo. Silêncio de mercadoria: quem fala, compra. À esquerda no mercado, reto até o fim. Na boca do fim, à direita, rumo ao bairro que guarda a memória. Sob os pés de vocês, uma rua de colunas dorme. Em cima dela, parem. Os três caminhos param aqui.",
           "missao": "Missão do encontro: em círculo, mãos ao centro. O grito da seita é uma palavra só, escolhida por vocês. Sussurrem três vezes, cada vez mais baixo. Na quarta, soltem de uma vez. Gravem, vai para o mural da peula.",
           "fotos": ["img/etapas/fariseus-e5-a.jpg"],
           "senha_desbloqueio": "CHOTAM"
         }
       ],
       "ponto_final": [31.7758, 35.2301],
-      "fragmento_final": "[Fragmento final dos Fariseus. Uma das quatro partes que so fazem sentido juntas. Escrever depois.]"
+      "fragmento_final": "Capitão, todos em círculo, de frente para o Kotel. Leia: 'Nós, os fariseus, tínhamos razão sobre os mortos. Eles se levantam. Rimos disso na cara dos saduceus e ganhamos a discussão. Guardem a data: no ano 70, a Casa ardeu do mesmo jeito. Roma acendeu o fogo por último. O primeiro fogo fomos nós, corrente contra corrente, cada uma certa de que só ela amava o Céu. Deram nome a isso depois: sinat chinam, ódio de graça. É o incêndio que nenhuma legião precisa ajudar a atear. A Casa cabia em todos nós. Fomos nós que não coubemos uns nos outros.'"
     },
     {
       "id": "saduceus",
