@@ -95,6 +95,7 @@ function rotuloVoz(voz) {
     case 'bilhete': return 'Um bilhete no chão';
     case 'circulo': return 'O capitão lê em voz alta';
     case 'viajante': return TEXTOS.eco_titulo || 'Você, que veio de longe';
+    case 'combinados': return 'Antes de descer';
     default: return '';
   }
 }
@@ -310,7 +311,8 @@ function mostrarAbertura() {
   if (!ab || (!ab.viajante && !ab.identidade)) { entrarEtapa(); return; } // seita sem abertura: vai direto
   const blocos = []
     .concat((ab.viajante || []).map(t => ({ voz: 'viajante', texto: t })))
-    .concat((ab.identidade || []).map(t => ({ voz: 'identidade', texto: t })));
+    .concat((ab.identidade || []).map(t => ({ voz: 'identidade', texto: t })))
+    .concat((ab.combinados || []).map(t => ({ voz: 'combinados', texto: t })));
   $('abertura-rotulo').textContent = rotaAtiva.seita + ' · ' + (TEXTOS.abertura_viajante_titulo || '');
   $('abertura-prosseguir').textContent = TEXTOS.prosseguir;
   $('abertura-pular').textContent = TEXTOS.abertura_pular || 'Pular';
@@ -460,11 +462,15 @@ function alternarPainel() {
 
 // o mapa termina onde o painel começa (os dois sempre visíveis)
 function ajustarMapaAoPainel() {
-  requestAnimationFrame(() => {
-    const alt = $('painel').offsetHeight;
-    document.documentElement.style.setProperty('--painel-alt', alt + 'px');
-    if (mapa) setTimeout(() => mapa.invalidateSize(), 60);
-  });
+  const p = $('painel');
+  // usa a altura ALVO das classes, nao o offsetHeight: durante a transicao de 0.3s
+  // o offsetHeight ainda esta no valor antigo, e o mapa nao cresceria junto ao minimizar
+  const alt = p.classList.contains('oculto') ? '0px' : (p.classList.contains('painel-baixo') ? '34vh' : '56vh');
+  document.documentElement.style.setProperty('--painel-alt', alt);
+  if (!mapa) return;
+  // acompanha a transicao para o Leaflet preencher enquanto o mapa cresce/encolhe
+  let n = 0;
+  const iv = setInterval(() => { mapa.invalidateSize({ animate: false }); if (++n >= 9) clearInterval(iv); }, 40);
 }
 
 // ---------- ajuda: uma mão na direção (revela passo + acende o rumo no mapa) ----------

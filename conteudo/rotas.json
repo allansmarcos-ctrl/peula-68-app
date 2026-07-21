@@ -5,10 +5,10 @@
     "Cada rota e uma seita. 'senha_entrada' e a senha que o madrich da ao grupo no inicio: ela define qual rota aquele celular joga (maiusculas/minusculas, acentos e hifens nao importam).",
     "MODELO NOVO (rota fariseus): a etapa separa 'carta' (a narrativa em voz Diwan, uma lista de blocos {voz,texto} que o grupo le avancando no toque) de 'direcoes' (os passos secos do caminho, um por vez, viram o tiquinho de progresso). 'marcos' sao lugares citados que acendem no mapa. 'eco' e a voz do viajante no tempo (opcional). 'senha_desbloqueio' avanca a etapa.",
     "MODELO ANTIGO (saduceus/essenios/zelotes, ainda placeholder): 'texto_diwan' (string unica) + 'missao' + 'senha_desbloqueio'. O app aceita os dois formatos.",
-    "'abertura' (por rota) tem 'viajante' (a moldura do hoje, lida logo apos a senha) e 'identidade' (quem e a seita). 'fragmento_final' e a leitura do alto, no fim da rota.",
+    "'abertura' (por rota) tem 'viajante' (a moldura do hoje), 'identidade' (quem e a seita) e 'combinados' (as regras praticas: asteriscos, seguir reto, ler em voz alta). Nas cartas, o ASTERISCO (*) marca fato historico real (Talmud, Josefo, cronicas).",
     "A ULTIMA senha_desbloqueio da rota leva a tela do fragmento final daquela seita.",
     "'ponto_inicial' aparece como ponto vermelho no mapa. 'ponto_final' e o lugar da convergencia das tres correntes.",
-    "Vozes possiveis nos blocos de carta: 'narrador' (quem descreve), 'gamliel' (a carta do velho), 'bilhete' (bilhete achado), 'circulo' (o capitao le em voz alta), 'viajante' (o eco do hoje)."
+    "Vozes possiveis nos blocos de carta: 'narrador' (quem descreve), 'gamliel' (a carta do velho), 'bilhete' (bilhete achado), 'circulo' (o capitao le em voz alta), 'viajante' (o eco do hoje), 'combinados' (as regras praticas)."
   ],
   "rotas": [
     {
@@ -17,20 +17,24 @@
       "senha_entrada": "PERGUNTA",
       "cor": "#b8860b",
       "ponto_inicial": [31.7768, 35.2277],
-      "_nota_rota": "E1 a E4: corredores REAIS do scouting de 18/07/2026 (nao mexer sem alinhar com o Allan). E5 (rumo ao shuk, sem descer pro Cardo/Kotel) e E6 (subida aos telhados) tem coordenadas ESTIMADAS por falta de scouting da rota nova de 21/07: andar com ?debug=1 e copiar as posicoes reais. O geofence e advisory (nunca trava), entao o jogo roda com estimativa; so o aviso de fora-do-caminho pode disparar cedo nesses trechos.",
+      "_nota_rota": "E1 a E4: corredores REAIS do scouting de 18/07/2026 (nao mexer sem alinhar com o Allan). E5 (rumo ao shuk, sem descer pro Cardo/Kotel) e E6 (subida aos telhados) tem coordenadas ESTIMADAS: andar com ?debug=1 ou ?adm=1 e coletar as posicoes reais. Raio 150m nesses dois trechos para o geofence estimado nao dar falso alarme.",
       "abertura": {
         "viajante": [
-          "Uma verdade primeiro. Vocês chegaram tarde a esta cidade. Dois mil anos tarde.",
-          "Esta noite vocês descem ao ano 68. Faltam dois verões para o Templo virar cinza, e ninguém lá dentro desconfia. Vocês desconfiam. Vieram do futuro com o fim da história guardado no bolso.",
-          "Vão vestir a pele de um grupo de fariseus e atravessar uma cidade que se odeia sem perceber. O trabalho de vocês é simples: reparar no que reconhecem. Gente esperando um messias que já passou. Irmãos que brigam por D'us até tirar sangue. Cada canto com a sua verdade e o seu bando pronto a morrer por ela.",
-          "Vocês já viram tudo isso. Não numa aula. Faz pouco tempo, e bem de perto. É o que faz de vocês os únicos capazes de entender o que quebrou aqui. Desçam a rua e comecem."
+          "Vocês chegaram a esta cidade tarde. Dois mil anos tarde.",
+          "Esta noite descem ao ano 68. Faltam dois verões para o Templo virar cinza, e ninguém aqui dentro desconfia. Vocês desconfiam. Vieram do futuro com o fim da história no bolso.",
+          "Vão vestir a pele de um grupo de fariseus e atravessar uma cidade que se odeia sem saber que se odeia. Muita coisa vai parecer conhecida. Gente esperando um messias que já passou. Irmãos brigando por D'us até sair sangue. Cada beco com a sua verdade e o seu bando pronto a morrer por ela.",
+          "Vocês já viram isso. Não numa aula de história. Faz pouco tempo, e de perto. Por isso são vocês que estão aqui. Desçam."
         ],
         "identidade": [
           "Vocês são fariseus, da casa de Hilel.",
-          "Não são os sacerdotes, que cuidam do Templo e do sangue dos cordeiros, nem os zelotes, que carregam o punhal debaixo do manto. O que está nas mãos de vocês é mais difícil de segurar, porque não tem muro nem lâmina que o proteja: é o jeito judeu de perguntar. Vocês estudam a Torá escrita e a que passa de boca a ouvido, e teimam que ela não terminou no Sinai. Ela continua sendo dada agora, toda vez que dois de vocês travam numa linha e brigam por ela até o sol nascer.",
+          "Hilel chegou pobre da Babilônia. Conta-se que numa madrugada de inverno, sem a moeda da entrada da casa de estudo, subiu no telhado para ouvir a aula por uma fresta, e amanheceu coberto de neve, quase morto de frio.* Era desse tamanho a fome de Torá do homem que depois resumiu a lei inteira numa frase só.",
+          "Vocês não são os sacerdotes, que cuidam do sangue dos cordeiros no Templo, nem os zelotes, que escondem o punhal debaixo do manto. O que está na mão de vocês é mais difícil de guardar, porque não tem muro nem lâmina que o proteja. É o jeito judeu de perguntar. Estudam a Torá escrita e a que passa de boca a ouvido, e teimam que ela não acabou no Sinai. Ela continua sendo dada agora, toda vez que dois de vocês brigam por uma linha dela até o sol raiar.",
           "Esperam o Mashiach. Vivo, que venha e fique, que endireite um mundo torto. Roma cobra imposto, o forte come o fraco, e o cordeiro que devia deitar com o lobo ainda é o jantar do lobo.",
-          "Duas coisas metem medo em vocês. Uma é o falso messias: sobe um homem do deserto, promete rachar o rio, ajunta uma multidão faminta de milagre, e a multidão vira revolta que desce a colina e cai em cima de todos. A outra é pior, e mora dentro de casa: o povo quebrado em pedaços, cada pedaço convencido de que só ele ama o Céu.",
-          "Para o primeiro medo, vocês têm os olhos: vão ver antes de deixar a boca julgar. Para o segundo, têm a régua do velho Hilel, a Torá inteira num pé só. O que é odioso para ti, não faças ao teu próximo. O resto é comentário. Agora desçam, e estudem a cidade com os pés."
+          "Duas coisas metem medo em vocês. A primeira é o falso messias: um homem sobe do deserto, promete abrir o rio, junta uma multidão faminta de milagre, e a multidão vira revolta que desce a colina e cai em cima de todos. A segunda é pior, e mora dentro de casa. É o povo partido em pedaços, cada pedaço convencido de que só ele ama o Céu.",
+          "Contra o primeiro medo, vocês têm os olhos: veem antes de deixar a boca julgar. Contra o segundo, têm a régua do velho Hilel, a Torá dita num pé só. O que é odioso para ti, não faças ao teu próximo. O resto é comentário. Agora desçam, e estudem a cidade com os pés."
+        ],
+        "combinados": [
+          "Antes de descer, três combinados. Tudo que vier marcado com asterisco aconteceu de verdade: está nos livros, no Talmud, em Josefo, nas crônicas da época. Na dúvida sobre onde ir, quase sempre é seguir reto. E leiam as cartas em voz alta, o grupo inteiro junto, que a história pega mais forte no ouvido do que no olho."
         ]
       },
       "etapas": [
@@ -44,11 +48,11 @@
           ],
           "raio_m": 50,
           "carta": [
-            { "voz": "narrador", "texto": "Uma carta chega às mãos de vocês. Diz ser da letra de Rabban Gamliel, o velho, o que ensina no beit midrash da cidade alta." },
-            { "voz": "narrador", "texto": "Diz. Ninguém viu o velho escrever, e a cera do selo já tinha esfriado quando o mensageiro entregou. Vão ter que decidir se confiam nela antes de poder provar que saiu da mão dele. Acostumem com essa sensação hoje, porque ela vai voltar." },
-            { "voz": "gamliel", "texto": "Talmidim de Beit Hilel. Chegou mais um. Yeshua de Natzrat, um mestre da Galileia, pregado numa cruz por Roma do jeito que se prega um ladrão qualquer. Até aí, história velha. Theudas prometeu partir o rio e acabou com a cabeça num poste. Yehudá, o galileu, pegou em armas no ano do recenseamento e virou pó, e os seus com ele. Falso messias termina sempre igual: o mestre cai, o bando se esconde, o nome some." },
-            { "voz": "gamliel", "texto": "Só que este não sumiu. O mestre caiu e a gente dele não correu. Continua em Yerushalayim, repartindo o pão, jurando que a morte não teve a última palavra." },
-            { "voz": "gamliel", "texto": "Eu não pedi que julgassem. Pedi que vissem. Desçam à cidade, pisem onde essa gente pisa, escutem com o próprio ouvido. Depois voltem e me digam se é mais um punhal esperando a hora, ou coisa que a nossa Casa ainda não conheceu. Vão pela porta do ocidente. Confio mais nos olhos de vocês do que na minha própria pressa." }
+            { "voz": "narrador", "texto": "Chega uma carta. Dizem que é da letra de Rabban Gamliel, o velho, o que ensina no beit midrash da cidade alta." },
+            { "voz": "narrador", "texto": "Dizem. Ninguém viu o velho escrever, e a cera do selo já estava fria quando o mensageiro chegou. Vocês vão ter que decidir se confiam nela sem ter como provar de quem é. Acostumem com isso hoje. Vai voltar." },
+            { "voz": "gamliel", "texto": "Talmidim de Beit Hilel. Chegou mais um. Yeshua de Natzrat, um mestre da Galileia, morto numa cruz por Roma como se pendura um ladrão. Até aí, história repetida. Theudas* prometeu partir o rio e acabou com a cabeça num poste. Yehudá, o Galileu*, pegou em armas no ano do censo e virou pó, com os seus atrás. Falso messias termina sempre igual: o mestre cai, o bando se esconde, o nome apaga." },
+            { "voz": "gamliel", "texto": "Só que este não apagou. O mestre caiu e a gente dele não correu. Continua em Yerushalayim, repartindo pão, jurando que a morte não teve a última palavra." },
+            { "voz": "gamliel", "texto": "Não pedi que julgassem. Pedi que vissem. Desçam, pisem onde essa gente pisa, escutem com o próprio ouvido. Voltem e me digam se é mais um punhal esperando a hora, ou coisa que a Casa nunca viu. Entrem pela porta do ocidente. Confio mais nos olhos de vocês do que na minha pressa." }
           ],
           "direcoes": [
             "Entrem pela porta do ocidente.",
@@ -80,13 +84,13 @@
           ],
           "raio_m": 50,
           "carta": [
-            { "voz": "narrador", "texto": "Chega um bilhete dobrado pequeno, a letra apressada de quem escreveu escondido." },
+            { "voz": "narrador", "texto": "Chega um bilhete pequeno, dobrado, letra apressada de quem escreveu escondido." },
             { "voz": "bilhete", "texto": "Vocês vieram atrás de um exército. Vão achar rede de pescador. Essa gente não tem espada. Reparte o pão e espera." },
-            { "voz": "narrador", "texto": "Um exército, vocês saberiam o que fazer. Com um punhal também. O que ninguém ensinou foi o que fazer com um bando que só reparte pão e espera exatamente a mesma coisa que vocês esperam toda manhã na reza." },
-            { "voz": "narrador", "texto": "E há uma inquietação maior, que vem da cidade em volta. Ela está rachada. Os da casa de Shamai não falam com os da casa de Hilel sem levantar a voz, os saduceus riem de todo mundo, e cada beco tem a sua verdade e o seu grupo pronto a morrer por ela. De fora, um romano diria que é um povo à beira de se destruir sozinho. Vocês sabem que brigar por Torá é sinal de que ainda há vida no corpo. O veneno não está na briga. Está no dia em que um lado olha para o outro e esquece que aquele ali, do lado contrário da discussão, também passa a noite em claro por amor ao Céu." },
-            { "voz": "narrador", "texto": "Levem isso guardado. Mais para a frente vai fazer falta." }
+            { "voz": "narrador", "texto": "Um exército, vocês saberiam o que fazer. Um punhal também. Ninguém ensinou o que fazer com um bando que reparte pão e espera a mesma coisa que vocês esperam toda manhã na reza." },
+            { "voz": "narrador", "texto": "E há coisa pior no ar, e vem da cidade em volta. Yerushalayim está comendo a si mesma. Homens escondem um punhal curto na dobra do manto, os sicários*, se misturam à multidão nas festas e cravam a lâmina nas costas de outro judeu dentro do próprio Templo. Neste mesmo ano, gente da cidade tomou o Monte à força e matou o sumo sacerdote*, e largou o corpo fora do muro sem sepultura. Roma ainda nem chegou, e o sangue que corre já é de irmão." },
+            { "voz": "narrador", "texto": "Até a nossa casa já provou desse veneno. Houve um dia em que Beit Shammai e Beit Hilel discordaram tanto que cravaram uma espada no chão da casa de estudo*, e disseram: quem entra, entra; quem sai, não sai. Os sábios lembram desse dia como um dos piores que Israel viveu. Brigar por Torá ainda é vida. O veneno vem depois, no dia em que um lado para de acreditar que o outro ama o mesmo Céu." }
           ],
-          "eco": "Vocês conhecem essa cidade rachada. Ela não ficou no ano 68. Troquem os nomes Shamai e Hilel por dois grupos dos dias de vocês, e a briga é a mesma, palavra por palavra.",
+          "eco": "Vocês conhecem uma cidade que se come por dentro. Já a viram com outro nome, mais perto de casa.",
           "direcoes": [
             "Vocês entraram em terra de outros donos. Passo de quem pede licença.",
             "Duas placas vão aparecer. Recusem a do homem de Assis. Sigam a dos mensageiros, Ar-Rusul.",
@@ -112,14 +116,17 @@
           ],
           "raio_m": 50,
           "carta": [
-            { "voz": "narrador", "texto": "Capitão, pare o grupo. Todos em círculo. Leia isto devagar, em voz alta." },
+            { "voz": "narrador", "texto": "Capitão, pare o grupo. Todos em círculo. Leia devagar, em voz alta." },
             { "voz": "circulo", "texto": "Tem um homem pintado nessa parede, olhando para vocês. É ele. O mestre de Natzrat, o motivo de a gente estar aqui." },
-            { "voz": "circulo", "texto": "A gente dele acredita numa coisa que arrepia a espinha: que ele se levantou do túmulo, que a morte não ficou com a última palavra. E agora o susto que ninguém preparou vocês para tomar. Ressurreição dos mortos é a nossa fé. É ela que nos separa dos saduceus, que dão risada de quem espera os mortos de volta. Nesse ponto, essa gente está do nosso lado da sala. Do lado de quem espera, não do lado de quem ri." },
-            { "voz": "circulo", "texto": "A discussão, então, não é sobre esperar. Os dois lados esperam. É sobre a hora. Eles dizem que o Mashiach já veio, que já esteve aqui e foi embora. Olhem pela janela: Roma continua mandando, o imposto continua subindo, o mundo continua torto. Que vinda foi essa, que deixou tudo do mesmo jeito?" },
-            { "voz": "circulo", "texto": "Eles esperam de olho no passado, num homem que já foi. Vocês esperam de olho no que ainda vem. Dois povos lendo uma hora diferente no mesmo relógio de estrelas." },
+            { "voz": "circulo", "texto": "Essa gente é judia. Reza o Shemá que vocês rezam, chora pelo mesmo Templo. Não veio de fora. Senta do outro lado da mesma mesa." },
+            { "voz": "circulo", "texto": "E cabe muita gente debaixo de um nome só. Tem o pescador que reparte o pão sem perguntar quem você é, e quer o Mashiach com a alma inteira, igual a vocês na reza da manhã. Tem também o outro, que já enxerga na multidão uma faca, e sonha em virar a espera em revolta. Theudas* sonhou parecido, e acabou com a cabeça num poste. Yehudá, o Galileu*, também, e virou pó com os seus atrás. Em toda casa é assim. Os que amam o Céu, e os que vestem o nome do Céu para acender o próprio fogo." },
+            { "voz": "circulo", "texto": "O velho sabia disso quando mandou ver antes de julgar. Bando não se mede pelo pior que tem dentro, nem pelo melhor. Olha-se um por um, na cara. Este espera? Ou este arma?" },
+            { "voz": "circulo", "texto": "E o que essa gente crê arrepia a espinha: que o mestre se levantou do túmulo, que a morte não ficou com a última palavra. Aí vem o susto. Ressurreição dos mortos é a nossa fé. É ela que separa nós dos saduceus, que riem de quem espera os mortos de volta. Nesse ponto, essa gente está do nosso lado da sala." },
+            { "voz": "circulo", "texto": "A briga, então, não é sobre esperar. Os dois lados esperam. É sobre a hora. Eles dizem que o Mashiach já veio, que já esteve aqui e foi embora. Olhem pela janela: Roma ainda manda, o imposto ainda sobe, o mundo continua torto. Que vinda foi essa, que deixou tudo do mesmo jeito?" },
+            { "voz": "circulo", "texto": "Eles esperam de olho para trás, num homem que já foi. Vocês esperam de olho no que ainda vem. Dois povos lendo uma hora diferente no mesmo céu." },
             { "voz": "narrador", "texto": "Fechem o círculo e sigam." }
           ],
-          "eco": "Guardem a pergunta do velho: que vinda foi essa, que deixou o mundo torto? Do lugar de onde vocês vêm, ela ainda não teve resposta. Dois mil anos, e o mundo continua esperando conserto.",
+          "eco": "Que vinda foi essa, que deixou o mundo torto? Vocês vêm de dois mil anos depois. A pergunta continua aberta.",
           "direcoes": [
             "No muro do mosteiro, virem à direita e desçam.",
             "Um corredor vai imitar o grande mercado. Parece, mas não é ele. Virem à direita e subam, a torre verde de frente.",
@@ -146,11 +153,12 @@
           ],
           "raio_m": 50,
           "carta": [
-            { "voz": "narrador", "texto": "Chega uma carta com uma mancha de tinta borrada, como se a mão de quem escreveu tivesse tremido." },
+            { "voz": "narrador", "texto": "Chega uma carta com uma mancha de tinta borrada, como se a mão tremesse." },
             { "voz": "gamliel", "texto": "Shaul de Tarso caiu na estrada de Damasco." },
-            { "voz": "narrador", "texto": "Vocês conhecem o nome. Em Beit Hilel todo mundo conhece. Shaul sentou no mesmo chão que vocês, aos pés dos mesmos mestres, decorou os mesmos versos, reza o mesmo Shemá quando o dia começa. E foi ele quem virou o caçador. Andava de porta em porta com um maço de cartas na sacola, autorização carimbada para prender essa gente do Caminho, homem e mulher, e trazer amarrado de volta para Yerushalayim. Não fazia por moeda. Fazia porque amava a Torá e tinha certeza, a cada porta que arrombava, de estar servindo ao Céu." },
-            { "voz": "narrador", "texto": "No meio do dia, na estrada aberta, alguma coisa o jogou no chão de terra. Ele, que corria para cegar os outros, ficou sem enxergar. As cartas ficaram na sacola, nunca entregues. Quando se levantou, começou a anunciar de praça em praça justamente aquilo que tinha jurado arrancar pela raiz." },
-            { "voz": "narrador", "texto": "Olhem agora para a sacola de vocês. Cada um carrega um pouco de zelo ali dentro. O zelo é uma lâmina de dois gumes: com ela se defende a Casa, e com ela se corta a mão de quem a segura apertado demais. Shaul perseguiu o Céu convencido de que servia ao Céu. Para um estrago desse tamanho quase não é preciso ódio. Basta certeza que não duvida de si mesma." }
+            { "voz": "narrador", "texto": "Vocês conhecem o nome. Em Beit Hilel todo mundo conhece. Shaul sentou aos pés de Rabban Gamliel*, no mesmo chão que vocês, decorou os mesmos versos, reza o mesmo Shemá de manhã. E foi ele quem virou caçador. Andava de porta em porta com um maço de cartas na sacola, autorização carimbada para prender essa gente do Caminho, homem e mulher, e arrastar amarrado de volta para Yerushalayim. Não fazia por moeda. Fazia porque amava a Torá, e tinha certeza, a cada porta que arrombava, de estar servindo ao Céu." },
+            { "voz": "narrador", "texto": "No meio do dia, na estrada aberta, alguma coisa o jogou no chão. Ele, que corria para cegar os outros, ficou sem enxergar. As cartas ficaram na sacola, sem entrega. Quando levantou, começou a anunciar de praça em praça o que tinha jurado arrancar pela raiz." },
+            { "voz": "narrador", "texto": "Olhem para a sacola de vocês. Cada um leva um pouco de zelo lá dentro. Zelo é lâmina de dois gumes. Com ela se defende a Casa, e com ela se corta a mão de quem aperta forte demais. Shaul perseguiu o Céu achando que servia ao Céu. Para um estrago desse tamanho quase não é preciso ódio. Basta uma certeza que não duvida de si." },
+            { "voz": "gamliel", "texto": "Quando prenderam os primeiros dessa gente e o Sinédrio quis matá-los, fui eu que segurei a corte*. Disse: se isto vem de homem, se desfaz sozinho; se vem de D'us, vocês não vão conseguir desfazer, e ainda vão se ver brigando contra o Céu. Deixem o tempo julgar o que a pressa não sabe." }
           ],
           "direcoes": [
             "Atrás das lojas, à esquerda, dorme o santuário mais guardado deles. Não é o destino de hoje. Não parem e não apontem.",
@@ -178,9 +186,9 @@
           ],
           "raio_m": 150,
           "carta": [
-            { "voz": "narrador", "texto": "A carta que fecha o caminho é curta. A letra do velho, dessa vez sem pressa nenhuma." },
-            { "voz": "gamliel", "texto": "Vocês voltaram e me prestaram contas, e eu ouvi tudo. Não é um exército. São irmãos. Irmãos que leem uma hora diferente no mesmo céu, que talvez estejam errados sobre a hora, e que ainda assim não são o nosso inimigo." },
-            { "voz": "gamliel", "texto": "Deixem eu dizer a coisa mais difícil que aprendi em oitenta anos de vida. Dá para ter toda a razão do mundo sobre os mortos, calar os saduceus, vencer cada rodada da discussão, e perder tudo mesmo assim. Basta começar a odiar quem espera de um jeito diferente do seu." },
+            { "voz": "narrador", "texto": "A carta que fecha o caminho é curta. Letra do velho, dessa vez sem pressa nenhuma." },
+            { "voz": "gamliel", "texto": "Vocês voltaram e me prestaram contas, e eu ouvi tudo. Não é exército. São irmãos. Irmãos que leem uma hora diferente no mesmo céu, que talvez estejam errados sobre a hora, e que mesmo assim não são o nosso inimigo." },
+            { "voz": "gamliel", "texto": "Deixem eu dizer a coisa mais difícil que aprendi em oitenta anos. Dá para ter toda a razão sobre os mortos, calar os saduceus, ganhar cada rodada da discussão, e perder tudo mesmo assim. Basta começar a odiar quem espera de um jeito diferente do seu." },
             { "voz": "gamliel", "texto": "Vão até o coração da cidade. Atravessem o mercado dos outros sem comprar briga. Cheguem inteiros ao lugar onde a pedra ainda está de pé, enquanto ela ainda está." }
           ],
           "direcoes": [
@@ -237,13 +245,13 @@
       ],
       "ponto_final": [31.7774, 35.2298],
       "fragmento_final": [
-        { "voz": "narrador", "texto": "Capitão, o grupo já está no alto, a última parada. Ponham todos de frente para a cidade lá embaixo. Depois desta leitura não vem missão nenhuma, só o que vocês vão fazer com ela." },
-        { "voz": "gamliel", "texto": "Chegaram ao alto. Antes de tudo, olhem em volta. Esse mar de telhados lá embaixo, de pedra, pano e cúpula até onde a vista alcança, é o shuk. O mesmo mercado onde vocês passaram a noite se perdendo. Lá dentro, cada beco parecia uma armadilha e cada esquina uma briga. Daqui de cima é uma cidade só, e cabe inteira num olhar. Guardem essa diferença, porque ela é quase o fim da história." },
-        { "voz": "gamliel", "texto": "Agora fiquem quietos um instante e escutem o que sobe da sala logo atrás de vocês. Estão ouvindo? Vozes. Gente jovem debruçada sobre os livros, repetindo a Torá em voz alta, do mesmo jeito que se fazia há dois mil anos, palavra por palavra, até saber de cor. A vista e esse som são o fim da caça, e daqui a pouco vocês vão entender por quê." },
-        { "voz": "gamliel", "texto": "Vocês passaram a noite atrás do Templo. Preciso avisar uma coisa antes de vocês chegarem perto dele. Dentro de dois anos, no ano 70, ele cai. Roma queima a cidade e derruba a pedra, e dessa vez o Templo não se reergue. Nunca mais." },
-        { "voz": "gamliel", "texto": "Quando os sábios sentarem para entender por quê, não vão escrever o nome de Roma na primeira linha. Roma acendeu o fogo por último. O primeiro fogo fomos nós. Facção contra facção, casa de estudo contra casa de estudo, cada uma com a certeza inteira de que só ela amava o Céu. Deram nome a isso quando já era cinza: sinat chinam, ódio de graça. O incêndio que nenhuma legião precisa vir atear." },
-        { "voz": "gamliel", "texto": "E aqui está o milagre, o motivo de mandar vocês subirem e escutarem antes de tudo. O fogo levou a pedra. Não levou a voz. O Templo virou entulho, e mesmo assim, dois mil anos depois, na sala logo acima de vocês, tem gente jovem repetindo a mesma Torá em voz alta, sem ter perdido uma palavra no caminho. Foi sempre isto que um fariseu soube guardar. O muro queima. A voz não, porque a voz não mora numa pedra: ela passa de boca a ouvido, e só se apaga junto com o último que desistir de passá-la adiante." },
-        { "voz": "viajante", "texto": "Agora a parte que só vocês, que vieram de longe, podem ouvir. Vocês sabem que a voz chegou até aqui, porque vieram de onde ela chegou. Dois mil anos, e ela não parou. Amanhã vocês tiram a roupa de fariseu e voltam para a vida de vocês, para o mesmo movimento e as mesmas rusgas de sempre. Quando a próxima briga chegar, e ela sempre chega, lembrem do que viram aqui em cima. A Casa de pedra já foi perdida uma vez, por ódio de graça entre irmãos que amavam o mesmo D'us. Aquela voz que não parou de estudar em dois mil anos depende de uma coisa só: de vocês não desistirem uns dos outros. A Casa cabia em todos. Foram os que estavam dentro que não couberam uns nos outros. Não deixem esse fogo achar vocês de novo." }
+        { "voz": "narrador", "texto": "Capitão, o grupo já está no alto, a última parada. Ponham todos de frente para a cidade lá embaixo. Depois desta leitura não vem missão. Só o que vocês vão fazer com ela." },
+        { "voz": "gamliel", "texto": "Olhem em volta. Esse mar de telhados de pedra, pano e cúpula, até onde a vista alcança, é o shuk. O mesmo mercado onde vocês se perderam a noite toda. Lá dentro, cada beco parecia uma armadilha. Daqui de cima é uma cidade só, e cabe num olhar. Lá dentro, ninguém conseguia enxergar isso." },
+        { "voz": "gamliel", "texto": "Agora escutem o que sobe da sala atrás de vocês. Vozes. Gente jovem debruçada nos livros, repetindo a Torá em voz alta, do mesmo jeito de dois mil anos atrás, palavra por palavra. Essa vista e esse som são o fim da caça." },
+        { "voz": "gamliel", "texto": "Vocês passaram a noite atrás do Templo. Preciso avisar antes de vocês chegarem perto dele. Dentro de dois anos, no ano 70, ele cai. Roma queima a cidade e derruba a pedra, e dessa vez não se reergue. Nunca mais." },
+        { "voz": "gamliel", "texto": "E quando os sábios sentarem para entender por quê, não vão escrever o nome de Roma na primeira linha. Vão escrever o nosso. Com o inimigo já no portão, três facções judias* vão rachar a cidade e brigar entre si por ela. Vão queimar, com a própria mão, os armazéns de trigo que dariam para aguentar anos de cerco*, e a fome que vai matar meia cidade vai ser fome plantada por judeu. Vocês conhecem o Kamtza e o Bar Kamtza*: um convite trocado, um homem humilhado numa festa, a sala inteira calada. Foi por miudeza desse tamanho que a Casa caiu. Deram nome a isso quando já era cinza: sinat chinam, ódio de graça. O incêndio que nenhuma legião precisa vir atear." },
+        { "voz": "gamliel", "texto": "E aqui está o milagre. Um sábio da nossa casa, Rabban Yochanan ben Zakkai, viu que a pedra estava perdida. Se fez de morto, e mandou os alunos o carregarem para fora da cidade sitiada dentro de um caixão*, porque os radicais não deixavam sair vivo quem falasse em paz. Diante do general de Roma, não pediu o Templo de volta. Pediu uma sala de sábios numa cidadezinha chamada Yavne. O muro queimou. A voz não. Ela cabia num caixão, e Roma não sabia pesar. Dois mil anos depois, ela ainda está estudando na sala atrás de vocês." },
+        { "voz": "viajante", "texto": "Agora a parte que só vocês, que vieram de longe, podem ouvir. Vocês sabem que a voz chegou até aqui, porque vieram de onde ela chegou. Amanhã tiram a roupa de fariseu e voltam para a vida de vocês, para o mesmo movimento e as mesmas rusgas de sempre. Quando a próxima briga chegar, e ela sempre chega, lembrem do que viram do alto. A Casa de pedra foi perdida uma vez, por ódio de graça entre irmãos que amavam o mesmo D'us. Aquela voz que não parou de estudar em dois mil anos depende de uma coisa só: de vocês não desistirem uns dos outros. A Casa cabia em todos. Foram os que estavam dentro que não couberam. Não deixem esse fogo achar vocês de novo." }
       ]
     },
     {

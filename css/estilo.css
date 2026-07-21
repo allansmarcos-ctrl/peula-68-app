@@ -158,6 +158,17 @@ body {
   border-radius: 3px;
 }
 
+/* os combinados: regras praticas do jogo, caixa dourada destacada */
+.voz-combinados .bloco-voz { color: var(--dourado); }
+.voz-combinados p {
+  background: rgba(184, 134, 11, 0.14);
+  border: 1px solid var(--sepia-claro);
+  border-left: 3px solid var(--dourado);
+  padding: 10px 13px;
+  border-radius: 4px;
+  font-size: 16.5px;
+}
+
 /* pontos de progresso da leitura */
 .pontos-progresso { display: flex; gap: 6px; justify-content: center; margin: 16px 0 4px; }
 .ponto { width: 6px; height: 6px; border-radius: 50%; background: rgba(107, 74, 42, 0.32); transition: all 0.3s; }
