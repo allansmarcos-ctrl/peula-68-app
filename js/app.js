@@ -151,6 +151,9 @@ async function init() {
   registrarSW();
   ligarEventos();
 
+  // modo ADM: tela de coleta de coordenadas (toque no mapa marca pontos numerados)
+  if (params.has('adm')) { iniciarAdm(); return; }
+
   const salvo = lerEstado();
   if (salvo) {
     const rota = ROTAS.rotas.find(r => r.id === salvo.rota);
@@ -913,6 +916,91 @@ function atualizarPainelDebug(distConhecida) {
   posEl.textContent = linha;
   const j = $('dbg-json');
   if (j) j.textContent = jsonCantos();
+}
+
+// ---------- modo ADM: coletor de coordenadas por toque no mapa ----------
+// Abre direto no mapa (rota fariseus de referencia). Cada toque marca um ponto
+// numerado e guarda a coordenada; "marcar GPS" usa a posicao atual; "copiar tudo"
+// entrega a lista pronta para colar. Serve para levantar a rota nova em campo.
+let pontosAdm = [], marcadoresAdm = [];
+
+function iniciarAdm() {
+  rotaAtiva = ROTAS.rotas.find(r => r.id === 'fariseus') || ROTAS.rotas[0];
+  if (!mapa) montarMapa();
+  iniciarGeolocalizacao();
+  mostrarTela('jogo');
+  $('painel').classList.add('oculto');
+  $('controles-flutuantes').classList.add('oculto');
+  $('header-texto').textContent = 'ADM · marcar pontos';
+  $('selo-seita').style.background = '#d4a017';
+  desenharCamadasDebug(); // mostra os corredores/rota como referencia visual
+  document.documentElement.style.setProperty('--painel-alt', '0px');
+  mapa.on('click', (e) => adicionarPontoAdm(e.latlng.lat, e.latlng.lng));
+  montarPainelAdm();
+  setTimeout(() => mapa.invalidateSize(), 80);
+}
+
+function adicionarPontoAdm(lat, lng) {
+  const n = pontosAdm.length + 1;
+  pontosAdm.push({ n, lat, lng });
+  const ic = L.divIcon({ className: '', html: '<div class="pino-adm">' + n + '</div>', iconSize: [26, 26], iconAnchor: [13, 13] });
+  marcadoresAdm.push(L.marker([lat, lng], { icon: ic, zIndexOffset: 800 }).addTo(mapa));
+  renderListaAdm();
+}
+
+function renderListaAdm() {
+  const l = $('adm-lista');
+  if (!l) return;
+  l.innerHTML = pontosAdm.length
+    ? pontosAdm.map(p => '<b>' + p.n + '</b>: ' + p.lat.toFixed(6) + ', ' + p.lng.toFixed(6)).join('<br>')
+    : 'toque no mapa onde você está, ou onde tem algo';
+}
+
+function textoAdm() {
+  return pontosAdm.map(p => p.n + ': [' + p.lat.toFixed(6) + ', ' + p.lng.toFixed(6) + ']').join('\n');
+}
+
+function copiar(t, okMsg) {
+  if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(t).then(() => toast(okMsg)).catch(() => toast(t, 9000));
+  else toast(t, 9000);
+}
+
+function montarPainelAdm() {
+  const p = document.createElement('aside');
+  p.id = 'painel-adm';
+  p.innerHTML =
+    '<div class="adm-cab">MARCAR PONTOS<span>toque no mapa onde está, ou onde tem algo. Fale no áudio o que é cada número.</span></div>' +
+    '<div id="adm-lista">toque no mapa onde você está, ou onde tem algo</div>' +
+    '<div class="adm-btns">' +
+      '<button id="adm-gps">marcar minha posição (GPS)</button>' +
+      '<button id="adm-desfazer">desfazer</button>' +
+    '</div>' +
+    '<div class="adm-btns">' +
+      '<button id="adm-copiar" class="adm-forte">copiar tudo</button>' +
+      '<button id="adm-limpar">limpar</button>' +
+    '</div>';
+  document.body.appendChild(p);
+  $('adm-gps').addEventListener('click', () => {
+    if (!posAtual) { toast(TEXTOS.sem_gps); return; }
+    adicionarPontoAdm(posAtual.lat, posAtual.lng);
+    if (mapa) mapa.panTo([posAtual.lat, posAtual.lng]);
+  });
+  $('adm-desfazer').addEventListener('click', () => {
+    pontosAdm.pop();
+    const m = marcadoresAdm.pop(); if (m) mapa.removeLayer(m);
+    renderListaAdm();
+  });
+  $('adm-copiar').addEventListener('click', () => {
+    if (!pontosAdm.length) { toast('Nenhum ponto ainda. Toque no mapa.'); return; }
+    copiar(textoAdm(), 'Copiado! Cole no WhatsApp e me manda.');
+  });
+  $('adm-limpar').addEventListener('click', () => {
+    if (!confirm('Apagar todos os pontos marcados?')) return;
+    pontosAdm = [];
+    marcadoresAdm.forEach(m => mapa.removeLayer(m));
+    marcadoresAdm = [];
+    renderListaAdm();
+  });
 }
 
 // ---------- início ----------
