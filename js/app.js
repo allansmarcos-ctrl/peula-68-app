@@ -1072,8 +1072,9 @@ function montarPainelAdm() {
 // ---------- cerimonia de chegada, itens e inventario (estilo Zelda) ----------
 function glifoSVG(chave) {
   const g = {
-    carta: '<rect x="4.5" y="4" width="15" height="16" rx="1.2"/><path d="M7.5 8.5h9M7.5 11.5h9M7.5 14.5h5.5" stroke="#241804" stroke-width="1.3" fill="none" stroke-linecap="round"/>',
-    rede: '<path d="M12 3 21 12 12 21 3 12Z" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M12 3v18M3 12h18M7.5 7.5l9 9M16.5 7.5l-9 9" stroke="currentColor" stroke-width="0.9" fill="none"/>',
+    carta: '<rect x="5.5" y="3.5" width="13" height="17" rx="1"/><path d="M8 7.5h8M8 10.5h8M8 13.5h5" stroke="#241804" stroke-width="1.2" fill="none" stroke-linecap="round"/><circle cx="15.2" cy="16.9" r="2.4" fill="#8a1f1f" stroke="#241804" stroke-width="0.5"/>',
+    rede: '<path d="M4 5h16l-8 15z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M7.3 5l2.6 12M13 5l-2.9 13M5.7 9.5h12.6M7.5 14h9M9.3 18h5.4" stroke="currentColor" stroke-width="0.85" fill="none"/>',
+    ampulheta: '<path d="M6 3.2h12M6 20.8h12" stroke="currentColor" stroke-width="1.7" fill="none" stroke-linecap="round"/><path d="M7.5 3.5c0 4.4 4.5 5.4 4.5 8.5s-4.5 4.1-4.5 8.5M16.5 3.5c0 4.4-4.5 5.4-4.5 8.5s4.5 4.1 4.5 8.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M9 6.5h6l-3 4.2z"/><path d="M12 13.8l3 5.2H9z"/>',
     estrela: '<path d="M12 3l7.8 13.5H4.2z" fill-opacity="0.92"/><path d="M12 21L4.2 7.5h15.6z" fill-opacity="0.92"/>',
     lamina: '<path d="M12 2l2.2 13h-4.4z"/><rect x="8.4" y="14.4" width="7.2" height="1.8" rx="0.5"/><rect x="11" y="16" width="2" height="6" rx="0.6"/>',
     regua: '<rect x="3" y="8.5" width="18" height="7" rx="1"/><path d="M6 8.5v3.4M9 8.5v2.2M12 8.5v3.4M15 8.5v2.2M18 8.5v3.4" stroke="#241804" stroke-width="1.1"/>',

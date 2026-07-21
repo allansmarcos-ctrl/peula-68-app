@@ -144,7 +144,7 @@
             "img/etapas/fariseus-e3-a-torre-verde.jpg",
             "img/etapas/fariseus-e3-b-yeshu-parede.jpg"
           ],
-          "item": { "nome": "A hora diferente", "glifo": "estrela", "sobre": "Dois povos lendo uma hora diferente no mesmo céu." },
+          "item": { "nome": "A hora diferente", "glifo": "ampulheta", "sobre": "Dois povos lendo uma hora diferente no mesmo céu." },
           "senha_desbloqueio": "MENORA"
         },
         {
