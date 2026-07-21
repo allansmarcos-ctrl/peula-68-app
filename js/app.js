@@ -129,6 +129,8 @@ async function carregarJSON(caminho) {
 async function init() {
   const params = new URLSearchParams(location.search);
   if (params.has('reset')) limparEstado();
+  // modo solo: joga 100% local, sem entrar na sala compartilhada (teste/playtest e fallback do dia)
+  window.SOLO = params.has('solo');
   if (params.has('mock')) {
     const m = (params.get('mock') || '').split(',').map(Number);
     if (m.length === 2 && m.every(isFinite)) mock = { lat: m[0], lng: m[1] };
@@ -562,7 +564,7 @@ async function rpcSup(nome, corpo) {
 }
 
 function iniciarSincronia() {
-  if (!rotaAtiva) return;
+  if (!rotaAtiva || window.SOLO) return; // modo solo: fica fora da sala compartilhada
   sala = normalizar(rotaAtiva.senha_entrada);
   rpcSup('peula_entrar', { p_sala: sala, p_corrente: rotaAtiva.id })
     .then((r) => aplicarSincronia(r && r[0] && r[0].etapa)).catch(() => {});
