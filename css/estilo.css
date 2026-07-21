@@ -1,6 +1,8 @@
 /* ===== As Portas de Jerusalém: estilo ===== */
 /* Direcao: pergaminho envelhecido, tinta sepia, dourado, tipografia lapidada.
-   Nada de aparencia "de app". Fonte de titulo local (Cinzel, licenca OFL). */
+   Jogo de NOITE: as leituras cerimoniais sao pergaminho claro; a tela viva de
+   rua tem o mapa iluminado sobre um painel escuro (legivel no escuro, poupa
+   bateria). O passado fala em sepia/dourado; o viajante do futuro, em azul frio. */
 
 @font-face {
   font-family: 'Cinzel';
@@ -11,7 +13,8 @@
 }
 
 :root {
-  --debug-alt: 0px; /* altura ocupada pelo painel de calibracao; o mapa encolhe junto */
+  --debug-alt: 0px;      /* altura do painel de calibracao; o mapa encolhe junto */
+  --painel-alt: 56vh;    /* altura do painel vivo; o mapa termina onde ele comeca */
   --pergaminho: #efdcb4;
   --pergaminho-claro: #f6ecd2;
   --pergaminho-escuro: #d9bc85;
@@ -23,6 +26,7 @@
   --sangue: #7a1f1f;
   --noite: #1a120a;
   --pedra: #2e2213;
+  --futuro: #6fc7c2;     /* a voz do viajante: azul-turquesa frio (contra o sepia quente) */
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -62,13 +66,14 @@ body {
   max-width: 430px;
   text-align: center;
 }
+.abertura-cartela { display: flex; flex-direction: column; }
 
 /* ---- tipografia ---- */
 
 .ano {
   font-family: 'Cinzel', Georgia, serif;
   font-size: 14px;
-  letter-spacing: 0.38em;
+  letter-spacing: 0.32em;
   text-transform: uppercase;
   color: var(--sepia);
   margin-bottom: 10px;
@@ -100,16 +105,7 @@ body {
   color: var(--tinta);
   margin-bottom: 18px;
 }
-
 .texto-diwan { text-align: left; }
-.texto-diwan.destaque {
-  font-style: italic;
-  font-size: 19px;
-  text-align: center;
-  padding: 14px 10px;
-  border-top: 1px solid var(--sepia-claro);
-  border-bottom: 1px solid var(--sepia-claro);
-}
 
 .assinatura {
   margin-top: 26px;
@@ -117,6 +113,56 @@ body {
   font-size: 14px;
   color: var(--sepia);
 }
+
+/* ---- fluxo de leitura fatiada (abertura, carta, fragmento): um bloco por toque ---- */
+
+.fluxo-leitura { text-align: left; min-height: 168px; }
+.fluxo-leitura.destaque { text-align: center; }
+
+.bloco-leitura {
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+.bloco-leitura.entrou { opacity: 1; transform: none; }
+
+.bloco-voz {
+  display: block;
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--sepia);
+  margin-bottom: 8px;
+}
+.bloco-leitura p {
+  font-size: 17.5px;
+  line-height: 1.72;
+}
+
+/* a carta do velho e os bilhetes: voz de dentro, itálico recolhido */
+.voz-gamliel p, .voz-bilhete p, .voz-circulo p {
+  font-style: italic;
+  padding-left: 12px;
+  border-left: 2px solid var(--dourado);
+}
+.voz-circulo .bloco-voz { color: var(--sangue); }
+
+/* o viajante do futuro: quebra a quarta parede, cor fria */
+.voz-viajante .bloco-voz { color: var(--futuro); }
+.voz-viajante p {
+  color: #17403f;
+  background: rgba(111, 199, 194, 0.12);
+  border-left: 2px solid var(--futuro);
+  padding: 8px 12px;
+  border-radius: 3px;
+}
+
+/* pontos de progresso da leitura */
+.pontos-progresso { display: flex; gap: 6px; justify-content: center; margin: 16px 0 4px; }
+.ponto { width: 6px; height: 6px; border-radius: 50%; background: rgba(107, 74, 42, 0.32); transition: all 0.3s; }
+.ponto.passado { background: var(--sepia); }
+.ponto.atual { background: var(--dourado); transform: scale(1.5); box-shadow: 0 0 8px rgba(184, 134, 11, 0.7); }
 
 /* ---- formularios ---- */
 
@@ -126,7 +172,7 @@ body {
   font-size: 12.5px;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: #56391b; /* um tom abaixo do sépia: legível sob sol */
+  color: #56391b;
   margin: 18px 0 8px;
 }
 
@@ -146,7 +192,6 @@ input[type="text"] {
   outline: none;
   box-shadow: inset 0 2px 6px rgba(80, 52, 20, 0.25);
 }
-
 input[type="text"]:focus { border-color: var(--dourado); }
 
 .botao {
@@ -166,7 +211,6 @@ input[type="text"]:focus { border-color: var(--dourado); }
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
 }
-
 .botao:active { transform: translateY(2px); box-shadow: 0 1px 0 #241804; }
 
 .botao-claro {
@@ -176,28 +220,41 @@ input[type="text"]:focus { border-color: var(--dourado); }
   box-shadow: 0 3px 0 #8a6335, 0 6px 14px rgba(20, 12, 4, 0.3);
 }
 
+.link-discreto {
+  margin-top: 12px;
+  background: none;
+  border: none;
+  font-family: Georgia, serif;
+  font-style: italic;
+  font-size: 14px;
+  color: var(--sepia);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 .erro {
-  min-height: 44px;
-  margin-top: 14px;
+  min-height: 24px;
+  margin-top: 12px;
   font-style: italic;
   font-size: 15px;
   line-height: 1.5;
   color: var(--sangue);
 }
 
-/* ---- tela do mapa ---- */
+/* ---- a tela viva do jogo (mapa + painel) ---- */
 
-#tela-mapa { position: fixed; inset: 0; }
+#tela-jogo { position: fixed; inset: 0; }
 
 #mapa {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  bottom: var(--debug-alt); /* com o painel de calibracao aberto, o mapa termina acima dele */
+  bottom: calc(var(--painel-alt) + var(--debug-alt));   /* o mapa termina onde o painel (e o debug) comecam */
   background:
     radial-gradient(900px 600px at 20% 10%, rgba(255, 246, 220, 0.35), transparent 60%),
     linear-gradient(160deg, #e6cf9d 0%, #d9bc85 100%);
+  transition: bottom 0.3s ease;
 }
 
 #header-mapa {
@@ -210,139 +267,215 @@ input[type="text"]:focus { border-color: var(--dourado); }
   align-items: center;
   gap: 10px;
   padding: calc(10px + env(safe-area-inset-top)) 14px 10px;
-  background: linear-gradient(180deg, rgba(43, 29, 16, 0.94), rgba(43, 29, 16, 0.82));
+  background: linear-gradient(180deg, rgba(43, 29, 16, 0.94), rgba(43, 29, 16, 0.72));
   border-bottom: 2px solid var(--dourado);
   color: #f0deb6;
   font-family: 'Cinzel', Georgia, serif;
   font-size: 14px;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   user-select: none;
 }
 
 #selo-seita {
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  border: 2px solid #f0deb6;
-  background: var(--dourado);
-  flex: none;
+  width: 14px; height: 14px; border-radius: 50%;
+  border: 2px solid #f0deb6; background: var(--dourado); flex: none;
 }
-
 #header-texto { flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-#badge-gps {
-  width: 11px;
-  height: 11px;
-  border-radius: 50%;
-  flex: none;
-}
+#badge-gps { width: 11px; height: 11px; border-radius: 50%; flex: none; }
 #badge-gps.ok   { background: var(--dourado-claro); box-shadow: 0 0 8px 2px rgba(212, 160, 23, 0.8); }
 #badge-gps.sem  { background: #6f6353; }
 #badge-gps.mock { background: #7b5ea7; box-shadow: 0 0 8px 2px rgba(123, 94, 167, 0.8); }
 
-#controles-mapa {
+/* controles flutuantes sobre o mapa (logo acima do painel) */
+#controles-flutuantes {
   position: absolute;
-  bottom: calc(16px + env(safe-area-inset-bottom) + var(--debug-alt));
-  left: 0;
-  right: 0;
-  z-index: 1100;
+  right: 12px;
+  bottom: calc(var(--painel-alt) + var(--debug-alt) + 12px);
+  z-index: 1150;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
   gap: 10px;
-  padding: 0 12px;
+  transition: bottom 0.3s ease;
 }
 
-#controles-mapa .botao { margin-top: 0; padding: 12px 18px; font-size: 13px; }
-
 .botao-redondo {
-  width: 46px;
-  height: 46px;
-  border-radius: 50%;
+  width: 48px; height: 48px; border-radius: 50%;
   border: 2px solid #2e2009;
   background: linear-gradient(180deg, #6d4f28, #4a3418);
   color: #ffcf66;
   box-shadow: 0 3px 0 #241804, 0 6px 14px rgba(20, 12, 4, 0.45);
-  cursor: pointer;
-  flex: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  cursor: pointer; flex: none;
+  display: flex; align-items: center; justify-content: center;
   -webkit-tap-highlight-color: transparent;
 }
 .botao-redondo:active { transform: translateY(2px); box-shadow: 0 1px 0 #241804; }
+#botao-ajuda { color: #ffe08a; }
+
+/* ---- o painel vivo (bottom sheet) ---- */
+
+#painel {
+  position: absolute;
+  left: 0; right: 0; bottom: var(--debug-alt);
+  height: 56vh;
+  z-index: 1200;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: env(safe-area-inset-bottom);
+  background:
+    radial-gradient(600px 300px at 50% 0%, rgba(120, 84, 40, 0.4), transparent 70%),
+    linear-gradient(180deg, #2c2013 0%, #1c130a 100%);
+  border-top: 2px solid var(--dourado);
+  border-radius: 18px 18px 0 0;
+  box-shadow: 0 -12px 40px rgba(0, 0, 0, 0.55);
+  color: #efdcb4;
+  transition: height 0.3s ease;
+}
+#painel.painel-baixo { height: 34vh; }
+
+#painel-puxador {
+  align-self: center;
+  width: 100%; max-width: 120px;
+  padding: 10px 0 6px;
+  background: none; border: none; cursor: pointer;
+}
+#painel-puxador span {
+  display: block; width: 44px; height: 5px; margin: 0 auto;
+  border-radius: 3px; background: rgba(216, 188, 133, 0.5);
+}
+
+#painel-abas {
+  display: flex; gap: 6px;
+  padding: 0 12px 8px;
+  border-bottom: 1px solid rgba(154, 116, 74, 0.35);
+}
+.aba-btn {
+  flex: 1;
+  padding: 9px 6px;
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase;
+  color: #b79b6d;
+  background: none; border: none; border-bottom: 2px solid transparent;
+  cursor: pointer; -webkit-tap-highlight-color: transparent;
+}
+.aba-btn.ativa { color: #ffe08a; border-bottom-color: var(--dourado); }
+
+#painel-corpo { flex: 1; overflow-y: auto; padding: 14px 18px 20px; -webkit-overflow-scrolling: touch; }
+.aba { display: none; }
+.aba.ativa { display: block; }
+
+.painel-titulo {
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--dourado-claro);
+  margin-bottom: 12px;
+}
+
+/* no painel escuro, o texto de leitura fica claro */
+#painel-corpo .bloco-leitura p { color: #ecd9b2; }
+#painel-corpo .voz-gamliel p, #painel-corpo .voz-bilhete p, #painel-corpo .voz-circulo p { color: #e7cf9e; border-left-color: var(--dourado); }
+#painel-corpo .voz-viajante p { color: #d6f2ef; background: rgba(111, 199, 194, 0.14); border-left-color: var(--futuro); }
+#painel-corpo .bloco-voz { color: #b79b6d; }
+#painel-corpo .voz-viajante .bloco-voz { color: var(--futuro); }
+#painel-corpo .voz-circulo .bloco-voz { color: #e08a6a; }
+#painel-corpo .ponto { background: rgba(216, 188, 133, 0.25); }
+#painel-corpo .ponto.passado { background: var(--sepia-claro); }
+#painel-corpo .ponto.atual { background: var(--dourado-claro); }
+#carta-prosseguir { display: block; margin: 4px auto 0; }
+
+/* o caminho: passos revelados aos poucos, com tiquinho */
+#caminho-passos { list-style: none; margin: 0 0 12px; }
+.passo {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 11px 0;
+  border-bottom: 1px dashed rgba(154, 116, 74, 0.3);
+  font-size: 16px; line-height: 1.5;
+}
+.passo.oculto { display: none; }
+.passo.surgiu { animation: passo-surge 0.35s ease-out; }
+@keyframes passo-surge { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+.passo-tique {
+  flex: none;
+  width: 26px; height: 26px; margin-top: 1px;
+  border-radius: 50%;
+  border: 2px solid var(--sepia-claro);
+  background: transparent;
+  cursor: pointer; -webkit-tap-highlight-color: transparent;
+  position: relative;
+}
+.passo.feito .passo-tique {
+  background: radial-gradient(circle at 38% 32%, #8fd0d8, #2f6f7d);
+  border-color: var(--dourado-claro);
+}
+.passo.feito .passo-tique::after {
+  content: '✓'; position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  color: #f2fbfc; font-size: 14px;
+}
+.passo-txt { flex: 1; color: #ecd9b2; }
+.passo.feito .passo-txt { color: #b79b6d; text-decoration: line-through; text-decoration-color: rgba(154, 116, 74, 0.6); }
+#caminho-mais { display: block; width: 100%; margin: 4px 0 14px; }
+
+#caminho-fotos-bloco summary {
+  font-family: 'Cinzel', Georgia, serif; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase;
+  color: #b79b6d; cursor: pointer; padding: 8px 0;
+}
+#caminho-fotos img {
+  display: block; width: 100%; margin: 10px 0;
+  border: 2px solid var(--sepia); border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+/* a missao */
+#missao-texto { font-size: 16.5px; line-height: 1.62; color: #ecd9b2; margin-bottom: 6px; }
+#aba-missao .rotulo { color: var(--dourado-claro); }
+#aba-missao input[type="text"] { max-width: 100%; }
+#senha-botao { display: block; }
+#senha-erro { color: #f0a58c; }
 
 /* ---- marcador tocha (posicao do grupo) ---- */
 
 .tocha { position: relative; width: 34px; height: 48px; pointer-events: none; }
-
-/* halo de luz no chao: o unico elemento que pulsa, o "voce esta aqui" */
 .tocha::after {
   content: '';
-  position: absolute;
-  left: 50%;
-  bottom: -5px;
-  width: 30px;
-  height: 12px;
-  transform: translateX(-50%);
+  position: absolute; left: 50%; bottom: -5px;
+  width: 30px; height: 12px; transform: translateX(-50%);
   background: radial-gradient(ellipse at 50% 50%, rgba(255, 190, 80, 0.5), rgba(255, 160, 40, 0) 70%);
   animation: tocha-pulso 1s infinite alternate ease-in-out;
 }
-
 .tocha .cabo {
-  position: absolute;
-  left: 50%;
-  bottom: 0;
-  width: 7px;
-  height: 20px;
-  transform: translateX(-50%);
+  position: absolute; left: 50%; bottom: 0;
+  width: 7px; height: 20px; transform: translateX(-50%);
   background: linear-gradient(180deg, #7a5230, #4a2f14);
-  border: 1px solid #2e2009;
-  border-radius: 3px;
+  border: 1px solid #2e2009; border-radius: 3px;
 }
-
 .tocha .chama {
-  position: absolute;
-  left: 50%;
-  bottom: 16px;
-  width: 20px;
-  height: 26px;
-  transform: translateX(-50%);
+  position: absolute; left: 50%; bottom: 16px;
+  width: 20px; height: 26px; transform: translateX(-50%);
   background: radial-gradient(circle at 50% 78%, #fff3c4 0%, #ffd257 32%, #ff9d2e 62%, rgba(200, 74, 18, 0.92) 82%, rgba(160, 50, 10, 0) 100%);
   border-radius: 50% 50% 50% 50% / 62% 62% 38% 38%;
   transform-origin: 50% 100%;
   animation: chama-tremula 0.9s infinite alternate ease-in-out;
   filter: drop-shadow(0 0 6px rgba(255, 160, 40, 0.75));
 }
-
 .tocha .chama.chama2 {
-  width: 11px;
-  height: 15px;
-  bottom: 19px;
+  width: 11px; height: 15px; bottom: 19px;
   background: radial-gradient(circle at 50% 75%, #fffbe6 0%, #ffe08a 55%, rgba(255, 170, 60, 0) 100%);
-  animation-duration: 0.65s;
-  animation-delay: 0.15s;
+  animation-duration: 0.65s; animation-delay: 0.15s;
 }
-
 @keyframes chama-tremula {
   0%   { transform: translateX(-50%) scale(1) rotate(-3deg); }
   50%  { transform: translateX(-52%) scale(1.06, 0.95) rotate(2deg); }
   100% { transform: translateX(-48%) scale(0.94, 1.08) rotate(-2deg); }
 }
-
 @keyframes tocha-pulso {
   0%   { opacity: 0.42; transform: translateX(-50%) scale(0.85); }
   100% { opacity: 0.9;  transform: translateX(-50%) scale(1.18); }
 }
 
-/* acessibilidade: sem movimento, o pulso vira halo estatico e a chama para */
-@media (prefers-reduced-motion: reduce) {
-  .tocha .chama, .tocha::after { animation: none; }
-  .tocha::after { opacity: 0.7; }
-}
-
-/* ---- carimbo de estacao cumprida (o mapa se preenche; azul turquesa "feito") ---- */
+/* ---- carimbo de estacao cumprida (azul turquesa "feito") ---- */
 
 .carimbo {
   width: 30px; height: 30px; border-radius: 50%;
@@ -359,86 +492,57 @@ input[type="text"]:focus { border-color: var(--dourado); }
   55%  { transform: scale(0.8); opacity: 1; }
   100% { transform: scale(1); }
 }
-@media (prefers-reduced-motion: reduce) { .carimbo-novo { animation: none; } }
 
-/* ---- estacao ---- */
-
-.cartela-missao {
-  margin: 6px 0 8px;
-  padding: 14px 16px;
-  text-align: left;
-  background: rgba(255, 250, 235, 0.55);
-  border: 1px solid var(--sepia-claro);
-  border-left: 4px solid var(--dourado);
-  border-radius: 4px;
+/* ---- marco: o rumo aceso sob demanda (vaga-lume dourado) ---- */
+.marco { position: relative; width: 40px; height: 40px; pointer-events: none; }
+.marco-halo {
+  position: absolute; inset: 0; border-radius: 50%;
+  background: radial-gradient(circle at 50% 50%, rgba(255, 210, 90, 0.55), rgba(255, 170, 40, 0.18) 45%, rgba(255, 160, 40, 0) 72%);
+  animation: marco-acende 0.5s ease-out, marco-respira 1.7s 0.5s infinite ease-in-out;
 }
-
-.cartela-missao h3 {
-  font-family: 'Cinzel', Georgia, serif;
-  font-size: 13px;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--sepia);
-  margin-bottom: 6px;
+.marco-nucleo {
+  position: absolute; left: 50%; top: 50%; width: 12px; height: 12px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 35%, #fff6d8, #ffcf5e 55%, #e09a1e);
+  box-shadow: 0 0 10px 2px rgba(255, 200, 80, 0.9);
 }
+@keyframes marco-acende { from { opacity: 0; transform: scale(0.4); } to { opacity: 1; transform: none; } }
+@keyframes marco-respira { 0%, 100% { transform: scale(0.92); opacity: 0.72; } 50% { transform: scale(1.14); opacity: 1; } }
 
-.cartela-missao p { font-size: 16px; line-height: 1.6; }
-
-#botao-voltar { margin-top: 20px; }
-
-#estacao-fotos img {
-  display: block;
-  width: 100%;
-  margin: 12px 0;
-  border: 2px solid var(--sepia);
-  border-radius: 6px;
-  box-shadow: 0 4px 12px rgba(50, 32, 12, 0.35);
+/* ---- overlay do historico de cartas ---- */
+.overlay {
+  position: fixed; inset: 0; z-index: 2500;
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px;
+  background: rgba(16, 10, 4, 0.72);
+  overflow-y: auto;
 }
-
-/* ---- controles do mapa: distribuicao Zelda (acao principal larga + 2 secundarios + centrar flutuante) ---- */
-#controles-mapa { flex-wrap: wrap; max-width: 440px; margin: 0 auto; gap: 9px; }
-#botao-centrar { position: absolute; right: 12px; top: -64px; width: 54px; height: 54px; }
-#botao-missao  { order: 1; flex: 1 1 0; margin-top: 0; }
-#botao-cartas  { order: 2; flex: 1 1 0; margin-top: 0; }
-#botao-verificar { order: 3; flex: 1 0 100%; margin-top: 0; padding: 15px 18px; box-shadow: 0 3px 0 #241804, 0 7px 20px rgba(184, 134, 11, 0.4); }
-
-/* ---- histórico de cartas ---- */
-#cartas-lista { max-width: 430px; margin: 0 auto 6px; }
-.carta-item {
-  text-align: left;
-  margin-bottom: 16px;
-  padding-bottom: 14px;
-  border-bottom: 1px solid var(--sepia-claro);
+.overlay-cartela {
+  width: 100%; max-width: 440px;
+  padding: 26px 22px;
+  border: 2px solid var(--dourado);
+  border-radius: 10px;
+  min-height: auto;
 }
+#cartas-lista { max-width: 100%; margin: 0 auto 6px; }
+.carta-item { text-align: left; margin-bottom: 16px; padding-bottom: 14px; border-bottom: 1px solid var(--sepia-claro); }
 .carta-item:last-child { border-bottom: none; }
 .carta-item h3 {
-  font-family: 'Cinzel', Georgia, serif;
-  font-size: 15px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: #4a3418;
-  margin-bottom: 6px;
+  font-family: 'Cinzel', Georgia, serif; font-size: 15px; letter-spacing: 0.06em; text-transform: uppercase;
+  color: #4a3418; margin-bottom: 6px;
 }
-.carta-item p { font-size: 15.5px; line-height: 1.65; color: var(--tinta); }
+.carta-item p { font-size: 15.5px; line-height: 1.65; color: var(--tinta); white-space: pre-line; }
 
 /* ---- aviso (fora do caminho) ---- */
 
 #aviso {
-  position: fixed;
-  inset: 0;
-  z-index: 3000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 24px;
-  background: rgba(16, 10, 4, 0.6);
+  position: fixed; inset: 0; z-index: 3000;
+  display: flex; align-items: center; justify-content: center;
+  padding: 24px; background: rgba(16, 10, 4, 0.6);
 }
-
 .aviso-cartela {
-  max-width: 360px;
-  padding: 26px 24px;
-  text-align: center;
-  color: #f0deb6;
+  max-width: 360px; padding: 26px 24px; text-align: center; color: #f0deb6;
   background:
     radial-gradient(400px 260px at 30% 15%, rgba(120, 84, 40, 0.5), transparent 70%),
     linear-gradient(165deg, #3a2a16, #241804);
@@ -446,113 +550,75 @@ input[type="text"]:focus { border-color: var(--dourado); }
   border-radius: 8px 12px 10px 14px / 12px 8px 14px 10px;
   box-shadow: 0 18px 50px rgba(0, 0, 0, 0.6);
 }
-
 .aviso-cartela h3 {
-  font-family: 'Cinzel', Georgia, serif;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  font-size: 15px;
-  color: var(--dourado-claro);
-  margin-bottom: 12px;
+  font-family: 'Cinzel', Georgia, serif; letter-spacing: 0.2em; text-transform: uppercase;
+  font-size: 15px; color: var(--dourado-claro); margin-bottom: 12px;
 }
-
 .aviso-cartela p { font-size: 17px; line-height: 1.65; font-style: italic; }
 
 /* ---- toast ---- */
 
 #toast {
   position: fixed;
-  bottom: calc(164px + env(safe-area-inset-bottom));
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 3200;
-  max-width: 86vw;
+  bottom: calc(var(--painel-alt) + 66px + env(safe-area-inset-bottom));
+  left: 50%; transform: translateX(-50%);
+  z-index: 3200; max-width: 86vw;
   padding: 12px 18px;
-  font-style: italic;
-  font-size: 15px;
-  line-height: 1.5;
-  text-align: center;
-  color: #f0deb6;
-  background: rgba(36, 24, 8, 0.94);
-  border: 1px solid var(--dourado);
-  border-radius: 6px;
-  opacity: 0;
-  transition: opacity 0.35s;
-  pointer-events: none;
+  font-style: italic; font-size: 15px; line-height: 1.5; text-align: center;
+  color: #f0deb6; background: rgba(36, 24, 8, 0.94);
+  border: 1px solid var(--dourado); border-radius: 6px;
+  opacity: 0; transition: opacity 0.35s; pointer-events: none;
 }
 #toast.visivel { opacity: 1; }
 
 /* ---- painel de calibracao (debug) ---- */
 
 #painel-debug {
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 4000;
-  max-height: 38vh;
-  overflow-y: auto;
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 4000;
+  max-height: 38vh; overflow-y: auto;
   padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
-  font-family: Consolas, Menlo, monospace;
-  font-size: 11.5px;
-  line-height: 1.5;
-  color: #e8d3a8;
-  background: rgba(18, 12, 5, 0.95);
+  font-family: Consolas, Menlo, monospace; font-size: 11.5px; line-height: 1.5;
+  color: #e8d3a8; background: rgba(18, 12, 5, 0.97);
   border-top: 2px solid var(--dourado);
 }
-
 #painel-debug .linha { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin: 4px 0; }
-
 #painel-debug button {
-  padding: 5px 9px;
-  font-family: inherit;
-  font-size: 11.5px;
-  color: #f0deb6;
-  background: #3a2a16;
-  border: 1px solid var(--sepia-claro);
-  border-radius: 4px;
-  cursor: pointer;
+  padding: 5px 9px; font-family: inherit; font-size: 11.5px;
+  color: #f0deb6; background: #3a2a16; border: 1px solid var(--sepia-claro); border-radius: 4px; cursor: pointer;
 }
-
-#painel-debug.mini .linha:nth-of-type(n+3),
-#painel-debug.mini pre { display: none; } /* recolhido: so titulo e posicao */
-
+#painel-debug.mini .linha:nth-of-type(n+3), #painel-debug.mini pre { display: none; }
 #painel-debug pre {
-  margin: 6px 0;
-  padding: 8px;
-  white-space: pre-wrap;
-  word-break: break-all;
-  background: rgba(0, 0, 0, 0.35);
-  border-radius: 4px;
+  margin: 6px 0; padding: 8px; white-space: pre-wrap; word-break: break-all;
+  background: rgba(0, 0, 0, 0.35); border-radius: 4px;
 }
 
 /* ---- utilidades e Leaflet ---- */
 
 .oculto { display: none !important; }
 
-.leaflet-container {
-  background: transparent;
-  font-family: Georgia, serif;
-}
-
-.leaflet-top.leaflet-right .leaflet-control { margin-top: 76px; margin-right: 12px; }
+.leaflet-container { background: transparent; font-family: Georgia, serif; }
+.leaflet-top.leaflet-right .leaflet-control { margin-top: 72px; margin-right: 12px; }
 .leaflet-control-zoom { border: none !important; border-radius: 13px !important; overflow: hidden; box-shadow: 0 4px 12px rgba(20, 12, 4, 0.45) !important; }
 .leaflet-control-zoom a {
   background: linear-gradient(180deg, #6d4f28, #4a3418) !important;
-  color: #f2e3bf !important;
-  border-bottom: 1px solid #2e2009 !important;
+  color: #f2e3bf !important; border-bottom: 1px solid #2e2009 !important;
 }
-
 .leaflet-tooltip {
-  background: rgba(36, 24, 8, 0.92);
-  border: 1px solid var(--dourado);
-  color: #f0deb6;
-  font-style: italic;
-  border-radius: 4px;
+  background: rgba(36, 24, 8, 0.92); border: 1px solid var(--dourado); color: #f0deb6;
+  font-style: italic; border-radius: 4px;
 }
 .leaflet-tooltip-top:before { border-top-color: var(--dourado); }
 
+/* ---- acessibilidade: sem movimento ---- */
+@media (prefers-reduced-motion: reduce) {
+  .tocha .chama, .tocha::after { animation: none; }
+  .tocha::after { opacity: 0.7; }
+  .carimbo-novo, .passo.surgiu, .marco-halo { animation: none; }
+  .bloco-leitura { transition: none; opacity: 1; transform: none; }
+  #mapa, #painel, #controles-flutuantes { transition: none; }
+}
+
 @media (min-width: 700px) {
   .cartela-central { max-width: 520px; }
-  #controles-mapa .botao { font-size: 15px; }
+  #painel { max-width: 560px; left: 50%; transform: translateX(-50%); border-radius: 18px 18px 0 0; }
 }

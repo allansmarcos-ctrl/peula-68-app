@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
 <meta name="theme-color" content="#2b1d10">
 <title>As Portas de Jerusalém</title>
 <link rel="manifest" href="manifest.webmanifest">
@@ -30,64 +30,102 @@
   </div>
 </section>
 
-<!-- TELA 2: O MAPA. Imagem ilustrada georreferenciada + tocha do grupo. -->
-<section id="tela-mapa" class="tela">
+<!-- TELA 2: ABERTURA. Leitura fatiada (o viajante no tempo + a identidade da seita). -->
+<section id="tela-abertura" class="tela tela-pergaminho">
+  <div class="cartela-central abertura-cartela">
+    <p id="abertura-rotulo" class="ano"></p>
+    <div id="abertura-fluxo" class="fluxo-leitura"></div>
+    <div id="abertura-pontos" class="pontos-progresso" aria-hidden="true"></div>
+    <button id="abertura-prosseguir" class="botao" type="button"></button>
+    <button id="abertura-pular" class="link-discreto" type="button"></button>
+  </div>
+</section>
+
+<!-- TELA 3: O JOGO VIVO. Mapa e instrucoes na mesma tela (mapa + painel deslizante). -->
+<section id="tela-jogo" class="tela">
   <div id="mapa"></div>
+
   <header id="header-mapa">
     <span id="selo-seita"></span>
     <span id="header-texto"></span>
     <span id="badge-gps" class="sem"></span>
   </header>
-  <div id="controles-mapa">
+
+  <!-- controles flutuantes sobre o mapa -->
+  <div id="controles-flutuantes">
     <button id="botao-centrar" class="botao-redondo" type="button" aria-label="Onde estamos">
       <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M12 2c1.8 2.6 4 4.9 4 8a4 4 0 0 1-8 0c0-1.2.4-2.3 1-3.4-.2 1.9.6 3 1.8 3.2 1.3.2 2.4-.8 2.4-2.2C13.2 5.9 12.6 4 12 2z"/><rect x="11" y="14" width="2" height="8" rx="1" fill="currentColor"/></svg>
     </button>
-    <button id="botao-verificar" class="botao" type="button" data-txt="botao_verificar"></button>
-    <button id="botao-missao" class="botao botao-claro" type="button" data-txt="botao_missao"></button>
-    <button id="botao-cartas" class="botao botao-claro" type="button">Cartas</button>
+    <button id="botao-ajuda" class="botao-redondo" type="button" aria-label="Uma mão na direção">
+      <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M12 3a1 1 0 0 1 1 1v9.6l3.3-3.3a1 1 0 0 1 1.4 1.4l-5 5a1 1 0 0 1-1.4 0l-5-5a1 1 0 0 1 1.4-1.4L11 13.6V4a1 1 0 0 1 1-1z"/><circle cx="12" cy="20" r="1.4" fill="currentColor"/></svg>
+    </button>
   </div>
-</section>
 
-<!-- TELA 3: ESTACAO. Historia da etapa, missao e senha de desbloqueio. -->
-<section id="tela-estacao" class="tela tela-pergaminho">
-  <div class="cartela-central">
-    <p id="estacao-cab" class="ano"></p>
-    <h2 id="estacao-titulo" class="titulo-2"></h2>
-    <p id="estacao-texto" class="texto-diwan"></p>
-    <div class="cartela-missao">
-      <h3 data-txt="botao_missao"></h3>
-      <p id="estacao-missao"></p>
+  <!-- o painel vivo: bottom sheet com abas -->
+  <div id="painel">
+    <button id="painel-puxador" type="button" aria-label="Expandir ou recolher o painel"><span></span></button>
+    <nav id="painel-abas" role="tablist">
+      <button class="aba-btn ativa" data-aba="carta" type="button" data-txt="abrir_carta"></button>
+      <button class="aba-btn" data-aba="caminho" type="button" data-txt="abrir_caminho"></button>
+      <button class="aba-btn" data-aba="missao" type="button" data-txt="abrir_missao"></button>
+    </nav>
+
+    <div id="painel-corpo">
+      <!-- ABA: A CARTA (narrativa fatiada, avanca no toque) -->
+      <div id="aba-carta" class="aba ativa">
+        <p id="carta-titulo" class="painel-titulo"></p>
+        <div id="carta-fluxo" class="fluxo-leitura"></div>
+        <div id="carta-pontos" class="pontos-progresso" aria-hidden="true"></div>
+        <button id="carta-prosseguir" class="botao" type="button"></button>
+      </div>
+
+      <!-- ABA: O CAMINHO (passos revelados aos poucos, com tiquinho) -->
+      <div id="aba-caminho" class="aba">
+        <p class="painel-titulo" data-txt="rotulo_caminho"></p>
+        <ol id="caminho-passos"></ol>
+        <button id="caminho-mais" class="botao botao-claro" type="button"></button>
+        <details id="caminho-fotos-bloco">
+          <summary data-txt="abrir_carta">Fotos do caminho</summary>
+          <div id="caminho-fotos"></div>
+        </details>
+      </div>
+
+      <!-- ABA: A MISSAO (o que fazer no lugar + a senha) -->
+      <div id="aba-missao" class="aba">
+        <p class="painel-titulo" data-txt="abrir_missao"></p>
+        <p id="missao-texto"></p>
+        <form id="form-senha" autocomplete="off">
+          <label id="senha-rotulo" class="rotulo" for="senha-input"></label>
+          <input id="senha-input" type="text" autocapitalize="characters" autocomplete="off" spellcheck="false" required>
+          <button type="submit" id="senha-botao" class="botao"></button>
+        </form>
+        <p id="senha-erro" class="erro" role="alert"></p>
+      </div>
     </div>
-    <div id="estacao-fotos"></div>
-    <form id="form-estacao" autocomplete="off">
-      <label class="rotulo" for="senha-estacao" data-txt="rotulo_senha_desbloqueio"></label>
-      <input id="senha-estacao" type="text" autocapitalize="characters" autocomplete="off" spellcheck="false" required>
-      <button type="submit" class="botao" data-txt="botao_selar"></button>
-    </form>
-    <p id="erro-estacao" class="erro" role="alert"></p>
-    <button id="botao-voltar" class="botao botao-claro" type="button" data-txt="botao_voltar_mapa"></button>
   </div>
 </section>
 
-<!-- TELA 4: FRAGMENTO FINAL da seita + convergencia. -->
+<!-- TELA 4: FRAGMENTO FINAL (leitura fatiada, no alto). -->
 <section id="tela-final" class="tela tela-pergaminho">
-  <div class="cartela-central">
+  <div class="cartela-central abertura-cartela">
     <p id="final-seita" class="ano"></p>
     <h2 class="titulo-2" data-txt="titulo_final"></h2>
-    <p id="final-fragmento" class="texto-diwan destaque"></p>
+    <div id="final-fluxo" class="fluxo-leitura destaque"></div>
+    <div id="final-pontos" class="pontos-progresso" aria-hidden="true"></div>
+    <button id="final-prosseguir" class="botao" type="button"></button>
     <p class="ornamento">&#10022;</p>
-    <p id="final-convergencia" class="texto-diwan"></p>
+    <p id="final-convergencia" class="texto-diwan oculto"></p>
   </div>
 </section>
 
-<!-- HISTÓRICO: as cartas recebidas, em ordem (todos acompanham) -->
-<section id="tela-cartas" class="tela tela-pergaminho">
-  <div class="cartela-central">
+<!-- HISTORICO: as cartas recebidas, em ordem (overlay, aberto pelos carimbos) -->
+<div id="tela-cartas" class="overlay oculto" role="dialog" aria-modal="true">
+  <div class="overlay-cartela tela-pergaminho">
     <p class="ano">As cartas até aqui</p>
     <div id="cartas-lista"></div>
     <button id="cartas-voltar" class="botao botao-claro" type="button" data-txt="botao_voltar_mapa"></button>
   </div>
-</section>
+</div>
 
 <!-- Aviso de fora do caminho (advisory, nunca bloqueia) -->
 <div id="aviso" class="oculto" role="dialog" aria-modal="true">

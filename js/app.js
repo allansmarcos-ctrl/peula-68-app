@@ -2,7 +2,13 @@
 /* ===== As Portas de Jerusalém: lógica =====
    Um arquivo só, sem framework. Lê os JSON de conteudo/, controla as telas,
    o mapa Leaflet com a imagem georreferenciada e a verificação de caminho.
-   Princípio-mestre: nunca travar. GPS que falha é ignorado, não vira erro. */
+   Princípio-mestre: nunca travar. GPS que falha é ignorado, não vira erro.
+
+   A tela de jogo é VIVA: mapa e instruções na mesma tela. O painel de baixo
+   tem três abas (a carta, o caminho, a missão). A carta e as leituras avançam
+   no toque (texto interativo). O caminho revela um passo por vez com tiquinho.
+   Design "por pistas": o mapa não mostra a rota; os marcos só acendem quando
+   o grupo pede ajuda (o rumo sob demanda, nunca a linha inteira). */
 
 // ---------- constantes ----------
 const CHAVE_ESTADO = 'peula68';
@@ -25,7 +31,8 @@ let rotaAtiva = null;
 let etapaAtual = 1;            // 1-based; (total + 1) significa rota concluída
 let posAtual = null;           // {lat, lng, acc, fonte}
 let mock = null;               // {lat, lng} quando GPS simulado por ?mock=
-let mapa = null, overlay = null, marcadorUser = null, circuloAcc = null, marcadorInicio = null, carimbos = [];
+let mapa = null, overlay = null, marcadorUser = null, circuloAcc = null, marcadorInicio = null;
+let carimbos = [], marcadoresMarco = [], trilhaLayer = null;
 let cantosEdit = null;         // cópia editável dos cantos (modo calibração)
 let camadasDebug = [];
 let modoDebug = false;
@@ -36,6 +43,12 @@ let watchId = null;
 let sala = null;               // sala de sincronia (todos da corrente compartilham)
 let syncTimer = null;
 let sincronizando = false;
+
+// estado da tela viva
+let abaAtual = 'carta';
+let passosRevelados = 1;       // quantos passos do caminho já apareceram (ajuda progressiva)
+let marcosAcesos = false;      // os marcos da etapa foram acesos (pediu ajuda)?
+let fluxos = {};               // controladores de leitura fatiada, por chave
 
 const $ = (id) => document.getElementById(id);
 
@@ -54,8 +67,8 @@ function limparEstado() {
 
 // ---------- util ----------
 function normalizar(s) {
-  // maiúsculas, sem acentos e sem espaços: "o fel" e "OFEL" valem o mesmo
-  return (s || '').toUpperCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/\s+/g, '');
+  // maiúsculas, sem acentos e só letras/números: "o fel", "OFEL", "325-338" e "325 338" valem o esperado
+  return (s || '').toUpperCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^A-Z0-9]/g, '');
 }
 
 function toast(msg, ms) {
@@ -69,8 +82,21 @@ function toast(msg, ms) {
 
 function mostrarTela(nome) {
   $('aviso').classList.add('oculto'); // aviso é contextual: trocou de tela, morreu
-  ['portao', 'mapa', 'estacao', 'final', 'cartas'].forEach(t => $('tela-' + t).classList.toggle('ativa', t === nome));
-  if (nome === 'mapa' && mapa) setTimeout(() => mapa.invalidateSize(), 60);
+  ['portao', 'abertura', 'jogo', 'final'].forEach(t => $('tela-' + t).classList.toggle('ativa', t === nome));
+  if (nome === 'jogo' && mapa) setTimeout(() => { mapa.invalidateSize(); ajustarMapaAoPainel(); }, 60);
+}
+
+// blocos de leitura: uma string vira {voz:narrador}; objeto {voz,texto} passa direto
+function blocoTexto(b) { return typeof b === 'string' ? b : (b && b.texto) || ''; }
+function blocoVoz(b) { return typeof b === 'string' ? 'narrador' : (b && b.voz) || 'narrador'; }
+function rotuloVoz(voz) {
+  switch (voz) {
+    case 'gamliel': return 'Carta de Rabban Gamliel';
+    case 'bilhete': return 'Um bilhete no chão';
+    case 'circulo': return 'O capitão lê em voz alta';
+    case 'viajante': return TEXTOS.eco_titulo || 'Você, que veio de longe';
+    default: return '';
+  }
 }
 
 // Distância (em metros) de uma posição à polilinha do corredor.
@@ -95,8 +121,6 @@ function distanciaAoCorredorM(pos, corredor) {
 
 // ---------- carga do conteúdo ----------
 async function carregarJSON(caminho) {
-  // no-cache: revalida com o servidor; sem isso o browser pode servir JSON
-  // velho por cache heurístico e uma edição pós-scouting demora a chegar
   const r = await fetch(caminho, { cache: 'no-cache' });
   if (!r.ok) throw new Error('Falha ao carregar ' + caminho);
   return r.json();
@@ -125,7 +149,6 @@ async function init() {
   registrarSW();
   ligarEventos();
 
-  // retomar jogo salvo, se houver
   const salvo = lerEstado();
   if (salvo) {
     const rota = ROTAS.rotas.find(r => r.id === salvo.rota);
@@ -151,7 +174,6 @@ function aplicarTextos() {
 function registrarSW() {
   if (!('serviceWorker' in navigator)) return;
   const local = ['localhost', '127.0.0.1'].includes(location.hostname);
-  // em localhost o cache atrapalha o desenvolvimento; só registra com ?sw=1
   if (local && !new URLSearchParams(location.search).has('sw')) return;
   if (location.protocol === 'https:' || local) {
     navigator.serviceWorker.register('./sw.js').catch(() => {});
@@ -177,24 +199,33 @@ function ligarEventos() {
     entrarNoJogo(rota, 1, true);
   });
 
-  $('botao-verificar').addEventListener('click', () => verificar('botao'));
-  $('botao-missao').addEventListener('click', abrirEstacao);
-  $('botao-voltar').addEventListener('click', () => mostrarTela('mapa'));
-  $('botao-cartas').addEventListener('click', abrirCartas);
-  $('cartas-voltar').addEventListener('click', () => mostrarTela('mapa'));
-  // ao voltar o app para o primeiro plano, sincroniza na hora (não espera o timer)
-  document.addEventListener('visibilitychange', () => { if (!document.hidden) puxarSincronia(); });
+  // abertura (viajante + identidade), fatiada
+  $('abertura-prosseguir').addEventListener('click', () => avancarFluxo('abertura'));
+  $('abertura-pular').addEventListener('click', () => { if (fluxos.abertura) fluxos.abertura.aoFim(); });
+
+  // painel: abas, puxador
+  document.querySelectorAll('.aba-btn').forEach(b => b.addEventListener('click', () => trocarAba(b.getAttribute('data-aba'))));
+  $('painel-puxador').addEventListener('click', alternarPainel);
+  $('carta-prosseguir').addEventListener('click', () => avancarFluxo('carta'));
+  $('caminho-mais').addEventListener('click', revelarProximoPasso);
+
   $('botao-centrar').addEventListener('click', () => {
     if (posAtual && mapa) mapa.flyTo([posAtual.lat, posAtual.lng], Math.max(mapa.getZoom(), CONFIG.zoom.inicial), { duration: 0.8 });
     else toast(TEXTOS.sem_gps);
   });
+  $('botao-ajuda').addEventListener('click', pedirAjuda);
 
-  $('form-estacao').addEventListener('submit', (e) => {
-    e.preventDefault();
-    selarEtapa();
-  });
+  $('form-senha').addEventListener('submit', (e) => { e.preventDefault(); selarEtapa(); });
+
+  // final, fatiado
+  $('final-prosseguir').addEventListener('click', () => avancarFluxo('final'));
+
+  // histórico de cartas (overlay)
+  $('cartas-voltar').addEventListener('click', () => $('tela-cartas').classList.add('oculto'));
 
   $('aviso-fechar').addEventListener('click', () => $('aviso').classList.add('oculto'));
+
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) puxarSincronia(); });
 
   // 7 toques no cabeçalho do mapa abrem o painel de calibração
   let taps = 0, tapTimer = null;
@@ -205,8 +236,50 @@ function ligarEventos() {
     if (taps >= 7) { taps = 0; ativarDebug(); }
   });
 
-  // verificação automática a cada 10 minutos (roda com a tela ligada; é advisory)
   setInterval(() => { if (rotaAtiva && etapaAtual <= rotaAtiva.etapas.length) verificar('auto'); }, INTERVALO_AUTO_MS);
+}
+
+// ---------- leitura fatiada (abertura, carta, fragmento): um bloco por toque ----------
+function iniciarFluxo(chave, blocos, els, opts) {
+  fluxos[chave] = { blocos: blocos || [], i: 0, els, opts: opts || {}, aoFim: (opts && opts.aoFim) || function () {} };
+  renderFluxoBloco(chave);
+}
+
+function renderFluxoBloco(chave) {
+  const st = fluxos[chave];
+  if (!st) return;
+  const b = st.blocos[st.i];
+  const fluxo = st.els.fluxo;
+  fluxo.innerHTML = '';
+  const art = document.createElement('article');
+  art.className = 'bloco-leitura voz-' + blocoVoz(b);
+  const rot = rotuloVoz(blocoVoz(b));
+  if (rot) { const s = document.createElement('span'); s.className = 'bloco-voz'; s.textContent = rot; art.appendChild(s); }
+  const p = document.createElement('p'); p.textContent = blocoTexto(b); art.appendChild(p);
+  fluxo.appendChild(art);
+  requestAnimationFrame(() => art.classList.add('entrou'));
+
+  if (st.els.pontos) renderPontos(st.els.pontos, st.blocos.length, st.i);
+  const ultimo = st.i >= st.blocos.length - 1;
+  st.els.botao.textContent = ultimo ? (st.opts.rotuloFim || TEXTOS.prosseguir) : (st.opts.rotuloProsseguir || TEXTOS.prosseguir);
+  if (st.els.pular) st.els.pular.classList.toggle('oculto', ultimo);
+}
+
+function avancarFluxo(chave) {
+  const st = fluxos[chave];
+  if (!st) return;
+  if (st.i >= st.blocos.length - 1) { st.aoFim(); return; }
+  st.i++;
+  renderFluxoBloco(chave);
+}
+
+function renderPontos(container, total, atual) {
+  container.innerHTML = '';
+  for (let i = 0; i < total; i++) {
+    const d = document.createElement('span');
+    d.className = 'ponto' + (i === atual ? ' atual' : (i < atual ? ' passado' : ''));
+    container.appendChild(d);
+  }
 }
 
 // ---------- fluxo do jogo ----------
@@ -219,15 +292,27 @@ function entrarNoJogo(rota, etapa, novoJogo) {
   iniciarSincronia();
   if (modoDebug) ativarDebug();
   if (etapa > rota.etapas.length) { mostrarFinal(); return; }
-  if (novoJogo) {
-    // primeira entrada: a história da etapa 1 recebe o grupo; o mapa vem depois
-    abrirEstacao();
-    toast(TEXTOS.portao_abriu);
-  } else {
-    mostrarTela('mapa');
-  }
-  precisaVerificarEntrada = true;
-  verificar('entrada');
+  if (novoJogo) { mostrarAbertura(); return; }
+  entrarEtapa();
+}
+
+function mostrarAbertura() {
+  const ab = rotaAtiva.abertura;
+  if (!ab || (!ab.viajante && !ab.identidade)) { entrarEtapa(); return; } // seita sem abertura: vai direto
+  const blocos = []
+    .concat((ab.viajante || []).map(t => ({ voz: 'viajante', texto: t })))
+    .concat((ab.identidade || []).map(t => ({ voz: 'identidade', texto: t })));
+  $('abertura-rotulo').textContent = rotaAtiva.seita + ' · ' + (TEXTOS.abertura_viajante_titulo || '');
+  $('abertura-prosseguir').textContent = TEXTOS.prosseguir;
+  $('abertura-pular').textContent = TEXTOS.abertura_pular || 'Pular';
+  iniciarFluxo('abertura', blocos, {
+    fluxo: $('abertura-fluxo'), pontos: $('abertura-pontos'), botao: $('abertura-prosseguir'), pular: $('abertura-pular'),
+  }, {
+    rotuloProsseguir: TEXTOS.prosseguir,
+    rotuloFim: TEXTOS.abertura_para_mapa || TEXTOS.prosseguir,
+    aoFim: () => { entrarEtapa(); toast(TEXTOS.portao_abriu); },
+  });
+  mostrarTela('abertura');
 }
 
 function atualizarHeader() {
@@ -243,64 +328,201 @@ function etapaObj() {
   return rotaAtiva ? rotaAtiva.etapas[etapaAtual - 1] : null;
 }
 
-function abrirEstacao() {
+// carrega a etapa atual na tela viva e abre na aba da carta
+function entrarEtapa() {
   const et = etapaObj();
   if (!et) { mostrarFinal(); return; }
-  $('estacao-cab').textContent = rotaAtiva.seita + ' · ' + TEXTOS.etapa_rotulo + ' ' + etapaAtual + ' ' + TEXTOS.de + ' ' + rotaAtiva.etapas.length;
-  $('estacao-titulo').textContent = et.titulo || TEXTOS.etapa_rotulo + ' ' + etapaAtual;
-  $('estacao-texto').textContent = et.texto_diwan || '';
-  $('estacao-missao').textContent = et.missao || '';
-  const fotosEl = $('estacao-fotos');
-  fotosEl.innerHTML = '';
-  (et.fotos || []).forEach((src) => {
-    const im = document.createElement('img');
-    im.src = src;
-    im.alt = '';
-    im.loading = 'lazy';
-    im.onerror = () => im.remove(); // foto faltando não vira ícone quebrado
-    fotosEl.appendChild(im);
-  });
-  $('senha-estacao').value = '';
-  $('erro-estacao').textContent = '';
-  mostrarTela('estacao');
+  atualizarHeader();
+  passosRevelados = 1;
+  marcosAcesos = false;
+  limparMarcos();
+  renderCarta();
+  renderCaminho();
+  renderMissao();
+  trocarAba('carta');
+  mostrarTela('jogo');
+  desenharCarimbos();
+  precisaVerificarEntrada = true;
+  verificar('entrada');
 }
 
+function blocosDaCarta(et) {
+  let bl = [];
+  if (Array.isArray(et.carta)) bl = et.carta.slice();
+  else if (et.texto_diwan) bl = [{ voz: 'narrador', texto: et.texto_diwan }]; // compat: seitas antigas
+  // o eco do viajante fecha a carta: a voz do hoje comentando o que acabaram de ler
+  if (et.eco) bl.push({ voz: 'viajante', texto: et.eco });
+  return bl;
+}
+
+function renderCarta() {
+  const et = etapaObj();
+  $('carta-titulo').textContent = (TEXTOS.etapa_rotulo + ' ' + etapaAtual) + ' · ' + (et.titulo || '');
+  const blocos = blocosDaCarta(et);
+  iniciarFluxo('carta', blocos, {
+    fluxo: $('carta-fluxo'), pontos: $('carta-pontos'), botao: $('carta-prosseguir'),
+  }, {
+    rotuloProsseguir: TEXTOS.prosseguir,
+    rotuloFim: TEXTOS.abrir_caminho || 'O caminho',
+    aoFim: () => trocarAba('caminho'),
+  });
+}
+
+function renderCaminho() {
+  const et = etapaObj();
+  const ol = $('caminho-passos');
+  ol.innerHTML = '';
+  const dirs = et.direcoes || [];
+  dirs.forEach((d, i) => {
+    const li = document.createElement('li');
+    li.className = 'passo' + (i < passosRevelados ? '' : ' oculto');
+    li.innerHTML = '<button class="passo-tique" type="button" aria-label="Marcar passo"></button><span class="passo-txt"></span>';
+    li.querySelector('.passo-txt').textContent = d;
+    li.querySelector('.passo-tique').addEventListener('click', () => li.classList.toggle('feito'));
+    ol.appendChild(li);
+  });
+  atualizarBotaoMais();
+
+  const cont = $('caminho-fotos');
+  cont.innerHTML = '';
+  (et.fotos || []).forEach(src => {
+    const im = document.createElement('img');
+    im.src = src; im.alt = ''; im.loading = 'lazy';
+    im.onerror = () => im.remove();
+    cont.appendChild(im);
+  });
+  $('caminho-fotos-bloco').classList.toggle('oculto', !(et.fotos && et.fotos.length));
+  const sum = $('caminho-fotos-bloco').querySelector('summary');
+  if (sum) sum.textContent = 'Fotos do caminho (' + ((et.fotos || []).length) + ')';
+}
+
+function atualizarBotaoMais() {
+  const et = etapaObj();
+  const total = (et.direcoes || []).length;
+  const btn = $('caminho-mais');
+  if (passosRevelados >= total) {
+    btn.classList.add('oculto');
+  } else {
+    btn.classList.remove('oculto');
+    btn.textContent = TEXTOS.reler_pista ? 'Mostrar o próximo passo' : 'Próximo passo';
+  }
+}
+
+function revelarProximoPasso() {
+  const et = etapaObj();
+  const total = (et.direcoes || []).length;
+  if (passosRevelados >= total) return;
+  passosRevelados++;
+  const ol = $('caminho-passos');
+  const li = ol.children[passosRevelados - 1];
+  if (li) {
+    li.classList.remove('oculto');
+    requestAnimationFrame(() => li.classList.add('surgiu'));
+  }
+  atualizarBotaoMais();
+}
+
+function renderMissao() {
+  const et = etapaObj();
+  $('missao-texto').textContent = et.missao || '';
+  const ehCodigo = !!et.codigo_no_local;
+  $('senha-rotulo').textContent = ehCodigo ? (TEXTOS.rotulo_codigo || TEXTOS.rotulo_senha_desbloqueio) : TEXTOS.rotulo_senha_desbloqueio;
+  $('senha-botao').textContent = ehCodigo ? (TEXTOS.selar_codigo || TEXTOS.botao_selar) : TEXTOS.botao_selar;
+  $('senha-input').value = '';
+  $('senha-input').setAttribute('inputmode', ehCodigo ? 'numeric' : 'text');
+  $('senha-erro').textContent = '';
+}
+
+// ---------- abas e painel deslizante ----------
+function trocarAba(nome) {
+  abaAtual = nome;
+  document.querySelectorAll('.aba-btn').forEach(b => b.classList.toggle('ativa', b.getAttribute('data-aba') === nome));
+  ['carta', 'caminho', 'missao'].forEach(a => $('aba-' + a).classList.toggle('ativa', a === nome));
+  // a carta e a missão querem espaço (leitura); o caminho quer o mapa grande
+  const alto = (nome === 'carta' || nome === 'missao');
+  $('painel').classList.toggle('painel-baixo', !alto);
+  ajustarMapaAoPainel();
+}
+
+function alternarPainel() {
+  $('painel').classList.toggle('painel-baixo');
+  ajustarMapaAoPainel();
+}
+
+// o mapa termina onde o painel começa (os dois sempre visíveis)
+function ajustarMapaAoPainel() {
+  requestAnimationFrame(() => {
+    const alt = $('painel').offsetHeight;
+    document.documentElement.style.setProperty('--painel-alt', alt + 'px');
+    if (mapa) setTimeout(() => mapa.invalidateSize(), 60);
+  });
+}
+
+// ---------- ajuda: uma mão na direção (revela passo + acende o rumo no mapa) ----------
+function pedirAjuda() {
+  const et = etapaObj();
+  if (!et) return;
+  const total = (et.direcoes || []).length;
+  if (abaAtual !== 'caminho') trocarAba('caminho');
+  if (passosRevelados < total) {
+    revelarProximoPasso();
+  } else if (!marcosAcesos) {
+    // já revelou tudo: acende o rumo no mapa (o sopro de luz, sob demanda)
+    acenderMarcosDaEtapa();
+    toast(TEXTOS.marco_aceso_dica || 'Um brilho no mapa marca o rumo.');
+  } else {
+    toast(TEXTOS.ajuda_esgotada);
+  }
+}
+
+// ---------- selar etapa ----------
 function selarEtapa() {
   const et = etapaObj();
   if (!et) return;
-  const tentativa = normalizar($('senha-estacao').value);
+  const tentativa = normalizar($('senha-input').value);
   if (tentativa !== normalizar(et.senha_desbloqueio)) {
-    $('erro-estacao').textContent = TEXTOS.senha_desbloqueio_errada;
-    $('senha-estacao').focus();
-    $('senha-estacao').select();
+    $('senha-erro').textContent = et.codigo_no_local ? (TEXTOS.codigo_errado || TEXTOS.senha_desbloqueio_errada) : TEXTOS.senha_desbloqueio_errada;
+    $('senha-input').focus();
+    $('senha-input').select();
     return;
   }
   etapaAtual++;
   salvarEstado();
   empurrarSincronia(); // avisa a sala; os outros celulares revelam a nova carta
   if (etapaAtual > rotaAtiva.etapas.length) { mostrarFinal(); return; }
-  atualizarHeader();
   toast(TEXTOS.etapa_avancou);
-  mostrarTela('mapa');
   // o mapa se preenche: carimba a etapa recém-cumprida e a câmera voa até ela (o "achei")
   desenharCarimbos(true);
   const corrFeita = rotaAtiva.etapas[etapaAtual - 2].corredor;
   if (mapa && corrFeita && corrFeita.length) {
     const alvo = corrFeita[corrFeita.length - 1];
-    setTimeout(() => { mapa.invalidateSize(); mapa.flyTo(alvo, Math.max(mapa.getZoom(), CONFIG.zoom.inicial), { duration: 1.1 }); }, 140);
+    setTimeout(() => { mapa.invalidateSize(); mapa.flyTo(alvo, Math.max(mapa.getZoom(), CONFIG.zoom.inicial), { duration: 1.1 }); }, 160);
   }
-  precisaVerificarEntrada = true;
-  verificar('entrada');
+  setTimeout(entrarEtapa, 700); // deixa o carimbo estampar antes de trocar a carta
 }
 
 function mostrarFinal() {
   $('final-seita').textContent = rotaAtiva.seita;
-  $('final-fragmento').textContent = rotaAtiva.fragmento_final || '';
   $('final-convergencia').textContent = TEXTOS.convergencia;
+  $('final-convergencia').classList.add('oculto');
+  const frag = rotaAtiva.fragmento_final;
+  const blocos = Array.isArray(frag) ? frag : [{ voz: 'gamliel', texto: frag || '' }];
+  $('final-prosseguir').textContent = TEXTOS.prosseguir;
+  iniciarFluxo('final', blocos, {
+    fluxo: $('final-fluxo'), pontos: $('final-pontos'), botao: $('final-prosseguir'),
+  }, {
+    rotuloProsseguir: TEXTOS.prosseguir,
+    rotuloFim: TEXTOS.botao_entendido || 'Fim',
+    aoFim: () => { $('final-convergencia').classList.remove('oculto'); $('final-prosseguir').classList.add('oculto'); },
+  });
   mostrarTela('final');
 }
 
 // ---------- histórico de cartas (todos veem as pistas em ordem) ----------
+function textoCorridoDaCarta(et) {
+  return blocosDaCarta(et).map(blocoTexto).join('\n\n');
+}
+
 function abrirCartas() {
   if (!rotaAtiva) return;
   const lista = $('cartas-lista');
@@ -314,7 +536,7 @@ function abrirCartas() {
     const h = document.createElement('h3');
     h.textContent = (i + 1) + '. ' + (et.titulo || (TEXTOS.etapa_rotulo + ' ' + (i + 1)));
     const p = document.createElement('p');
-    p.textContent = et.texto_diwan || '';
+    p.textContent = textoCorridoDaCarta(et);
     bloco.appendChild(h);
     bloco.appendChild(p);
     lista.appendChild(bloco);
@@ -325,7 +547,7 @@ function abrirCartas() {
     p.textContent = 'Ainda não chegou nenhuma carta.';
     lista.appendChild(p);
   }
-  mostrarTela('cartas');
+  $('tela-cartas').classList.remove('oculto');
 }
 
 // ---------- sincronia ao vivo (sala compartilhada; degrada para manual sem sinal) ----------
@@ -341,7 +563,7 @@ async function rpcSup(nome, corpo) {
 
 function iniciarSincronia() {
   if (!rotaAtiva) return;
-  sala = normalizar(rotaAtiva.senha_entrada); // todos da corrente compartilham a sala
+  sala = normalizar(rotaAtiva.senha_entrada);
   rpcSup('peula_entrar', { p_sala: sala, p_corrente: rotaAtiva.id })
     .then((r) => aplicarSincronia(r && r[0] && r[0].etapa)).catch(() => {});
   clearInterval(syncTimer);
@@ -369,14 +591,10 @@ function aplicarSincronia(etapaServidor) {
   etapaAtual = Math.min(etapaServidor, total + 1);
   salvarEstado();
   if (etapaAtual > total) { mostrarFinal(); toast('O caminho chegou ao fim.'); return; }
-  atualizarHeader();
-  desenharCarimbos(); // a sala avançou: o mapa reflete as estações já cumpridas
-  const tc = $('tela-cartas');
-  const emJogo = $('tela-mapa').classList.contains('ativa')
-    || $('tela-estacao').classList.contains('ativa')
-    || (tc && tc.classList.contains('ativa'));
+  desenharCarimbos();
+  const emJogo = $('tela-jogo').classList.contains('ativa') || $('tela-abertura').classList.contains('ativa');
   toast('Uma nova carta chegou.');
-  if (emJogo) abrirEstacao(); // revela a nova pista na tela
+  if (emJogo) entrarEtapa();
   precisaVerificarEntrada = true;
 }
 
@@ -386,7 +604,7 @@ function iniciarGeolocalizacao() {
   if (!('geolocation' in navigator) || watchId !== null) return;
   watchId = navigator.geolocation.watchPosition(
     (p) => atualizarPosicao(p.coords.latitude, p.coords.longitude, p.coords.accuracy || 0, 'gps'),
-    () => setBadgeGps('sem'),   // erro de GPS nunca vira tela de erro
+    () => setBadgeGps('sem'),
     { enableHighAccuracy: true, maximumAge: 5000, timeout: 15000 }
   );
 }
@@ -429,10 +647,8 @@ function setBadgeGps(estado) {
 function verificar(origem) {
   const et = etapaObj();
   if (!et) return;
-
   if (!posAtual) {
-    if (origem !== 'botao') return; // silêncio nas checagens automáticas sem posição
-    // tenta uma leitura única antes de desistir (também dispara o pedido de permissão)
+    if (origem !== 'botao') return;
     if ('geolocation' in navigator && !mock) {
       toast(TEXTOS.verificando, 8000);
       navigator.geolocation.getCurrentPosition(
@@ -452,17 +668,14 @@ function avaliar(origem) {
   const et = etapaObj();
   if (!et || !posAtual) return;
   const dist = distanciaAoCorredorM(posAtual, et.corredor);
-  // tolerância extra proporcional à imprecisão do GPS (limitada a 30 m)
   const folga = Math.min(posAtual.acc || 0, 30);
   const dentro = dist <= (et.raio_m || 50) + folga;
-
   if (dentro) {
     if (origem === 'botao') toast(TEXTOS.no_caminho);
   } else {
     const agora = Date.now();
     if (origem === 'auto' && agora - ultimoAvisoAutoTs < COOLDOWN_AVISO_AUTO_MS) return;
     if (origem === 'auto') ultimoAvisoAutoTs = agora;
-    // aviso e toast não convivem: o aviso é a voz mais alta
     clearTimeout(toastTimer);
     $('toast').classList.remove('visivel');
     $('aviso-texto').textContent = TEXTOS.fora_do_caminho;
@@ -516,14 +729,51 @@ function desenharCarimbos(animarUltimo) {
   for (let i = 0; i < cumpridas; i++) {
     const corr = rotaAtiva.etapas[i].corredor;
     if (!corr || !corr.length) continue;
-    const pt = corr[corr.length - 1]; // onde o grupo chegou naquela etapa
+    const pt = corr[corr.length - 1];
     const novo = animarUltimo && i === cumpridas - 1;
     const m = L.marker(pt, { icon: iconeCarimbo(i + 1, novo), zIndexOffset: 500 })
       .addTo(mapa)
       .bindTooltip(rotaAtiva.etapas[i].titulo || (TEXTOS.etapa_rotulo + ' ' + (i + 1)), { direction: 'top', offset: [0, -16] });
-    m.on('click', abrirCartas); // tocar um carimbo reabre o histórico de cartas
+    m.on('click', abrirCartas);
     carimbos.push(m);
   }
+  desenharTrilha(cumpridas);
+}
+
+// Trilha viva: uma trilha de luz dourada liga o inicio aos carimbos ja cumpridos
+// (o caminho percorrido brilha, Hollow Knight). So o passado; nunca o futuro.
+function desenharTrilha(cumpridas) {
+  if (trilhaLayer) { mapa.removeLayer(trilhaLayer); trilhaLayer = null; }
+  if (!mapa || !rotaAtiva || cumpridas < 1) return;
+  const pts = [rotaAtiva.ponto_inicial];
+  for (let i = 0; i < cumpridas; i++) {
+    const corr = rotaAtiva.etapas[i].corredor;
+    if (corr && corr.length) pts.push(corr[corr.length - 1]);
+  }
+  const g = L.layerGroup();
+  L.polyline(pts, { color: '#ffcf5e', weight: 12, opacity: 0.15, lineJoin: 'round', lineCap: 'round', interactive: false }).addTo(g);
+  L.polyline(pts, { color: '#ffe9a8', weight: 3, opacity: 0.85, dashArray: '1 10', lineJoin: 'round', lineCap: 'round', interactive: false }).addTo(g);
+  trilhaLayer = g.addTo(mapa);
+}
+
+// marcos da etapa atual: só acendem quando o grupo pede ajuda (rumo sob demanda)
+function limparMarcos() {
+  marcadoresMarco.forEach(m => mapa && mapa.removeLayer(m));
+  marcadoresMarco = [];
+}
+
+function acenderMarcosDaEtapa() {
+  limparMarcos();
+  const et = etapaObj();
+  if (!et || !mapa || !et.marcos) return;
+  marcosAcesos = true;
+  et.marcos.forEach(mk => {
+    const ic = L.divIcon({ className: '', html: '<div class="marco"><span class="marco-halo"></span><span class="marco-nucleo"></span></div>', iconSize: [40, 40], iconAnchor: [20, 20] });
+    const m = L.marker(mk.ponto, { icon: ic, zIndexOffset: 600 }).addTo(mapa).bindTooltip(mk.nome, { direction: 'top', offset: [0, -16] });
+    marcadoresMarco.push(m);
+  });
+  const alvo = et.marcos[0] && et.marcos[0].ponto;
+  if (alvo) mapa.flyTo(alvo, Math.max(mapa.getZoom(), CONFIG.zoom.inicial), { duration: 1.0 });
 }
 
 // ---------- painel de calibração (debug) ----------
@@ -566,7 +816,7 @@ function ativarDebug() {
   });
   $('dbg-fechar').addEventListener('click', desativarDebug);
   $('dbg-reset').addEventListener('click', () => {
-    if (confirm('Apagar o progresso deste celular e voltar ao portão?')) {
+    if (confirm('Apagar o progresso deste celular e voltar ao portão?')) {
       limparEstado();
       location.replace(location.pathname);
     }
@@ -595,7 +845,6 @@ function desativarDebug() {
   ajustarAlturaDebug();
 }
 
-// o mapa e os botões sobem a altura do painel, para nada ficar escondido atrás dele
 function ajustarAlturaDebug() {
   requestAnimationFrame(() => {
     const p = $('painel-debug');
