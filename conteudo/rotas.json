@@ -176,7 +176,7 @@
             [31.7772, 35.2301],
             [31.7769, 35.2303]
           ],
-          "raio_m": 60,
+          "raio_m": 150,
           "carta": [
             { "voz": "narrador", "texto": "A carta que fecha o caminho é curta. A letra do velho, dessa vez sem pressa nenhuma." },
             { "voz": "gamliel", "texto": "Vocês voltaram e me prestaram contas, e eu ouvi tudo. Não é um exército. São irmãos. Irmãos que leem uma hora diferente no mesmo céu, que talvez estejam errados sobre a hora, e que ainda assim não são o nosso inimigo." },
@@ -208,7 +208,7 @@
             [31.7772, 35.2300],
             [31.7774, 35.2298]
           ],
-          "raio_m": 60,
+          "raio_m": 150,
           "codigo_no_local": true,
           "carta": [
             { "voz": "narrador", "texto": "Não vem carta agora. Vem uma escada. O caminho deixa de ser história e vira subida." },

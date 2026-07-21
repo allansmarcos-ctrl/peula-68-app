@@ -221,6 +221,10 @@ function ligarEventos() {
   $('botao-ajuda').addEventListener('click', pedirAjuda);
 
   $('form-senha').addEventListener('submit', (e) => { e.preventDefault(); selarEtapa(); });
+  // no celular, ao abrir o teclado, rola para o botao nao ficar escondido atras dele
+  $('senha-input').addEventListener('focus', () => {
+    setTimeout(() => { const b = $('senha-botao'); if (b) b.scrollIntoView({ block: 'center' }); }, 320);
+  });
 
   // final, fatiado
   $('final-prosseguir').addEventListener('click', () => avancarFluxo('final'));
