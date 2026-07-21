@@ -72,6 +72,7 @@
             "img/etapas/fariseus-e1-d-patriarcado-latino.jpg",
             "img/etapas/fariseus-e1-e-tunel.jpg"
           ],
+          "item": { "nome": "A carta do velho", "glifo": "carta", "sobre": "A ordem de Rabban Gamliel: ver antes de julgar." },
           "senha_desbloqueio": "OFEL"
         },
         {
@@ -102,8 +103,10 @@
           ],
           "missao": "Diante da mulher da roda, uma foto só: todos apontando para ela ao mesmo tempo, e ninguém pode soltar um som. Quem rir antes do clique, o grupo inteiro repete.",
           "fotos": [
-            "img/etapas/fariseus-e2-a-sao-francisco.jpg"
+            "img/etapas/fariseus-e2-a-sao-francisco.jpg",
+            "img/etapas/fariseus-e2-b-mulher-da-roda.jpg"
           ],
+          "item": { "nome": "A rede do pescador", "glifo": "rede", "sobre": "Vieram atrás de espadas e acharam redes." },
           "senha_desbloqueio": "SHOFAR"
         },
         {
@@ -141,6 +144,7 @@
             "img/etapas/fariseus-e3-a-torre-verde.jpg",
             "img/etapas/fariseus-e3-b-yeshu-parede.jpg"
           ],
+          "item": { "nome": "A hora diferente", "glifo": "estrela", "sobre": "Dois povos lendo uma hora diferente no mesmo céu." },
           "senha_desbloqueio": "MENORA"
         },
         {
@@ -174,6 +178,7 @@
             "img/etapas/fariseus-e4-a-barbearia-al-zouhor.jpg",
             "img/etapas/fariseus-e4-b-fonte-cara.jpg"
           ],
+          "item": { "nome": "A lâmina do zelo", "glifo": "lamina", "sobre": "Zelo é lâmina de dois gumes: corta a mão que aperta demais." },
           "senha_desbloqueio": "KEREN"
         },
         {
@@ -206,6 +211,7 @@
             "img/etapas/fariseus-e5-b-passagem-porta-azul.jpg",
             "img/etapas/fariseus-e5-c-chain-gate.jpg"
           ],
+          "item": { "nome": "A régua de Hilel", "glifo": "regua", "sobre": "O que é odioso para ti, não faças ao próximo. O resto é comentário." },
           "senha_desbloqueio": "CHOTAM"
         },
         {
@@ -238,8 +244,10 @@
           "fotos": [
             "img/etapas/fariseus-e5-d-escada-plugat-hakotel.jpg",
             "img/etapas/fariseus-e5-e-codigo-325-338.jpg",
-            "img/etapas/fariseus-final-a-telhados-torre.jpg"
+            "img/etapas/fariseus-final-a-telhados-torre.jpg",
+            "img/etapas/fariseus-final-b-patio-shuk.jpg"
           ],
+          "item": { "nome": "A chave da pedra", "glifo": "chave", "sobre": "O número gravado no arco, que abre a última porta." },
           "senha_desbloqueio": "325-338"
         }
       ],

@@ -59,6 +59,10 @@
     <button id="botao-ajuda" class="botao-redondo" type="button" aria-label="Uma mão na direção">
       <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M12 3a1 1 0 0 1 1 1v9.6l3.3-3.3a1 1 0 0 1 1.4 1.4l-5 5a1 1 0 0 1-1.4 0l-5-5a1 1 0 0 1 1.4-1.4L11 13.6V4a1 1 0 0 1 1-1z"/><circle cx="12" cy="20" r="1.4" fill="currentColor"/></svg>
     </button>
+    <button id="botao-inventario" class="botao-redondo" type="button" aria-label="A sacola">
+      <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M8 7V6a4 4 0 0 1 8 0v1h2.1a1 1 0 0 1 1 .9l1 10.9a2 2 0 0 1-2 2.2H4.8a2 2 0 0 1-2-2.2l1-10.9a1 1 0 0 1 1-.9H8zm2 0h4V6a2 2 0 0 0-4 0v1z"/></svg>
+      <span id="inv-contador"></span>
+    </button>
   </div>
 
   <!-- o painel vivo: bottom sheet com abas -->
@@ -110,6 +114,7 @@
   <div class="cartela-central abertura-cartela">
     <p id="final-seita" class="ano"></p>
     <h2 class="titulo-2" data-txt="titulo_final"></h2>
+    <img id="final-foto" alt="" loading="lazy">
     <div id="final-fluxo" class="fluxo-leitura destaque"></div>
     <div id="final-pontos" class="pontos-progresso" aria-hidden="true"></div>
     <button id="final-prosseguir" class="botao" type="button"></button>
@@ -117,6 +122,28 @@
     <p id="final-convergencia" class="texto-diwan oculto"></p>
   </div>
 </section>
+
+<!-- INVENTARIO: a sacola (overlay), itens coletados ao chegar nos pontos -->
+<div id="tela-inventario" class="overlay oculto" role="dialog" aria-modal="true">
+  <div class="overlay-cartela tela-pergaminho">
+    <p class="ano">A sacola da corrente</p>
+    <div id="inv-grade"></div>
+    <button id="inv-voltar" class="botao botao-claro" type="button" data-txt="botao_voltar_mapa"></button>
+  </div>
+</div>
+
+<!-- CERIMONIA: o item encontrado ao chegar no ponto (overlay curto) -->
+<div id="item-ganho" class="oculto" aria-live="polite">
+  <div class="item-ganho-cartela">
+    <p class="item-ganho-rotulo">Vocês encontraram</p>
+    <div id="item-ganho-glifo"></div>
+    <p id="item-ganho-nome"></p>
+    <p id="item-ganho-sobre"></p>
+  </div>
+</div>
+
+<!-- FLASH dourado da cerimonia de chegada -->
+<div id="flash-cerimonia" class="oculto" aria-hidden="true"></div>
 
 <!-- HISTORICO: as cartas recebidas, em ordem (overlay, aberto pelos carimbos) -->
 <div id="tela-cartas" class="overlay oculto" role="dialog" aria-modal="true">

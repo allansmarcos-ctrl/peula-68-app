@@ -12,6 +12,8 @@
 
 // ---------- constantes ----------
 const CHAVE_ESTADO = 'peula68';
+const CHAVE_ADM = 'peula68_adm';               // pontos do modo ADM: salvos a cada toque (sobrevive a reload/reboot)
+const CHAVE_INV = 'peula68_inv';               // inventario coletado nas chegadas (sobrevive a reload)
 const INTERVALO_AUTO_MS = 10 * 60 * 1000;      // verificação automática: 10 min
 const COOLDOWN_AVISO_AUTO_MS = 5 * 60 * 1000;  // não repetir aviso automático antes disso
 const PASSO_MOCK_M = 12;                       // "andar" do GPS simulado no painel debug
@@ -49,6 +51,9 @@ let abaAtual = 'carta';
 let passosRevelados = 1;       // quantos passos do caminho já apareceram (ajuda progressiva)
 let marcosAcesos = false;      // os marcos da etapa foram acesos (pediu ajuda)?
 let fluxos = {};               // controladores de leitura fatiada, por chave
+let inventario = [];           // itens coletados nas chegadas: [{etapa, nome, glifo, sobre}]
+let cerimoniaFeita = false;    // a cerimonia de chegada da etapa atual ja rolou?
+let marcadorAlvo = null;       // o checkpoint/diamante aceso da etapa atual
 
 const $ = (id) => document.getElementById(id);
 
@@ -62,8 +67,10 @@ function salvarEstado() {
   catch (e) { /* modo privado sem storage: o jogo segue, só não sobrevive a reload */ }
 }
 function limparEstado() {
-  try { localStorage.removeItem(CHAVE_ESTADO); } catch (e) {}
+  try { localStorage.removeItem(CHAVE_ESTADO); localStorage.removeItem(CHAVE_INV); } catch (e) {}
 }
+function lerInventario() { try { return JSON.parse(localStorage.getItem(CHAVE_INV)) || []; } catch (e) { return []; } }
+function salvarInventario() { try { localStorage.setItem(CHAVE_INV, JSON.stringify(inventario)); } catch (e) {} }
 
 // ---------- util ----------
 function normalizar(s) {
@@ -151,6 +158,7 @@ async function init() {
   aplicarTextos();
   registrarSW();
   ligarEventos();
+  inventario = lerInventario();
 
   // modo ADM: tela de coleta de coordenadas (toque no mapa marca pontos numerados)
   if (params.has('adm')) { iniciarAdm(); return; }
@@ -220,6 +228,8 @@ function ligarEventos() {
     else toast(TEXTOS.sem_gps);
   });
   $('botao-ajuda').addEventListener('click', pedirAjuda);
+  $('botao-inventario').addEventListener('click', abrirInventario);
+  $('inv-voltar').addEventListener('click', () => $('tela-inventario').classList.add('oculto'));
 
   $('form-senha').addEventListener('submit', (e) => { e.preventDefault(); selarEtapa(); });
   // no celular, ao abrir o teclado, rola para o botao nao ficar escondido atras dele
@@ -346,13 +356,16 @@ function entrarEtapa() {
   atualizarHeader();
   passosRevelados = 1;
   marcosAcesos = false;
+  cerimoniaFeita = inventario.some(x => x.etapa === et.id); // se ja chegou/coletou, nao repete a cerimonia
   limparMarcos();
+  limparAlvo();
   renderCarta();
   renderCaminho();
   renderMissao();
   trocarAba('carta');
   mostrarTela('jogo');
   desenharCarimbos();
+  atualizarContadorInv();
   precisaVerificarEntrada = true;
   verificar('entrada');
 }
@@ -501,6 +514,7 @@ function selarEtapa() {
     $('senha-input').select();
     return;
   }
+  if (!cerimoniaFeita) cerimoniaChegada(); // fallback: GPS nao pegou, a senha garante o item
   etapaAtual++;
   salvarEstado();
   empurrarSincronia(); // avisa a sala; os outros celulares revelam a nova carta
@@ -518,6 +532,11 @@ function selarEtapa() {
 
 function mostrarFinal() {
   $('final-seita').textContent = rotaAtiva.seita;
+  const ff = $('final-foto');
+  if (ff) {
+    const src = rotaAtiva.foto_final || 'img/etapas/fariseus-final-b-patio-shuk.jpg';
+    ff.src = src; ff.classList.remove('oculto'); ff.onerror = () => ff.classList.add('oculto');
+  }
   $('final-convergencia').textContent = TEXTOS.convergencia;
   $('final-convergencia').classList.add('oculto');
   const frag = rotaAtiva.fragmento_final;
@@ -685,6 +704,11 @@ function avaliar(origem) {
   const dist = distanciaAoCorredorM(posAtual, et.corredor);
   const folga = Math.min(posAtual.acc || 0, 30);
   const dentro = dist <= (et.raio_m || 50) + folga;
+  // cerimonia de chegada (B): perto do FIM do corredor (o checkpoint), dispara uma vez
+  if (!cerimoniaFeita && et.corredor && et.corredor.length) {
+    const fim = et.corredor[et.corredor.length - 1];
+    if (distanciaAoCorredorM(posAtual, [fim]) <= (et.raio_m || 50) + folga) cerimoniaChegada();
+  }
   if (dentro) {
     if (origem === 'botao') toast(TEXTOS.no_caminho);
   } else {
@@ -932,7 +956,19 @@ function atualizarPainelDebug(distConhecida) {
 // Abre direto no mapa (rota fariseus de referencia). Cada toque marca um ponto
 // numerado e guarda a coordenada; "marcar GPS" usa a posicao atual; "copiar tudo"
 // entrega a lista pronta para colar. Serve para levantar a rota nova em campo.
+// Cada ponto e salvo na hora no aparelho (localStorage): reiniciar o telefone,
+// fechar o Safari ou ficar sem sinal no meio do levantamento nao apaga o trabalho.
+// Ao reabrir a tela, os pontos voltam sozinhos.
 let pontosAdm = [], marcadoresAdm = [];
+
+function lerPontosAdm() {
+  try { return JSON.parse(localStorage.getItem(CHAVE_ADM)) || []; }
+  catch (e) { return []; }
+}
+function salvarPontosAdm() {
+  try { localStorage.setItem(CHAVE_ADM, JSON.stringify(pontosAdm)); }
+  catch (e) { /* modo privado sem storage: segue na memoria, so nao sobrevive a reload */ }
+}
 
 function iniciarAdm() {
   window.ADM = true; // no adm nao roda a verificacao automatica de caminho (nada de aviso modal)
@@ -948,15 +984,32 @@ function iniciarAdm() {
   document.documentElement.style.setProperty('--painel-alt', '0px');
   mapa.on('click', (e) => adicionarPontoAdm(e.latlng.lat, e.latlng.lng));
   montarPainelAdm();
+  restaurarPontosAdm(); // traz de volta o que ja estava marcado antes de fechar/reiniciar
   setTimeout(() => mapa.invalidateSize(), 80);
 }
 
+function desenharMarcadorAdm(p) {
+  const ic = L.divIcon({ className: '', html: '<div class="pino-adm">' + p.n + '</div>', iconSize: [26, 26], iconAnchor: [13, 13] });
+  return L.marker([p.lat, p.lng], { icon: ic, zIndexOffset: 800 }).addTo(mapa);
+}
+
 function adicionarPontoAdm(lat, lng) {
-  const n = pontosAdm.length + 1;
-  pontosAdm.push({ n, lat, lng });
-  const ic = L.divIcon({ className: '', html: '<div class="pino-adm">' + n + '</div>', iconSize: [26, 26], iconAnchor: [13, 13] });
-  marcadoresAdm.push(L.marker([lat, lng], { icon: ic, zIndexOffset: 800 }).addTo(mapa));
+  const p = { n: pontosAdm.length + 1, lat, lng };
+  pontosAdm.push(p);
+  marcadoresAdm.push(desenharMarcadorAdm(p));
   renderListaAdm();
+  salvarPontosAdm();
+}
+
+function restaurarPontosAdm() {
+  const salvos = lerPontosAdm();
+  if (!salvos.length) return;
+  pontosAdm = salvos.map((p, i) => ({ n: i + 1, lat: p.lat, lng: p.lng }));
+  marcadoresAdm = pontosAdm.map(desenharMarcadorAdm);
+  renderListaAdm();
+  const ult = pontosAdm[pontosAdm.length - 1];
+  if (mapa && ult) mapa.panTo([ult.lat, ult.lng]);
+  toast(pontosAdm.length + ' ponto(s) recuperados. Toque em "limpar" para começar do zero.', 6000);
 }
 
 function renderListaAdm() {
@@ -980,7 +1033,7 @@ function montarPainelAdm() {
   const p = document.createElement('aside');
   p.id = 'painel-adm';
   p.innerHTML =
-    '<div class="adm-cab">MARCAR PONTOS<span>toque no mapa onde está, ou onde tem algo. Fale no áudio o que é cada número.</span></div>' +
+    '<div class="adm-cab">MARCAR PONTOS<span>toque no mapa onde está, ou onde tem algo. Cada ponto salva sozinho no aparelho. Fale no áudio o que é cada número.</span></div>' +
     '<div id="adm-lista">toque no mapa onde você está, ou onde tem algo</div>' +
     '<div class="adm-btns">' +
       '<button id="adm-gps">marcar minha posição (GPS)</button>' +
@@ -1000,6 +1053,7 @@ function montarPainelAdm() {
     pontosAdm.pop();
     const m = marcadoresAdm.pop(); if (m) mapa.removeLayer(m);
     renderListaAdm();
+    salvarPontosAdm();
   });
   $('adm-copiar').addEventListener('click', () => {
     if (!pontosAdm.length) { toast('Nenhum ponto ainda. Toque no mapa.'); return; }
@@ -1011,7 +1065,106 @@ function montarPainelAdm() {
     marcadoresAdm.forEach(m => mapa.removeLayer(m));
     marcadoresAdm = [];
     renderListaAdm();
+    salvarPontosAdm();
   });
+}
+
+// ---------- cerimonia de chegada, itens e inventario (estilo Zelda) ----------
+function glifoSVG(chave) {
+  const g = {
+    carta: '<rect x="4.5" y="4" width="15" height="16" rx="1.2"/><path d="M7.5 8.5h9M7.5 11.5h9M7.5 14.5h5.5" stroke="#241804" stroke-width="1.3" fill="none" stroke-linecap="round"/>',
+    rede: '<path d="M12 3 21 12 12 21 3 12Z" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M12 3v18M3 12h18M7.5 7.5l9 9M16.5 7.5l-9 9" stroke="currentColor" stroke-width="0.9" fill="none"/>',
+    estrela: '<path d="M12 3l7.8 13.5H4.2z" fill-opacity="0.92"/><path d="M12 21L4.2 7.5h15.6z" fill-opacity="0.92"/>',
+    lamina: '<path d="M12 2l2.2 13h-4.4z"/><rect x="8.4" y="14.4" width="7.2" height="1.8" rx="0.5"/><rect x="11" y="16" width="2" height="6" rx="0.6"/>',
+    regua: '<rect x="3" y="8.5" width="18" height="7" rx="1"/><path d="M6 8.5v3.4M9 8.5v2.2M12 8.5v3.4M15 8.5v2.2M18 8.5v3.4" stroke="#241804" stroke-width="1.1"/>',
+    chave: '<circle cx="8" cy="8" r="4.2"/><circle cx="8" cy="8" r="1.5" fill="#241804"/><path d="M10.9 10.9L19 19M16.2 16.2l2.2-2.2M18.4 18.4l1.5-1.5" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round"/>',
+  };
+  return '<svg viewBox="0 0 24 24" width="100%" height="100%" aria-hidden="true" fill="currentColor">' + (g[chave] || g.carta) + '</svg>';
+}
+
+function limparAlvo() { if (marcadorAlvo && mapa) mapa.removeLayer(marcadorAlvo); marcadorAlvo = null; }
+
+// A etapa foi "chegada": pisca a tela, acende o diamante no ponto, entrega o item.
+// Dispara pelo GPS (ao chegar perto do ponto) ou pela senha (fallback sem sinal).
+function cerimoniaChegada() {
+  const et = etapaObj();
+  if (cerimoniaFeita || !et) return;
+  cerimoniaFeita = true;
+  flashDourado();
+  acenderAlvoAtual(et);
+  ganharItem(et);
+}
+
+function flashDourado() {
+  const f = $('flash-cerimonia');
+  if (!f) return;
+  f.classList.remove('oculto');
+  requestAnimationFrame(() => f.classList.add('pisca'));
+  setTimeout(() => { f.classList.remove('pisca'); f.classList.add('oculto'); }, 720);
+}
+
+function acenderAlvoAtual(et) {
+  limparAlvo();
+  if (!mapa || !et.corredor || !et.corredor.length) return;
+  const pt = et.corredor[et.corredor.length - 1];
+  const ic = L.divIcon({ className: '', html: '<div class="diamante"><span class="diamante-luz"></span><span class="diamante-corpo"></span></div>', iconSize: [46, 46], iconAnchor: [23, 23] });
+  marcadorAlvo = L.marker(pt, { icon: ic, zIndexOffset: 700 }).addTo(mapa)
+    .bindTooltip(et.titulo || '', { direction: 'top', offset: [0, -20] });
+  mapa.flyTo(pt, Math.max(mapa.getZoom(), CONFIG.zoom.inicial), { duration: 1.0 });
+}
+
+function ganharItem(et) {
+  if (!et.item) return;
+  if (inventario.some(x => x.etapa === et.id)) { atualizarContadorInv(); return; }
+  const it = { etapa: et.id, nome: et.item.nome, glifo: et.item.glifo, sobre: et.item.sobre };
+  inventario.push(it);
+  salvarInventario();
+  atualizarContadorInv();
+  mostrarItemGanho(it);
+}
+
+function mostrarItemGanho(it) {
+  $('item-ganho-glifo').innerHTML = glifoSVG(it.glifo);
+  $('item-ganho-nome').textContent = it.nome;
+  $('item-ganho-sobre').textContent = it.sobre;
+  const el = $('item-ganho');
+  el.classList.remove('oculto');
+  requestAnimationFrame(() => el.classList.add('visivel'));
+  clearTimeout(mostrarItemGanho._t);
+  mostrarItemGanho._t = setTimeout(() => {
+    el.classList.remove('visivel');
+    setTimeout(() => el.classList.add('oculto'), 400);
+  }, 3400);
+}
+
+function atualizarContadorInv() {
+  const c = $('inv-contador');
+  if (!c) return;
+  const n = inventario.length;
+  c.textContent = n || '';
+  c.classList.toggle('oculto', !n);
+}
+
+function abrirInventario() {
+  if (!rotaAtiva) return;
+  const grade = $('inv-grade');
+  grade.innerHTML = '';
+  rotaAtiva.etapas.forEach(et => {
+    if (!et.item) return;
+    const tem = inventario.find(x => x.etapa === et.id);
+    const cel = document.createElement('div');
+    cel.className = 'inv-item' + (tem ? '' : ' vazio');
+    if (tem) {
+      cel.innerHTML = '<div class="inv-glifo">' + glifoSVG(et.item.glifo) + '</div>'
+        + '<p class="inv-nome"></p><p class="inv-sobre"></p>';
+      cel.querySelector('.inv-nome').textContent = et.item.nome;
+      cel.querySelector('.inv-sobre').textContent = et.item.sobre;
+    } else {
+      cel.innerHTML = '<div class="inv-glifo inv-glifo-vazio">?</div><p class="inv-nome">Ainda não achado</p>';
+    }
+    grade.appendChild(cel);
+  });
+  $('tela-inventario').classList.remove('oculto');
 }
 
 // ---------- início ----------
