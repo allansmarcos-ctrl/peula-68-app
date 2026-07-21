@@ -245,7 +245,7 @@ function ligarEventos() {
     if (taps >= 7) { taps = 0; ativarDebug(); }
   });
 
-  setInterval(() => { if (rotaAtiva && etapaAtual <= rotaAtiva.etapas.length) verificar('auto'); }, INTERVALO_AUTO_MS);
+  setInterval(() => { if (rotaAtiva && !window.ADM && etapaAtual <= rotaAtiva.etapas.length) verificar('auto'); }, INTERVALO_AUTO_MS);
 }
 
 // ---------- leitura fatiada (abertura, carta, fragmento): um bloco por toque ----------
@@ -929,6 +929,7 @@ function atualizarPainelDebug(distConhecida) {
 let pontosAdm = [], marcadoresAdm = [];
 
 function iniciarAdm() {
+  window.ADM = true; // no adm nao roda a verificacao automatica de caminho (nada de aviso modal)
   rotaAtiva = ROTAS.rotas.find(r => r.id === 'fariseus') || ROTAS.rotas[0];
   if (!mapa) montarMapa();
   iniciarGeolocalizacao();
