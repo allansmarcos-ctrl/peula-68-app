@@ -25,7 +25,7 @@ let rotaAtiva = null;
 let etapaAtual = 1;            // 1-based; (total + 1) significa rota concluída
 let posAtual = null;           // {lat, lng, acc, fonte}
 let mock = null;               // {lat, lng} quando GPS simulado por ?mock=
-let mapa = null, overlay = null, marcadorUser = null, circuloAcc = null, marcadorInicio = null;
+let mapa = null, overlay = null, marcadorUser = null, circuloAcc = null, marcadorInicio = null, carimbos = [];
 let cantosEdit = null;         // cópia editável dos cantos (modo calibração)
 let camadasDebug = [];
 let modoDebug = false;
@@ -185,7 +185,7 @@ function ligarEventos() {
   // ao voltar o app para o primeiro plano, sincroniza na hora (não espera o timer)
   document.addEventListener('visibilitychange', () => { if (!document.hidden) puxarSincronia(); });
   $('botao-centrar').addEventListener('click', () => {
-    if (posAtual && mapa) mapa.setView([posAtual.lat, posAtual.lng], Math.max(mapa.getZoom(), CONFIG.zoom.inicial));
+    if (posAtual && mapa) mapa.flyTo([posAtual.lat, posAtual.lng], Math.max(mapa.getZoom(), CONFIG.zoom.inicial), { duration: 0.8 });
     else toast(TEXTOS.sem_gps);
   });
 
@@ -282,6 +282,13 @@ function selarEtapa() {
   atualizarHeader();
   toast(TEXTOS.etapa_avancou);
   mostrarTela('mapa');
+  // o mapa se preenche: carimba a etapa recém-cumprida e a câmera voa até ela (o "achei")
+  desenharCarimbos(true);
+  const corrFeita = rotaAtiva.etapas[etapaAtual - 2].corredor;
+  if (mapa && corrFeita && corrFeita.length) {
+    const alvo = corrFeita[corrFeita.length - 1];
+    setTimeout(() => { mapa.invalidateSize(); mapa.flyTo(alvo, Math.max(mapa.getZoom(), CONFIG.zoom.inicial), { duration: 1.1 }); }, 140);
+  }
   precisaVerificarEntrada = true;
   verificar('entrada');
 }
@@ -363,6 +370,7 @@ function aplicarSincronia(etapaServidor) {
   salvarEstado();
   if (etapaAtual > total) { mostrarFinal(); toast('O caminho chegou ao fim.'); return; }
   atualizarHeader();
+  desenharCarimbos(); // a sala avançou: o mapa reflete as estações já cumpridas
   const tc = $('tela-cartas');
   const emJogo = $('tela-mapa').classList.contains('ativa')
     || $('tela-estacao').classList.contains('ativa')
@@ -486,6 +494,36 @@ function montarMapa() {
   marcadorInicio = L.circleMarker(rotaAtiva.ponto_inicial, {
     radius: 9, color: '#7a1f1f', weight: 3, fillColor: '#a32a2a', fillOpacity: 0.95,
   }).addTo(mapa).bindTooltip(TEXTOS.inicio_tooltip, { direction: 'top', offset: [0, -8] });
+
+  desenharCarimbos();
+}
+
+// Carimbos das estações JÁ cumpridas: o mapa se preenche conforme o grupo avança
+// (Hollow Knight/Red Dead). As futuras ficam escondidas; o caminho se descobre pela pista.
+function iconeCarimbo(n, novo) {
+  return L.divIcon({
+    className: '',
+    html: '<div class="carimbo' + (novo ? ' carimbo-novo' : '') + '">' + n + '</div>',
+    iconSize: [30, 30], iconAnchor: [15, 15],
+  });
+}
+
+function desenharCarimbos(animarUltimo) {
+  if (!mapa || !rotaAtiva) return;
+  carimbos.forEach(c => mapa.removeLayer(c));
+  carimbos = [];
+  const cumpridas = Math.min(etapaAtual - 1, rotaAtiva.etapas.length);
+  for (let i = 0; i < cumpridas; i++) {
+    const corr = rotaAtiva.etapas[i].corredor;
+    if (!corr || !corr.length) continue;
+    const pt = corr[corr.length - 1]; // onde o grupo chegou naquela etapa
+    const novo = animarUltimo && i === cumpridas - 1;
+    const m = L.marker(pt, { icon: iconeCarimbo(i + 1, novo), zIndexOffset: 500 })
+      .addTo(mapa)
+      .bindTooltip(rotaAtiva.etapas[i].titulo || (TEXTOS.etapa_rotulo + ' ' + (i + 1)), { direction: 'top', offset: [0, -16] });
+    m.on('click', abrirCartas); // tocar um carimbo reabre o histórico de cartas
+    carimbos.push(m);
+  }
 }
 
 // ---------- painel de calibração (debug) ----------
