@@ -74,5 +74,12 @@
   "bussola_rotulo": "A agulha aponta para o fim desta etapa",
   "bussola_ligar": "A bússola",
   "bussola_sem_heading": "O aparelho não deu o norte. A agulha aponta como no mapa, com o norte para cima.",
-  "bussola_sem_gps": "Sem posição ainda. A agulha acorda quando o céu abrir."
+  "bussola_sem_gps": "Sem posição ainda. A agulha acorda quando o céu abrir.",
+
+  "_ui_coach": "Apresentação dos socorros, uma vez só na 1a etapa.",
+  "coach_titulo": "Os socorros de vocês",
+  "coach_intro": "No mapa há botões redondos que ajudam quando o grupo empaca:",
+  "coach_extra": "E puxem a barrinha do painel para ver o mapa em tela cheia.",
+  "coach_botao": "Entendi",
+  "fotos_toque": "toque pra ampliar"
 }

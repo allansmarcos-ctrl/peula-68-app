@@ -328,7 +328,8 @@ input[type="text"]:focus { border-color: var(--dourado); }
   -webkit-tap-highlight-color: transparent;
 }
 .botao-redondo:active { transform: translateY(2px); box-shadow: 0 1px 0 #241804; }
-#botao-ajuda { color: #ffe08a; }
+/* a mão (ajuda) é o socorro mais usado quando o grupo se perde: ganha um anel dourado pra saltar */
+#botao-ajuda { color: #ffe08a; box-shadow: 0 0 0 2px rgba(255, 207, 102, 0.4), 0 3px 0 #241804, 0 6px 14px rgba(20, 12, 4, 0.45); }
 
 /* ---- o painel vivo (bottom sheet) ---- */
 
@@ -353,8 +354,8 @@ input[type="text"]:focus { border-color: var(--dourado); }
 
 #painel-puxador {
   align-self: center;
-  width: 100%; max-width: 120px;
-  padding: 10px 0 6px;
+  width: 100%; max-width: 160px;
+  padding: 14px 0 10px;
   background: none; border: none; cursor: pointer;
 }
 #painel-puxador span {
@@ -727,17 +728,22 @@ input[type="text"]:focus { border-color: var(--dourado); }
   color: var(--dourado-claro); margin-bottom: 8px;
 }
 .etapa-fotos {
-  display: flex; gap: 10px; overflow-x: auto; padding-bottom: 6px;
-  scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;
+  display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px;
+  -webkit-overflow-scrolling: touch;
 }
+/* miniaturas: cabem no topo da carta sem empurrar a leitura; o toque amplia (lightbox) */
 .etapa-fotos img {
-  flex: 0 0 auto; width: 78%; max-width: 260px; height: 172px; object-fit: cover;
-  scroll-snap-align: center;
-  border: 2px solid var(--sepia); border-radius: 8px;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5); cursor: zoom-in;
+  flex: 0 0 auto; width: 58px; height: 58px; object-fit: cover;
+  border: 1.5px solid var(--sepia); border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.45); cursor: zoom-in;
 }
 .etapa-fotos::-webkit-scrollbar { height: 5px; }
 .etapa-fotos::-webkit-scrollbar-thumb { background: rgba(216, 188, 133, 0.4); border-radius: 3px; }
+/* na aba carta a leitura pede menos altura reservada (as miniaturas ja ocupam o topo) */
+#painel-corpo .fluxo-leitura { min-height: 120px; }
+/* asterisco de "fato historico real" marcado no texto das cartas */
+.fato-real { color: var(--dourado-claro); font-weight: 700; cursor: help; }
+#painel-corpo .fato-real { color: #ffd257; }
 
 /* linha de botoes das leituras (voltar + prosseguir, lado a lado) */
 .leitura-botoes { display: flex; gap: 10px; align-items: center; justify-content: center; flex-wrap: wrap; }
@@ -820,6 +826,15 @@ input[type="text"]:focus { border-color: var(--dourado); }
 /* ---- lightbox de foto (modo Easy: uma foto em tela cheia) ---- */
 #tela-foto { flex-direction: column; gap: 14px; background: rgba(10, 6, 2, 0.9); }
 #foto-grande { max-width: 94vw; max-height: 74vh; border: 2px solid var(--dourado); border-radius: 8px; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.7); }
+
+/* ---- coach: apresentacao dos socorros (uma vez, na 1a etapa) ---- */
+.coach-cartela { text-align: left; }
+.coach-intro { font-size: 15px; line-height: 1.5; color: var(--tinta); margin-bottom: 12px; }
+.coach-lista { list-style: none; margin: 0 0 12px; display: flex; flex-direction: column; gap: 11px; }
+.coach-lista li { display: flex; gap: 12px; align-items: flex-start; font-size: 14.5px; line-height: 1.45; color: var(--tinta); }
+.coach-lista b { color: #4a3418; }
+.coach-ic { flex: none; width: 34px; height: 34px; border-radius: 50%; border: 2px solid #2e2009; background: linear-gradient(180deg, #6d4f28, #4a3418); color: #ffcf66; display: flex; align-items: center; justify-content: center; }
+.coach-extra { font-size: 14px; font-style: italic; color: var(--sepia); margin-bottom: 2px; }
 
 /* ---- acessibilidade: sem movimento ---- */
 @media (prefers-reduced-motion: reduce) {

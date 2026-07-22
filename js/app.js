@@ -110,6 +110,11 @@ function mostrarTela(nome) {
 // blocos de leitura: uma string vira {voz:narrador}; objeto {voz,texto} passa direto
 function blocoTexto(b) { return typeof b === 'string' ? b : (b && b.texto) || ''; }
 function blocoVoz(b) { return typeof b === 'string' ? 'narrador' : (b && b.voz) || 'narrador'; }
+// marca o asterisco de "fato historico real" no texto (conteudo proprio dos JSON, sem risco de injecao)
+function textoComAsterisco(txt) {
+  const esc = (txt || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  return esc.replace(/\*/g, '<sup class="fato-real" title="fato historico real">*</sup>');
+}
 function rotuloVoz(voz) {
   switch (voz) {
     case 'gamliel': return 'Carta de Rabban Gamliel';
@@ -150,7 +155,7 @@ async function carregarJSON(caminho) {
 
 async function init() {
   const params = new URLSearchParams(location.search);
-  if (params.has('reset')) limparEstado();
+  if (params.has('reset')) { limparEstado(); try { localStorage.removeItem('peula68_coach'); localStorage.removeItem('peula68_nocron'); } catch (e) {} }
   // modo solo: joga 100% local, sem entrar na sala compartilhada (teste/playtest e fallback do dia)
   window.SOLO = params.has('solo');
   if (params.has('mock')) {
@@ -250,6 +255,16 @@ function ligarEventos() {
   $('painel-mostrar').addEventListener('click', restaurarPainel);
   $('gate-botao').addEventListener('click', abrirPrimeiraEtapa);
   $('foto-fechar').addEventListener('click', fecharFoto);
+  $('coach-fechar').addEventListener('click', () => {
+    $('coach-socorros').classList.add('oculto');
+    try { localStorage.setItem('peula68_coach', '1'); } catch (e) {}
+  });
+  $('cronometro').addEventListener('click', () => {
+    try { localStorage.setItem('peula68_nocron', '1'); } catch (e) {}
+    $('cronometro').classList.add('oculto');
+    pararCronometro();
+    toast(TEXTOS.cron_oculto || 'Cronômetro escondido. Recarregue com ?reset para trazer de volta.');
+  });
   $('inv-voltar').addEventListener('click', () => $('tela-inventario').classList.add('oculto'));
 
   $('form-senha').addEventListener('submit', (e) => { e.preventDefault(); selarEtapa(); });
@@ -297,7 +312,7 @@ function renderFluxoBloco(chave) {
   art.className = 'bloco-leitura voz-' + blocoVoz(b);
   const rot = rotuloVoz(blocoVoz(b));
   if (rot) { const s = document.createElement('span'); s.className = 'bloco-voz'; s.textContent = rot; art.appendChild(s); }
-  const p = document.createElement('p'); p.textContent = blocoTexto(b); art.appendChild(p);
+  const p = document.createElement('p'); p.innerHTML = textoComAsterisco(blocoTexto(b)); art.appendChild(p);
   fluxo.appendChild(art);
   requestAnimationFrame(() => art.classList.add('entrou'));
 
@@ -399,6 +414,7 @@ function entrarEtapa() {
   atualizarContadorInv();
   iniciarCronometro();               // zera e mostra o tempo desta etapa
   if (bussolaAtiva) atualizarBussola(); // a bussola passa a apontar pro novo destino
+  talvezMostrarCoach();              // apresenta os socorros uma vez (na 1a etapa vista neste aparelho)
   precisaVerificarEntrada = true;
   verificar('entrada');
 }
@@ -417,6 +433,9 @@ function renderCarta() {
   $('carta-titulo').textContent = (TEXTOS.etapa_rotulo + ' ' + etapaAtual) + ' · ' + (et.titulo || '');
   preencherFotos($('carta-fotos'), et.fotos);            // a etapa abre pela foto do destino (foto -> historia -> caminho)
   $('carta-fotos-bloco').classList.toggle('oculto', !(et.fotos && et.fotos.length));
+  const nf = (et.fotos || []).length;
+  const rotf = $('carta-fotos-bloco').querySelector('.etapa-fotos-rotulo');
+  if (rotf) rotf.textContent = nf + (nf === 1 ? ' foto · ' : ' fotos · ') + (TEXTOS.fotos_toque || 'toque pra ampliar');
   const blocos = blocosDaCarta(et);
   iniciarFluxo('carta', blocos, {
     fluxo: $('carta-fluxo'), pontos: $('carta-pontos'), botao: $('carta-prosseguir'), voltar: $('carta-voltar'),
@@ -1260,6 +1279,12 @@ function abrirFoto(src) {
 }
 function fecharFoto() { $('tela-foto').classList.add('oculto'); }
 
+// coach dos socorros: mostra uma vez (por aparelho) na 1a etapa vista
+function talvezMostrarCoach() {
+  try { if (localStorage.getItem('peula68_coach') === '1') return; } catch (e) {}
+  $('coach-socorros').classList.remove('oculto');
+}
+
 // ---------- cronometro por etapa ----------
 function formatarTempo(ms) {
   const s = Math.max(0, Math.floor(ms / 1000));
@@ -1267,8 +1292,11 @@ function formatarTempo(ms) {
 }
 function iniciarCronometro() {
   etapaInicioTs = Date.now();
+  let escondido = false;
+  try { escondido = localStorage.getItem('peula68_nocron') === '1'; } catch (e) {}
   const el = $('cronometro');
-  if (el) el.classList.remove('oculto');
+  if (el) { el.classList.toggle('oculto', escondido); el.title = 'toque para esconder'; }
+  if (escondido) { pararCronometro(); return; } // segue medindo (temposEtapa), so nao mostra o chip
   pintarCronometro();
   clearInterval(cronTimer);
   cronTimer = setInterval(pintarCronometro, 1000);
@@ -1372,9 +1400,13 @@ function ligarBussola() {
   // iOS 13+: precisa de permissao, e so a partir de um gesto (este toque conta)
   const DOE = window.DeviceOrientationEvent;
   if (DOE && typeof DOE.requestPermission === 'function') {
-    DOE.requestPermission().then((r) => { if (r === 'granted') liga(); }).catch(() => {});
+    DOE.requestPermission().then((r) => {
+      if (r === 'granted') { liga(); toast(TEXTOS.bussola_rotulo); }
+      else toast(TEXTOS.bussola_sem_heading);
+    }).catch(() => toast(TEXTOS.bussola_sem_heading));
   } else {
     liga();
+    toast(TEXTOS.bussola_rotulo);
   }
   atualizarBussola();
 }
