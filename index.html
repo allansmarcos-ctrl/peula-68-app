@@ -36,7 +36,10 @@
     <p id="abertura-rotulo" class="ano"></p>
     <div id="abertura-fluxo" class="fluxo-leitura"></div>
     <div id="abertura-pontos" class="pontos-progresso" aria-hidden="true"></div>
-    <button id="abertura-prosseguir" class="botao" type="button"></button>
+    <div class="leitura-botoes">
+      <button id="abertura-voltar" class="botao botao-claro oculto" type="button" data-txt="voltar_leitura"></button>
+      <button id="abertura-prosseguir" class="botao" type="button"></button>
+    </div>
     <button id="abertura-pular" class="link-discreto" type="button"></button>
   </div>
 </section>
@@ -48,6 +51,7 @@
   <header id="header-mapa">
     <span id="selo-seita"></span>
     <span id="header-texto"></span>
+    <span id="cronometro" class="oculto" aria-hidden="true"></span>
     <span id="badge-gps" class="sem"></span>
   </header>
 
@@ -55,6 +59,9 @@
   <div id="controles-flutuantes">
     <button id="botao-centrar" class="botao-redondo" type="button" aria-label="Onde estamos">
       <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M12 2c1.8 2.6 4 4.9 4 8a4 4 0 0 1-8 0c0-1.2.4-2.3 1-3.4-.2 1.9.6 3 1.8 3.2 1.3.2 2.4-.8 2.4-2.2C13.2 5.9 12.6 4 12 2z"/><rect x="11" y="14" width="2" height="8" rx="1" fill="currentColor"/></svg>
+    </button>
+    <button id="botao-bussola" class="botao-redondo" type="button" aria-label="A bússola">
+      <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12 5.5l2.4 7.2-2.4-1.7-2.4 1.7z" fill="currentColor"/><circle cx="12" cy="12" r="1.3" fill="currentColor"/></svg>
     </button>
     <button id="botao-ajuda" class="botao-redondo" type="button" aria-label="Uma mão na direção">
       <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M12 3a1 1 0 0 1 1 1v9.6l3.3-3.3a1 1 0 0 1 1.4 1.4l-5 5a1 1 0 0 1-1.4 0l-5-5a1 1 0 0 1 1.4-1.4L11 13.6V4a1 1 0 0 1 1-1z"/><circle cx="12" cy="20" r="1.4" fill="currentColor"/></svg>
@@ -75,12 +82,19 @@
     </nav>
 
     <div id="painel-corpo">
-      <!-- ABA: A CARTA (narrativa fatiada, avanca no toque) -->
+      <!-- ABA: A CARTA (fotos do destino em destaque, depois a narrativa fatiada) -->
       <div id="aba-carta" class="aba ativa">
         <p id="carta-titulo" class="painel-titulo"></p>
+        <div id="carta-fotos-bloco" class="etapa-fotos-bloco">
+          <p class="etapa-fotos-rotulo" data-txt="rotulo_fotos_destino"></p>
+          <div id="carta-fotos" class="etapa-fotos"></div>
+        </div>
         <div id="carta-fluxo" class="fluxo-leitura"></div>
         <div id="carta-pontos" class="pontos-progresso" aria-hidden="true"></div>
-        <button id="carta-prosseguir" class="botao" type="button"></button>
+        <div class="leitura-botoes">
+          <button id="carta-voltar" class="botao botao-claro oculto" type="button" data-txt="voltar_leitura"></button>
+          <button id="carta-prosseguir" class="botao" type="button"></button>
+        </div>
       </div>
 
       <!-- ABA: O CAMINHO (passos revelados aos poucos, com tiquinho) -->
@@ -88,6 +102,7 @@
         <p class="painel-titulo" data-txt="rotulo_caminho"></p>
         <ol id="caminho-passos"></ol>
         <button id="caminho-mais" class="botao botao-claro" type="button"></button>
+        <button id="caminho-ponto" class="botao botao-claro botao-fino" type="button" data-txt="voltar_ponto"></button>
         <details id="caminho-fotos-bloco">
           <summary data-txt="abrir_carta">Fotos do caminho</summary>
           <div id="caminho-fotos"></div>
@@ -107,6 +122,29 @@
       </div>
     </div>
   </div>
+
+  <!-- BUSSOLA: HUD que aponta pro fim da etapa (liga pelo botao redondo) -->
+  <div id="bussola-hud" class="oculto" aria-hidden="true">
+    <div class="bussola-rosa">
+      <span class="bussola-n">N</span>
+      <span id="bussola-agulha"></span>
+    </div>
+    <span id="bussola-dist"></span>
+  </div>
+
+  <!-- pino flutuante que traz o painel de volta quando o mapa esta em tela cheia -->
+  <button id="painel-mostrar" class="oculto" type="button">
+    <span class="pm-seta">&#9650;</span><span data-txt="painel_mostrar"></span>
+  </button>
+
+  <!-- GATE inicial: comecar longe da cidade, ir ate o brilho e tocar ESTOU AQUI -->
+  <div id="gate-inicial" class="oculto">
+    <div class="gate-cartela">
+      <p class="gate-rotulo" data-txt="gate_rotulo"></p>
+      <p id="gate-texto" data-txt="gate_texto"></p>
+      <button id="gate-botao" class="botao" type="button" data-txt="gate_botao"></button>
+    </div>
+  </div>
 </section>
 
 <!-- TELA 4: FRAGMENTO FINAL (leitura fatiada, no alto). -->
@@ -117,7 +155,10 @@
     <img id="final-foto" alt="" loading="lazy">
     <div id="final-fluxo" class="fluxo-leitura destaque"></div>
     <div id="final-pontos" class="pontos-progresso" aria-hidden="true"></div>
-    <button id="final-prosseguir" class="botao" type="button"></button>
+    <div class="leitura-botoes">
+      <button id="final-voltar" class="botao botao-claro oculto" type="button" data-txt="voltar_leitura"></button>
+      <button id="final-prosseguir" class="botao" type="button"></button>
+    </div>
     <p class="ornamento">&#10022;</p>
     <p id="final-convergencia" class="texto-diwan oculto"></p>
   </div>
@@ -161,6 +202,12 @@
     <p id="aviso-texto"></p>
     <button id="aviso-fechar" class="botao" type="button" data-txt="botao_entendido"></button>
   </div>
+</div>
+
+<!-- LIGHTBOX: uma foto da etapa em tela cheia (modo Easy de referencia) -->
+<div id="tela-foto" class="overlay oculto" role="dialog" aria-modal="true">
+  <img id="foto-grande" alt="">
+  <button id="foto-fechar" class="botao botao-claro" type="button" data-txt="foto_fechar"></button>
 </div>
 
 <div id="toast" class="oculto" role="status"></div>

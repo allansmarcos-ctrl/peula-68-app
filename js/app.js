@@ -55,6 +55,20 @@ let inventario = [];           // itens coletados nas chegadas: [{etapa, nome, g
 let cerimoniaFeita = false;    // a cerimonia de chegada da etapa atual ja rolou?
 let marcadorAlvo = null;       // o checkpoint/diamante aceso da etapa atual
 
+// cronometro por etapa (o Allan quer medir quanto cada pista demora)
+let etapaInicioTs = 0;         // Date.now() ao entrar na etapa atual
+let cronTimer = null;
+let temposEtapa = {};          // {idEtapa: duracaoMs} preenchido ao selar
+
+// bussola: a agulha aponta pro fim do corredor da etapa
+let bussolaAtiva = false;
+let bussolaHeading = null;     // graus do norte do aparelho (0 = norte), quando o sensor der
+let bussolaListener = null;
+
+// gate inicial: comecar longe, ir ate o portao e tocar ESTOU AQUI
+let aguardandoGate = false;
+let marcadorBrilhoGate = null;
+
 const $ = (id) => document.getElementById(id);
 
 // ---------- estado no localStorage (nunca travar se indisponível) ----------
@@ -215,13 +229,16 @@ function ligarEventos() {
 
   // abertura (viajante + identidade), fatiada
   $('abertura-prosseguir').addEventListener('click', () => avancarFluxo('abertura'));
+  $('abertura-voltar').addEventListener('click', () => voltarFluxo('abertura'));
   $('abertura-pular').addEventListener('click', () => { if (fluxos.abertura) fluxos.abertura.aoFim(); });
 
   // painel: abas, puxador
   document.querySelectorAll('.aba-btn').forEach(b => b.addEventListener('click', () => trocarAba(b.getAttribute('data-aba'))));
   $('painel-puxador').addEventListener('click', alternarPainel);
   $('carta-prosseguir').addEventListener('click', () => avancarFluxo('carta'));
+  $('carta-voltar').addEventListener('click', () => voltarFluxo('carta'));
   $('caminho-mais').addEventListener('click', revelarProximoPasso);
+  $('caminho-ponto').addEventListener('click', voltarAoUltimoPonto);
 
   $('botao-centrar').addEventListener('click', () => {
     if (posAtual && mapa) mapa.flyTo([posAtual.lat, posAtual.lng], Math.max(mapa.getZoom(), CONFIG.zoom.inicial), { duration: 0.8 });
@@ -229,6 +246,10 @@ function ligarEventos() {
   });
   $('botao-ajuda').addEventListener('click', pedirAjuda);
   $('botao-inventario').addEventListener('click', abrirInventario);
+  $('botao-bussola').addEventListener('click', toggleBussola);
+  $('painel-mostrar').addEventListener('click', restaurarPainel);
+  $('gate-botao').addEventListener('click', abrirPrimeiraEtapa);
+  $('foto-fechar').addEventListener('click', fecharFoto);
   $('inv-voltar').addEventListener('click', () => $('tela-inventario').classList.add('oculto'));
 
   $('form-senha').addEventListener('submit', (e) => { e.preventDefault(); selarEtapa(); });
@@ -239,6 +260,7 @@ function ligarEventos() {
 
   // final, fatiado
   $('final-prosseguir').addEventListener('click', () => avancarFluxo('final'));
+  $('final-voltar').addEventListener('click', () => voltarFluxo('final'));
 
   // histórico de cartas (overlay)
   $('cartas-voltar').addEventListener('click', () => $('tela-cartas').classList.add('oculto'));
@@ -283,6 +305,7 @@ function renderFluxoBloco(chave) {
   const ultimo = st.i >= st.blocos.length - 1;
   st.els.botao.textContent = ultimo ? (st.opts.rotuloFim || TEXTOS.prosseguir) : (st.opts.rotuloProsseguir || TEXTOS.prosseguir);
   if (st.els.pular) st.els.pular.classList.toggle('oculto', ultimo);
+  if (st.els.voltar) st.els.voltar.classList.toggle('oculto', st.i <= 0); // voltar/reler: some no primeiro bloco
 }
 
 function avancarFluxo(chave) {
@@ -290,6 +313,14 @@ function avancarFluxo(chave) {
   if (!st) return;
   if (st.i >= st.blocos.length - 1) { st.aoFim(); return; }
   st.i++;
+  renderFluxoBloco(chave);
+}
+
+// voltar/reler: recua um bloco na leitura fatiada (bug do playtest: so dava pra avancar)
+function voltarFluxo(chave) {
+  const st = fluxos[chave];
+  if (!st || st.i <= 0) return;
+  st.i--;
   renderFluxoBloco(chave);
 }
 
@@ -318,7 +349,7 @@ function entrarNoJogo(rota, etapa, novoJogo) {
 
 function mostrarAbertura() {
   const ab = rotaAtiva.abertura;
-  if (!ab || (!ab.viajante && !ab.identidade)) { entrarEtapa(); return; } // seita sem abertura: vai direto
+  if (!ab || (!ab.viajante && !ab.identidade)) { mostrarGateInicial(); return; } // seita sem abertura: direto pro gate
   const blocos = []
     .concat((ab.viajante || []).map(t => ({ voz: 'viajante', texto: t })))
     .concat((ab.identidade || []).map(t => ({ voz: 'identidade', texto: t })))
@@ -327,11 +358,11 @@ function mostrarAbertura() {
   $('abertura-prosseguir').textContent = TEXTOS.prosseguir;
   $('abertura-pular').textContent = TEXTOS.abertura_pular || 'Pular';
   iniciarFluxo('abertura', blocos, {
-    fluxo: $('abertura-fluxo'), pontos: $('abertura-pontos'), botao: $('abertura-prosseguir'), pular: $('abertura-pular'),
+    fluxo: $('abertura-fluxo'), pontos: $('abertura-pontos'), botao: $('abertura-prosseguir'), pular: $('abertura-pular'), voltar: $('abertura-voltar'),
   }, {
     rotuloProsseguir: TEXTOS.prosseguir,
     rotuloFim: TEXTOS.abertura_para_mapa || TEXTOS.prosseguir,
-    aoFim: () => { entrarEtapa(); toast(TEXTOS.portao_abriu); },
+    aoFim: () => mostrarGateInicial(), // depois da leitura, o gate: ir ate o portao e tocar ESTOU AQUI
   });
   mostrarTela('abertura');
 }
@@ -366,6 +397,8 @@ function entrarEtapa() {
   mostrarTela('jogo');
   desenharCarimbos();
   atualizarContadorInv();
+  iniciarCronometro();               // zera e mostra o tempo desta etapa
+  if (bussolaAtiva) atualizarBussola(); // a bussola passa a apontar pro novo destino
   precisaVerificarEntrada = true;
   verificar('entrada');
 }
@@ -382,9 +415,11 @@ function blocosDaCarta(et) {
 function renderCarta() {
   const et = etapaObj();
   $('carta-titulo').textContent = (TEXTOS.etapa_rotulo + ' ' + etapaAtual) + ' · ' + (et.titulo || '');
+  preencherFotos($('carta-fotos'), et.fotos);            // a etapa abre pela foto do destino (foto -> historia -> caminho)
+  $('carta-fotos-bloco').classList.toggle('oculto', !(et.fotos && et.fotos.length));
   const blocos = blocosDaCarta(et);
   iniciarFluxo('carta', blocos, {
-    fluxo: $('carta-fluxo'), pontos: $('carta-pontos'), botao: $('carta-prosseguir'),
+    fluxo: $('carta-fluxo'), pontos: $('carta-pontos'), botao: $('carta-prosseguir'), voltar: $('carta-voltar'),
   }, {
     rotuloProsseguir: TEXTOS.prosseguir,
     rotuloFim: TEXTOS.abrir_caminho || 'O caminho',
@@ -407,14 +442,7 @@ function renderCaminho() {
   });
   atualizarBotaoMais();
 
-  const cont = $('caminho-fotos');
-  cont.innerHTML = '';
-  (et.fotos || []).forEach(src => {
-    const im = document.createElement('img');
-    im.src = src; im.alt = ''; im.loading = 'lazy';
-    im.onerror = () => im.remove();
-    cont.appendChild(im);
-  });
+  preencherFotos($('caminho-fotos'), et.fotos);   // referencia enquanto anda, com lightbox (modo Easy)
   $('caminho-fotos-bloco').classList.toggle('oculto', !(et.fotos && et.fotos.length));
   const sum = $('caminho-fotos-bloco').querySelector('summary');
   if (sum) sum.textContent = 'Fotos do caminho (' + ((et.fotos || []).length) + ')';
@@ -464,22 +492,55 @@ function trocarAba(nome) {
   ['carta', 'caminho', 'missao'].forEach(a => $('aba-' + a).classList.toggle('ativa', a === nome));
   // a carta e a missão querem espaço (leitura); o caminho quer o mapa grande
   const alto = (nome === 'carta' || nome === 'missao');
-  $('painel').classList.toggle('painel-baixo', !alto);
+  const p = $('painel');
+  p.classList.remove('painel-fechado');   // trocar de aba sempre traz o painel de volta
+  p.classList.toggle('painel-baixo', !alto);
+  atualizarPinoMostrar();
   ajustarMapaAoPainel();
 }
 
+// o puxador cicla: aberto (56vh) -> baixo (34vh) -> mapa cheio (o painel some) -> aberto.
+// resolve o pedido do playtest: "minimizar o menu e ver o mapa na tela inteira".
 function alternarPainel() {
-  $('painel').classList.toggle('painel-baixo');
+  const p = $('painel');
+  if (p.classList.contains('painel-fechado')) {
+    p.classList.remove('painel-fechado', 'painel-baixo');   // volta pro aberto
+  } else if (p.classList.contains('painel-baixo')) {
+    p.classList.remove('painel-baixo');
+    p.classList.add('painel-fechado');                       // some de vez: mapa em tela cheia
+  } else {
+    p.classList.add('painel-baixo');                         // aberto -> baixo
+  }
+  atualizarPinoMostrar();
   ajustarMapaAoPainel();
 }
 
-// o mapa termina onde o painel começa (os dois sempre visíveis)
+// o pino flutuante ("mostrar as instruções") traz o painel de volta em tela cheia
+function restaurarPainel() {
+  $('painel').classList.remove('painel-fechado', 'painel-baixo');
+  atualizarPinoMostrar();
+  ajustarMapaAoPainel();
+}
+
+function atualizarPinoMostrar() {
+  const fechado = $('painel').classList.contains('painel-fechado');
+  $('painel-mostrar').classList.toggle('oculto', !fechado);
+}
+
+// o mapa termina onde o painel começa (os dois sempre visíveis; ou o mapa inteiro se fechado).
+// O bottom do mapa e dos controles vai DIRETO (inline), nao por var(--painel-alt): o Chromium
+// congela um `bottom` com transition quando o valor vem de uma var() que muda (era a "tela preta":
+// o mapa nao crescia ao recolher o painel). Inline anima e nao trava. A var segue alimentando o
+// toast e o item-ganho, que nao tem transition de bottom e por isso nao congelam.
 function ajustarMapaAoPainel() {
   const p = $('painel');
-  // usa a altura ALVO das classes, nao o offsetHeight: durante a transicao de 0.3s
-  // o offsetHeight ainda esta no valor antigo, e o mapa nao cresceria junto ao minimizar
-  const alt = p.classList.contains('oculto') ? '0px' : (p.classList.contains('painel-baixo') ? '34vh' : '56vh');
-  document.documentElement.style.setProperty('--painel-alt', alt);
+  const fechado = p.classList.contains('painel-fechado') || p.classList.contains('oculto');
+  const painelVh = fechado ? 0 : (p.classList.contains('painel-baixo') ? 34 : 56);
+  const debugPx = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--debug-alt')) || 0;
+  const altPx = Math.round(painelVh / 100 * window.innerHeight + debugPx);
+  document.documentElement.style.setProperty('--painel-alt', fechado ? '0px' : painelVh + 'vh');
+  const mapaEl = $('mapa'); if (mapaEl) mapaEl.style.bottom = altPx + 'px';
+  const ctrl = $('controles-flutuantes'); if (ctrl) ctrl.style.bottom = (altPx + 12) + 'px';
   if (!mapa) return;
   // acompanha a transicao para o Leaflet preencher enquanto o mapa cresce/encolhe
   let n = 0;
@@ -514,6 +575,7 @@ function selarEtapa() {
     $('senha-input').select();
     return;
   }
+  if (etapaInicioTs) temposEtapa[et.id] = Date.now() - etapaInicioTs; // quanto durou esta etapa
   if (!cerimoniaFeita) cerimoniaChegada(); // fallback: GPS nao pegou, a senha garante o item
   etapaAtual++;
   salvarEstado();
@@ -531,6 +593,8 @@ function selarEtapa() {
 }
 
 function mostrarFinal() {
+  pararCronometro();
+  $('cronometro').classList.add('oculto');
   $('final-seita').textContent = rotaAtiva.seita;
   const ff = $('final-foto');
   if (ff) {
@@ -543,11 +607,11 @@ function mostrarFinal() {
   const blocos = Array.isArray(frag) ? frag : [{ voz: 'gamliel', texto: frag || '' }];
   $('final-prosseguir').textContent = TEXTOS.prosseguir;
   iniciarFluxo('final', blocos, {
-    fluxo: $('final-fluxo'), pontos: $('final-pontos'), botao: $('final-prosseguir'),
+    fluxo: $('final-fluxo'), pontos: $('final-pontos'), botao: $('final-prosseguir'), voltar: $('final-voltar'),
   }, {
     rotuloProsseguir: TEXTOS.prosseguir,
     rotuloFim: TEXTOS.botao_entendido || 'Fim',
-    aoFim: () => { $('final-convergencia').classList.remove('oculto'); $('final-prosseguir').classList.add('oculto'); },
+    aoFim: () => { $('final-convergencia').classList.remove('oculto'); $('final-prosseguir').classList.add('oculto'); $('final-voltar').classList.add('oculto'); },
   });
   mostrarTela('final');
 }
@@ -667,6 +731,8 @@ function atualizarPosicao(lat, lng, acc, fonte) {
       circuloAcc.setRadius(Math.max(acc, 8));
     }
   }
+  if (aguardandoGate) verificarChegadaGate();  // chegou ao portao inicial pelo GPS: abre a 1a etapa
+  if (bussolaAtiva) atualizarBussola();         // a agulha segue a posicao
   if (precisaVerificarEntrada) { precisaVerificarEntrada = false; verificar('entrada'); }
   atualizarPainelDebug();
 }
@@ -829,6 +895,7 @@ function ativarDebug() {
     '<button id="dbg-reset">reiniciar jogo</button></div>' +
     '<div class="linha"><span id="dbg-pos">posição: aguardando...</span>' +
     '<button id="dbg-copiar-pos">copiar posição</button></div>' +
+    '<div class="linha"><span id="dbg-tempos">tempos: -</span></div>' +
     (mock
       ? '<div class="linha">andar (simulado): <button data-anda="n">▲</button><button data-anda="s">▼</button><button data-anda="o">◀</button><button data-anda="l">▶</button></div>'
       : '') +
@@ -889,7 +956,7 @@ function ajustarAlturaDebug() {
     const p = $('painel-debug');
     const alt = p.classList.contains('oculto') ? 0 : p.offsetHeight;
     document.documentElement.style.setProperty('--debug-alt', alt + 'px');
-    if (mapa) setTimeout(() => mapa.invalidateSize(), 80);
+    ajustarMapaAoPainel(); // recomputa o bottom inline do mapa/controles com a nova altura do debug
   });
 }
 
@@ -948,6 +1015,11 @@ function atualizarPainelDebug(distConhecida) {
       (isFinite(d) ? ' | dist ao corredor: ' + Math.round(d) + 'm (etapa ' + etapaAtual + ')' : '');
   }
   posEl.textContent = linha;
+  const t = $('dbg-tempos');
+  if (t) {
+    const ids = Object.keys(temposEtapa);
+    t.textContent = 'tempos: ' + (ids.length ? ids.map(id => 'E' + id + ' ' + formatarTempo(temposEtapa[id])).join('  ') : '-');
+  }
   const j = $('dbg-json');
   if (j) j.textContent = jsonCantos();
 }
@@ -1166,6 +1238,180 @@ function abrirInventario() {
     grade.appendChild(cel);
   });
   $('tela-inventario').classList.remove('oculto');
+}
+
+// ---------- fotos da etapa: galeria + lightbox (modo Easy de referencia) ----------
+function preencherFotos(cont, fotos) {
+  if (!cont) return;
+  cont.innerHTML = '';
+  (fotos || []).forEach(src => {
+    const im = document.createElement('img');
+    im.src = src; im.alt = ''; im.loading = 'lazy';
+    im.onerror = () => im.remove();
+    im.addEventListener('click', () => abrirFoto(src));
+    cont.appendChild(im);
+  });
+}
+
+function abrirFoto(src) {
+  const g = $('foto-grande');
+  if (g) g.src = src;
+  $('tela-foto').classList.remove('oculto');
+}
+function fecharFoto() { $('tela-foto').classList.add('oculto'); }
+
+// ---------- cronometro por etapa ----------
+function formatarTempo(ms) {
+  const s = Math.max(0, Math.floor(ms / 1000));
+  return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0');
+}
+function iniciarCronometro() {
+  etapaInicioTs = Date.now();
+  const el = $('cronometro');
+  if (el) el.classList.remove('oculto');
+  pintarCronometro();
+  clearInterval(cronTimer);
+  cronTimer = setInterval(pintarCronometro, 1000);
+}
+function pintarCronometro() {
+  const el = $('cronometro');
+  if (el && etapaInicioTs) el.textContent = formatarTempo(Date.now() - etapaInicioTs);
+}
+function pararCronometro() { clearInterval(cronTimer); cronTimer = null; }
+
+// ---------- voltar ao ultimo ponto marcado (quando o grupo se perde) ----------
+function ultimoPontoMarcado() {
+  if (!rotaAtiva) return null;
+  const cumpridas = Math.min(etapaAtual - 1, rotaAtiva.etapas.length);
+  for (let i = cumpridas - 1; i >= 0; i--) {
+    const corr = rotaAtiva.etapas[i].corredor;
+    if (corr && corr.length) return corr[corr.length - 1];
+  }
+  return rotaAtiva.ponto_inicial || null; // ainda na 1a etapa: volta ao portao de partida
+}
+function voltarAoUltimoPonto() {
+  const pt = ultimoPontoMarcado();
+  if (!pt || !mapa) { toast(TEXTOS.sem_ponto); return; }
+  mapa.flyTo(pt, Math.max(mapa.getZoom(), CONFIG.zoom.inicial), { duration: 0.9 });
+}
+
+// ---------- gate inicial: comecar longe, ir ate o portao e tocar ESTOU AQUI ----------
+function mostrarGateInicial() {
+  if (!rotaAtiva) { entrarEtapa(); return; }
+  mostrarTela('jogo');
+  atualizarHeader();
+  $('cronometro').classList.add('oculto');     // a 1a etapa ainda nao comecou
+  $('painel').classList.add('painel-fechado');  // so o mapa e o brilho do portao
+  $('painel-mostrar').classList.add('oculto');  // durante o gate, o pino nao aparece
+  ajustarMapaAoPainel();
+  limparBrilhoGate();
+  const pt = rotaAtiva.ponto_inicial;
+  if (mapa && pt) {
+    const ic = L.divIcon({ className: '', html: '<div class="brilho-portao"><span></span></div>', iconSize: [54, 54], iconAnchor: [27, 27] });
+    marcadorBrilhoGate = L.marker(pt, { icon: ic, zIndexOffset: 650, interactive: false }).addTo(mapa);
+    // o mapa acabou de ficar visivel (vinha da abertura): da o tamanho a ele antes de voar,
+    // senao o flyTo calcula sobre um container 0x0 e estoura "Invalid LatLng (NaN, NaN)"
+    setTimeout(() => { mapa.invalidateSize(); mapa.flyTo(pt, Math.max(mapa.getZoom(), CONFIG.zoom.inicial), { duration: 1.0 }); }, 80);
+  }
+  $('gate-inicial').classList.remove('oculto');
+  aguardandoGate = true;
+}
+
+function verificarChegadaGate() {
+  if (!aguardandoGate || !posAtual || !rotaAtiva) return;
+  const pt = rotaAtiva.ponto_inicial;
+  const folga = Math.min(posAtual.acc || 0, 30);
+  if (pt && distanciaAoCorredorM(posAtual, [pt]) <= 55 + folga) abrirPrimeiraEtapa();
+}
+
+function abrirPrimeiraEtapa() {
+  if (!aguardandoGate) return;
+  aguardandoGate = false;
+  $('gate-inicial').classList.add('oculto');
+  limparBrilhoGate();
+  $('painel').classList.remove('painel-fechado'); // traz o painel de volta pra 1a carta
+  atualizarPinoMostrar();
+  entrarEtapa();
+  toast(TEXTOS.gate_chegou || TEXTOS.portao_abriu);
+}
+
+function limparBrilhoGate() {
+  if (marcadorBrilhoGate && mapa) mapa.removeLayer(marcadorBrilhoGate);
+  marcadorBrilhoGate = null;
+}
+
+// ---------- bussola: a agulha aponta pro fim do corredor da etapa ----------
+function bearingTo(from, to) {
+  const lat1 = from.lat * Math.PI / 180, lat2 = to[0] * Math.PI / 180;
+  const dLng = (to[1] - from.lng) * Math.PI / 180;
+  const y = Math.sin(dLng) * Math.cos(lat2);
+  const x = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLng);
+  return (Math.atan2(y, x) * 180 / Math.PI + 360) % 360;
+}
+
+function destinoEtapa() {
+  const et = etapaObj();
+  if (!et || !et.corredor || !et.corredor.length) return null;
+  return et.corredor[et.corredor.length - 1];
+}
+
+function toggleBussola() {
+  if (bussolaAtiva) { desligarBussola(); return; }
+  ligarBussola();
+}
+
+function ligarBussola() {
+  bussolaAtiva = true;
+  $('botao-bussola').classList.add('ativa');
+  $('bussola-hud').classList.remove('oculto');
+  const liga = () => {
+    bussolaListener = onOrientacao;
+    window.addEventListener('deviceorientationabsolute', bussolaListener, true);
+    window.addEventListener('deviceorientation', bussolaListener, true);
+  };
+  // iOS 13+: precisa de permissao, e so a partir de um gesto (este toque conta)
+  const DOE = window.DeviceOrientationEvent;
+  if (DOE && typeof DOE.requestPermission === 'function') {
+    DOE.requestPermission().then((r) => { if (r === 'granted') liga(); }).catch(() => {});
+  } else {
+    liga();
+  }
+  atualizarBussola();
+}
+
+function desligarBussola() {
+  bussolaAtiva = false;
+  $('botao-bussola').classList.remove('ativa');
+  $('bussola-hud').classList.add('oculto');
+  if (bussolaListener) {
+    window.removeEventListener('deviceorientationabsolute', bussolaListener, true);
+    window.removeEventListener('deviceorientation', bussolaListener, true);
+    bussolaListener = null;
+  }
+  bussolaHeading = null;
+}
+
+function onOrientacao(e) {
+  let h = null;
+  if (typeof e.webkitCompassHeading === 'number') h = e.webkitCompassHeading;   // iOS: ja e do norte
+  else if (e.absolute && typeof e.alpha === 'number') h = (360 - e.alpha) % 360; // alpha cresce anti-horario
+  if (h === null) return;
+  bussolaHeading = h;
+  atualizarBussola();
+}
+
+function atualizarBussola() {
+  if (!bussolaAtiva) return;
+  const agulha = $('bussola-agulha');
+  const distEl = $('bussola-dist');
+  const destino = destinoEtapa();
+  if (!posAtual || !destino) { if (distEl) distEl.textContent = '· · ·'; return; }
+  const brg = bearingTo(posAtual, destino);
+  // sem heading do aparelho: a agulha aponta relativa ao norte do mapa (mapa e norte-para-cima)
+  const rot = bussolaHeading === null ? brg : (brg - bussolaHeading);
+  if (agulha) agulha.style.transform = 'translate(-50%, -50%) rotate(' + rot.toFixed(0) + 'deg)';
+  const d = distanciaAoCorredorM(posAtual, [destino]);
+  if (distEl) distEl.textContent = isFinite(d) ? (d < 1000 ? Math.round(d) + ' m' : (d / 1000).toFixed(1) + ' km') : '';
 }
 
 // ---------- início ----------

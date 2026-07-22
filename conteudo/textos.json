@@ -54,5 +54,25 @@
   "rotulo_codigo": "O número gravado na pedra",
   "codigo_ajuda": "Achem o arco de pedra, leiam o número gravado e digitem (com ou sem o traço).",
   "codigo_errado": "Não é esse número. A pedra gasta engana. Voltem ao arco e leiam de novo.",
-  "selar_codigo": "Abrir a última porta"
+  "selar_codigo": "Abrir a última porta",
+
+  "_ui_navegacao": "Strings das mecânicas de navegação (reorder, voltar, tela cheia, ponto, cronômetro).",
+  "rotulo_fotos_destino": "O que vocês vão encontrar",
+  "fotos_ajuda": "Guardem estas imagens. É o que vão reconhecer no caminho.",
+  "voltar_leitura": "Voltar",
+  "foto_fechar": "Fechar",
+  "painel_mostrar": "Mostrar as instruções",
+  "voltar_ponto": "Voltar ao último ponto",
+  "sem_ponto": "Ainda não há ponto marcado. Sigam para o primeiro.",
+  "cron_rotulo": "tempo desta etapa",
+
+  "_ui_gate": "Gate inicial (começar longe da cidade) e bússola.",
+  "gate_rotulo": "O portão",
+  "gate_texto": "Vão até o brilho no mapa: é o portão por onde a corrente entra na cidade. Quando o grupo inteiro estiver lá, toquem em Estou aqui.",
+  "gate_botao": "Estou aqui",
+  "gate_chegou": "As pedras reconhecem vocês. O portão se abre.",
+  "bussola_rotulo": "A agulha aponta para o fim desta etapa",
+  "bussola_ligar": "A bússola",
+  "bussola_sem_heading": "O aparelho não deu o norte. A agulha aponta como no mapa, com o norte para cima.",
+  "bussola_sem_gps": "Sem posição ainda. A agulha acorda quando o céu abrir."
 }
