@@ -16,7 +16,10 @@
       "seita": "Fariseus",
       "senha_entrada": "PERGUNTA",
       "cor": "#b8860b",
-      "ponto_inicial": [31.7768, 35.2277],
+      "ponto_inicial": [
+        31.7768,
+        35.2277
+      ],
       "_nota_rota": "E1 a E4: corredores REAIS do scouting de 18/07/2026 (nao mexer sem alinhar com o Allan). E5 (rumo ao shuk, sem descer pro Cardo/Kotel) e E6 (subida aos telhados) tem coordenadas ESTIMADAS: andar com ?debug=1 ou ?adm=1 e coletar as posicoes reais. Raio 150m nesses dois trechos para o geofence estimado nao dar falso alarme.",
       "abertura": {
         "viajante": [
@@ -40,17 +43,41 @@
           "id": 1,
           "titulo": "A porta do ocidente",
           "corredor": [
-            [31.7768, 35.2277],
-            [31.77775, 35.22735],
-            [31.778597, 35.22732]
+            [
+              31.7768,
+              35.2277
+            ],
+            [
+              31.77775,
+              35.22735
+            ],
+            [
+              31.778597,
+              35.22732
+            ]
           ],
           "raio_m": 50,
           "carta": [
-            { "voz": "narrador", "texto": "Chega uma carta. Dizem que é da letra de Rabban Gamliel, o velho, o que ensina no beit midrash da cidade alta." },
-            { "voz": "narrador", "texto": "Dizem. Ninguém viu o velho escrever, e a cera do selo já estava fria quando o mensageiro chegou. Vocês vão ter que decidir se confiam nela sem ter como provar de quem é. Acostumem com isso hoje. Vai voltar." },
-            { "voz": "gamliel", "texto": "Talmidim de Beit Hilel. Chegou mais um. Yeshua de Natzrat, um mestre da Galileia, morto numa cruz por Roma como se pendura um ladrão. Até aí, história repetida. Theudas* prometeu partir o rio e acabou com a cabeça num poste. Yehudá, o Galileu*, pegou em armas no ano do censo e virou pó, com os seus atrás. Falso messias termina sempre igual: o mestre cai, o bando se esconde, o nome apaga." },
-            { "voz": "gamliel", "texto": "Só que este não apagou. O mestre caiu e a gente dele não correu. Continua em Yerushalayim, repartindo pão, jurando que a morte não teve a última palavra." },
-            { "voz": "gamliel", "texto": "Não pedi que julgassem. Pedi que vissem. Desçam, pisem onde essa gente pisa, escutem com o próprio ouvido. Voltem e me digam se é mais um punhal esperando a hora, ou coisa que a Casa nunca viu. Entrem pela porta do ocidente. Confio mais nos olhos de vocês do que na minha pressa." }
+            {
+              "voz": "narrador",
+              "texto": "Chega uma carta. Dizem que é da letra de Rabban Gamliel, o velho, o que ensina no beit midrash da cidade alta."
+            },
+            {
+              "voz": "narrador",
+              "texto": "Dizem. Ninguém viu o velho escrever, e a cera do selo já estava fria quando o mensageiro chegou. Vocês vão ter que decidir se confiam nela sem ter como provar de quem é. Acostumem com isso hoje. Vai voltar."
+            },
+            {
+              "voz": "gamliel",
+              "texto": "Talmidim de Beit Hilel. Chegou mais um. Yeshua de Natzrat, um mestre da Galileia, morto numa cruz por Roma como se pendura um ladrão. Até aí, história repetida. Theudas* prometeu partir o rio e acabou com a cabeça num poste. Yehudá, o Galileu*, pegou em armas no ano do censo e virou pó, com os seus atrás. Falso messias termina sempre igual: o mestre cai, o bando se esconde, o nome apaga."
+            },
+            {
+              "voz": "gamliel",
+              "texto": "Só que este não apagou. O mestre caiu e a gente dele não correu. Continua em Yerushalayim, repartindo pão, jurando que a morte não teve a última palavra."
+            },
+            {
+              "voz": "gamliel",
+              "texto": "Não pedi que julgassem. Pedi que vissem. Desçam, pisem onde essa gente pisa, escutem com o próprio ouvido. Voltem e me digam se é mais um punhal esperando a hora, ou coisa que a Casa nunca viu. Entrem pela porta do ocidente. Confio mais nos olhos de vocês do que na minha pressa."
+            }
           ],
           "direcoes": [
             "Entrem pela porta do ocidente.",
@@ -60,7 +87,13 @@
             "Sigam até o chão pedir uma parada. É ali."
           ],
           "marcos": [
-            { "nome": "A torre da cruz", "ponto": [31.778597, 35.22732] }
+            {
+              "nome": "A torre da cruz",
+              "ponto": [
+                31.778597,
+                35.22732
+              ]
+            }
           ],
           "missao": "Antes de atravessar a porta, montem o retrato oficial da corrente: pose de time, metade agachada na frente, metade em pé atrás, o capitão com o pé em cima de uma bola que não existe. Todos sérios como quem vai disputar uma final. Mandem ao madrich. A senha só chega depois do retrato.",
           "fotos": [
@@ -70,24 +103,52 @@
             "img/etapas/fariseus-e1-d-patriarcado-latino.jpg",
             "img/etapas/fariseus-e1-e-tunel.jpg"
           ],
-          "item": { "nome": "A carta do velho", "glifo": "carta", "sobre": "A ordem de Rabban Gamliel: ver antes de julgar." },
+          "item": {
+            "nome": "A carta do velho",
+            "glifo": "carta",
+            "sobre": "A ordem de Rabban Gamliel: ver antes de julgar."
+          },
           "senha_desbloqueio": "OFEL"
         },
         {
           "id": 2,
           "titulo": "Os mensageiros",
           "corredor": [
-            [31.778597, 35.22732],
-            [31.7794, 35.2285],
-            [31.779624, 35.229645]
+            [
+              31.778597,
+              35.22732
+            ],
+            [
+              31.7794,
+              35.2285
+            ],
+            [
+              31.779624,
+              35.229645
+            ]
           ],
           "raio_m": 50,
           "carta": [
-            { "voz": "narrador", "texto": "Chega um bilhete pequeno, dobrado, letra apressada de quem escreveu escondido." },
-            { "voz": "bilhete", "texto": "Vocês vieram atrás de um exército. Vão achar rede de pescador. Essa gente não tem espada. Reparte o pão e espera." },
-            { "voz": "narrador", "texto": "Um exército, vocês saberiam o que fazer. Um punhal também. Ninguém ensinou o que fazer com um bando que reparte pão e espera a mesma coisa que vocês esperam toda manhã na reza." },
-            { "voz": "narrador", "texto": "E há coisa pior no ar, e vem da cidade em volta. Yerushalayim está comendo a si mesma. Homens escondem um punhal curto na dobra do manto, os sicários*, se misturam à multidão nas festas e cravam a lâmina nas costas de outro judeu dentro do próprio Templo. Neste mesmo ano, gente da cidade tomou o Monte à força e matou o sumo sacerdote*, e largou o corpo fora do muro sem sepultura. Roma ainda nem chegou, e o sangue que corre já é de irmão." },
-            { "voz": "narrador", "texto": "Até a nossa casa já provou desse veneno. Houve um dia em que Beit Shammai e Beit Hilel discordaram tanto que cravaram uma espada no chão da casa de estudo*, e disseram: quem entra, entra; quem sai, não sai. Os sábios lembram desse dia como um dos piores que Israel viveu. Brigar por Torá ainda é vida. O veneno vem depois, no dia em que um lado para de acreditar que o outro ama o mesmo Céu." }
+            {
+              "voz": "narrador",
+              "texto": "Chega um bilhete pequeno, dobrado, letra apressada de quem escreveu escondido."
+            },
+            {
+              "voz": "bilhete",
+              "texto": "Vocês vieram atrás de um exército. Vão achar rede de pescador. Essa gente não tem espada. Reparte o pão e espera."
+            },
+            {
+              "voz": "narrador",
+              "texto": "Um exército, vocês saberiam o que fazer. Um punhal também. Ninguém ensinou o que fazer com um bando que reparte pão e espera a mesma coisa que vocês esperam toda manhã na reza."
+            },
+            {
+              "voz": "narrador",
+              "texto": "E há coisa pior no ar, e vem da cidade em volta. Yerushalayim está comendo a si mesma. Homens escondem um punhal curto na dobra do manto, os sicários*, se misturam à multidão nas festas e cravam a lâmina nas costas de outro judeu dentro do próprio Templo. Neste mesmo ano, gente da cidade tomou o Monte à força e matou o sumo sacerdote*, e largou o corpo fora do muro sem sepultura. Roma ainda nem chegou, e o sangue que corre já é de irmão."
+            },
+            {
+              "voz": "narrador",
+              "texto": "Até a nossa casa já provou desse veneno. Houve um dia em que Beit Shammai e Beit Hilel discordaram tanto que cravaram uma espada no chão da casa de estudo*, e disseram: quem entra, entra; quem sai, não sai. Os sábios lembram desse dia como um dos piores que Israel viveu. Brigar por Torá ainda é vida. O veneno vem depois, no dia em que um lado para de acreditar que o outro ama o mesmo Céu."
+            }
           ],
           "eco": "Vocês conhecem uma cidade que se come por dentro. Já a viram com outro nome, mais perto de casa.",
           "direcoes": [
@@ -98,35 +159,81 @@
             "À frente, placas para portas da cidade, o Bab el-Jadid entre elas. Nenhuma é a sua. Sigam reto até a rua acabar."
           ],
           "marcos": [
-            { "nome": "A mulher da roda", "ponto": [31.779624, 35.229645] }
+            {
+              "nome": "A mulher da roda",
+              "ponto": [
+                31.779624,
+                35.229645
+              ]
+            }
           ],
           "missao": "Diante da mulher da roda, uma foto só: o grupo inteiro apontando para ela ao mesmo tempo, em silêncio, cara séria. Nada de riso. Mandem ao madrich.",
           "fotos": [
             "img/etapas/fariseus-e2-a-sao-francisco.jpg",
             "img/etapas/fariseus-e2-b-mulher-da-roda.jpg"
           ],
-          "item": { "nome": "A rede do pescador", "glifo": "rede", "sobre": "Vieram atrás de espadas e acharam redes." },
+          "item": {
+            "nome": "A rede do pescador",
+            "glifo": "rede",
+            "sobre": "Vieram atrás de espadas e acharam redes."
+          },
           "senha_desbloqueio": "SHOFAR"
         },
         {
           "id": 3,
           "titulo": "A descida que engana",
           "corredor": [
-            [31.779624, 35.229645],
-            [31.7793, 35.2295],
-            [31.778958, 35.229195]
+            [
+              31.779624,
+              35.229645
+            ],
+            [
+              31.7793,
+              35.2295
+            ],
+            [
+              31.778958,
+              35.229195
+            ]
           ],
           "raio_m": 50,
           "carta": [
-            { "voz": "narrador", "texto": "Capitão, pare o grupo. Todos em círculo. Leia devagar, em voz alta." },
-            { "voz": "circulo", "texto": "Tem um homem pintado nessa parede, olhando para vocês. É ele. O mestre de Natzrat, o motivo de a gente estar aqui." },
-            { "voz": "circulo", "texto": "Essa gente é judia. Reza o Shemá que vocês rezam, chora pelo mesmo Templo. Não veio de fora. Senta do outro lado da mesma mesa." },
-            { "voz": "circulo", "texto": "E cabe muita gente debaixo de um nome só. Tem o pescador que reparte o pão sem perguntar quem você é, e quer o Mashiach com a alma inteira, igual a vocês na reza da manhã. Tem também o outro, que já enxerga na multidão uma faca, e sonha em virar a espera em revolta. Theudas* sonhou parecido, e acabou com a cabeça num poste. Yehudá, o Galileu*, também, e virou pó com os seus atrás. Em toda casa é assim. Os que amam o Céu, e os que vestem o nome do Céu para acender o próprio fogo." },
-            { "voz": "circulo", "texto": "O velho sabia disso quando mandou ver antes de julgar. Bando não se mede pelo pior que tem dentro, nem pelo melhor. Olha-se um por um, na cara. Este espera? Ou este arma?" },
-            { "voz": "circulo", "texto": "E o que essa gente crê arrepia a espinha: que o mestre se levantou do túmulo, que a morte não ficou com a última palavra. Aí vem o susto. Ressurreição dos mortos é a nossa fé. É ela que separa nós dos saduceus, que riem de quem espera os mortos de volta. Nesse ponto, essa gente está do nosso lado da sala." },
-            { "voz": "circulo", "texto": "A briga, então, não é sobre esperar. Os dois lados esperam. É sobre a hora. Eles dizem que o Mashiach já veio, que já esteve aqui e foi embora. Olhem pela janela: Roma ainda manda, o imposto ainda sobe, o mundo continua torto. Que vinda foi essa, que deixou tudo do mesmo jeito?" },
-            { "voz": "circulo", "texto": "Eles esperam de olho para trás, num homem que já foi. Vocês esperam de olho no que ainda vem. Dois povos lendo uma hora diferente no mesmo céu." },
-            { "voz": "narrador", "texto": "Fechem o círculo e sigam." }
+            {
+              "voz": "narrador",
+              "texto": "Capitão, pare o grupo. Todos em círculo. Leia devagar, em voz alta."
+            },
+            {
+              "voz": "circulo",
+              "texto": "Tem um homem pintado nessa parede, olhando para vocês. É ele. O mestre de Natzrat, o motivo de a gente estar aqui."
+            },
+            {
+              "voz": "circulo",
+              "texto": "Essa gente é judia. Reza o Shemá que vocês rezam, chora pelo mesmo Templo. Não veio de fora. Senta do outro lado da mesma mesa."
+            },
+            {
+              "voz": "circulo",
+              "texto": "E cabe muita gente debaixo de um nome só. Tem o pescador que reparte o pão sem perguntar quem você é, e quer o Mashiach com a alma inteira, igual a vocês na reza da manhã. Tem também o outro, que já enxerga na multidão uma faca, e sonha em virar a espera em revolta. Theudas* sonhou parecido, e acabou com a cabeça num poste. Yehudá, o Galileu*, também, e virou pó com os seus atrás. Em toda casa é assim. Os que amam o Céu, e os que vestem o nome do Céu para acender o próprio fogo."
+            },
+            {
+              "voz": "circulo",
+              "texto": "O velho sabia disso quando mandou ver antes de julgar. Bando não se mede pelo pior que tem dentro, nem pelo melhor. Olha-se um por um, na cara. Este espera? Ou este arma?"
+            },
+            {
+              "voz": "circulo",
+              "texto": "E o que essa gente crê arrepia a espinha: que o mestre se levantou do túmulo, que a morte não ficou com a última palavra. Aí vem o susto. Ressurreição dos mortos é a nossa fé. É ela que separa nós dos saduceus, que riem de quem espera os mortos de volta. Nesse ponto, essa gente está do nosso lado da sala."
+            },
+            {
+              "voz": "circulo",
+              "texto": "A briga, então, não é sobre esperar. Os dois lados esperam. É sobre a hora. Eles dizem que o Mashiach já veio, que já esteve aqui e foi embora. Olhem pela janela: Roma ainda manda, o imposto ainda sobe, o mundo continua torto. Que vinda foi essa, que deixou tudo do mesmo jeito?"
+            },
+            {
+              "voz": "circulo",
+              "texto": "Eles esperam de olho para trás, num homem que já foi. Vocês esperam de olho no que ainda vem. Dois povos lendo uma hora diferente no mesmo céu."
+            },
+            {
+              "voz": "narrador",
+              "texto": "Fechem o círculo e sigam."
+            }
           ],
           "eco": "Que vinda foi essa, que deixou o mundo torto? Vocês vêm de dois mil anos depois. A pergunta continua aberta.",
           "direcoes": [
@@ -136,33 +243,73 @@
             "Sigam até a rua abrir. É ali que vocês param."
           ],
           "marcos": [
-            { "nome": "A torre verde", "ponto": [31.778958, 35.229195] }
+            {
+              "nome": "A torre verde",
+              "ponto": [
+                31.778958,
+                35.229195
+              ]
+            }
           ],
           "missao": "Diante do homem pintado na parede, o mestre de Natzrat, gravem dez segundos: o grupo passa em fila, um por um, em silêncio, cara séria. É o rosto que rachou a cidade. Mandem ao madrich.",
           "fotos": [
             "img/etapas/fariseus-e3-b-yeshu-parede.jpg",
             "img/etapas/fariseus-e3-a-torre-verde.jpg"
           ],
-          "item": { "nome": "A hora diferente", "glifo": "ampulheta", "sobre": "Dois povos lendo uma hora diferente no mesmo céu." },
+          "item": {
+            "nome": "A hora diferente",
+            "glifo": "ampulheta",
+            "sobre": "Dois povos lendo uma hora diferente no mesmo céu."
+          },
           "senha_desbloqueio": "MENORA"
         },
         {
           "id": 4,
           "titulo": "O corredor dos outros",
           "corredor": [
-            [31.778958, 35.229195],
-            [31.7782, 35.2292],
-            [31.777513, 35.229932]
+            [
+              31.778958,
+              35.229195
+            ],
+            [
+              31.7782,
+              35.2292
+            ],
+            [
+              31.777513,
+              35.229932
+            ]
           ],
           "raio_m": 50,
           "carta": [
-            { "voz": "narrador", "texto": "Chega uma carta do velho, e a tinta está borrada num ponto só, onde a mão parou." },
-            { "voz": "gamliel", "texto": "Shaul de Tarso caiu na estrada de Damasco. Guardem esse nome, e guardem de que lado ele começou." },
-            { "voz": "narrador", "texto": "Shaul é um dos nossos. Sentou aos pés de Rabban Gamliel*, no mesmo chão que vocês, decorou os mesmos versos, reza o mesmo Shemá. E virou caçador dos seus. Não caçava romano nem idólatra: caçava judeus, gente como vocês, que tinha posto a fé num messias morto numa cruz. Andava de porta em porta com um maço de cartas na sacola, autorização carimbada para arrastar homem e mulher amarrados de volta para Yerushalayim. Não fazia por moeda. A cada porta que arrombava, tinha certeza de estar servindo ao Céu." },
-            { "voz": "narrador", "texto": "Aí, no meio do dia, na estrada aberta, alguma coisa o derrubou. O caçador que corria para cegar os outros levantou cego. Quando a vista voltou, ele tinha trocado de lado. Passou a anunciar, de praça em praça, exatamente o que jurara arrancar pela raiz." },
-            { "voz": "narrador", "texto": "Olhem a sacola de vocês. Cada um carrega um pouco de zelo ali dentro. O mesmo zelo que levanta a Casa é o que arromba a porta do irmão. Shaul perseguiu o Céu achando que servia o Céu. Para um estrago desse tamanho não precisa de ódio: basta uma certeza que nunca duvidou de si." },
-            { "voz": "gamliel", "texto": "E escutem bem quem é essa gente, porque não são todos iguais. Tem reshaim no meio, sempre tem: gente que veste o nome do Céu para acender o próprio fogo. Mas a maioria é judeu comum, que se deixou levar por um messias que prometeu e foi embora. Esse não é inimigo. Esse a gente aproxima, não mata. A espada de Shaul não trouxe um só de volta. De volta a gente traz puxando pela manga, não arrastando pela corda." },
-            { "voz": "gamliel", "texto": "Quando prenderam os primeiros dessa gente e o Sinédrio quis matá-los, fui eu que segurei a corte*. Disse: se isto vem de homem, se desfaz sozinho. Se vem de D'us, vocês não desfazem, e ainda vão se ver brigando contra o Céu. Deixem o tempo julgar o que a pressa não sabe." }
+            {
+              "voz": "narrador",
+              "texto": "Chega uma carta do velho, e a tinta está borrada num ponto só, onde a mão parou."
+            },
+            {
+              "voz": "gamliel",
+              "texto": "Shaul de Tarso caiu na estrada de Damasco. Guardem esse nome, e guardem de que lado ele começou."
+            },
+            {
+              "voz": "narrador",
+              "texto": "Shaul é um dos nossos. Sentou aos pés de Rabban Gamliel*, no mesmo chão que vocês, decorou os mesmos versos, reza o mesmo Shemá. E virou caçador dos seus. Não caçava romano nem idólatra: caçava judeus, gente como vocês, que tinha posto a fé num messias morto numa cruz. Andava de porta em porta com um maço de cartas na sacola, autorização carimbada para arrastar homem e mulher amarrados de volta para Yerushalayim. Não fazia por moeda. A cada porta que arrombava, tinha certeza de estar servindo ao Céu."
+            },
+            {
+              "voz": "narrador",
+              "texto": "Aí, no meio do dia, na estrada aberta, alguma coisa o derrubou. O caçador que corria para cegar os outros levantou cego. Quando a vista voltou, ele tinha trocado de lado. Passou a anunciar, de praça em praça, exatamente o que jurara arrancar pela raiz."
+            },
+            {
+              "voz": "narrador",
+              "texto": "Olhem a sacola de vocês. Cada um carrega um pouco de zelo ali dentro. O mesmo zelo que levanta a Casa é o que arromba a porta do irmão. Shaul perseguiu o Céu achando que servia o Céu. Para um estrago desse tamanho não precisa de ódio: basta uma certeza que nunca duvidou de si."
+            },
+            {
+              "voz": "gamliel",
+              "texto": "E escutem bem quem é essa gente, porque não são todos iguais. Tem reshaim no meio, sempre tem: gente que veste o nome do Céu para acender o próprio fogo. Mas a maioria é judeu comum, que se deixou levar por um messias que prometeu e foi embora. Esse não é inimigo. Esse a gente aproxima, não mata. A espada de Shaul não trouxe um só de volta. De volta a gente traz puxando pela manga, não arrastando pela corda."
+            },
+            {
+              "voz": "gamliel",
+              "texto": "Quando prenderam os primeiros dessa gente e o Sinédrio quis matá-los, fui eu que segurei a corte*. Disse: se isto vem de homem, se desfaz sozinho. Se vem de D'us, vocês não desfazem, e ainda vão se ver brigando contra o Céu. Deixem o tempo julgar o que a pressa não sabe."
+            }
           ],
           "direcoes": [
             "Atrás das lojas, à esquerda, dorme o santuário mais guardado deles. Não é o destino de hoje. Não parem e não apontem.",
@@ -171,30 +318,61 @@
             "O beco solta vocês numa praça com uma fonte. Respirem."
           ],
           "marcos": [
-            { "nome": "A praça da fonte", "ponto": [31.777513, 35.229932] }
+            {
+              "nome": "A praça da fonte",
+              "ponto": [
+                31.777513,
+                35.229932
+              ]
+            }
           ],
           "missao": "Na praça, círculo fechado. Um de vocês vira rav e solta meio minuto de drashá: por que ainda vale esperar o Mashiach mais um dia, com Roma parada na porta. No fim, todos respondem amén e batem o pé. Gravem e mandem.",
           "fotos": [
             "img/etapas/fariseus-e4-a-barbearia-al-zouhor.jpg",
             "img/etapas/fariseus-e4-b-fonte-cara.jpg"
           ],
-          "item": { "nome": "A lâmina do zelo", "glifo": "lamina", "sobre": "Zelo é lâmina de dois gumes: corta a mão que aperta demais." },
+          "item": {
+            "nome": "A lâmina do zelo",
+            "glifo": "lamina",
+            "sobre": "Zelo é lâmina de dois gumes: corta a mão que aperta demais."
+          },
           "senha_desbloqueio": "KEREN"
         },
         {
           "id": 5,
           "titulo": "O mercado e a travessia",
           "corredor": [
-            [31.777513, 35.229932],
-            [31.7772, 35.2301],
-            [31.7769, 35.2303]
+            [
+              31.777513,
+              35.229932
+            ],
+            [
+              31.7772,
+              35.2301
+            ],
+            [
+              31.7769,
+              35.2303
+            ]
           ],
           "raio_m": 150,
           "carta": [
-            { "voz": "narrador", "texto": "A carta que fecha o caminho é curta. Letra do velho, dessa vez sem pressa nenhuma." },
-            { "voz": "gamliel", "texto": "Vocês voltaram e me prestaram contas, e eu ouvi tudo. Não é exército. São irmãos. Irmãos que leem uma hora diferente no mesmo céu, que talvez estejam errados sobre a hora, e que mesmo assim não são o nosso inimigo. Tem muito judeu bom ali dentro, gente que acreditou de coração e não consegue mais voltar atrás. Esse a gente não larga." },
-            { "voz": "gamliel", "texto": "Deixem eu dizer a coisa mais difícil que aprendi em oitenta anos. Dá para ter toda a razão sobre os mortos, calar os saduceus, ganhar cada rodada da discussão, e perder tudo mesmo assim. Basta começar a odiar quem espera de um jeito diferente do seu." },
-            { "voz": "gamliel", "texto": "Vão até o coração da cidade. Atravessem o mercado dos outros sem comprar briga. Cheguem inteiros ao lugar onde a pedra ainda está de pé, enquanto ela ainda está." }
+            {
+              "voz": "narrador",
+              "texto": "A carta que fecha o caminho é curta. Letra do velho, dessa vez sem pressa nenhuma."
+            },
+            {
+              "voz": "gamliel",
+              "texto": "Vocês voltaram e me prestaram contas, e eu ouvi tudo. Não é exército. São irmãos. Irmãos que leem uma hora diferente no mesmo céu, que talvez estejam errados sobre a hora, e que mesmo assim não são o nosso inimigo. Tem muito judeu bom ali dentro, gente que acreditou de coração e não consegue mais voltar atrás. Esse a gente não larga."
+            },
+            {
+              "voz": "gamliel",
+              "texto": "Deixem eu dizer a coisa mais difícil que aprendi em oitenta anos. Dá para ter toda a razão sobre os mortos, calar os saduceus, ganhar cada rodada da discussão, e perder tudo mesmo assim. Basta começar a odiar quem espera de um jeito diferente do seu."
+            },
+            {
+              "voz": "gamliel",
+              "texto": "Vão até o coração da cidade. Atravessem o mercado dos outros sem comprar briga. Cheguem inteiros ao lugar onde a pedra ainda está de pé, enquanto ela ainda está."
+            }
           ],
           "direcoes": [
             "Ao sair da praça, achem o arco com a placa do restaurante. Ali, virem à direita.",
@@ -203,7 +381,13 @@
             "Parem quando o mercado abrir, antes da grande escadaria. É ali que a corrente se junta."
           ],
           "marcos": [
-            { "nome": "O arco do restaurante", "ponto": [31.7769, 35.2303] }
+            {
+              "nome": "O arco do restaurante",
+              "ponto": [
+                31.7769,
+                35.2303
+              ]
+            }
           ],
           "missao": "Achem o arco com a placa do restaurante. Foto do grupo inteiro embaixo dele, todos calados, como quem cruza o território dos outros sem comprar briga. Mandem ao madrich.",
           "fotos": [
@@ -211,22 +395,41 @@
             "img/etapas/fariseus-e5-b-passagem-porta-azul.jpg",
             "img/etapas/fariseus-e5-c-chain-gate.jpg"
           ],
-          "item": { "nome": "A régua de Hilel", "glifo": "regua", "sobre": "O que é odioso para ti, não faças ao próximo. O resto é comentário." },
+          "item": {
+            "nome": "A régua de Hilel",
+            "glifo": "regua",
+            "sobre": "O que é odioso para ti, não faças ao próximo. O resto é comentário."
+          },
           "senha_desbloqueio": "CHOTAM"
         },
         {
           "id": 6,
           "titulo": "A subida aos telhados",
           "corredor": [
-            [31.7769, 35.2303],
-            [31.7772, 35.2300],
-            [31.7774, 35.2298]
+            [
+              31.7769,
+              35.2303
+            ],
+            [
+              31.7772,
+              35.23
+            ],
+            [
+              31.7774,
+              35.2298
+            ]
           ],
           "raio_m": 150,
           "codigo_no_local": true,
           "carta": [
-            { "voz": "narrador", "texto": "Não vem carta agora. Vem uma escada. O caminho deixa de ser história e vira subida." },
-            { "voz": "viajante", "texto": "Vocês estão quase no alto. Lá de cima dá para ver a cidade inteira onde passaram a noite se perdendo. Subam com atenção: no meio da pedra, alguém deixou um número à vista de todos." }
+            {
+              "voz": "narrador",
+              "texto": "Não vem carta agora. Vem uma escada. O caminho deixa de ser história e vira subida."
+            },
+            {
+              "voz": "viajante",
+              "texto": "Vocês estão quase no alto. Lá de cima dá para ver a cidade inteira onde passaram a noite se perdendo. Subam com atenção: no meio da pedra, alguém deixou um número à vista de todos."
+            }
           ],
           "direcoes": [
             "Deixem o mercado pela direita e enfrentem a primeira escada. Ela sobe para um bairro mais quieto.",
@@ -236,9 +439,27 @@
             "No último nível, o dos telhados, avancem pelo pátio de olho na direita até achar a escada. É ela que leva ao alto, onde vocês param."
           ],
           "marcos": [
-            { "nome": "O arco do código", "ponto": [31.7772, 35.2300] },
-            { "nome": "A torre da igreja", "ponto": [31.7774, 35.22975] },
-            { "nome": "Os telhados", "ponto": [31.7774, 35.2298] }
+            {
+              "nome": "O arco do código",
+              "ponto": [
+                31.7772,
+                35.23
+              ]
+            },
+            {
+              "nome": "A torre da igreja",
+              "ponto": [
+                31.7774,
+                35.22975
+              ]
+            },
+            {
+              "nome": "Os telhados",
+              "ponto": [
+                31.7774,
+                35.2298
+              ]
+            }
           ],
           "missao": "Achem o número gravado no arco de pedra, aquele que a cidade escondeu à vista de todos. Ele é a chave da última porta. Leiam com cuidado, a pedra gasta engana, e digitem.",
           "fotos": [
@@ -247,19 +468,47 @@
             "img/etapas/fariseus-final-a-telhados-torre.jpg",
             "img/etapas/fariseus-final-b-patio-shuk.jpg"
           ],
-          "item": { "nome": "A chave da pedra", "glifo": "chave", "sobre": "O número gravado no arco, que abre a última porta." },
+          "item": {
+            "nome": "A chave da pedra",
+            "glifo": "chave",
+            "sobre": "O número gravado no arco, que abre a última porta."
+          },
           "senha_desbloqueio": "325-338"
         }
       ],
-      "ponto_final": [31.7774, 35.2298],
+      "ponto_final": [
+        31.7774,
+        35.2298
+      ],
       "fragmento_final": [
-        { "voz": "narrador", "texto": "Capitão, o grupo já está no alto, a última parada. Ponham todos de frente para a cidade lá embaixo. Depois desta leitura não vem missão. Só o que vocês vão fazer com ela." },
-        { "voz": "gamliel", "texto": "Olhem em volta. Esse mar de telhados de pedra, pano e cúpula, até onde a vista alcança, é o shuk. O mesmo mercado onde vocês se perderam a noite toda. Lá dentro, cada beco parecia uma armadilha. Daqui de cima é uma cidade só, e cabe num olhar. Lá dentro, ninguém conseguia enxergar isso." },
-        { "voz": "gamliel", "texto": "Agora escutem o que sobe da sala atrás de vocês. Vozes. Gente jovem debruçada nos livros, repetindo a Torá em voz alta, do mesmo jeito de dois mil anos atrás, palavra por palavra. Essa vista e esse som são o fim da caça." },
-        { "voz": "gamliel", "texto": "Vocês passaram a noite atrás do Templo. Preciso avisar antes de vocês chegarem perto dele. Dentro de dois anos, no ano 70, ele cai. Roma queima a cidade e derruba a pedra, e dessa vez não se reergue. Nunca mais." },
-        { "voz": "gamliel", "texto": "E quando os sábios sentarem para entender por quê, não vão escrever o nome de Roma na primeira linha. Vão escrever o nosso. Com o inimigo já no portão, três facções judias* vão rachar a cidade e brigar entre si por ela. Vão queimar, com a própria mão, os armazéns de trigo que dariam para aguentar anos de cerco*, e a fome que vai matar meia cidade vai ser fome plantada por judeu. Vocês conhecem o Kamtza e o Bar Kamtza*: um convite trocado, um homem humilhado numa festa, a sala inteira calada. Foi por miudeza desse tamanho que a Casa caiu. Deram nome a isso quando já era cinza: sinat chinam, ódio de graça. O incêndio que nenhuma legião precisa vir atear." },
-        { "voz": "gamliel", "texto": "E aqui está o milagre. Um sábio da nossa casa, Rabban Yochanan ben Zakkai, viu que a pedra estava perdida. Se fez de morto, e mandou os alunos o carregarem para fora da cidade sitiada dentro de um caixão*, porque os radicais não deixavam sair vivo quem falasse em paz. Diante do general de Roma, não pediu o Templo de volta. Pediu uma sala de sábios numa cidadezinha chamada Yavne. O muro queimou. A voz não. Ela cabia num caixão, e Roma não sabia pesar. Dois mil anos depois, ela ainda está estudando na sala atrás de vocês." },
-        { "voz": "viajante", "texto": "Agora a parte que só vocês, que vieram de longe, podem ouvir. Vocês sabem que a voz chegou até aqui, porque vieram de onde ela chegou. Amanhã tiram a roupa de fariseu e voltam para a vida de vocês, para o mesmo movimento e as mesmas rusgas de sempre. Quando a próxima briga chegar, e ela sempre chega, lembrem do que viram do alto. A Casa de pedra foi perdida uma vez, por ódio de graça entre irmãos que amavam o mesmo D'us. Aquela voz que não parou de estudar em dois mil anos depende de uma coisa só: de vocês não desistirem uns dos outros. A Casa cabia em todos. Foram os que estavam dentro que não couberam. Não deixem esse fogo achar vocês de novo." }
+        {
+          "voz": "narrador",
+          "texto": "Capitão, o grupo já está no alto, a última parada. Ponham todos de frente para a cidade lá embaixo. Depois desta leitura não vem missão. Só o que vocês vão fazer com ela."
+        },
+        {
+          "voz": "gamliel",
+          "texto": "Olhem em volta. Esse mar de telhados de pedra, pano e cúpula, até onde a vista alcança, é o shuk. O mesmo mercado onde vocês se perderam a noite toda. Lá dentro, cada beco parecia uma armadilha. Daqui de cima é uma cidade só, e cabe num olhar. Lá dentro, ninguém conseguia enxergar isso."
+        },
+        {
+          "voz": "gamliel",
+          "texto": "Agora escutem o que sobe da sala atrás de vocês. Vozes. Gente jovem debruçada nos livros, repetindo a Torá em voz alta, do mesmo jeito de dois mil anos atrás, palavra por palavra. Essa vista e esse som são o fim da caça."
+        },
+        {
+          "voz": "gamliel",
+          "texto": "Vocês passaram a noite atrás do Templo. Preciso avisar antes de vocês chegarem perto dele. Dentro de dois anos, no ano 70, ele cai. Roma queima a cidade e derruba a pedra, e dessa vez não se reergue. Nunca mais."
+        },
+        {
+          "voz": "gamliel",
+          "texto": "E quando os sábios sentarem para entender por quê, não vão escrever o nome de Roma na primeira linha. Vão escrever o nosso. Com o inimigo já no portão, três facções judias* vão rachar a cidade e brigar entre si por ela. Vão queimar, com a própria mão, os armazéns de trigo que dariam para aguentar anos de cerco*, e a fome que vai matar meia cidade vai ser fome plantada por judeu. Vocês conhecem o Kamtza e o Bar Kamtza*: um convite trocado, um homem humilhado numa festa, a sala inteira calada. Foi por miudeza desse tamanho que a Casa caiu. Deram nome a isso quando já era cinza: sinat chinam, ódio de graça. O incêndio que nenhuma legião precisa vir atear."
+        },
+        {
+          "voz": "gamliel",
+          "texto": "E aqui está o milagre. Um sábio da nossa casa, Rabban Yochanan ben Zakkai, viu que a pedra estava perdida. Se fez de morto, e mandou os alunos o carregarem para fora da cidade sitiada dentro de um caixão*, porque os radicais não deixavam sair vivo quem falasse em paz. Diante do general de Roma, não pediu o Templo de volta. Pediu uma sala de sábios numa cidadezinha chamada Yavne. O muro queimou. A voz não. Ela cabia num caixão, e Roma não sabia pesar. Dois mil anos depois, ela ainda está estudando na sala atrás de vocês."
+        },
+        {
+          "voz": "viajante",
+          "texto": "Agora a parte que só vocês, que vieram de longe, podem ouvir. Vocês sabem que a voz chegou até aqui, porque vieram de onde ela chegou. Amanhã tiram a roupa de fariseu e voltam para a vida de vocês, para o mesmo movimento e as mesmas rusgas de sempre. Quando a próxima briga chegar, e ela sempre chega, lembrem do que viram do alto. A Casa de pedra foi perdida uma vez, por ódio de graça entre irmãos que amavam o mesmo D'us. Aquela voz que não parou de estudar em dois mil anos depende de uma coisa só: de vocês não desistirem uns dos outros. A Casa cabia em todos. Foram os que estavam dentro que não couberam. Não deixem esse fogo achar vocês de novo."
+        }
       ]
     },
     {
@@ -267,7 +516,10 @@
       "seita": "Fariseus (teste)",
       "senha_entrada": "TESTE",
       "cor": "#b8860b",
-      "ponto_inicial": [31.7768, 35.2277],
+      "ponto_inicial": [
+        31.7768,
+        35.2277
+      ],
       "_nota_rota": "E1 a E4: corredores REAIS do scouting de 18/07/2026 (nao mexer sem alinhar com o Allan). E5 (rumo ao shuk, sem descer pro Cardo/Kotel) e E6 (subida aos telhados) tem coordenadas ESTIMADAS: andar com ?debug=1 ou ?adm=1 e coletar as posicoes reais. Raio 150m nesses dois trechos para o geofence estimado nao dar falso alarme.",
       "abertura": {
         "viajante": [
@@ -291,17 +543,41 @@
           "id": 1,
           "titulo": "A porta do ocidente",
           "corredor": [
-            [31.7768, 35.2277],
-            [31.77775, 35.22735],
-            [31.778597, 35.22732]
+            [
+              31.7768,
+              35.2277
+            ],
+            [
+              31.77775,
+              35.22735
+            ],
+            [
+              31.778597,
+              35.22732
+            ]
           ],
           "raio_m": 50,
           "carta": [
-            { "voz": "narrador", "texto": "Chega uma carta. Dizem que é da letra de Rabban Gamliel, o velho, o que ensina no beit midrash da cidade alta." },
-            { "voz": "narrador", "texto": "Dizem. Ninguém viu o velho escrever, e a cera do selo já estava fria quando o mensageiro chegou. Vocês vão ter que decidir se confiam nela sem ter como provar de quem é. Acostumem com isso hoje. Vai voltar." },
-            { "voz": "gamliel", "texto": "Talmidim de Beit Hilel. Chegou mais um. Yeshua de Natzrat, um mestre da Galileia, morto numa cruz por Roma como se pendura um ladrão. Até aí, história repetida. Theudas* prometeu partir o rio e acabou com a cabeça num poste. Yehudá, o Galileu*, pegou em armas no ano do censo e virou pó, com os seus atrás. Falso messias termina sempre igual: o mestre cai, o bando se esconde, o nome apaga." },
-            { "voz": "gamliel", "texto": "Só que este não apagou. O mestre caiu e a gente dele não correu. Continua em Yerushalayim, repartindo pão, jurando que a morte não teve a última palavra." },
-            { "voz": "gamliel", "texto": "Não pedi que julgassem. Pedi que vissem. Desçam, pisem onde essa gente pisa, escutem com o próprio ouvido. Voltem e me digam se é mais um punhal esperando a hora, ou coisa que a Casa nunca viu. Entrem pela porta do ocidente. Confio mais nos olhos de vocês do que na minha pressa." }
+            {
+              "voz": "narrador",
+              "texto": "Chega uma carta. Dizem que é da letra de Rabban Gamliel, o velho, o que ensina no beit midrash da cidade alta."
+            },
+            {
+              "voz": "narrador",
+              "texto": "Dizem. Ninguém viu o velho escrever, e a cera do selo já estava fria quando o mensageiro chegou. Vocês vão ter que decidir se confiam nela sem ter como provar de quem é. Acostumem com isso hoje. Vai voltar."
+            },
+            {
+              "voz": "gamliel",
+              "texto": "Talmidim de Beit Hilel. Chegou mais um. Yeshua de Natzrat, um mestre da Galileia, morto numa cruz por Roma como se pendura um ladrão. Até aí, história repetida. Theudas* prometeu partir o rio e acabou com a cabeça num poste. Yehudá, o Galileu*, pegou em armas no ano do censo e virou pó, com os seus atrás. Falso messias termina sempre igual: o mestre cai, o bando se esconde, o nome apaga."
+            },
+            {
+              "voz": "gamliel",
+              "texto": "Só que este não apagou. O mestre caiu e a gente dele não correu. Continua em Yerushalayim, repartindo pão, jurando que a morte não teve a última palavra."
+            },
+            {
+              "voz": "gamliel",
+              "texto": "Não pedi que julgassem. Pedi que vissem. Desçam, pisem onde essa gente pisa, escutem com o próprio ouvido. Voltem e me digam se é mais um punhal esperando a hora, ou coisa que a Casa nunca viu. Entrem pela porta do ocidente. Confio mais nos olhos de vocês do que na minha pressa."
+            }
           ],
           "direcoes": [
             "Entrem pela porta do ocidente.",
@@ -311,7 +587,13 @@
             "Sigam até o chão pedir uma parada. É ali."
           ],
           "marcos": [
-            { "nome": "A torre da cruz", "ponto": [31.778597, 35.22732] }
+            {
+              "nome": "A torre da cruz",
+              "ponto": [
+                31.778597,
+                35.22732
+              ]
+            }
           ],
           "missao": "Antes de atravessar a porta, montem o retrato oficial da corrente: pose de time, metade agachada na frente, metade em pé atrás, o capitão com o pé em cima de uma bola que não existe. Todos sérios como quem vai disputar uma final. Mandem ao madrich. A senha só chega depois do retrato.",
           "fotos": [
@@ -321,24 +603,52 @@
             "img/etapas/fariseus-e1-d-patriarcado-latino.jpg",
             "img/etapas/fariseus-e1-e-tunel.jpg"
           ],
-          "item": { "nome": "A carta do velho", "glifo": "carta", "sobre": "A ordem de Rabban Gamliel: ver antes de julgar." },
+          "item": {
+            "nome": "A carta do velho",
+            "glifo": "carta",
+            "sobre": "A ordem de Rabban Gamliel: ver antes de julgar."
+          },
           "senha_desbloqueio": "OFEL"
         },
         {
           "id": 2,
           "titulo": "Os mensageiros",
           "corredor": [
-            [31.778597, 35.22732],
-            [31.7794, 35.2285],
-            [31.779624, 35.229645]
+            [
+              31.778597,
+              35.22732
+            ],
+            [
+              31.7794,
+              35.2285
+            ],
+            [
+              31.779624,
+              35.229645
+            ]
           ],
           "raio_m": 50,
           "carta": [
-            { "voz": "narrador", "texto": "Chega um bilhete pequeno, dobrado, letra apressada de quem escreveu escondido." },
-            { "voz": "bilhete", "texto": "Vocês vieram atrás de um exército. Vão achar rede de pescador. Essa gente não tem espada. Reparte o pão e espera." },
-            { "voz": "narrador", "texto": "Um exército, vocês saberiam o que fazer. Um punhal também. Ninguém ensinou o que fazer com um bando que reparte pão e espera a mesma coisa que vocês esperam toda manhã na reza." },
-            { "voz": "narrador", "texto": "E há coisa pior no ar, e vem da cidade em volta. Yerushalayim está comendo a si mesma. Homens escondem um punhal curto na dobra do manto, os sicários*, se misturam à multidão nas festas e cravam a lâmina nas costas de outro judeu dentro do próprio Templo. Neste mesmo ano, gente da cidade tomou o Monte à força e matou o sumo sacerdote*, e largou o corpo fora do muro sem sepultura. Roma ainda nem chegou, e o sangue que corre já é de irmão." },
-            { "voz": "narrador", "texto": "Até a nossa casa já provou desse veneno. Houve um dia em que Beit Shammai e Beit Hilel discordaram tanto que cravaram uma espada no chão da casa de estudo*, e disseram: quem entra, entra; quem sai, não sai. Os sábios lembram desse dia como um dos piores que Israel viveu. Brigar por Torá ainda é vida. O veneno vem depois, no dia em que um lado para de acreditar que o outro ama o mesmo Céu." }
+            {
+              "voz": "narrador",
+              "texto": "Chega um bilhete pequeno, dobrado, letra apressada de quem escreveu escondido."
+            },
+            {
+              "voz": "bilhete",
+              "texto": "Vocês vieram atrás de um exército. Vão achar rede de pescador. Essa gente não tem espada. Reparte o pão e espera."
+            },
+            {
+              "voz": "narrador",
+              "texto": "Um exército, vocês saberiam o que fazer. Um punhal também. Ninguém ensinou o que fazer com um bando que reparte pão e espera a mesma coisa que vocês esperam toda manhã na reza."
+            },
+            {
+              "voz": "narrador",
+              "texto": "E há coisa pior no ar, e vem da cidade em volta. Yerushalayim está comendo a si mesma. Homens escondem um punhal curto na dobra do manto, os sicários*, se misturam à multidão nas festas e cravam a lâmina nas costas de outro judeu dentro do próprio Templo. Neste mesmo ano, gente da cidade tomou o Monte à força e matou o sumo sacerdote*, e largou o corpo fora do muro sem sepultura. Roma ainda nem chegou, e o sangue que corre já é de irmão."
+            },
+            {
+              "voz": "narrador",
+              "texto": "Até a nossa casa já provou desse veneno. Houve um dia em que Beit Shammai e Beit Hilel discordaram tanto que cravaram uma espada no chão da casa de estudo*, e disseram: quem entra, entra; quem sai, não sai. Os sábios lembram desse dia como um dos piores que Israel viveu. Brigar por Torá ainda é vida. O veneno vem depois, no dia em que um lado para de acreditar que o outro ama o mesmo Céu."
+            }
           ],
           "eco": "Vocês conhecem uma cidade que se come por dentro. Já a viram com outro nome, mais perto de casa.",
           "direcoes": [
@@ -349,35 +659,81 @@
             "À frente, placas para portas da cidade, o Bab el-Jadid entre elas. Nenhuma é a sua. Sigam reto até a rua acabar."
           ],
           "marcos": [
-            { "nome": "A mulher da roda", "ponto": [31.779624, 35.229645] }
+            {
+              "nome": "A mulher da roda",
+              "ponto": [
+                31.779624,
+                35.229645
+              ]
+            }
           ],
           "missao": "Diante da mulher da roda, uma foto só: o grupo inteiro apontando para ela ao mesmo tempo, em silêncio, cara séria. Nada de riso. Mandem ao madrich.",
           "fotos": [
             "img/etapas/fariseus-e2-a-sao-francisco.jpg",
             "img/etapas/fariseus-e2-b-mulher-da-roda.jpg"
           ],
-          "item": { "nome": "A rede do pescador", "glifo": "rede", "sobre": "Vieram atrás de espadas e acharam redes." },
+          "item": {
+            "nome": "A rede do pescador",
+            "glifo": "rede",
+            "sobre": "Vieram atrás de espadas e acharam redes."
+          },
           "senha_desbloqueio": "SHOFAR"
         },
         {
           "id": 3,
           "titulo": "A descida que engana",
           "corredor": [
-            [31.779624, 35.229645],
-            [31.7793, 35.2295],
-            [31.778958, 35.229195]
+            [
+              31.779624,
+              35.229645
+            ],
+            [
+              31.7793,
+              35.2295
+            ],
+            [
+              31.778958,
+              35.229195
+            ]
           ],
           "raio_m": 50,
           "carta": [
-            { "voz": "narrador", "texto": "Capitão, pare o grupo. Todos em círculo. Leia devagar, em voz alta." },
-            { "voz": "circulo", "texto": "Tem um homem pintado nessa parede, olhando para vocês. É ele. O mestre de Natzrat, o motivo de a gente estar aqui." },
-            { "voz": "circulo", "texto": "Essa gente é judia. Reza o Shemá que vocês rezam, chora pelo mesmo Templo. Não veio de fora. Senta do outro lado da mesma mesa." },
-            { "voz": "circulo", "texto": "E cabe muita gente debaixo de um nome só. Tem o pescador que reparte o pão sem perguntar quem você é, e quer o Mashiach com a alma inteira, igual a vocês na reza da manhã. Tem também o outro, que já enxerga na multidão uma faca, e sonha em virar a espera em revolta. Theudas* sonhou parecido, e acabou com a cabeça num poste. Yehudá, o Galileu*, também, e virou pó com os seus atrás. Em toda casa é assim. Os que amam o Céu, e os que vestem o nome do Céu para acender o próprio fogo." },
-            { "voz": "circulo", "texto": "O velho sabia disso quando mandou ver antes de julgar. Bando não se mede pelo pior que tem dentro, nem pelo melhor. Olha-se um por um, na cara. Este espera? Ou este arma?" },
-            { "voz": "circulo", "texto": "E o que essa gente crê arrepia a espinha: que o mestre se levantou do túmulo, que a morte não ficou com a última palavra. Aí vem o susto. Ressurreição dos mortos é a nossa fé. É ela que separa nós dos saduceus, que riem de quem espera os mortos de volta. Nesse ponto, essa gente está do nosso lado da sala." },
-            { "voz": "circulo", "texto": "A briga, então, não é sobre esperar. Os dois lados esperam. É sobre a hora. Eles dizem que o Mashiach já veio, que já esteve aqui e foi embora. Olhem pela janela: Roma ainda manda, o imposto ainda sobe, o mundo continua torto. Que vinda foi essa, que deixou tudo do mesmo jeito?" },
-            { "voz": "circulo", "texto": "Eles esperam de olho para trás, num homem que já foi. Vocês esperam de olho no que ainda vem. Dois povos lendo uma hora diferente no mesmo céu." },
-            { "voz": "narrador", "texto": "Fechem o círculo e sigam." }
+            {
+              "voz": "narrador",
+              "texto": "Capitão, pare o grupo. Todos em círculo. Leia devagar, em voz alta."
+            },
+            {
+              "voz": "circulo",
+              "texto": "Tem um homem pintado nessa parede, olhando para vocês. É ele. O mestre de Natzrat, o motivo de a gente estar aqui."
+            },
+            {
+              "voz": "circulo",
+              "texto": "Essa gente é judia. Reza o Shemá que vocês rezam, chora pelo mesmo Templo. Não veio de fora. Senta do outro lado da mesma mesa."
+            },
+            {
+              "voz": "circulo",
+              "texto": "E cabe muita gente debaixo de um nome só. Tem o pescador que reparte o pão sem perguntar quem você é, e quer o Mashiach com a alma inteira, igual a vocês na reza da manhã. Tem também o outro, que já enxerga na multidão uma faca, e sonha em virar a espera em revolta. Theudas* sonhou parecido, e acabou com a cabeça num poste. Yehudá, o Galileu*, também, e virou pó com os seus atrás. Em toda casa é assim. Os que amam o Céu, e os que vestem o nome do Céu para acender o próprio fogo."
+            },
+            {
+              "voz": "circulo",
+              "texto": "O velho sabia disso quando mandou ver antes de julgar. Bando não se mede pelo pior que tem dentro, nem pelo melhor. Olha-se um por um, na cara. Este espera? Ou este arma?"
+            },
+            {
+              "voz": "circulo",
+              "texto": "E o que essa gente crê arrepia a espinha: que o mestre se levantou do túmulo, que a morte não ficou com a última palavra. Aí vem o susto. Ressurreição dos mortos é a nossa fé. É ela que separa nós dos saduceus, que riem de quem espera os mortos de volta. Nesse ponto, essa gente está do nosso lado da sala."
+            },
+            {
+              "voz": "circulo",
+              "texto": "A briga, então, não é sobre esperar. Os dois lados esperam. É sobre a hora. Eles dizem que o Mashiach já veio, que já esteve aqui e foi embora. Olhem pela janela: Roma ainda manda, o imposto ainda sobe, o mundo continua torto. Que vinda foi essa, que deixou tudo do mesmo jeito?"
+            },
+            {
+              "voz": "circulo",
+              "texto": "Eles esperam de olho para trás, num homem que já foi. Vocês esperam de olho no que ainda vem. Dois povos lendo uma hora diferente no mesmo céu."
+            },
+            {
+              "voz": "narrador",
+              "texto": "Fechem o círculo e sigam."
+            }
           ],
           "eco": "Que vinda foi essa, que deixou o mundo torto? Vocês vêm de dois mil anos depois. A pergunta continua aberta.",
           "direcoes": [
@@ -387,33 +743,73 @@
             "Sigam até a rua abrir. É ali que vocês param."
           ],
           "marcos": [
-            { "nome": "A torre verde", "ponto": [31.778958, 35.229195] }
+            {
+              "nome": "A torre verde",
+              "ponto": [
+                31.778958,
+                35.229195
+              ]
+            }
           ],
           "missao": "Diante do homem pintado na parede, o mestre de Natzrat, gravem dez segundos: o grupo passa em fila, um por um, em silêncio, cara séria. É o rosto que rachou a cidade. Mandem ao madrich.",
           "fotos": [
             "img/etapas/fariseus-e3-b-yeshu-parede.jpg",
             "img/etapas/fariseus-e3-a-torre-verde.jpg"
           ],
-          "item": { "nome": "A hora diferente", "glifo": "ampulheta", "sobre": "Dois povos lendo uma hora diferente no mesmo céu." },
+          "item": {
+            "nome": "A hora diferente",
+            "glifo": "ampulheta",
+            "sobre": "Dois povos lendo uma hora diferente no mesmo céu."
+          },
           "senha_desbloqueio": "MENORA"
         },
         {
           "id": 4,
           "titulo": "O corredor dos outros",
           "corredor": [
-            [31.778958, 35.229195],
-            [31.7782, 35.2292],
-            [31.777513, 35.229932]
+            [
+              31.778958,
+              35.229195
+            ],
+            [
+              31.7782,
+              35.2292
+            ],
+            [
+              31.777513,
+              35.229932
+            ]
           ],
           "raio_m": 50,
           "carta": [
-            { "voz": "narrador", "texto": "Chega uma carta do velho, e a tinta está borrada num ponto só, onde a mão parou." },
-            { "voz": "gamliel", "texto": "Shaul de Tarso caiu na estrada de Damasco. Guardem esse nome, e guardem de que lado ele começou." },
-            { "voz": "narrador", "texto": "Shaul é um dos nossos. Sentou aos pés de Rabban Gamliel*, no mesmo chão que vocês, decorou os mesmos versos, reza o mesmo Shemá. E virou caçador dos seus. Não caçava romano nem idólatra: caçava judeus, gente como vocês, que tinha posto a fé num messias morto numa cruz. Andava de porta em porta com um maço de cartas na sacola, autorização carimbada para arrastar homem e mulher amarrados de volta para Yerushalayim. Não fazia por moeda. A cada porta que arrombava, tinha certeza de estar servindo ao Céu." },
-            { "voz": "narrador", "texto": "Aí, no meio do dia, na estrada aberta, alguma coisa o derrubou. O caçador que corria para cegar os outros levantou cego. Quando a vista voltou, ele tinha trocado de lado. Passou a anunciar, de praça em praça, exatamente o que jurara arrancar pela raiz." },
-            { "voz": "narrador", "texto": "Olhem a sacola de vocês. Cada um carrega um pouco de zelo ali dentro. O mesmo zelo que levanta a Casa é o que arromba a porta do irmão. Shaul perseguiu o Céu achando que servia o Céu. Para um estrago desse tamanho não precisa de ódio: basta uma certeza que nunca duvidou de si." },
-            { "voz": "gamliel", "texto": "E escutem bem quem é essa gente, porque não são todos iguais. Tem reshaim no meio, sempre tem: gente que veste o nome do Céu para acender o próprio fogo. Mas a maioria é judeu comum, que se deixou levar por um messias que prometeu e foi embora. Esse não é inimigo. Esse a gente aproxima, não mata. A espada de Shaul não trouxe um só de volta. De volta a gente traz puxando pela manga, não arrastando pela corda." },
-            { "voz": "gamliel", "texto": "Quando prenderam os primeiros dessa gente e o Sinédrio quis matá-los, fui eu que segurei a corte*. Disse: se isto vem de homem, se desfaz sozinho. Se vem de D'us, vocês não desfazem, e ainda vão se ver brigando contra o Céu. Deixem o tempo julgar o que a pressa não sabe." }
+            {
+              "voz": "narrador",
+              "texto": "Chega uma carta do velho, e a tinta está borrada num ponto só, onde a mão parou."
+            },
+            {
+              "voz": "gamliel",
+              "texto": "Shaul de Tarso caiu na estrada de Damasco. Guardem esse nome, e guardem de que lado ele começou."
+            },
+            {
+              "voz": "narrador",
+              "texto": "Shaul é um dos nossos. Sentou aos pés de Rabban Gamliel*, no mesmo chão que vocês, decorou os mesmos versos, reza o mesmo Shemá. E virou caçador dos seus. Não caçava romano nem idólatra: caçava judeus, gente como vocês, que tinha posto a fé num messias morto numa cruz. Andava de porta em porta com um maço de cartas na sacola, autorização carimbada para arrastar homem e mulher amarrados de volta para Yerushalayim. Não fazia por moeda. A cada porta que arrombava, tinha certeza de estar servindo ao Céu."
+            },
+            {
+              "voz": "narrador",
+              "texto": "Aí, no meio do dia, na estrada aberta, alguma coisa o derrubou. O caçador que corria para cegar os outros levantou cego. Quando a vista voltou, ele tinha trocado de lado. Passou a anunciar, de praça em praça, exatamente o que jurara arrancar pela raiz."
+            },
+            {
+              "voz": "narrador",
+              "texto": "Olhem a sacola de vocês. Cada um carrega um pouco de zelo ali dentro. O mesmo zelo que levanta a Casa é o que arromba a porta do irmão. Shaul perseguiu o Céu achando que servia o Céu. Para um estrago desse tamanho não precisa de ódio: basta uma certeza que nunca duvidou de si."
+            },
+            {
+              "voz": "gamliel",
+              "texto": "E escutem bem quem é essa gente, porque não são todos iguais. Tem reshaim no meio, sempre tem: gente que veste o nome do Céu para acender o próprio fogo. Mas a maioria é judeu comum, que se deixou levar por um messias que prometeu e foi embora. Esse não é inimigo. Esse a gente aproxima, não mata. A espada de Shaul não trouxe um só de volta. De volta a gente traz puxando pela manga, não arrastando pela corda."
+            },
+            {
+              "voz": "gamliel",
+              "texto": "Quando prenderam os primeiros dessa gente e o Sinédrio quis matá-los, fui eu que segurei a corte*. Disse: se isto vem de homem, se desfaz sozinho. Se vem de D'us, vocês não desfazem, e ainda vão se ver brigando contra o Céu. Deixem o tempo julgar o que a pressa não sabe."
+            }
           ],
           "direcoes": [
             "Atrás das lojas, à esquerda, dorme o santuário mais guardado deles. Não é o destino de hoje. Não parem e não apontem.",
@@ -422,30 +818,61 @@
             "O beco solta vocês numa praça com uma fonte. Respirem."
           ],
           "marcos": [
-            { "nome": "A praça da fonte", "ponto": [31.777513, 35.229932] }
+            {
+              "nome": "A praça da fonte",
+              "ponto": [
+                31.777513,
+                35.229932
+              ]
+            }
           ],
           "missao": "Na praça, círculo fechado. Um de vocês vira rav e solta meio minuto de drashá: por que ainda vale esperar o Mashiach mais um dia, com Roma parada na porta. No fim, todos respondem amén e batem o pé. Gravem e mandem.",
           "fotos": [
             "img/etapas/fariseus-e4-a-barbearia-al-zouhor.jpg",
             "img/etapas/fariseus-e4-b-fonte-cara.jpg"
           ],
-          "item": { "nome": "A lâmina do zelo", "glifo": "lamina", "sobre": "Zelo é lâmina de dois gumes: corta a mão que aperta demais." },
+          "item": {
+            "nome": "A lâmina do zelo",
+            "glifo": "lamina",
+            "sobre": "Zelo é lâmina de dois gumes: corta a mão que aperta demais."
+          },
           "senha_desbloqueio": "KEREN"
         },
         {
           "id": 5,
           "titulo": "O mercado e a travessia",
           "corredor": [
-            [31.777513, 35.229932],
-            [31.7772, 35.2301],
-            [31.7769, 35.2303]
+            [
+              31.777513,
+              35.229932
+            ],
+            [
+              31.7772,
+              35.2301
+            ],
+            [
+              31.7769,
+              35.2303
+            ]
           ],
           "raio_m": 150,
           "carta": [
-            { "voz": "narrador", "texto": "A carta que fecha o caminho é curta. Letra do velho, dessa vez sem pressa nenhuma." },
-            { "voz": "gamliel", "texto": "Vocês voltaram e me prestaram contas, e eu ouvi tudo. Não é exército. São irmãos. Irmãos que leem uma hora diferente no mesmo céu, que talvez estejam errados sobre a hora, e que mesmo assim não são o nosso inimigo. Tem muito judeu bom ali dentro, gente que acreditou de coração e não consegue mais voltar atrás. Esse a gente não larga." },
-            { "voz": "gamliel", "texto": "Deixem eu dizer a coisa mais difícil que aprendi em oitenta anos. Dá para ter toda a razão sobre os mortos, calar os saduceus, ganhar cada rodada da discussão, e perder tudo mesmo assim. Basta começar a odiar quem espera de um jeito diferente do seu." },
-            { "voz": "gamliel", "texto": "Vão até o coração da cidade. Atravessem o mercado dos outros sem comprar briga. Cheguem inteiros ao lugar onde a pedra ainda está de pé, enquanto ela ainda está." }
+            {
+              "voz": "narrador",
+              "texto": "A carta que fecha o caminho é curta. Letra do velho, dessa vez sem pressa nenhuma."
+            },
+            {
+              "voz": "gamliel",
+              "texto": "Vocês voltaram e me prestaram contas, e eu ouvi tudo. Não é exército. São irmãos. Irmãos que leem uma hora diferente no mesmo céu, que talvez estejam errados sobre a hora, e que mesmo assim não são o nosso inimigo. Tem muito judeu bom ali dentro, gente que acreditou de coração e não consegue mais voltar atrás. Esse a gente não larga."
+            },
+            {
+              "voz": "gamliel",
+              "texto": "Deixem eu dizer a coisa mais difícil que aprendi em oitenta anos. Dá para ter toda a razão sobre os mortos, calar os saduceus, ganhar cada rodada da discussão, e perder tudo mesmo assim. Basta começar a odiar quem espera de um jeito diferente do seu."
+            },
+            {
+              "voz": "gamliel",
+              "texto": "Vão até o coração da cidade. Atravessem o mercado dos outros sem comprar briga. Cheguem inteiros ao lugar onde a pedra ainda está de pé, enquanto ela ainda está."
+            }
           ],
           "direcoes": [
             "Ao sair da praça, achem o arco com a placa do restaurante. Ali, virem à direita.",
@@ -454,7 +881,13 @@
             "Parem quando o mercado abrir, antes da grande escadaria. É ali que a corrente se junta."
           ],
           "marcos": [
-            { "nome": "O arco do restaurante", "ponto": [31.7769, 35.2303] }
+            {
+              "nome": "O arco do restaurante",
+              "ponto": [
+                31.7769,
+                35.2303
+              ]
+            }
           ],
           "missao": "Achem o arco com a placa do restaurante. Foto do grupo inteiro embaixo dele, todos calados, como quem cruza o território dos outros sem comprar briga. Mandem ao madrich.",
           "fotos": [
@@ -462,22 +895,41 @@
             "img/etapas/fariseus-e5-b-passagem-porta-azul.jpg",
             "img/etapas/fariseus-e5-c-chain-gate.jpg"
           ],
-          "item": { "nome": "A régua de Hilel", "glifo": "regua", "sobre": "O que é odioso para ti, não faças ao próximo. O resto é comentário." },
+          "item": {
+            "nome": "A régua de Hilel",
+            "glifo": "regua",
+            "sobre": "O que é odioso para ti, não faças ao próximo. O resto é comentário."
+          },
           "senha_desbloqueio": "CHOTAM"
         },
         {
           "id": 6,
           "titulo": "A subida aos telhados",
           "corredor": [
-            [31.7769, 35.2303],
-            [31.7772, 35.2300],
-            [31.7774, 35.2298]
+            [
+              31.7769,
+              35.2303
+            ],
+            [
+              31.7772,
+              35.23
+            ],
+            [
+              31.7774,
+              35.2298
+            ]
           ],
           "raio_m": 150,
           "codigo_no_local": true,
           "carta": [
-            { "voz": "narrador", "texto": "Não vem carta agora. Vem uma escada. O caminho deixa de ser história e vira subida." },
-            { "voz": "viajante", "texto": "Vocês estão quase no alto. Lá de cima dá para ver a cidade inteira onde passaram a noite se perdendo. Subam com atenção: no meio da pedra, alguém deixou um número à vista de todos." }
+            {
+              "voz": "narrador",
+              "texto": "Não vem carta agora. Vem uma escada. O caminho deixa de ser história e vira subida."
+            },
+            {
+              "voz": "viajante",
+              "texto": "Vocês estão quase no alto. Lá de cima dá para ver a cidade inteira onde passaram a noite se perdendo. Subam com atenção: no meio da pedra, alguém deixou um número à vista de todos."
+            }
           ],
           "direcoes": [
             "Deixem o mercado pela direita e enfrentem a primeira escada. Ela sobe para um bairro mais quieto.",
@@ -487,9 +939,27 @@
             "No último nível, o dos telhados, avancem pelo pátio de olho na direita até achar a escada. É ela que leva ao alto, onde vocês param."
           ],
           "marcos": [
-            { "nome": "O arco do código", "ponto": [31.7772, 35.2300] },
-            { "nome": "A torre da igreja", "ponto": [31.7774, 35.22975] },
-            { "nome": "Os telhados", "ponto": [31.7774, 35.2298] }
+            {
+              "nome": "O arco do código",
+              "ponto": [
+                31.7772,
+                35.23
+              ]
+            },
+            {
+              "nome": "A torre da igreja",
+              "ponto": [
+                31.7774,
+                35.22975
+              ]
+            },
+            {
+              "nome": "Os telhados",
+              "ponto": [
+                31.7774,
+                35.2298
+              ]
+            }
           ],
           "missao": "Achem o número gravado no arco de pedra, aquele que a cidade escondeu à vista de todos. Ele é a chave da última porta. Leiam com cuidado, a pedra gasta engana, e digitem.",
           "fotos": [
@@ -498,19 +968,47 @@
             "img/etapas/fariseus-final-a-telhados-torre.jpg",
             "img/etapas/fariseus-final-b-patio-shuk.jpg"
           ],
-          "item": { "nome": "A chave da pedra", "glifo": "chave", "sobre": "O número gravado no arco, que abre a última porta." },
+          "item": {
+            "nome": "A chave da pedra",
+            "glifo": "chave",
+            "sobre": "O número gravado no arco, que abre a última porta."
+          },
           "senha_desbloqueio": "325-338"
         }
       ],
-      "ponto_final": [31.7774, 35.2298],
+      "ponto_final": [
+        31.7774,
+        35.2298
+      ],
       "fragmento_final": [
-        { "voz": "narrador", "texto": "Capitão, o grupo já está no alto, a última parada. Ponham todos de frente para a cidade lá embaixo. Depois desta leitura não vem missão. Só o que vocês vão fazer com ela." },
-        { "voz": "gamliel", "texto": "Olhem em volta. Esse mar de telhados de pedra, pano e cúpula, até onde a vista alcança, é o shuk. O mesmo mercado onde vocês se perderam a noite toda. Lá dentro, cada beco parecia uma armadilha. Daqui de cima é uma cidade só, e cabe num olhar. Lá dentro, ninguém conseguia enxergar isso." },
-        { "voz": "gamliel", "texto": "Agora escutem o que sobe da sala atrás de vocês. Vozes. Gente jovem debruçada nos livros, repetindo a Torá em voz alta, do mesmo jeito de dois mil anos atrás, palavra por palavra. Essa vista e esse som são o fim da caça." },
-        { "voz": "gamliel", "texto": "Vocês passaram a noite atrás do Templo. Preciso avisar antes de vocês chegarem perto dele. Dentro de dois anos, no ano 70, ele cai. Roma queima a cidade e derruba a pedra, e dessa vez não se reergue. Nunca mais." },
-        { "voz": "gamliel", "texto": "E quando os sábios sentarem para entender por quê, não vão escrever o nome de Roma na primeira linha. Vão escrever o nosso. Com o inimigo já no portão, três facções judias* vão rachar a cidade e brigar entre si por ela. Vão queimar, com a própria mão, os armazéns de trigo que dariam para aguentar anos de cerco*, e a fome que vai matar meia cidade vai ser fome plantada por judeu. Vocês conhecem o Kamtza e o Bar Kamtza*: um convite trocado, um homem humilhado numa festa, a sala inteira calada. Foi por miudeza desse tamanho que a Casa caiu. Deram nome a isso quando já era cinza: sinat chinam, ódio de graça. O incêndio que nenhuma legião precisa vir atear." },
-        { "voz": "gamliel", "texto": "E aqui está o milagre. Um sábio da nossa casa, Rabban Yochanan ben Zakkai, viu que a pedra estava perdida. Se fez de morto, e mandou os alunos o carregarem para fora da cidade sitiada dentro de um caixão*, porque os radicais não deixavam sair vivo quem falasse em paz. Diante do general de Roma, não pediu o Templo de volta. Pediu uma sala de sábios numa cidadezinha chamada Yavne. O muro queimou. A voz não. Ela cabia num caixão, e Roma não sabia pesar. Dois mil anos depois, ela ainda está estudando na sala atrás de vocês." },
-        { "voz": "viajante", "texto": "Agora a parte que só vocês, que vieram de longe, podem ouvir. Vocês sabem que a voz chegou até aqui, porque vieram de onde ela chegou. Amanhã tiram a roupa de fariseu e voltam para a vida de vocês, para o mesmo movimento e as mesmas rusgas de sempre. Quando a próxima briga chegar, e ela sempre chega, lembrem do que viram do alto. A Casa de pedra foi perdida uma vez, por ódio de graça entre irmãos que amavam o mesmo D'us. Aquela voz que não parou de estudar em dois mil anos depende de uma coisa só: de vocês não desistirem uns dos outros. A Casa cabia em todos. Foram os que estavam dentro que não couberam. Não deixem esse fogo achar vocês de novo." }
+        {
+          "voz": "narrador",
+          "texto": "Capitão, o grupo já está no alto, a última parada. Ponham todos de frente para a cidade lá embaixo. Depois desta leitura não vem missão. Só o que vocês vão fazer com ela."
+        },
+        {
+          "voz": "gamliel",
+          "texto": "Olhem em volta. Esse mar de telhados de pedra, pano e cúpula, até onde a vista alcança, é o shuk. O mesmo mercado onde vocês se perderam a noite toda. Lá dentro, cada beco parecia uma armadilha. Daqui de cima é uma cidade só, e cabe num olhar. Lá dentro, ninguém conseguia enxergar isso."
+        },
+        {
+          "voz": "gamliel",
+          "texto": "Agora escutem o que sobe da sala atrás de vocês. Vozes. Gente jovem debruçada nos livros, repetindo a Torá em voz alta, do mesmo jeito de dois mil anos atrás, palavra por palavra. Essa vista e esse som são o fim da caça."
+        },
+        {
+          "voz": "gamliel",
+          "texto": "Vocês passaram a noite atrás do Templo. Preciso avisar antes de vocês chegarem perto dele. Dentro de dois anos, no ano 70, ele cai. Roma queima a cidade e derruba a pedra, e dessa vez não se reergue. Nunca mais."
+        },
+        {
+          "voz": "gamliel",
+          "texto": "E quando os sábios sentarem para entender por quê, não vão escrever o nome de Roma na primeira linha. Vão escrever o nosso. Com o inimigo já no portão, três facções judias* vão rachar a cidade e brigar entre si por ela. Vão queimar, com a própria mão, os armazéns de trigo que dariam para aguentar anos de cerco*, e a fome que vai matar meia cidade vai ser fome plantada por judeu. Vocês conhecem o Kamtza e o Bar Kamtza*: um convite trocado, um homem humilhado numa festa, a sala inteira calada. Foi por miudeza desse tamanho que a Casa caiu. Deram nome a isso quando já era cinza: sinat chinam, ódio de graça. O incêndio que nenhuma legião precisa vir atear."
+        },
+        {
+          "voz": "gamliel",
+          "texto": "E aqui está o milagre. Um sábio da nossa casa, Rabban Yochanan ben Zakkai, viu que a pedra estava perdida. Se fez de morto, e mandou os alunos o carregarem para fora da cidade sitiada dentro de um caixão*, porque os radicais não deixavam sair vivo quem falasse em paz. Diante do general de Roma, não pediu o Templo de volta. Pediu uma sala de sábios numa cidadezinha chamada Yavne. O muro queimou. A voz não. Ela cabia num caixão, e Roma não sabia pesar. Dois mil anos depois, ela ainda está estudando na sala atrás de vocês."
+        },
+        {
+          "voz": "viajante",
+          "texto": "Agora a parte que só vocês, que vieram de longe, podem ouvir. Vocês sabem que a voz chegou até aqui, porque vieram de onde ela chegou. Amanhã tiram a roupa de fariseu e voltam para a vida de vocês, para o mesmo movimento e as mesmas rusgas de sempre. Quando a próxima briga chegar, e ela sempre chega, lembrem do que viram do alto. A Casa de pedra foi perdida uma vez, por ódio de graça entre irmãos que amavam o mesmo D'us. Aquela voz que não parou de estudar em dois mil anos depende de uma coisa só: de vocês não desistirem uns dos outros. A Casa cabia em todos. Foram os que estavam dentro que não couberam. Não deixem esse fogo achar vocês de novo."
+        }
       ]
     },
     {
@@ -518,14 +1016,23 @@
       "seita": "Saduceus",
       "senha_entrada": "ALTAR",
       "cor": "#6d2857",
-      "ponto_inicial": [31.7742, 35.2338],
+      "ponto_inicial": [
+        31.7742,
+        35.2338
+      ],
       "etapas": [
         {
           "id": 1,
           "titulo": "A sombra do muro",
           "corredor": [
-            [31.7742, 35.2338],
-            [31.7751, 35.2343]
+            [
+              31.7742,
+              35.2338
+            ],
+            [
+              31.7751,
+              35.2343
+            ]
           ],
           "raio_m": 50,
           "texto_diwan": "[Texto da etapa 1 dos Saduceus.]",
@@ -536,9 +1043,18 @@
           "id": 2,
           "titulo": "A casa queimada",
           "corredor": [
-            [31.7751, 35.2343],
-            [31.775, 35.2328],
-            [31.7756, 35.232]
+            [
+              31.7751,
+              35.2343
+            ],
+            [
+              31.775,
+              35.2328
+            ],
+            [
+              31.7756,
+              35.232
+            ]
           ],
           "raio_m": 50,
           "texto_diwan": "[Texto da etapa 2 dos Saduceus.]",
@@ -549,8 +1065,14 @@
           "id": 3,
           "titulo": "De volta ao muro",
           "corredor": [
-            [31.7756, 35.232],
-            [31.7767, 35.2345]
+            [
+              31.7756,
+              35.232
+            ],
+            [
+              31.7767,
+              35.2345
+            ]
           ],
           "raio_m": 50,
           "texto_diwan": "[Texto da etapa 3 dos Saduceus.]",
@@ -558,7 +1080,10 @@
           "senha_desbloqueio": "KORBAN"
         }
       ],
-      "ponto_final": [31.7767, 35.2345],
+      "ponto_final": [
+        31.7767,
+        35.2345
+      ],
       "fragmento_final": "[Fragmento final dos Saduceus.]"
     },
     {
@@ -566,14 +1091,23 @@
       "seita": "Essenios",
       "senha_entrada": "DESERTO",
       "cor": "#5a6b2f",
-      "ponto_inicial": [31.7716, 35.2295],
+      "ponto_inicial": [
+        31.7716,
+        35.2295
+      ],
       "etapas": [
         {
           "id": 1,
           "titulo": "A porta do sul",
           "corredor": [
-            [31.7716, 35.2295],
-            [31.7735, 35.2293]
+            [
+              31.7716,
+              35.2295
+            ],
+            [
+              31.7735,
+              35.2293
+            ]
           ],
           "raio_m": 50,
           "texto_diwan": "[Texto da etapa 1 dos Essenios.]",
@@ -584,8 +1118,14 @@
           "id": 2,
           "titulo": "O silencio entre casas",
           "corredor": [
-            [31.7735, 35.2293],
-            [31.7744, 35.2306]
+            [
+              31.7735,
+              35.2293
+            ],
+            [
+              31.7744,
+              35.2306
+            ]
           ],
           "raio_m": 50,
           "texto_diwan": "[Texto da etapa 2 dos Essenios.]",
@@ -596,9 +1136,18 @@
           "id": 3,
           "titulo": "A agua e a pedra",
           "corredor": [
-            [31.7744, 35.2306],
-            [31.7756, 35.2326],
-            [31.7767, 35.2345]
+            [
+              31.7744,
+              35.2306
+            ],
+            [
+              31.7756,
+              35.2326
+            ],
+            [
+              31.7767,
+              35.2345
+            ]
           ],
           "raio_m": 50,
           "texto_diwan": "[Texto da etapa 3 dos Essenios.]",
@@ -606,7 +1155,10 @@
           "senha_desbloqueio": "MIDBAR"
         }
       ],
-      "ponto_final": [31.7767, 35.2345],
+      "ponto_final": [
+        31.7767,
+        35.2345
+      ],
       "fragmento_final": "[Fragmento final dos Essenios.]"
     },
     {
@@ -614,47 +1166,419 @@
       "seita": "Zelotes",
       "senha_entrada": "PUNHAL",
       "cor": "#8f3a1e",
-      "ponto_inicial": [31.7803, 35.2364],
+      "ponto_inicial": [
+        31.776225,
+        35.228744
+      ],
+      "_nota_rota": "Rota dos Zelotes (bairro armenio ao bairro judeu), levantada em campo 22/07/2026 (scouting ADM + 2 audios). 15 pontos GPS reais. MECANICA NOVA: 'avanco':'gps' avanca ao GPS bater no fim do corredor + missao (sem senha do madrich); 'avanco':'codigo' pede o numero da pista fisica (5359/198/728). A 'senha_desbloqueio' das etapas gps e so fallback ate a mecanica de GPS entrar no app.js. Fotos reais em img/etapas/zelotes-*. Ponto 1 (Migdal) sem foto ainda.",
+      "abertura": {
+        "viajante": [
+          "Esta noite vocês descem ao ano 68, e escolheram o lado da espada. Roma acampa nas colinas e o Templo ainda respira, por pouco tempo.",
+          "Vão vestir a pele dos zelotes. Os que não esperam messias, não estudam enquanto o inimigo pisa, e juram tirar Roma daqui na força. Vocês já viram gente assim. Gente que ama tanto a própria terra que está pronta a queimá-la junto com o inimigo. Desçam, e reparem em quem eles chamam de covarde."
+        ],
+        "identidade": [
+          "Vocês são os zelotes. Não têm medo de ninguém. Os fariseus discutem a lei, os saduceus apertam a mão do governador. Vocês compraram armas.",
+          "Escondem o punhal curto na dobra do manto, e na multidão da festa cravam a lâmina em quem se acerta com Roma. O sumo sacerdote que lambeu a bota do inimigo já apareceu morto, sem sepultura, fora do muro. Foram vocês.*",
+          "Um sábio, Yochanan ben Zakkai, viu a guerra chegar e se fez de morto para ser levado num caixão, negociar uma escola em Yavne.* Vocês têm uma palavra para isso: covardia. Enquanto ele salva livros, vocês salvam Jerusalém. Torá dita num pé só não para legião. Punhal para."
+        ],
+        "combinados": [
+          "Aqui quase não vem carta, vem missão. Cumpram e sigam. E reparem: no caminho vão aparecer coisas que parecem ordem e são história, o que vocês fizeram e o que estão prestes a fazer. Leiam sem parar de andar. Tudo que vier com asterisco aconteceu de verdade."
+        ]
+      },
       "etapas": [
         {
           "id": 1,
-          "titulo": "A porta dos leoes",
+          "titulo": "A ronda",
           "corredor": [
-            [31.7803, 35.2364],
-            [31.7801, 35.2344]
+            [
+              31.776225,
+              35.228744
+            ],
+            [
+              31.775034,
+              35.228744
+            ],
+            [
+              31.775268,
+              35.229831
+            ]
           ],
           "raio_m": 50,
-          "texto_diwan": "[Texto da etapa 1 dos Zelotes.]",
-          "missao": "[Missao da etapa 1.]",
+          "avanco": "gps",
+          "carta": [
+            {
+              "voz": "narrador",
+              "texto": "Vocês saem à ronda. A cidade está calma demais, e calma, para vocês, é véspera."
+            },
+            {
+              "voz": "circulo",
+              "texto": "Passem a senha boca a ouvido enquanto andam. Compramos as armas, escondemos os punhais, e o sacerdote que servia Roma não vê o próximo Shabat. A grande revolta está sendo costurada rua por rua. Falta pouco."
+            }
+          ],
+          "direcoes": [
+            "Sigam em frente. Vocês estão na Cidade Velha, e aqui, hoje, todos podem ser inimigos.",
+            "Passem pelo Tauná Coffee House, colados à muralha. Esses muros não guardam vocês, prendem. Tem irmão que quer fugir por eles. Vocês querem lutar.",
+            "A primeira virada é na St. James. Virem ali.",
+            "Sigam até uma yeshiva erguer a fachada na frente de vocês. Parem."
+          ],
+          "marcos": [
+            {
+              "nome": "A yeshiva dos que não lutam",
+              "ponto": [
+                31.775268,
+                35.229831
+              ]
+            }
+          ],
+          "missao": "Diante da Yeshivas Bircas HaTorah. Esses aí escolheram o livro e viraram as costas para a guerra. Foto do grupo encarando a fachada, cara de raiva, punho no ar, mandando eles descerem para lutar. Se pularem, seguem, mas ficam sem o item.",
+          "fotos": [
+            "img/etapas/zelotes-e1-a-st-james.jpg",
+            "img/etapas/zelotes-e1-b-yeshiva.jpg"
+          ],
+          "item": {
+            "nome": "O punhal curto",
+            "glifo": "lamina",
+            "sobre": "A lâmina que o sicário esconde na dobra do manto."
+          },
           "senha_desbloqueio": "KANAI"
         },
         {
           "id": 2,
-          "titulo": "O beco que desce",
+          "titulo": "A descida armada",
           "corredor": [
-            [31.7801, 35.2344],
-            [31.7785, 35.2339]
+            [
+              31.775268,
+              35.229831
+            ],
+            [
+              31.775992,
+              35.230232
+            ]
           ],
           "raio_m": 50,
-          "texto_diwan": "[Texto da etapa 2 dos Zelotes.]",
-          "missao": "[Missao da etapa 2.]",
+          "avanco": "gps",
+          "carta": [
+            {
+              "voz": "narrador",
+              "texto": "Sigam à esquerda, em direção à Rua Ararat. Sob os túneis, a mensagem que os nossos deixaram na pedra: aqui os guerreiros ergueram as fortificações."
+            }
+          ],
+          "direcoes": [
+            "À esquerda, para a Rua Ararat.",
+            "Passem sob os túneis, sem correr. Foram os nossos que os fortificaram.",
+            "Desçam a Deir al-Syrian, o beco do mosteiro sírio. Parem nas escadas."
+          ],
+          "marcos": [
+            {
+              "nome": "As escadas do Deir al-Syrian",
+              "ponto": [
+                31.775992,
+                35.230232
+              ]
+            }
+          ],
+          "missao": "Nas escadas, subam pela portinha e fiquem em posição de quem está armado, olhando para baixo, vigiando a rua. Alguém tira a foto de baixo. Cumprida a missão, vocês pegam os armamentos.",
+          "fotos": [
+            "img/etapas/zelotes-e2-a-deir-al-syrian.jpg"
+          ],
+          "item": {
+            "nome": "Os armamentos",
+            "glifo": "estrela",
+            "sobre": "O que se junta escondido para o dia da revolta."
+          },
           "senha_desbloqueio": "SICA"
         },
         {
           "id": 3,
-          "titulo": "O encontro",
+          "titulo": "O número na pedra",
           "corredor": [
-            [31.7785, 35.2339],
-            [31.7767, 35.2345]
+            [
+              31.775992,
+              35.230232
+            ],
+            [
+              31.77613,
+              35.230464
+            ],
+            [
+              31.776032,
+              35.230823
+            ],
+            [
+              31.775751,
+              35.230852
+            ]
           ],
           "raio_m": 50,
-          "texto_diwan": "[Texto da etapa 3 dos Zelotes.]",
-          "missao": "[Missao da etapa 3.]",
+          "avanco": "codigo",
+          "codigo_no_local": true,
+          "carta": [
+            {
+              "voz": "narrador",
+              "texto": "Numa bifurcação vocês vão ter que escolher um lado, e a cidade não perdoa quem erra. Para acertar, uma charada de gente da terra: entre Shamir e Shakrabi, sou Shamir. Entre Peres e Bibi, sou Bibi. Os dois que eu sou puxam para o mesmo lado. Vão por ali."
+            },
+            {
+              "voz": "narrador",
+              "texto": "Na próxima bifurcação, sigam o Reb de Lubavitch. Entrem sob o túnel. Logo no começo, alguém deixou um número gravado na parede, à vista de todos."
+            }
+          ],
+          "direcoes": [
+            "A bifurcação pede uma escolha. Resolvam a charada: entre Shamir e Shakrabi, sou Shamir. Entre Peres e Bibi, sou Bibi. Para que lado esses dois puxam? Sigam por ali.",
+            "Na próxima bifurcação, sigam o Reb de Lubavitch, e entrem sob o túnel.",
+            "No começo do túnel, achem o número na pedra. Leiam, guardem, e desçam as escadas certas."
+          ],
+          "marcos": [
+            {
+              "nome": "O número na pedra",
+              "ponto": [
+                31.775751,
+                35.230852
+              ]
+            }
+          ],
+          "missao": "Achem o número pintado na pedra, no começo do túnel. É a chave para descer pelas escadas certas. Leiam com cuidado e digitem os quatro dígitos, sem o traço.",
+          "fotos": [
+            "img/etapas/zelotes-e3-a-codigo.jpg"
+          ],
+          "item": {
+            "nome": "A chave da pedra",
+            "glifo": "chave",
+            "sobre": "O número gravado que abre a descida certa."
+          },
+          "senha_desbloqueio": "5359"
+        },
+        {
+          "id": 4,
+          "titulo": "O Cardo dos romanos",
+          "corredor": [
+            [
+              31.775751,
+              35.230852
+            ],
+            [
+              31.775402,
+              35.231063
+            ]
+          ],
+          "raio_m": 50,
+          "avanco": "codigo",
+          "codigo_no_local": true,
+          "carta": [
+            {
+              "voz": "narrador",
+              "texto": "Desçam as escadas e virem à direita. Abaixo de vocês abre-se o Cardo, a rua larga onde os romanos fizeram suas praças. Um dia a gente derruba isso."
+            }
+          ],
+          "direcoes": [
+            "Desçam as escadas e virem à direita.",
+            "Abaixo é o Cardo Romano, onde Roma fez suas praças.",
+            "Parem sob a placa Hadaia Jewelry Showroom. É a porta da próxima fase."
+          ],
+          "marcos": [
+            {
+              "nome": "O letreiro Hadaia",
+              "ponto": [
+                31.775402,
+                35.231063
+              ]
+            }
+          ],
+          "missao": "Sob o letreiro Hadaia Jewelry, marquem de que década ele é. O ano exato foi esquecido, mas a década está ali. Digitem os três números.",
+          "fotos": [],
+          "item": {
+            "nome": "A década esquecida",
+            "glifo": "ampulheta",
+            "sobre": "O tempo que o letreiro guarda, quando o ano já se perdeu."
+          },
+          "senha_desbloqueio": "198"
+        },
+        {
+          "id": 5,
+          "titulo": "Sigam o diamante",
+          "corredor": [
+            [
+              31.775402,
+              35.231063
+            ],
+            [
+              31.775334,
+              35.232246
+            ]
+          ],
+          "raio_m": 60,
+          "avanco": "codigo",
+          "codigo_no_local": true,
+          "carta": [
+            {
+              "voz": "narrador",
+              "texto": "Agora vocês entram na parte mais judia da cidade, mais protegida. Aqui os nossos andam sem precisar de tanta ordem. Não vem instrução. Vem um ponto no mapa. Achem."
+            }
+          ],
+          "direcoes": [
+            "Sigam o diamante aceso no mapa. Sem mais instrução: só o ponto, e os pés de vocês."
+          ],
+          "marcos": [
+            {
+              "nome": "O ponto do telefone",
+              "ponto": [
+                31.775334,
+                35.232246
+              ]
+            }
+          ],
+          "missao": "Ao chegar, procurem na parede um telefone escrito. Os últimos três dígitos abrem as próximas instruções. Digitem.",
+          "fotos": [
+            "img/etapas/zelotes-e5-a-telefone.jpg"
+          ],
+          "senha_desbloqueio": "728"
+        },
+        {
+          "id": 6,
+          "titulo": "O bairro protegido",
+          "corredor": [
+            [
+              31.775334,
+              35.232246
+            ],
+            [
+              31.775683,
+              35.232602
+            ],
+            [
+              31.775767,
+              35.232726
+            ],
+            [
+              31.776126,
+              35.232702
+            ]
+          ],
+          "raio_m": 50,
+          "avanco": "gps",
+          "carta": [
+            {
+              "voz": "narrador",
+              "texto": "Olhando para a sinagoga caraíta, virem à esquerda, e à esquerda de novo. Na frente, um centro de estudos talmúdicos dos fariseus sionistas, um nome que nem existia ainda."
+            },
+            {
+              "voz": "narrador",
+              "texto": "Não entrem no túnel. Sigam pelo pátio, desçam as escadas no fundo, e não virem em direção ao Kotel. Atravessem o túnel estreito, e ao sair sigam o Aish e o Nahal Haim, uma vez só, sem descer."
+            }
+          ],
+          "direcoes": [
+            "Diante da sinagoga caraíta, virem à esquerda, e à esquerda de novo.",
+            "Não entrem no túnel. Sigam pelo pátio e desçam as escadas no fundo.",
+            "Não virem em direção ao Kotel. Atravessem o túnel estreito.",
+            "Ao sair, sigam o Aish e o Nahal Haim, uma vez só, e reto.",
+            "Na primeira esquerda, uma árvore no pátio. Parem nela."
+          ],
+          "marcos": [
+            {
+              "nome": "A árvore do pátio",
+              "ponto": [
+                31.776126,
+                35.232702
+              ]
+            }
+          ],
+          "missao": "Na árvore do pátio, a missão final. Um vídeo do grupo girando em volta da árvore, gritando juntos: vamos ganhar. Mandem, e peguem a última chave.",
+          "fotos": [
+            "img/etapas/zelotes-e6-a-arvore.jpg"
+          ],
+          "item": {
+            "nome": "O grito da revolta",
+            "glifo": "estrela",
+            "sobre": "Vamos ganhar. A palavra que junta a corrente antes do fim."
+          },
+          "senha_desbloqueio": "KANAIM"
+        },
+        {
+          "id": 7,
+          "titulo": "O teto do shuk",
+          "corredor": [
+            [
+              31.776126,
+              35.232702
+            ],
+            [
+              31.776666,
+              35.23278
+            ],
+            [
+              31.776868,
+              35.232684
+            ],
+            [
+              31.77678,
+              35.231647
+            ]
+          ],
+          "raio_m": 60,
+          "avanco": "gps",
+          "carta": [
+            {
+              "voz": "narrador",
+              "texto": "Voltem por onde vieram e virem à esquerda. Desçam as escadas até um pátio com vista para onde o Templo se ergue, em direção ao Talmud Torá Moriá."
+            },
+            {
+              "voz": "narrador",
+              "texto": "Cheguem ao shuk, virem à esquerda e subam. Logo antes do cruzamento com a Rova, virem à esquerda na Plugat HaKotel. Subam e deem a volta no teto do shuk. É ali que a corrente se encerra."
+            }
+          ],
+          "direcoes": [
+            "Voltem e virem à esquerda.",
+            "Desçam as escadas até o pátio com vista para o Templo (Talmud Torá Moriá).",
+            "No shuk, virem à esquerda e subam.",
+            "Antes do cruzamento com a Rova, esquerda na Plugat HaKotel.",
+            "Subam e deem a volta no teto do shuk. É o fim do caminho de vocês."
+          ],
+          "marcos": [
+            {
+              "nome": "O teto do shuk",
+              "ponto": [
+                31.77678,
+                35.231647
+              ]
+            }
+          ],
+          "missao": "Chegaram ao alto. Daqui os zelotes olham a cidade que juraram defender. Foto da corrente inteira no teto do shuk, de frente para Jerusalém.",
+          "fotos": [
+            "img/etapas/zelotes-e7-a-patio.jpg"
+          ],
+          "item": {
+            "nome": "O alto da cidade",
+            "glifo": "regua",
+            "sobre": "O ponto onde as três correntes chegam, cada uma pelo seu caminho."
+          },
           "senha_desbloqueio": "MASSADA"
         }
       ],
-      "ponto_final": [31.7767, 35.2345],
-      "fragmento_final": "[Fragmento final dos Zelotes.]"
+      "ponto_final": [
+        31.77678,
+        35.231647
+      ],
+      "fragmento_final": [
+        {
+          "voz": "narrador",
+          "texto": "Capitão, o grupo já está no teto do shuk, o alto da cidade. Ponham todos de frente para Jerusalém. Depois desta leitura não vem missão."
+        },
+        {
+          "voz": "circulo",
+          "texto": "Vocês passaram a noite jurando expulsar Roma na força. E é bom que vocês saibam o que a força fez. Dentro de dois anos, no ano 70, o Templo cai. Roma queima a cidade e derruba a pedra, e dessa vez não se reergue."
+        },
+        {
+          "voz": "circulo",
+          "texto": "Mas escutem a parte que ninguém gosta de contar. Com o inimigo já no portão, foram grupos como o nosso que rasgaram a cidade por dentro. Facções judias brigando entre si,* queimando com a própria mão os armazéns de trigo que segurariam anos de cerco.* A fome que matou meia Jerusalém foi fome plantada por judeu. Deram nome a isso quando já era cinza: sinat chinam, ódio de graça."
+        },
+        {
+          "voz": "viajante",
+          "texto": "Vocês vieram de dois mil anos depois, e sabem no que a coragem sem freio dá. O covarde que fugiu num caixão salvou a voz que ainda estuda hoje. Os corajosos que ficaram para lutar entregaram a cidade ao fogo. Amanhã vocês tiram a roupa de zelote e voltam para o seu movimento, para as mesmas brigas de sempre. Lembrem do que viram do alto: dá para ter toda a raiva do mundo, e perder tudo mesmo assim. A Casa caiu porque os que estavam dentro não couberam uns nos outros."
+        },
+        {
+          "voz": "narrador",
+          "texto": "As três correntes chegaram ao mesmo teto, cada uma pelo seu caminho. Fariseus, saduceus, zelotes. Daqui em diante, a última instrução é a mesma para todos."
+        }
+      ]
     }
   ]
 }
