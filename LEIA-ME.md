@@ -24,6 +24,27 @@ Na pasta `peula-68-app`, rode `py -m http.server 8068` e abra `http://localhost:
 - `?debug=1` abre o painel de calibração: posição ao vivo, distância ao corredor, corredores desenhados no mapa, ajuste fino dos cantos da imagem e botão que copia o `config-mapa.json` pronto.
 - `?reset=1` apaga o progresso do celular e volta ao portão. No campo, sem mexer em URL: 7 toques seguidos no cabeçalho do mapa abrem a calibração, que tem o botão de reiniciar.
 
+## Modo ADM: diário de scouting em campo
+
+Abra o app com `?adm=1` (ou `?adm`) para entrar no coletor de campo. Serve para levantar rotas novas e refinar trechos, andando pela cidade, sem tocar em código.
+
+**Rotas separadas.** No alto do painel há o seletor de **Rota**: crie uma (＋), renomeie (✎) e troque entre elas. Cada rota (por exemplo "Tapuz A", "Tapuz B") guarda seus próprios pontos; a lista, a trilha no mapa e a exportação são sempre da rota ativa.
+
+**Marcar.** Toque no mapa onde tem algo, ou use **＋ marcar onde estou (GPS)**. Cada ponto abre um editor: tire ou escolha **fotos**, escreva o **comentário** e ponha uma **etiqueta**, que pinta o pino:
+- **Diamante** (losango azul): chegada ou checkpoint de etapa.
+- **Virada**: onde o caminho vira.
+- **Se perdeu**: dica de recuperação (se chegou aqui, errou; volte assim).
+- **Cuidado**: engana ou perigo. **Missão**: foto ou desafio. **Nota**: observação solta.
+
+Os pontos se ligam por uma **trilha dourada** na ordem. Reordene com as setas ▲▼ de cada ponto; apagar renumera sozinho.
+
+**Testar a rota.** O botão **testar a rota** segue no mapa com o seu GPS ao vivo, mostra a distância ao diamante mais perto e tem **ir ao diamante** para quando o grupo se perde. Sair volta a marcar.
+
+**Guardar e mandar.** Tudo salva na hora no aparelho (IndexedDB): reiniciar o telefone, fechar o navegador ou ficar sem sinal não apaga nada. As fotos são comprimidas (lado maior ~1600px) para caber muitas.
+- **sincronizar**: sobe os pontos e as fotos para o servidor (faça no wifi). Mostra quantos faltam e fica "tudo na nuvem ✓" quando termina.
+- **copiar anotações** / **exportar fotos**: mandam o material da rota pelo WhatsApp ou AirDrop sem depender do servidor.
+- Dica de campo: salve o link com `?adm=1` na tela de início do celular, para abrir o coletor com um toque.
+
 ## As senhas (placeholders atuais)
 
 - Entrada por seita: PERGUNTA (Fariseus), ALTAR (Saduceus), DESERTO (Essênios), PUNHAL (Zelotes).

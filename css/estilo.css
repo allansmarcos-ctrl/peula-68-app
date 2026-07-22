@@ -683,26 +683,133 @@ input[type="text"]:focus { border-color: var(--dourado); }
   background: rgba(0, 0, 0, 0.35); border-radius: 4px;
 }
 
-/* ---- modo ADM: coletor de coordenadas por toque no mapa ---- */
+/* ---- modo ADM: diario de scouting (foto + comentario + etiqueta por ponto) ---- */
 #painel-adm {
   position: fixed; left: 0; right: 0; bottom: 0; z-index: 4000;
+  display: flex; flex-direction: column; max-height: 66vh;
   padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
   background: rgba(18, 12, 5, 0.97); border-top: 2px solid var(--dourado); color: #e8d3a8;
 }
 .adm-cab { font-family: 'Cinzel', Georgia, serif; font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--dourado-claro); }
 .adm-cab span { display: block; margin-top: 3px; text-transform: none; letter-spacing: 0; font-style: italic; font-size: 12.5px; color: #b79b6d; }
-#adm-lista { max-height: 20vh; overflow-y: auto; margin: 8px 0; font-family: Consolas, Menlo, monospace; font-size: 14px; line-height: 1.7; background: rgba(0, 0, 0, 0.3); border-radius: 5px; padding: 8px 10px; }
-#adm-lista b { color: var(--dourado-claro); }
+#adm-lista { flex: 1 1 auto; overflow-y: auto; margin: 8px 0 4px; display: flex; flex-direction: column; gap: 7px; }
+.adm-vazio { font-style: italic; color: #9b7f52; font-size: 13px; text-align: center; padding: 14px 6px; }
+.adm-contagem { font-family: Consolas, Menlo, monospace; font-size: 11px; color: #9b7f52; text-align: center; margin-bottom: 6px; }
+
+.adm-card {
+  display: flex; gap: 10px; align-items: center; width: 100%; text-align: left;
+  padding: 8px; background: rgba(0, 0, 0, 0.28); border: 1px solid rgba(154, 116, 74, 0.35);
+  border-radius: 9px; color: #e8d3a8; cursor: pointer; -webkit-tap-highlight-color: transparent;
+}
+.adm-card-n {
+  flex: 0 0 auto; width: 24px; height: 24px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Cinzel', Georgia, serif; font-weight: 700; font-size: 13px; color: #1a120a;
+  background: radial-gradient(circle at 38% 32%, #ffe08a, #d4a017);
+}
+.adm-card-thumb-wrap { position: relative; flex: 0 0 auto; }
+.adm-card-thumb { width: 46px; height: 46px; object-fit: cover; border-radius: 6px; display: block; }
+.adm-card-thumb.vazia { display: flex; align-items: center; justify-content: center; font-size: 10px; font-style: italic; color: #8a7350; background: rgba(0, 0, 0, 0.3); }
+.adm-card-mais { position: absolute; right: -5px; bottom: -5px; background: #3a2a16; border: 1px solid var(--dourado); color: #ffe3a0; font-size: 10px; border-radius: 8px; padding: 0 5px; }
+.adm-card-corpo { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+.adm-chip { align-self: flex-start; font-family: 'Cinzel', Georgia, serif; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: #fff; padding: 1px 7px; border-radius: 10px; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5); }
+.adm-card-nota { font-size: 13px; color: #e8d3a8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.adm-card-nota i { color: #8a7350; }
+.adm-card-coord { font-family: Consolas, Menlo, monospace; font-size: 11px; color: #9b7f52; }
+.adm-card-coord .ok { color: #8fbf6f; font-style: normal; }
+
 .adm-btns { display: flex; gap: 8px; margin-top: 6px; }
 .adm-btns button { flex: 1; padding: 13px 8px; font-family: 'Cinzel', Georgia, serif; font-size: 13px; color: #f0deb6; background: #3a2a16; border: 1px solid var(--sepia-claro); border-radius: 7px; cursor: pointer; -webkit-tap-highlight-color: transparent; }
-.adm-btns .adm-forte { background: linear-gradient(180deg, #6d4f28, #4a3418); border-color: var(--dourado); color: #ffe3a0; }
+.adm-btns .adm-forte { background: linear-gradient(180deg, #6d4f28, #4a3418); border-color: var(--dourado); color: #ffe3a0; font-size: 14px; }
+#adm-sync.adm-sync-ok { border-color: #6f9f4f; color: #bfe0a0; }
+
+/* editor de um ponto: bottom sheet */
+#adm-editor { position: fixed; inset: 0; z-index: 5000; display: flex; align-items: flex-end; }
+#adm-editor.oculto { display: none; }
+.adm-ed-fundo { position: absolute; inset: 0; background: rgba(0, 0, 0, 0.55); }
+.adm-ed-folha {
+  position: relative; width: 100%; max-height: 90vh; overflow-y: auto;
+  background: linear-gradient(180deg, #221609, #171008); border-top: 2px solid var(--dourado);
+  border-radius: 16px 16px 0 0; padding: 14px 14px calc(16px + env(safe-area-inset-bottom));
+  color: #e8d3a8; box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.5);
+}
+.adm-ed-cab { display: flex; align-items: center; justify-content: space-between; font-family: 'Cinzel', Georgia, serif; font-size: 16px; color: var(--dourado-claro); margin-bottom: 10px; }
+.adm-ed-cab button { background: none; border: none; color: #e8d3a8; font-size: 20px; line-height: 1; cursor: pointer; padding: 4px 8px; }
+.adm-ed-fotos { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
+.adm-ed-foto { position: relative; }
+.adm-ed-foto img { width: 84px; height: 84px; object-fit: cover; border-radius: 8px; border: 1px solid var(--sepia-claro); display: block; cursor: pointer; }
+.adm-ed-foto-x { position: absolute; top: -7px; right: -7px; width: 22px; height: 22px; border-radius: 50%; background: #a32a2a; color: #fff; border: 1.5px solid #fff; font-size: 12px; line-height: 1; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+.adm-ed-semfoto { font-style: italic; color: #9b7f52; font-size: 13px; margin-bottom: 4px; }
+.adm-ed-addfoto { display: block; text-align: center; padding: 12px; margin-bottom: 6px; background: #3a2a16; border: 1px dashed var(--dourado); border-radius: 9px; color: #ffe3a0; font-family: 'Cinzel', Georgia, serif; font-size: 14px; cursor: pointer; }
+.adm-ed-rot { font-family: 'Cinzel', Georgia, serif; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #b79b6d; margin: 12px 0 5px; display: block; }
+#adm-ed-nota { width: 100%; background: rgba(0, 0, 0, 0.3); border: 1px solid var(--sepia-claro); border-radius: 8px; color: #f0deb6; font-family: Georgia, serif; font-size: 15px; padding: 10px; resize: vertical; }
+.adm-ed-etiquetas { display: flex; flex-wrap: wrap; gap: 7px; }
+.adm-et-btn { font-family: 'Cinzel', Georgia, serif; font-size: 12px; padding: 7px 12px; border-radius: 16px; border: 1.5px solid var(--et-cor, var(--sepia-claro)); background: transparent; color: #e8d3a8; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.adm-et-btn.ativa { background: var(--et-cor, var(--dourado)); color: #fff; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5); }
+.adm-ed-coord { margin: 14px 0 2px; font-family: Consolas, Menlo, monospace; font-size: 13px; color: #c7ad7e; }
+.adm-ed-coord span { color: #9b7f52; }
+.adm-ed-btns { display: flex; gap: 8px; margin-top: 14px; }
+.adm-ed-btns button { flex: 1; padding: 12px; font-family: 'Cinzel', Georgia, serif; font-size: 13px; border-radius: 8px; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+#adm-ed-gps { background: #3a2a16; border: 1px solid var(--sepia-claro); color: #f0deb6; }
+#adm-ed-apagar { background: transparent; border: 1px solid #7a1f1f; color: #d98a8a; }
+
 .pino-adm {
-  width: 26px; height: 26px; border-radius: 50%;
+  width: 28px; height: 28px; border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
   font-family: 'Cinzel', Georgia, serif; font-weight: 700; font-size: 13px; color: #1a120a;
   background: radial-gradient(circle at 38% 32%, #ffe08a, #d4a017);
   border: 2px solid #7a1f1f; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
 }
+.pino-adm.etiquetado { color: #fff; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6); border-color: #1a120a; }
+.pino-adm.com-foto { box-shadow: 0 0 0 2px #fff6d8, 0 2px 6px rgba(0, 0, 0, 0.55); }
+.pino-adm span { display: block; line-height: 1; }
+.pino-diamante { border-radius: 5px; transform: rotate(45deg); box-shadow: 0 0 0 2px rgba(47, 159, 196, 0.4), 0 0 12px rgba(47, 159, 196, 0.7), 0 2px 6px rgba(0, 0, 0, 0.55); }
+.pino-diamante span { transform: rotate(-45deg); }
+
+/* barra de rota (trocar / criar / renomear a rota do levantamento) */
+.adm-rota-barra { display: flex; align-items: center; gap: 6px; margin-top: 8px; }
+.adm-rota-lbl { font-family: 'Cinzel', Georgia, serif; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #b79b6d; }
+#adm-rota-sel { flex: 1 1 auto; min-width: 0; background: #2e2013; color: #f0deb6; border: 1px solid var(--sepia-claro); border-radius: 7px; padding: 8px; font-family: Georgia, serif; font-size: 14px; }
+#adm-rota-nova, #adm-rota-ren { flex: 0 0 auto; width: 38px; padding: 8px 0; background: #3a2a16; color: #ffe3a0; border: 1px solid var(--sepia-claro); border-radius: 7px; font-size: 15px; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+
+/* reordenar pontos na lista */
+.adm-card-ord { display: flex; flex-direction: column; gap: 3px; flex: 0 0 auto; }
+.adm-ord-btn { width: 26px; height: 22px; border-radius: 5px; border: 1px solid var(--sepia-claro); background: #2e2013; color: #e8d3a8; font-size: 11px; line-height: 1; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.adm-ord-btn:disabled { opacity: 0.3; cursor: default; }
+
+/* card de um diamante: destaque ciano */
+.adm-card.e-diamante { border-color: rgba(47, 159, 196, 0.55); background: rgba(47, 159, 196, 0.1); }
+.adm-card-n.n-diamante { background: radial-gradient(circle at 38% 32%, #9fe0f4, #2f9fc4); color: #08222c; }
+
+/* HUD do modo "testar a rota" */
+#adm-teste-hud { position: fixed; left: 12px; right: 12px; bottom: calc(12px + env(safe-area-inset-bottom)); z-index: 4200; background: rgba(18, 12, 5, 0.96); border: 1px solid var(--dourado); border-radius: 12px; padding: 10px 12px; color: #e8d3a8; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5); }
+.ath-linha { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+.ath-linha b { color: var(--dourado-claro); font-family: Georgia, serif; font-weight: normal; font-size: 14px; }
+#ath-dist { font-family: 'Cinzel', Georgia, serif; font-size: 18px; color: #7fd0ea; white-space: nowrap; }
+.ath-btns { display: flex; gap: 7px; margin-top: 9px; }
+.ath-btns button { flex: 1; padding: 11px 6px; font-family: 'Cinzel', Georgia, serif; font-size: 12px; border-radius: 8px; border: 1px solid var(--sepia-claro); background: #3a2a16; color: #f0deb6; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+#ath-sair { flex: 0 0 auto; border-color: #7a1f1f; color: #d98a8a; }
+#adm-testar.adm-teste-on { border-color: #2f9fc4; color: #9fe0f4; }
+
+/* overlay "pistas do jogo" (só leitura, para refinar a fariseus em campo) */
+#adm-pistas-ov { position: fixed; inset: 0; z-index: 5000; display: flex; align-items: flex-end; }
+#adm-pistas-ov.oculto { display: none; }
+.adm-pistas-folha {
+  position: relative; width: 100%; max-height: 90vh; overflow-y: auto;
+  background: linear-gradient(180deg, #221609, #171008); border-top: 2px solid var(--dourado);
+  border-radius: 16px 16px 0 0; padding: 14px 14px calc(16px + env(safe-area-inset-bottom));
+  color: #e8d3a8; box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.5);
+}
+.adm-pistas-dica { font-style: italic; font-size: 12.5px; color: #b79b6d; margin-bottom: 10px; }
+.adm-pista-etapa { border-top: 1px solid rgba(154, 116, 74, 0.3); padding-top: 10px; margin-top: 10px; }
+.adm-pista-etapa:first-of-type { border-top: none; margin-top: 0; padding-top: 0; }
+.adm-pista-etapa h4 { font-family: 'Cinzel', Georgia, serif; font-size: 14px; color: var(--dourado-claro); margin-bottom: 8px; }
+.adm-pista-dir { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 7px; }
+.adm-pista-num { flex: 0 0 auto; font-family: Consolas, Menlo, monospace; font-size: 12px; color: #8fbf6f; min-width: 30px; padding-top: 2px; }
+.adm-pista-txt { flex: 1 1 auto; font-size: 14px; line-height: 1.4; }
+.adm-pista-corr { flex: 0 0 auto; align-self: center; font-family: 'Cinzel', Georgia, serif; font-size: 11px; padding: 5px 9px; border-radius: 7px; border: 1px solid #7a1f1f; background: transparent; color: #d98a8a; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.adm-pista-extra { font-size: 13px; color: #c7ad7e; margin: 6px 0 2px; }
+.adm-pista-extra b { color: var(--dourado-claro); }
 
 /* ---- utilidades e Leaflet ---- */
 

@@ -752,6 +752,7 @@ function atualizarPosicao(lat, lng, acc, fonte) {
   }
   if (aguardandoGate) verificarChegadaGate();  // chegou ao portao inicial pelo GPS: abre a 1a etapa
   if (bussolaAtiva) atualizarBussola();         // a agulha segue a posicao
+  if (window.ADM && admModoTeste) admAtualizarTeste(); // no teste, o HUD acompanha a posicao
   if (precisaVerificarEntrada) { precisaVerificarEntrada = false; verificar('entrada'); }
   atualizarPainelDebug();
 }
@@ -1043,76 +1044,60 @@ function atualizarPainelDebug(distConhecida) {
   if (j) j.textContent = jsonCantos();
 }
 
-// ---------- modo ADM: coletor de coordenadas por toque no mapa ----------
-// Abre direto no mapa (rota fariseus de referencia). Cada toque marca um ponto
-// numerado e guarda a coordenada; "marcar GPS" usa a posicao atual; "copiar tudo"
-// entrega a lista pronta para colar. Serve para levantar a rota nova em campo.
-// Cada ponto e salvo na hora no aparelho (localStorage): reiniciar o telefone,
-// fechar o Safari ou ficar sem sinal no meio do levantamento nao apaga o trabalho.
-// Ao reabrir a tela, os pontos voltam sozinhos.
-let pontosAdm = [], marcadoresAdm = [];
+// ---------- modo ADM: diario de scouting (foto + comentario + etiqueta por ponto) ----------
+// Abre no mapa da rota fariseus (referencia visual). Toque no mapa OU "marcar aqui (GPS)"
+// cria um ponto e abre o editor: tirar/anexar fotos, escrever o comentario e por uma
+// etiqueta (virada, marco, missao, cuidado, nota). Serve para levantar as rotas novas
+// (e refinar E5/E6 da fariseus) em campo, com o material rico para montar o rotas.json.
+//
+// LOCAL-FIRST, nunca perde trabalho: os pontos e as fotos vivem no IndexedDB do aparelho
+// (fotos sao pesadas demais para o localStorage). Reiniciar o telefone, fechar o Safari
+// ou ficar sem sinal no meio do levantamento nao apaga nada. Ao reabrir, tudo volta.
+// A foto e comprimida (lado maior ~1600px, JPEG) para caber muitas e para a sincronizacao
+// futura com o servidor ser leve. Exportar junta tudo num texto + as fotos para compartilhar.
+const ADM_DB = 'peula68adm';
+const ADM_DB_VER = 1;
+const ADM_ETIQUETAS = [
+  { id: 'diamante', nome: 'Diamante', cor: '#2f9fc4' }, // chegada / checkpoint de etapa
+  { id: 'virada', nome: 'Virada', cor: '#d98a2b' },     // onde o caminho vira
+  { id: 'perdeu', nome: 'Se perdeu', cor: '#c0392b' },  // dica de recuperacao (se chegou aqui, errou)
+  { id: 'cuidado', nome: 'Cuidado', cor: '#e8c020' },   // engana, perigo, nao entrar
+  { id: 'missao', nome: 'Missão', cor: '#8e44ad' },     // ponto de foto / video / desafio
+  { id: 'nota', nome: 'Nota', cor: '#5a8a3a' },         // observacao solta
+];
+const CHAVE_ADM_ROTA = 'peula68_adm_rota';    // nome da rota ativa no ADM
+const CHAVE_ADM_ROTAS = 'peula68_adm_rotas';  // lista de nomes de rotas criadas
 
-function lerPontosAdm() {
-  try { return JSON.parse(localStorage.getItem(CHAVE_ADM)) || []; }
-  catch (e) { return []; }
-}
-function salvarPontosAdm() {
-  try { localStorage.setItem(CHAVE_ADM, JSON.stringify(pontosAdm)); }
-  catch (e) { /* modo privado sem storage: segue na memoria, so nao sobrevive a reload */ }
-}
+let admPontos = [];        // TODOS os pontos (de todas as rotas); a rota fica em p.rota
+let admFotos = {};         // { ponto_id: [{id,ponto_id,thumb,criado_em,sincronizado}] } (thumb dataURL; blob so no IDB)
+let admMarcadores = {};    // { ponto_id: L.marker } (so os da rota ativa)
+let admLinhaRota = null;   // a trilha dourada que liga os pontos da rota ativa na ordem
+let admDb = null;
+let admEditandoId = null;
+let admRotaAtiva = '';     // nome da rota sendo levantada (ex.: "Tapuz A")
+let admModoTeste = false;  // "testar a rota": segue no mapa com o GPS, sem editar
 
-function iniciarAdm() {
-  window.ADM = true; // no adm nao roda a verificacao automatica de caminho (nada de aviso modal)
-  rotaAtiva = ROTAS.rotas.find(r => r.id === 'fariseus') || ROTAS.rotas[0];
-  if (!mapa) montarMapa();
-  iniciarGeolocalizacao();
-  mostrarTela('jogo');
-  $('painel').classList.add('oculto');
-  $('controles-flutuantes').classList.add('oculto');
-  $('header-texto').textContent = 'ADM · marcar pontos';
-  $('selo-seita').style.background = '#d4a017';
-  desenharCamadasDebug(); // mostra os corredores/rota como referencia visual
-  document.documentElement.style.setProperty('--painel-alt', '0px');
-  mapa.on('click', (e) => adicionarPontoAdm(e.latlng.lat, e.latlng.lng));
-  montarPainelAdm();
-  restaurarPontosAdm(); // traz de volta o que ja estava marcado antes de fechar/reiniciar
-  setTimeout(() => mapa.invalidateSize(), 80);
+function admUuid() {
+  try { if (crypto && crypto.randomUUID) return crypto.randomUUID(); } catch (e) {}
+  return 'p' + Date.now().toString(36) + Math.random().toString(16).slice(2, 8);
 }
+function admCorEtiqueta(id) { const e = ADM_ETIQUETAS.find(x => x.id === id); return e ? e.cor : null; }
+function admNomeEtiqueta(id) { const e = ADM_ETIQUETAS.find(x => x.id === id); return e ? e.nome : ''; }
 
-function desenharMarcadorAdm(p) {
-  const ic = L.divIcon({ className: '', html: '<div class="pino-adm">' + p.n + '</div>', iconSize: [26, 26], iconAnchor: [13, 13] });
-  return L.marker([p.lat, p.lng], { icon: ic, zIndexOffset: 800 }).addTo(mapa);
+// ----- rotas: cada levantamento e uma rota nomeada; os pontos ficam em p.rota -----
+function admLerRotas() { try { return JSON.parse(localStorage.getItem(CHAVE_ADM_ROTAS)) || []; } catch (e) { return []; } }
+function admSalvarRotas(lista) { try { localStorage.setItem(CHAVE_ADM_ROTAS, JSON.stringify(lista)); } catch (e) {} }
+function admSalvarRotaAtiva() { try { localStorage.setItem(CHAVE_ADM_ROTA, admRotaAtiva); } catch (e) {} }
+function admTodasRotas() { return admLerRotas(); }
+// os pontos de uma rota (a ativa por padrao), na ordem (n)
+function admPontosDaRota(rota) {
+  const r = rota != null ? rota : admRotaAtiva;
+  return admPontos.filter(p => (p.rota || '') === r).sort((a, b) => (a.n || 0) - (b.n || 0));
 }
-
-function adicionarPontoAdm(lat, lng) {
-  const p = { n: pontosAdm.length + 1, lat, lng };
-  pontosAdm.push(p);
-  marcadoresAdm.push(desenharMarcadorAdm(p));
-  renderListaAdm();
-  salvarPontosAdm();
-}
-
-function restaurarPontosAdm() {
-  const salvos = lerPontosAdm();
-  if (!salvos.length) return;
-  pontosAdm = salvos.map((p, i) => ({ n: i + 1, lat: p.lat, lng: p.lng }));
-  marcadoresAdm = pontosAdm.map(desenharMarcadorAdm);
-  renderListaAdm();
-  const ult = pontosAdm[pontosAdm.length - 1];
-  if (mapa && ult) mapa.panTo([ult.lat, ult.lng]);
-  toast(pontosAdm.length + ' ponto(s) recuperados. Toque em "limpar" para começar do zero.', 6000);
-}
-
-function renderListaAdm() {
-  const l = $('adm-lista');
-  if (!l) return;
-  l.innerHTML = pontosAdm.length
-    ? pontosAdm.map(p => '<b>' + p.n + '</b>: ' + p.lat.toFixed(6) + ', ' + p.lng.toFixed(6)).join('<br>')
-    : 'toque no mapa onde você está, ou onde tem algo';
-}
-
-function textoAdm() {
-  return pontosAdm.map(p => p.n + ': [' + p.lat.toFixed(6) + ', ' + p.lng.toFixed(6) + ']').join('\n');
+// garante que a rota exista na lista salva
+function admGarantirRota(nome) {
+  const lista = admLerRotas();
+  if (!lista.includes(nome)) { lista.push(nome); admSalvarRotas(lista); }
 }
 
 function copiar(t, okMsg) {
@@ -1120,44 +1105,889 @@ function copiar(t, okMsg) {
   else toast(t, 9000);
 }
 
+// ----- IndexedDB: pontos (metadados) e fotos (blobs) -----
+function admAbrirDb() {
+  return new Promise((resolve, reject) => {
+    if (!('indexedDB' in window)) { reject(new Error('sem indexedDB')); return; }
+    const req = indexedDB.open(ADM_DB, ADM_DB_VER);
+    req.onupgradeneeded = () => {
+      const db = req.result;
+      if (!db.objectStoreNames.contains('pontos')) db.createObjectStore('pontos', { keyPath: 'id' });
+      if (!db.objectStoreNames.contains('fotos')) {
+        const s = db.createObjectStore('fotos', { keyPath: 'id' });
+        s.createIndex('ponto_id', 'ponto_id', { unique: false });
+      }
+    };
+    req.onsuccess = () => resolve(req.result);
+    req.onerror = () => reject(req.error || new Error('erro ao abrir o banco'));
+  });
+}
+function admPut(store, obj) {
+  return new Promise((resolve, reject) => {
+    const tx = admDb.transaction(store, 'readwrite');
+    tx.objectStore(store).put(obj);
+    tx.oncomplete = () => resolve();
+    tx.onerror = () => reject(tx.error);
+  });
+}
+function admGetAll(store) {
+  return new Promise((resolve, reject) => {
+    const req = admDb.transaction(store, 'readonly').objectStore(store).getAll();
+    req.onsuccess = () => resolve(req.result || []);
+    req.onerror = () => reject(req.error);
+  });
+}
+function admGet(store, id) {
+  return new Promise((resolve, reject) => {
+    const req = admDb.transaction(store, 'readonly').objectStore(store).get(id);
+    req.onsuccess = () => resolve(req.result || null);
+    req.onerror = () => reject(req.error);
+  });
+}
+function admDelete(store, id) {
+  return new Promise((resolve, reject) => {
+    const tx = admDb.transaction(store, 'readwrite');
+    tx.objectStore(store).delete(id);
+    tx.oncomplete = () => resolve();
+    tx.onerror = () => reject(tx.error);
+  });
+}
+
+async function iniciarAdm() {
+  window.ADM = true; // no adm nao roda a verificacao automatica de caminho (nada de aviso modal)
+  rotaAtiva = ROTAS.rotas.find(r => r.id === 'fariseus') || ROTAS.rotas[0];
+  if (!mapa) montarMapa();
+  iniciarGeolocalizacao();
+  mostrarTela('jogo');
+  $('painel').classList.add('oculto');
+  $('controles-flutuantes').classList.add('oculto');
+  $('header-texto').textContent = 'ADM · diário de scouting';
+  $('selo-seita').style.background = '#d4a017';
+  document.documentElement.style.setProperty('--painel-alt', '0px');
+  mapa.on('click', (e) => admNovoPonto(e.latlng.lat, e.latlng.lng, null));
+  montarPainelAdm();
+  montarEditorAdm();
+  montarPistasAdm();
+  window.addEventListener('online', () => admAtualizarBotaoSync());
+  window.addEventListener('offline', () => admAtualizarBotaoSync());
+  try {
+    admDb = await admAbrirDb();
+    await admMigrarAntigo();  // importa os pontos do formato antigo (localStorage), uma vez
+    await admCarregar();
+  } catch (e) {
+    toast('Sem armazenamento neste navegador: os pontos vão sumir ao recarregar. Exporte antes de fechar.', 8000);
+  }
+  setTimeout(() => mapa.invalidateSize(), 80);
+}
+
+// traz o que ja estava no aparelho (fotos + pontos), desenha e lista
+async function admCarregar() {
+  admPontos = await admGetAll('pontos');
+  const fotos = await admGetAll('fotos');
+  admFotos = {};
+  fotos.forEach(f => {
+    (admFotos[f.ponto_id] = admFotos[f.ponto_id] || []).push({ id: f.id, ponto_id: f.ponto_id, thumb: f.thumb, criado_em: f.criado_em, sincronizado: f.sincronizado });
+  });
+  await admDefinirRotaInicial();   // decide a rota ativa e adota pontos sem rota
+  admAtualizarSeletorRotas();
+  admRedesenhar();
+  admRenderLista();
+  const daRota = admPontosDaRota();
+  if (daRota.length && mapa) mapa.panTo([daRota[daRota.length - 1].lat, daRota[daRota.length - 1].lng]);
+  if (admPontos.length) toast(admPontos.length + ' ponto(s) no aparelho.', 3500);
+}
+
+// decide a rota ativa (a salva, ou a 1a existente, ou cria uma) e adota pontos orfaos
+async function admDefinirRotaInicial() {
+  let rotas = admLerRotas();
+  Array.from(new Set(admPontos.map(p => p.rota).filter(Boolean))).forEach(r => { if (!rotas.includes(r)) rotas.push(r); });
+  if (!rotas.length) rotas = ['Rota 1'];
+  admSalvarRotas(rotas);
+  let salva = '';
+  try { salva = localStorage.getItem(CHAVE_ADM_ROTA) || ''; } catch (e) {}
+  admRotaAtiva = rotas.includes(salva) ? salva : rotas[0];
+  admSalvarRotaAtiva();
+  const orfaos = admPontos.filter(p => !p.rota);   // pontos do formato antigo, sem rota
+  for (const p of orfaos) { p.rota = admRotaAtiva; await admPut('pontos', p); }
+}
+
+// limpa e redesenha o mapa com SO os pontos da rota ativa, mais a linha que os liga
+function admRedesenhar() {
+  if (!mapa) return;
+  Object.values(admMarcadores).forEach(m => mapa.removeLayer(m));
+  admMarcadores = {};
+  admPontosDaRota().forEach(admDesenharMarcador);
+  admDesenharLinhaRota();
+}
+
+// a trilha dourada que liga os pontos da rota ativa na ordem (mesmo visual do jogo)
+function admDesenharLinhaRota() {
+  if (admLinhaRota) { mapa.removeLayer(admLinhaRota); admLinhaRota = null; }
+  const pts = admPontosDaRota().map(p => [p.lat, p.lng]);
+  if (pts.length < 2) return;
+  const g = L.layerGroup();
+  L.polyline(pts, { color: '#ffcf5e', weight: 11, opacity: 0.16, lineJoin: 'round', lineCap: 'round', interactive: false }).addTo(g);
+  L.polyline(pts, { color: '#ffe9a8', weight: 3, opacity: 0.85, dashArray: '1 9', lineJoin: 'round', lineCap: 'round', interactive: false }).addTo(g);
+  admLinhaRota = g.addTo(mapa);
+}
+
+// migracao unica: pontos do coletor antigo (localStorage, so lat/lng) viram pontos do diario
+async function admMigrarAntigo() {
+  let antigos = [];
+  try { antigos = JSON.parse(localStorage.getItem(CHAVE_ADM)) || []; } catch (e) {}
+  if (!antigos.length) return;
+  const jaTem = await admGetAll('pontos');
+  if (jaTem.length) { try { localStorage.removeItem(CHAVE_ADM); } catch (e) {} return; }
+  const agora = new Date().toISOString();
+  for (let i = 0; i < antigos.length; i++) {
+    const a = antigos[i];
+    if (typeof a.lat !== 'number' || typeof a.lng !== 'number') continue;
+    await admPut('pontos', { id: admUuid(), n: i + 1, lat: a.lat, lng: a.lng, acc: null, nota: '', etiqueta: '', criado_em: agora, atualizado_em: agora, sincronizado: false });
+  }
+  try { localStorage.removeItem(CHAVE_ADM); } catch (e) {}
+}
+
+function admProximoN() {
+  return admPontosDaRota().reduce((mx, p) => Math.max(mx, p.n || 0), 0) + 1;   // numeracao por rota
+}
+
+async function admNovoPonto(lat, lng, acc) {
+  if (!admDb) { toast('Armazenamento indisponível neste navegador.'); return; }
+  if (admModoTeste) return;   // no modo teste, tocar no mapa nao cria ponto
+  const agora = new Date().toISOString();
+  const p = {
+    id: admUuid(), n: admProximoN(), lat, lng,
+    acc: (acc != null ? acc : (posAtual && posAtual.acc) || null),
+    nota: '', etiqueta: '', rota: admRotaAtiva,
+    criado_em: agora, atualizado_em: agora, sincronizado: false,
+  };
+  admPontos.push(p);
+  await admPut('pontos', p);
+  admRedesenhar();
+  admRenderLista();
+  admAbrirEditor(p.id);
+}
+
+function admDesenharMarcador(p) {
+  if (admMarcadores[p.id]) { mapa.removeLayer(admMarcadores[p.id]); }
+  const cor = admCorEtiqueta(p.etiqueta);
+  const temFoto = (admFotos[p.id] || []).length > 0;
+  const diamante = p.etiqueta === 'diamante';
+  const cls = 'pino-adm' + (cor ? ' etiquetado' : '') + (temFoto ? ' com-foto' : '') + (diamante ? ' pino-diamante' : '');
+  const estilo = cor ? 'style="background:' + cor + '"' : '';
+  const ic = L.divIcon({
+    className: '',
+    html: '<div class="' + cls + '" ' + estilo + '><span>' + p.n + '</span></div>',
+    iconSize: diamante ? [32, 32] : [28, 28],
+    iconAnchor: diamante ? [16, 16] : [14, 14],
+  });
+  const m = L.marker([p.lat, p.lng], { icon: ic, zIndexOffset: diamante ? 850 : 800 }).addTo(mapa);
+  m.on('click', () => { if (admModoTeste) { mapa.panTo([p.lat, p.lng]); } else { admAbrirEditor(p.id); } });
+  m.bindTooltip('#' + p.n + (p.etiqueta ? ' · ' + admNomeEtiqueta(p.etiqueta) : ''), { direction: 'top', offset: [0, -14] });
+  admMarcadores[p.id] = m;
+}
+
+// ----- fotos: comprime, guarda blob no IDB, thumb na memoria -----
+function admComprimirFoto(file, maxLado, q) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    const url = URL.createObjectURL(file);
+    img.onload = () => {
+      URL.revokeObjectURL(url);
+      const escala = Math.min(1, maxLado / Math.max(img.width, img.height));
+      const w = Math.max(1, Math.round(img.width * escala)), h = Math.max(1, Math.round(img.height * escala));
+      const c = document.createElement('canvas'); c.width = w; c.height = h;
+      c.getContext('2d').drawImage(img, 0, 0, w, h);
+      c.toBlob(b => b ? resolve(b) : reject(new Error('sem blob')), 'image/jpeg', q);
+    };
+    img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('imagem inválida')); };
+    img.src = url;
+  });
+}
+function admThumbDataURL(blob, lado) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    const url = URL.createObjectURL(blob);
+    img.onload = () => {
+      URL.revokeObjectURL(url);
+      const escala = Math.min(1, lado / Math.max(img.width, img.height));
+      const w = Math.max(1, Math.round(img.width * escala)), h = Math.max(1, Math.round(img.height * escala));
+      const c = document.createElement('canvas'); c.width = w; c.height = h;
+      c.getContext('2d').drawImage(img, 0, 0, w, h);
+      resolve(c.toDataURL('image/jpeg', 0.6));
+    };
+    img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('thumb falhou')); };
+    img.src = url;
+  });
+}
+
+async function admAdicionarFotos(pontoId, fileList) {
+  const files = Array.from(fileList || []).filter(f => f && f.type && f.type.indexOf('image') === 0);
+  if (!files.length) return;
+  toast(files.length > 1 ? 'Processando ' + files.length + ' fotos...' : 'Processando a foto...', 3000);
+  for (const file of files) {
+    try {
+      const blob = await admComprimirFoto(file, 1600, 0.72);
+      const thumb = await admThumbDataURL(blob, 240);
+      const foto = { id: admUuid(), ponto_id: pontoId, blob, thumb, criado_em: new Date().toISOString(), sincronizado: false };
+      await admPut('fotos', foto);
+      (admFotos[pontoId] = admFotos[pontoId] || []).push({ id: foto.id, ponto_id: pontoId, thumb, criado_em: foto.criado_em, sincronizado: false });
+    } catch (e) { toast('Uma foto não pôde ser lida. Tente de novo.'); }
+  }
+  await admTocarPonto(pontoId);
+  admRedesenhar();   // o pino ganha o anel de "tem foto"
+  admRenderEditor();
+  admRenderLista();
+}
+
+async function admRemoverFoto(fotoId, pontoId) {
+  await admDelete('fotos', fotoId);
+  admFotos[pontoId] = (admFotos[pontoId] || []).filter(f => f.id !== fotoId);
+  admRedesenhar();
+  admRenderEditor();
+  admRenderLista();
+}
+
+// marca o ponto como editado agora (mexeu em foto/nota/etiqueta): reabre a pendencia de sync
+async function admTocarPonto(pontoId) {
+  const p = admPontos.find(x => x.id === pontoId);
+  if (!p) return;
+  p.atualizado_em = new Date().toISOString();
+  p.sincronizado = false;
+  await admPut('pontos', p);
+}
+
+// ----- lista de pontos (painel de baixo) -----
+function admRenderLista() {
+  const l = $('adm-lista');
+  if (!l) return;
+  const pts = admPontosDaRota();
+  if (!pts.length) { l.innerHTML = '<p class="adm-vazio">Rota "' + admEsc(admRotaAtiva) + '" ainda vazia. Toque no mapa onde tem algo, ou use o botão de baixo para marcar onde você está.</p>'; admAtualizarContagem(); return; }
+  l.innerHTML = '';
+  pts.forEach((p, idx) => {
+    const fotos = admFotos[p.id] || [];
+    const cor = admCorEtiqueta(p.etiqueta) || '#6b4a2a';
+    const et = p.etiqueta ? '<span class="adm-chip" style="background:' + cor + '">' + admNomeEtiqueta(p.etiqueta) + '</span>' : '';
+    const thumb = fotos.length ? '<img class="adm-card-thumb" src="' + fotos[0].thumb + '" alt="">' : '<span class="adm-card-thumb vazia">sem foto</span>';
+    const nota = p.nota ? admEsc(p.nota) : '<i>sem comentário</i>';
+    const extra = fotos.length > 1 ? '<span class="adm-card-mais">+' + (fotos.length - 1) + '</span>' : '';
+    const card = document.createElement('div');
+    card.className = 'adm-card' + (p.etiqueta === 'diamante' ? ' e-diamante' : '');
+    card.innerHTML =
+      '<span class="adm-card-n' + (p.etiqueta === 'diamante' ? ' n-diamante' : '') + '">' + p.n + '</span>' +
+      '<span class="adm-card-thumb-wrap">' + thumb + extra + '</span>' +
+      '<span class="adm-card-corpo">' + et + '<span class="adm-card-nota">' + nota + '</span>' +
+      '<span class="adm-card-coord">' + p.lat.toFixed(5) + ', ' + p.lng.toFixed(5) + (p.sincronizado ? ' · <b class="ok">na nuvem</b>' : '') + '</span></span>' +
+      '<span class="adm-card-ord">' +
+        '<button type="button" class="adm-ord-btn" data-dir="-1"' + (idx === 0 ? ' disabled' : '') + ' aria-label="Subir">▲</button>' +
+        '<button type="button" class="adm-ord-btn" data-dir="1"' + (idx === pts.length - 1 ? ' disabled' : '') + ' aria-label="Descer">▼</button>' +
+      '</span>';
+    ['.adm-card-n', '.adm-card-thumb-wrap', '.adm-card-corpo'].forEach(sel => card.querySelector(sel).addEventListener('click', () => admAbrirEditor(p.id)));
+    card.querySelectorAll('.adm-ord-btn').forEach(b => b.addEventListener('click', (e) => { e.stopPropagation(); admMoverPonto(p.id, Number(b.dataset.dir)); }));
+    l.appendChild(card);
+  });
+  admAtualizarContagem();
+}
+function admEsc(s) { return (s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+
+function admAtualizarContagem() {
+  const el = $('adm-contagem');
+  if (!el) return;
+  const pts = admPontosDaRota();
+  const nFotos = pts.reduce((s, p) => s + (admFotos[p.id] || []).length, 0);
+  const nSync = pts.filter(p => p.sincronizado).length;
+  const nDia = pts.filter(p => p.etiqueta === 'diamante').length;
+  el.textContent = pts.length + ' ponto(s) · ' + nDia + ' diamante(s) · ' + nFotos + ' foto(s) · ' + nSync + ' na nuvem';
+  admAtualizarBotaoSync();
+}
+
+// ----- editor de um ponto (bottom sheet) -----
 function montarPainelAdm() {
   const p = document.createElement('aside');
   p.id = 'painel-adm';
   p.innerHTML =
-    '<div class="adm-cab">MARCAR PONTOS<span>toque no mapa onde está, ou onde tem algo. Cada ponto salva sozinho no aparelho. Fale no áudio o que é cada número.</span></div>' +
-    '<div id="adm-lista">toque no mapa onde você está, ou onde tem algo</div>' +
+    '<div class="adm-cab">DIÁRIO DE SCOUTING<span>toque no mapa onde tem algo. Cada ponto guarda foto, comentário e etiqueta.</span></div>' +
+    '<div class="adm-rota-barra">' +
+      '<span class="adm-rota-lbl">Rota</span>' +
+      '<select id="adm-rota-sel" aria-label="Rota ativa"></select>' +
+      '<button id="adm-rota-nova" type="button" title="Nova rota" aria-label="Nova rota">＋</button>' +
+      '<button id="adm-rota-ren" type="button" title="Renomear rota" aria-label="Renomear rota">✎</button>' +
+    '</div>' +
+    '<div id="adm-lista"></div>' +
+    '<div id="adm-contagem" class="adm-contagem"></div>' +
     '<div class="adm-btns">' +
-      '<button id="adm-gps">marcar minha posição (GPS)</button>' +
-      '<button id="adm-desfazer">desfazer</button>' +
+      '<button id="adm-gps" class="adm-forte">＋ marcar onde estou (GPS)</button>' +
     '</div>' +
     '<div class="adm-btns">' +
-      '<button id="adm-copiar" class="adm-forte">copiar tudo</button>' +
+      '<button id="adm-pistas">pistas do jogo</button>' +
+      '<button id="adm-testar">testar a rota</button>' +
+      '<button id="adm-sync">sincronizar</button>' +
+    '</div>' +
+    '<div class="adm-btns">' +
+      '<button id="adm-copiar">copiar anotações</button>' +
+      '<button id="adm-exportar">exportar fotos</button>' +
       '<button id="adm-limpar">limpar</button>' +
     '</div>';
   document.body.appendChild(p);
+  $('adm-rota-sel').addEventListener('change', (e) => admTrocarRota(e.target.value));
+  $('adm-rota-nova').addEventListener('click', admNovaRota);
+  $('adm-rota-ren').addEventListener('click', admRenomearRota);
+  $('adm-pistas').addEventListener('click', admAbrirPistas);
+  $('adm-testar').addEventListener('click', () => admToggleTeste());
   $('adm-gps').addEventListener('click', () => {
     if (!posAtual) { toast(TEXTOS.sem_gps); return; }
-    adicionarPontoAdm(posAtual.lat, posAtual.lng);
+    admNovoPonto(posAtual.lat, posAtual.lng, posAtual.acc);
     if (mapa) mapa.panTo([posAtual.lat, posAtual.lng]);
   });
-  $('adm-desfazer').addEventListener('click', () => {
-    pontosAdm.pop();
-    const m = marcadoresAdm.pop(); if (m) mapa.removeLayer(m);
-    renderListaAdm();
-    salvarPontosAdm();
+  $('adm-sync').addEventListener('click', () => admSincronizar(true));
+  $('adm-copiar').addEventListener('click', admCopiarAnotacoes);
+  $('adm-exportar').addEventListener('click', admExportarFotos);
+  $('adm-limpar').addEventListener('click', admLimparTudo);
+}
+
+// popula o <select> de rotas com as rotas conhecidas e marca a ativa
+function admAtualizarSeletorRotas() {
+  const sel = $('adm-rota-sel');
+  if (!sel) return;
+  const rotas = admTodasRotas();
+  sel.innerHTML = '';
+  rotas.forEach(r => {
+    const o = document.createElement('option');
+    o.value = r; o.textContent = r + ' (' + admPontosDaRota(r).length + ')';
+    if (r === admRotaAtiva) o.selected = true;
+    sel.appendChild(o);
   });
-  $('adm-copiar').addEventListener('click', () => {
-    if (!pontosAdm.length) { toast('Nenhum ponto ainda. Toque no mapa.'); return; }
-    copiar(textoAdm(), 'Copiado! Cole no WhatsApp e me manda.');
+}
+
+async function admTrocarRota(nome) {
+  if (nome === admRotaAtiva) return;
+  admGarantirRota(nome);
+  admRotaAtiva = nome;
+  admSalvarRotaAtiva();
+  if (admModoTeste) admToggleTeste(false);   // sai do teste ao trocar de rota
+  admAtualizarSeletorRotas();
+  admRedesenhar();
+  admRenderLista();
+  const pts = admPontosDaRota();
+  if (pts.length && mapa) mapa.flyTo([pts[pts.length - 1].lat, pts[pts.length - 1].lng], Math.max(mapa.getZoom(), CONFIG.zoom.inicial), { duration: 0.7 });
+  toast('Rota ativa: ' + nome + '.');
+}
+
+function admNovaRota() {
+  const nome = (prompt('Nome da nova rota (ex.: Tapuz A):') || '').trim();
+  if (!nome) return;
+  if (admTodasRotas().includes(nome)) { toast('Já existe uma rota com esse nome.'); return; }
+  admGarantirRota(nome);
+  admTrocarRota(nome);
+}
+
+async function admRenomearRota() {
+  const atual = admRotaAtiva;
+  const novo = (prompt('Renomear a rota "' + atual + '" para:', atual) || '').trim();
+  if (!novo || novo === atual) return;
+  if (admTodasRotas().includes(novo)) { toast('Já existe uma rota com esse nome.'); return; }
+  // atualiza os pontos dessa rota
+  const pts = admPontosDaRota(atual);
+  for (const p of pts) { p.rota = novo; await admPut('pontos', p); }
+  // troca na lista salva
+  const lista = admLerRotas().map(r => r === atual ? novo : r);
+  if (!lista.includes(novo)) lista.push(novo);
+  admSalvarRotas(lista);
+  admRotaAtiva = novo;
+  admSalvarRotaAtiva();
+  admAtualizarSeletorRotas();
+  admRenderLista();
+  toast('Rota renomeada para ' + novo + '.');
+}
+
+// reordena um ponto na sequencia da rota (troca de posicao com o vizinho e renumera)
+async function admMoverPonto(id, dir) {
+  const pts = admPontosDaRota();
+  const i = pts.findIndex(p => p.id === id);
+  const j = i + dir;
+  if (i < 0 || j < 0 || j >= pts.length) return;
+  const a = pts[i], b = pts[j];
+  const tmp = a.n; a.n = b.n; b.n = tmp;
+  a.atualizado_em = b.atualizado_em = new Date().toISOString();
+  a.sincronizado = b.sincronizado = false;
+  await admPut('pontos', a);
+  await admPut('pontos', b);
+  admRedesenhar();
+  admRenderLista();
+}
+
+function montarEditorAdm() {
+  const ed = document.createElement('div');
+  ed.id = 'adm-editor';
+  ed.className = 'oculto';
+  ed.innerHTML =
+    '<div id="adm-ed-fundo" class="adm-ed-fundo"></div>' +
+    '<div class="adm-ed-folha" role="dialog" aria-modal="true">' +
+      '<div class="adm-ed-cab"><span id="adm-ed-titulo">Ponto</span>' +
+        '<button id="adm-ed-fechar" type="button" aria-label="Fechar">✕</button></div>' +
+      '<div class="adm-ed-fotos" id="adm-ed-fotos"></div>' +
+      '<label class="adm-ed-addfoto"><span>＋ Foto (tirar ou escolher)</span>' +
+        '<input id="adm-ed-input" type="file" accept="image/*" multiple hidden></label>' +
+      '<label class="adm-ed-rot" for="adm-ed-nota">Comentário</label>' +
+      '<textarea id="adm-ed-nota" rows="3" placeholder="O que é isto? Para onde vai, o que falar aqui, o que fotografar..."></textarea>' +
+      '<div class="adm-ed-rot">Etiqueta</div>' +
+      '<div class="adm-ed-etiquetas" id="adm-ed-etiquetas"></div>' +
+      '<div class="adm-ed-coord" id="adm-ed-coord"></div>' +
+      '<div class="adm-ed-btns">' +
+        '<button id="adm-ed-gps" type="button">usar meu GPS aqui</button>' +
+        '<button id="adm-ed-apagar" type="button">apagar ponto</button>' +
+      '</div>' +
+    '</div>';
+  document.body.appendChild(ed);
+
+  $('adm-ed-fundo').addEventListener('click', admFecharEditor);
+  $('adm-ed-fechar').addEventListener('click', admFecharEditor);
+  $('adm-ed-input').addEventListener('change', (e) => { if (admEditandoId) admAdicionarFotos(admEditandoId, e.target.files); e.target.value = ''; });
+  $('adm-ed-nota').addEventListener('input', admDebounceNota);
+  $('adm-ed-gps').addEventListener('click', admAtualizarCoordDoPonto);
+  $('adm-ed-apagar').addEventListener('click', admApagarPontoAtual);
+
+  const cont = $('adm-ed-etiquetas');
+  ADM_ETIQUETAS.forEach(e => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'adm-et-btn';
+    b.dataset.et = e.id;
+    b.textContent = e.nome;
+    b.style.setProperty('--et-cor', e.cor);
+    b.addEventListener('click', () => admDefinirEtiqueta(e.id));
+    cont.appendChild(b);
   });
-  $('adm-limpar').addEventListener('click', () => {
-    if (!confirm('Apagar todos os pontos marcados?')) return;
-    pontosAdm = [];
-    marcadoresAdm.forEach(m => mapa.removeLayer(m));
-    marcadoresAdm = [];
-    renderListaAdm();
-    salvarPontosAdm();
+}
+
+function admAbrirEditor(id) {
+  admEditandoId = id;
+  admRenderEditor();
+  $('adm-editor').classList.remove('oculto');
+  const p = admPontos.find(x => x.id === id);
+  if (p && mapa) mapa.panTo([p.lat, p.lng]);
+}
+function admFecharEditor() {
+  admEditandoId = null;
+  $('adm-editor').classList.add('oculto');
+}
+
+function admRenderEditor() {
+  const p = admPontos.find(x => x.id === admEditandoId);
+  if (!p) { admFecharEditor(); return; }
+  $('adm-ed-titulo').textContent = 'Ponto ' + p.n;
+  const cont = $('adm-ed-fotos');
+  const fotos = admFotos[p.id] || [];
+  cont.innerHTML = '';
+  if (!fotos.length) {
+    cont.innerHTML = '<p class="adm-ed-semfoto">Nenhuma foto ainda.</p>';
+  } else {
+    fotos.forEach(f => {
+      const cel = document.createElement('div');
+      cel.className = 'adm-ed-foto';
+      cel.innerHTML = '<img src="' + f.thumb + '" alt=""><button type="button" class="adm-ed-foto-x" aria-label="Remover foto">✕</button>';
+      cel.querySelector('img').addEventListener('click', () => admVerFoto(f.id));
+      cel.querySelector('.adm-ed-foto-x').addEventListener('click', () => { if (confirm('Remover esta foto?')) admRemoverFoto(f.id, p.id); });
+      cont.appendChild(cel);
+    });
+  }
+  const nota = $('adm-ed-nota');
+  if (nota.value !== (p.nota || '')) nota.value = p.nota || '';
+  $('adm-ed-etiquetas').querySelectorAll('.adm-et-btn').forEach(b => b.classList.toggle('ativa', b.dataset.et === p.etiqueta));
+  $('adm-ed-coord').innerHTML = '<b>' + p.lat.toFixed(6) + ', ' + p.lng.toFixed(6) + '</b>' + (p.acc != null ? ' <span>±' + Math.round(p.acc) + 'm</span>' : '');
+}
+
+// abre a foto em tamanho grande, lendo o blob do IDB (o lightbox do jogo, reaproveitado)
+async function admVerFoto(fotoId) {
+  const f = await admGet('fotos', fotoId);
+  if (!f || !f.blob) { toast('Foto não encontrada.'); return; }
+  const url = URL.createObjectURL(f.blob);
+  const g = $('foto-grande');
+  if (g) { g.onload = () => URL.revokeObjectURL(url); g.src = url; }
+  $('tela-foto').classList.remove('oculto');
+}
+
+let admNotaTimer = null;
+function admDebounceNota() {
+  clearTimeout(admNotaTimer);
+  const id = admEditandoId;
+  const val = $('adm-ed-nota').value;
+  admNotaTimer = setTimeout(async () => {
+    const p = admPontos.find(x => x.id === id);
+    if (!p) return;
+    p.nota = val;
+    await admTocarPonto(id);
+    admRenderLista();
+  }, 400);
+}
+
+async function admDefinirEtiqueta(etId) {
+  const p = admPontos.find(x => x.id === admEditandoId);
+  if (!p) return;
+  p.etiqueta = (p.etiqueta === etId) ? '' : etId;  // tocar de novo tira a etiqueta
+  await admTocarPonto(p.id);
+  admRedesenhar();
+  admRenderEditor();
+  admRenderLista();
+}
+
+async function admAtualizarCoordDoPonto() {
+  if (!posAtual) { toast(TEXTOS.sem_gps); return; }
+  const p = admPontos.find(x => x.id === admEditandoId);
+  if (!p) return;
+  p.lat = posAtual.lat; p.lng = posAtual.lng; p.acc = posAtual.acc;
+  await admTocarPonto(p.id);
+  admRedesenhar();
+  if (mapa) mapa.panTo([p.lat, p.lng]);
+  admRenderEditor();
+  admRenderLista();
+  toast('Coordenada atualizada para a sua posição.');
+}
+
+async function admApagarPontoAtual() {
+  const p = admPontos.find(x => x.id === admEditandoId);
+  if (!p) return;
+  if (!confirm('Apagar o ponto ' + p.n + ' e suas fotos?')) return;
+  for (const f of (admFotos[p.id] || [])) await admDelete('fotos', f.id);
+  delete admFotos[p.id];
+  await admDelete('pontos', p.id);
+  const rota = p.rota;
+  admPontos = admPontos.filter(x => x.id !== p.id);
+  await admRenumerarRota(rota);   // fecha o buraco na numeracao da rota
+  admFecharEditor();
+  admRedesenhar();
+  admRenderLista();
+}
+
+// renumera 1..k os pontos de uma rota, na ordem atual (sem buracos)
+async function admRenumerarRota(rota) {
+  const pts = admPontosDaRota(rota);
+  for (let i = 0; i < pts.length; i++) {
+    if (pts[i].n !== i + 1) { pts[i].n = i + 1; await admPut('pontos', pts[i]); }
+  }
+}
+
+async function admLimparTudo() {
+  const pts = admPontosDaRota();
+  if (!pts.length) { toast('Rota vazia, nada para limpar.'); return; }
+  if (!confirm('Apagar os ' + pts.length + ' pontos e fotos da rota "' + admRotaAtiva + '"? Só esta rota. Exporte antes se ainda não mandou.')) return;
+  for (const p of pts) {
+    for (const f of (admFotos[p.id] || [])) await admDelete('fotos', f.id);
+    delete admFotos[p.id];
+    await admDelete('pontos', p.id);
+  }
+  admPontos = admPontos.filter(p => (p.rota || '') !== admRotaAtiva);
+  admFecharEditor();
+  admRedesenhar();
+  admRenderLista();
+  toast('Rota "' + admRotaAtiva + '" limpa.');
+}
+
+// ----- exportar (sempre a rota ativa) -----
+function admSlug(s) {
+  return (s || 'rota').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '').slice(0, 24) || 'rota';
+}
+function admMarkdown() {
+  const pts = admPontosDaRota();
+  const linhas = ['# Scouting — rota: ' + (admRotaAtiva || '?'), ''];
+  pts.forEach(p => {
+    const et = p.etiqueta ? ' [' + admNomeEtiqueta(p.etiqueta) + ']' : '';
+    const nf = (admFotos[p.id] || []).length;
+    linhas.push('## Ponto ' + p.n + et);
+    linhas.push('coord: [' + p.lat.toFixed(6) + ', ' + p.lng.toFixed(6) + ']' + (p.acc != null ? ' (±' + Math.round(p.acc) + 'm)' : ''));
+    if (p.nota) linhas.push(p.nota);
+    linhas.push('fotos: ' + nf + (nf ? ' (arquivos ' + admSlug(admRotaAtiva) + '-p' + String(p.n).padStart(2, '0') + '-*.jpg)' : ''));
+    linhas.push('');
   });
+  return linhas.join('\n');
+}
+
+function admCopiarAnotacoes() {
+  if (!admPontosDaRota().length) { toast('Rota vazia.'); return; }
+  copiar(admMarkdown(), 'Anotações da rota copiadas. Cole no WhatsApp e me manda.');
+}
+
+// junta as fotos da rota ativa (blobs do IDB) + o texto e tenta compartilhar (WhatsApp/
+// AirDrop); se o aparelho nao suportar compartilhar arquivos, baixa cada foto + o .md
+async function admExportarFotos() {
+  const pts = admPontosDaRota();
+  if (!pts.length) { toast('Rota vazia.'); return; }
+  toast('Preparando o pacote...', 4000);
+  const slug = admSlug(admRotaAtiva);
+  const arquivos = [];
+  for (const p of pts) {
+    const fotos = admFotos[p.id] || [];
+    for (let i = 0; i < fotos.length; i++) {
+      const f = await admGet('fotos', fotos[i].id);
+      if (!f || !f.blob) continue;
+      const nome = slug + '-p' + String(p.n).padStart(2, '0') + '-' + String.fromCharCode(97 + i) + '.jpg';
+      arquivos.push(new File([f.blob], nome, { type: 'image/jpeg' }));
+    }
+  }
+  const md = admMarkdown();
+  arquivos.push(new File([md], slug + '-scouting.md', { type: 'text/markdown' }));
+
+  if (navigator.canShare && navigator.canShare({ files: arquivos })) {
+    try { await navigator.share({ files: arquivos, title: 'Scouting', text: md }); return; }
+    catch (e) { if (e && e.name === 'AbortError') return; /* cancelou: nao baixa */ }
+  }
+  // fallback: baixa tudo (um a um)
+  arquivos.forEach((file, i) => {
+    setTimeout(() => {
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(file);
+      a.download = file.name;
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+    }, i * 350);  // espaça os downloads para o navegador não bloquear
+  });
+  toast('Baixando ' + arquivos.length + ' arquivo(s). No iPhone pode pedir permissão para vários downloads.', 7000);
+}
+
+// ----- sincronizacao com o servidor (Supabase, schema peula) -----
+// LOCAL-FIRST + servidor: o coletor funciona 100% offline; sincronizar SO acontece
+// quando o Allan toca no botao (nada de auto-upload gastando dados moveis caros em
+// campo). Sobe os pontos primeiro (a foto tem FK para o ponto) e depois as fotos em
+// base64, um por um, marcando cada um como sincronizado no IndexedDB. Idempotente:
+// re-sincronizar so manda o que ainda falta. Sem sinal ou com erro, nada trava.
+let admSincronizando = false;
+
+function admDispId() {
+  try {
+    let d = localStorage.getItem('peula68_disp');
+    if (!d) { d = admUuid(); localStorage.setItem('peula68_disp', d); }
+    return d;
+  } catch (e) { return 'anon'; }
+}
+
+function admBlobParaB64(blob) {
+  return new Promise((resolve, reject) => {
+    const r = new FileReader();
+    r.onload = () => { const s = String(r.result); const i = s.indexOf(','); resolve(i >= 0 ? s.slice(i + 1) : s); };
+    r.onerror = () => reject(r.error || new Error('leitura falhou'));
+    r.readAsDataURL(blob);
+  });
+}
+
+function admContarPendentes() {
+  const p = admPontos.filter(x => !x.sincronizado).length;
+  let f = 0;
+  for (const k in admFotos) f += (admFotos[k] || []).filter(x => !x.sincronizado).length;
+  return { p, f };
+}
+
+function admAtualizarBotaoSync(txtFixo) {
+  const b = $('adm-sync');
+  if (!b) return;
+  if (txtFixo) { b.textContent = txtFixo; return; }
+  if (!navigator.onLine) { b.textContent = 'sincronizar (sem internet)'; b.classList.remove('adm-sync-ok'); return; }
+  const { p, f } = admContarPendentes();
+  const pend = p + f;
+  b.classList.toggle('adm-sync-ok', pend === 0 && admPontos.length > 0);
+  b.textContent = pend === 0
+    ? (admPontos.length ? 'tudo na nuvem ✓' : 'sincronizar')
+    : 'sincronizar (' + p + ' ponto' + (p === 1 ? '' : 's') + ', ' + f + ' foto' + (f === 1 ? '' : 's') + ')';
+}
+
+async function admSincronizar(manual) {
+  if (admSincronizando) return;
+  if (!admDb) { if (manual) toast('Armazenamento indisponível.'); return; }
+  if (!navigator.onLine) { if (manual) toast('Sem internet agora. Toque de novo quando pegar wifi.'); admAtualizarBotaoSync(); return; }
+  const pendentesP = admPontos.filter(p => !p.sincronizado);
+  let pendentesF = [];
+  for (const k in admFotos) pendentesF = pendentesF.concat((admFotos[k] || []).filter(f => !f.sincronizado));
+  if (!pendentesP.length && !pendentesF.length) { if (manual) toast('Tudo já está na nuvem.'); admAtualizarBotaoSync(); return; }
+
+  admSincronizando = true;
+  admAtualizarBotaoSync('enviando...');
+  const disp = admDispId();
+  let okP = 0, okF = 0, falhou = 0;
+  try {
+    for (const p of pendentesP) {
+      try {
+        await rpcSup('peula_scouting_ponto', {
+          p_id: p.id, p_n: p.n, p_lat: p.lat, p_lng: p.lng, p_acc: p.acc,
+          p_nota: p.nota || '', p_etiqueta: p.etiqueta || '', p_rota: p.rota || '', p_dispositivo: disp,
+          p_criado_em: p.criado_em, p_atualizado_em: p.atualizado_em,
+        });
+        p.sincronizado = true;
+        await admPut('pontos', p);
+        okP++;
+      } catch (e) { falhou++; }
+    }
+    for (const meta of pendentesF) {
+      const ponto = admPontos.find(x => x.id === meta.ponto_id);
+      if (!ponto || !ponto.sincronizado) continue;   // a foto tem FK: so sobe com o ponto ja no servidor
+      try {
+        const f = await admGet('fotos', meta.id);
+        if (!f || !f.blob) continue;
+        const b64 = await admBlobParaB64(f.blob);
+        await rpcSup('peula_scouting_foto', { p_id: f.id, p_ponto_id: f.ponto_id, p_mime: (f.blob.type || 'image/jpeg'), p_dados_b64: b64 });
+        f.sincronizado = true;
+        await admPut('fotos', f);
+        const arr = admFotos[f.ponto_id] || [];
+        const m = arr.find(x => x.id === f.id); if (m) m.sincronizado = true;
+        okF++;
+      } catch (e) { falhou++; }
+    }
+  } finally {
+    admSincronizando = false;
+    admRenderLista();
+    admAtualizarBotaoSync();
+  }
+  toast('Enviados: ' + okP + ' ponto(s), ' + okF + ' foto(s)' + (falhou ? ' · ' + falhou + ' ainda pendente(s)' : '. Tudo na nuvem.'), 6000);
+}
+
+// ----- modo "testar a rota": segue no mapa com o GPS, sem editar -----
+// Reproduz a experiencia de quem vai andar a rota: a trilha desenhada, sua posicao
+// ao vivo, a distancia ao diamante mais proximo e um botao para "voltar" a ele quando
+// se perder. Tocar no mapa nao cria ponto aqui (admNovoPonto ignora no modo teste).
+let admTesteHud = null;
+let admTesteTimer = null;
+
+function admDiamantes() { return admPontosDaRota().filter(p => p.etiqueta === 'diamante'); }
+
+function admDiamanteMaisPerto() {
+  if (!posAtual) return null;
+  let melhor = null, dmin = Infinity;
+  admDiamantes().forEach(d => {
+    const dd = distanciaAoCorredorM(posAtual, [[d.lat, d.lng]]);
+    if (dd < dmin) { dmin = dd; melhor = { ponto: d, dist: dd }; }
+  });
+  return melhor;
+}
+
+function admToggleTeste(forcar) {
+  const novo = (forcar === undefined) ? !admModoTeste : !!forcar;
+  if (novo === admModoTeste) return;
+  const btn = $('adm-testar');
+  if (novo) {
+    if (!admPontosDaRota().length) { toast('Marque alguns pontos primeiro.'); return; }
+    admModoTeste = true;
+    admFecharEditor();
+    if (btn) { btn.textContent = 'sair do teste'; btn.classList.add('adm-teste-on'); }
+    $('painel-adm').classList.add('oculto');           // mapa grande durante o teste
+    admMostrarHudTeste();
+    admAtualizarTeste();
+    admTesteTimer = setInterval(admAtualizarTeste, 2000);
+    const pts = admPontosDaRota();
+    if (mapa && pts.length) { setTimeout(() => { mapa.invalidateSize(); mapa.flyToBounds(L.latLngBounds(pts.map(p => [p.lat, p.lng])).pad(0.25), { duration: 0.8 }); }, 60); }
+    toast('Modo teste: siga a trilha dourada. O HUD mostra o diamante mais perto.', 5000);
+  } else {
+    admModoTeste = false;
+    if (btn) { btn.textContent = 'testar a rota'; btn.classList.remove('adm-teste-on'); }
+    $('painel-adm').classList.remove('oculto');
+    clearInterval(admTesteTimer); admTesteTimer = null;
+    if (admTesteHud) { admTesteHud.remove(); admTesteHud = null; }
+    setTimeout(() => mapa && mapa.invalidateSize(), 60);
+  }
+}
+
+function admMostrarHudTeste() {
+  if (admTesteHud) return;
+  const h = document.createElement('div');
+  h.id = 'adm-teste-hud';
+  h.innerHTML =
+    '<div class="ath-linha"><b id="ath-prox">diamante mais perto</b><span id="ath-dist">· · ·</span></div>' +
+    '<div class="ath-btns">' +
+      '<button id="ath-voltar" type="button">◆ ir ao diamante</button>' +
+      '<button id="ath-centrar" type="button">◎ onde estou</button>' +
+      '<button id="ath-sair" type="button">✕ sair</button>' +
+    '</div>';
+  document.body.appendChild(h);
+  admTesteHud = h;
+  $('ath-voltar').addEventListener('click', () => {
+    const d = admDiamanteMaisPerto();
+    if (!d) { toast(posAtual ? 'Sem diamantes nesta rota.' : TEXTOS.sem_gps); return; }
+    if (mapa) mapa.flyTo([d.ponto.lat, d.ponto.lng], Math.max(mapa.getZoom(), CONFIG.zoom.inicial + 1), { duration: 0.9 });
+    toast('Diamante #' + d.ponto.n + ' a ' + Math.round(d.dist) + ' m.');
+  });
+  $('ath-centrar').addEventListener('click', () => { if (posAtual && mapa) mapa.flyTo([posAtual.lat, posAtual.lng], Math.max(mapa.getZoom(), CONFIG.zoom.inicial), { duration: 0.6 }); else toast(TEXTOS.sem_gps); });
+  $('ath-sair').addEventListener('click', () => admToggleTeste(false));
+}
+
+function admAtualizarTeste() {
+  if (!admModoTeste || !admTesteHud) return;
+  const prox = $('ath-prox'), dist = $('ath-dist');
+  if (!admDiamantes().length) { if (prox) prox.textContent = 'sem diamantes nesta rota'; if (dist) dist.textContent = ''; return; }
+  if (!posAtual) { if (prox) prox.textContent = 'esperando o GPS...'; if (dist) dist.textContent = '· · ·'; return; }
+  const d = admDiamanteMaisPerto();
+  if (!d) return;
+  if (prox) prox.textContent = 'diamante #' + d.ponto.n + (d.ponto.nota ? ' · ' + d.ponto.nota.slice(0, 38) : '');
+  if (dist) dist.textContent = d.dist < 1000 ? Math.round(d.dist) + ' m' : (d.dist / 1000).toFixed(1) + ' km';
+}
+
+// ----- pistas do jogo (so leitura): ver o que a rota fariseus manda enquanto marca -----
+// Para refinar a fariseus em campo: le a rota do rotas.json e mostra, por etapa, as
+// direcoes (numeradas), a missao e a senha. "corrigir" numa direcao marca um ponto no
+// lugar (GPS ou centro do mapa) com a nota "corrigir EX.Y:" ja pronta para completar.
+function montarPistasAdm() {
+  const ov = document.createElement('div');
+  ov.id = 'adm-pistas-ov';
+  ov.className = 'oculto';
+  ov.innerHTML =
+    '<div id="adm-pistas-fundo" class="adm-ed-fundo"></div>' +
+    '<div class="adm-pistas-folha" role="dialog" aria-modal="true">' +
+      '<div class="adm-ed-cab"><span id="adm-pistas-titulo">Pistas do jogo</span>' +
+        '<button id="adm-pistas-fechar" type="button" aria-label="Fechar">✕</button></div>' +
+      '<p class="adm-pistas-dica">Só leitura, do que o jogo manda hoje. Toque em "corrigir" numa pista errada para marcar um ponto no lugar.</p>' +
+      '<div id="adm-pistas-corpo"></div>' +
+    '</div>';
+  document.body.appendChild(ov);
+  $('adm-pistas-fundo').addEventListener('click', admFecharPistas);
+  $('adm-pistas-fechar').addEventListener('click', admFecharPistas);
+}
+
+function admRotaFariseus() { return (ROTAS && ROTAS.rotas) ? ROTAS.rotas.find(r => r.id === 'fariseus') : null; }
+
+function admAbrirPistas() {
+  const rota = admRotaFariseus();
+  const corpo = $('adm-pistas-corpo');
+  if (!rota || !corpo) { toast('Rota fariseus não encontrada no conteúdo.'); return; }
+  $('adm-pistas-titulo').textContent = 'Pistas do jogo · ' + rota.seita;
+  corpo.innerHTML = '';
+  (rota.etapas || []).forEach((et, ei) => {
+    const bloco = document.createElement('div');
+    bloco.className = 'adm-pista-etapa';
+    let html = '<h4>Etapa ' + et.id + (et.titulo ? ' · ' + admEsc(et.titulo) : '') + '</h4>';
+    (et.direcoes || []).forEach((d, di) => {
+      html += '<div class="adm-pista-dir"><span class="adm-pista-num">' + et.id + '.' + (di + 1) + '</span>' +
+        '<span class="adm-pista-txt">' + admEsc(d) + '</span>' +
+        '<button type="button" class="adm-pista-corr" data-et="' + ei + '" data-di="' + di + '">corrigir</button></div>';
+    });
+    if (et.missao) html += '<p class="adm-pista-extra"><b>Missão:</b> ' + admEsc(et.missao) + '</p>';
+    if (et.senha_desbloqueio) html += '<p class="adm-pista-extra"><b>Senha:</b> ' + admEsc(et.senha_desbloqueio) + '</p>';
+    bloco.innerHTML = html;
+    bloco.querySelectorAll('.adm-pista-corr').forEach(b => b.addEventListener('click', () => admCorrigirDirecao(Number(b.dataset.et), Number(b.dataset.di))));
+    corpo.appendChild(bloco);
+  });
+  $('adm-pistas-ov').classList.remove('oculto');
+}
+
+function admFecharPistas() { const o = $('adm-pistas-ov'); if (o) o.classList.add('oculto'); }
+
+async function admCorrigirDirecao(etIdx, dirIdx) {
+  const rota = admRotaFariseus();
+  if (!rota || !rota.etapas[etIdx]) return;
+  const et = rota.etapas[etIdx];
+  const rotulo = 'E' + et.id + '.' + (dirIdx + 1);
+  admFecharPistas();
+  let lat, lng, acc = null;
+  if (posAtual) { lat = posAtual.lat; lng = posAtual.lng; acc = posAtual.acc; }
+  else if (mapa) { const c = mapa.getCenter(); lat = c.lat; lng = c.lng; }
+  else { toast('Sem posição para marcar.'); return; }
+  await admNovoPonto(lat, lng, acc);   // cria na rota ativa e abre o editor
+  const p = admPontos.find(x => x.id === admEditandoId);
+  if (!p) return;
+  p.nota = 'corrigir ' + rotulo + ': ';
+  p.etiqueta = 'cuidado';
+  await admPut('pontos', p);
+  admRedesenhar();
+  admRenderEditor();
+  admRenderLista();
+  const ta = $('adm-ed-nota');
+  if (ta) { ta.value = p.nota; ta.focus(); try { ta.setSelectionRange(ta.value.length, ta.value.length); } catch (e) {} }
+  toast('Ponto de correção ' + rotulo + ' criado. Escreva o que muda.');
 }
 
 // ---------- cerimonia de chegada, itens e inventario (estilo Zelda) ----------

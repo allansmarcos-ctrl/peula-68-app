@@ -27,11 +27,9 @@
         ],
         "identidade": [
           "Vocês são fariseus, da casa de Hilel.",
-          "Hilel chegou pobre da Babilônia. Conta-se que numa madrugada de inverno, sem a moeda da entrada da casa de estudo, subiu no telhado para ouvir a aula por uma fresta, e amanheceu coberto de neve, quase morto de frio.* Era desse tamanho a fome de Torá do homem que depois resumiu a lei inteira numa frase só.",
-          "Vocês não são os sacerdotes, que cuidam do sangue dos cordeiros no Templo, nem os zelotes, que escondem o punhal debaixo do manto. O que está na mão de vocês é mais difícil de guardar, porque não tem muro nem lâmina que o proteja. É o jeito judeu de perguntar. Estudam a Torá escrita e a que passa de boca a ouvido, e teimam que ela não acabou no Sinai. Ela continua sendo dada agora, toda vez que dois de vocês brigam por uma linha dela até o sol raiar.",
-          "Esperam o Mashiach. Vivo, que venha e fique, que endireite um mundo torto. Roma cobra imposto, o forte come o fraco, e o cordeiro que devia deitar com o lobo ainda é o jantar do lobo.",
-          "Duas coisas metem medo em vocês. A primeira é o falso messias: um homem sobe do deserto, promete abrir o rio, junta uma multidão faminta de milagre, e a multidão vira revolta que desce a colina e cai em cima de todos. A segunda é pior, e mora dentro de casa. É o povo partido em pedaços, cada pedaço convencido de que só ele ama o Céu.",
-          "Contra o primeiro medo, vocês têm os olhos: veem antes de deixar a boca julgar. Contra o segundo, têm a régua do velho Hilel, a Torá dita num pé só. O que é odioso para ti, não faças ao teu próximo. O resto é comentário. Agora desçam, e estudem a cidade com os pés."
+          "Hilel chegou pobre da Babilônia, e a fome de Torá dele virou lenda: numa madrugada de inverno, sem a moeda da entrada da casa de estudo, subiu no telhado para ouvir a aula por uma fresta e amanheceu coberto de neve.* Foi ele que resumiu a lei inteira numa frase só.",
+          "Vocês não são os sacerdotes do Templo nem os zelotes do punhal. O que vocês guardam não tem muro nem lâmina que proteja: é o jeito judeu de perguntar. Estudam a Torá escrita e a que passa de boca a ouvido, e teimam que ela não acabou no Sinai. Ela continua sendo dada agora, toda vez que dois de vocês brigam por uma linha dela até o sol raiar. E esperam o Mashiach vivo, que venha endireitar um mundo torto.",
+          "Duas coisas metem medo em vocês. A primeira é o falso messias, que promete milagre e vira a multidão em revolta. A segunda é pior, e mora dentro de casa: o povo partido em pedaços, cada um certo de que só ele ama o Céu. Contra o primeiro, vocês têm os olhos, que veem antes de a boca julgar. Contra o segundo, a régua do velho Hilel: o que é odioso para ti, não faças ao teu próximo. O resto é comentário. Agora desçam, e estudem a cidade com os pés."
         ],
         "combinados": [
           "Antes de descer, três combinados. Tudo que vier marcado com asterisco aconteceu de verdade: está nos livros, no Talmud, em Josefo, nas crônicas da época. Na dúvida sobre onde ir, quase sempre é seguir reto. E leiam as cartas em voz alta, o grupo inteiro junto, que a história pega mais forte no ouvido do que no olho."
@@ -56,7 +54,7 @@
           ],
           "direcoes": [
             "Entrem pela porta do ocidente.",
-            "Logo à esquerda, uma ladeira sobe com o nome de sacerdotes gregos. Subam por ela, sem gritaria.",
+            "Logo à esquerda, uma ladeira sobe com uma placa: Latin Patriarchate. Subam por ela, sem gritaria.",
             "Achem uma torre com uma cruz recortada contra o céu. Aos pés dela há degraus. Subam.",
             "O caminho se abre em duas bocas. Desçam pela da direita.",
             "Sigam até o chão pedir uma parada. É ali."
@@ -93,15 +91,16 @@
           ],
           "eco": "Vocês conhecem uma cidade que se come por dentro. Já a viram com outro nome, mais perto de casa.",
           "direcoes": [
-            "Vocês entraram em terra de outros donos. Passo de quem pede licença.",
-            "Duas placas vão aparecer. Recusem a do homem de Assis. Sigam a dos mensageiros, Ar-Rusul.",
-            "Adiante, uma mulher de pedra guarda uma roda sobre uma porta. Diante dela, virem à direita e desçam com a rua.",
-            "Outras placas acenam à esquerda, com duas portas da cidade. Nenhuma é a sua. Sigam reto até o chão pedir pausa."
+            "Daqui é o bairro dos outros. Vocês são forasteiros, e forasteiro perdido chama olho. Andem colados, ninguém se solta.",
+            "Procurem a igreja de São Francisco, o homem de Assis, e a Casa Nova ao lado, a casa dos peregrinos. É o ponto de virar.",
+            "Ali, duas placas. Recusem a de Francisco. Sigam a dos mensageiros, a Ar-Rusul.",
+            "Vão ver uma mulher de pedra com uma roda: Santa Catarina. Ali não tem virada. Sigam o único caminho que tem.",
+            "À frente, placas para portas da cidade, o Bab el-Jadid entre elas. Nenhuma é a sua. Sigam reto até a rua acabar."
           ],
           "marcos": [
             { "nome": "A mulher da roda", "ponto": [31.779624, 35.229645] }
           ],
-          "missao": "Diante da mulher da roda, uma foto só: todos apontando para ela ao mesmo tempo, e ninguém pode soltar um som. Quem rir antes do clique, o grupo inteiro repete.",
+          "missao": "Diante da mulher da roda, uma foto só: o grupo inteiro apontando para ela ao mesmo tempo, em silêncio, cara séria. Nada de riso. Mandem ao madrich.",
           "fotos": [
             "img/etapas/fariseus-e2-a-sao-francisco.jpg",
             "img/etapas/fariseus-e2-b-mulher-da-roda.jpg"
@@ -131,18 +130,18 @@
           ],
           "eco": "Que vinda foi essa, que deixou o mundo torto? Vocês vêm de dois mil anos depois. A pergunta continua aberta.",
           "direcoes": [
-            "No muro do mosteiro, virem à direita e desçam.",
-            "Um corredor vai imitar o grande mercado. Parece, mas não é ele. Virem à direita e subam, a torre verde de frente.",
-            "Na rua larga, uma placa diz Christian Quarter. Virem à esquerda nela.",
-            "Parem onde a rua abrir espaço para respirar."
+            "No muro do mosteiro, à direita, e desçam.",
+            "Um corredor imita o grande mercado. É isca. À direita, subindo, a torre verde na frente de vocês.",
+            "Na rua larga, uma placa: Christian Quarter. Virem à esquerda.",
+            "Sigam até a rua abrir. É ali que vocês param."
           ],
           "marcos": [
             { "nome": "A torre verde", "ponto": [31.778958, 35.229195] }
           ],
-          "missao": "Dez segundos de vídeo. O grupo passa em fila diante do homem pintado, um por um, cada rosto carregando um segredo que não pode ser dito. Ninguém fala. O último, antes de sair do quadro, olha para trás uma vez.",
+          "missao": "Diante do homem pintado na parede, o mestre de Natzrat, gravem dez segundos: o grupo passa em fila, um por um, em silêncio, cara séria. É o rosto que rachou a cidade. Mandem ao madrich.",
           "fotos": [
-            "img/etapas/fariseus-e3-a-torre-verde.jpg",
-            "img/etapas/fariseus-e3-b-yeshu-parede.jpg"
+            "img/etapas/fariseus-e3-b-yeshu-parede.jpg",
+            "img/etapas/fariseus-e3-a-torre-verde.jpg"
           ],
           "item": { "nome": "A hora diferente", "glifo": "ampulheta", "sobre": "Dois povos lendo uma hora diferente no mesmo céu." },
           "senha_desbloqueio": "MENORA"
@@ -157,12 +156,13 @@
           ],
           "raio_m": 50,
           "carta": [
-            { "voz": "narrador", "texto": "Chega uma carta com uma mancha de tinta borrada, como se a mão tremesse." },
-            { "voz": "gamliel", "texto": "Shaul de Tarso caiu na estrada de Damasco." },
-            { "voz": "narrador", "texto": "Vocês conhecem o nome. Em Beit Hilel todo mundo conhece. Shaul sentou aos pés de Rabban Gamliel*, no mesmo chão que vocês, decorou os mesmos versos, reza o mesmo Shemá de manhã. E foi ele quem virou caçador. Andava de porta em porta com um maço de cartas na sacola, autorização carimbada para prender essa gente do Caminho, homem e mulher, e arrastar amarrado de volta para Yerushalayim. Não fazia por moeda. Fazia porque amava a Torá, e tinha certeza, a cada porta que arrombava, de estar servindo ao Céu." },
-            { "voz": "narrador", "texto": "No meio do dia, na estrada aberta, alguma coisa o jogou no chão. Ele, que corria para cegar os outros, ficou sem enxergar. As cartas ficaram na sacola, sem entrega. Quando levantou, começou a anunciar de praça em praça o que tinha jurado arrancar pela raiz." },
-            { "voz": "narrador", "texto": "Olhem para a sacola de vocês. Cada um leva um pouco de zelo lá dentro. Zelo é lâmina de dois gumes. Com ela se defende a Casa, e com ela se corta a mão de quem aperta forte demais. Shaul perseguiu o Céu achando que servia ao Céu. Para um estrago desse tamanho quase não é preciso ódio. Basta uma certeza que não duvida de si." },
-            { "voz": "gamliel", "texto": "Quando prenderam os primeiros dessa gente e o Sinédrio quis matá-los, fui eu que segurei a corte*. Disse: se isto vem de homem, se desfaz sozinho; se vem de D'us, vocês não vão conseguir desfazer, e ainda vão se ver brigando contra o Céu. Deixem o tempo julgar o que a pressa não sabe." }
+            { "voz": "narrador", "texto": "Chega uma carta do velho, e a tinta está borrada num ponto só, onde a mão parou." },
+            { "voz": "gamliel", "texto": "Shaul de Tarso caiu na estrada de Damasco. Guardem esse nome, e guardem de que lado ele começou." },
+            { "voz": "narrador", "texto": "Shaul é um dos nossos. Sentou aos pés de Rabban Gamliel*, no mesmo chão que vocês, decorou os mesmos versos, reza o mesmo Shemá. E virou caçador dos seus. Não caçava romano nem idólatra: caçava judeus, gente como vocês, que tinha posto a fé num messias morto numa cruz. Andava de porta em porta com um maço de cartas na sacola, autorização carimbada para arrastar homem e mulher amarrados de volta para Yerushalayim. Não fazia por moeda. A cada porta que arrombava, tinha certeza de estar servindo ao Céu." },
+            { "voz": "narrador", "texto": "Aí, no meio do dia, na estrada aberta, alguma coisa o derrubou. O caçador que corria para cegar os outros levantou cego. Quando a vista voltou, ele tinha trocado de lado. Passou a anunciar, de praça em praça, exatamente o que jurara arrancar pela raiz." },
+            { "voz": "narrador", "texto": "Olhem a sacola de vocês. Cada um carrega um pouco de zelo ali dentro. O mesmo zelo que levanta a Casa é o que arromba a porta do irmão. Shaul perseguiu o Céu achando que servia o Céu. Para um estrago desse tamanho não precisa de ódio: basta uma certeza que nunca duvidou de si." },
+            { "voz": "gamliel", "texto": "E escutem bem quem é essa gente, porque não são todos iguais. Tem reshaim no meio, sempre tem: gente que veste o nome do Céu para acender o próprio fogo. Mas a maioria é judeu comum, que se deixou levar por um messias que prometeu e foi embora. Esse não é inimigo. Esse a gente aproxima, não mata. A espada de Shaul não trouxe um só de volta. De volta a gente traz puxando pela manga, não arrastando pela corda." },
+            { "voz": "gamliel", "texto": "Quando prenderam os primeiros dessa gente e o Sinédrio quis matá-los, fui eu que segurei a corte*. Disse: se isto vem de homem, se desfaz sozinho. Se vem de D'us, vocês não desfazem, e ainda vão se ver brigando contra o Céu. Deixem o tempo julgar o que a pressa não sabe." }
           ],
           "direcoes": [
             "Atrás das lojas, à esquerda, dorme o santuário mais guardado deles. Não é o destino de hoje. Não parem e não apontem.",
@@ -173,7 +173,7 @@
           "marcos": [
             { "nome": "A praça da fonte", "ponto": [31.777513, 35.229932] }
           ],
-          "missao": "Na praça, círculo fechado. Um de vocês vira o rav no meio e solta uma drashá de meio minuto: por que ainda vale a pena esperar o Mashiach mais um dia, mesmo com Roma parada na porta. No fim, o resto responde amén e bate o pé no chão. Gravem o vídeo.",
+          "missao": "Na praça, círculo fechado. Um de vocês vira rav e solta meio minuto de drashá: por que ainda vale esperar o Mashiach mais um dia, com Roma parada na porta. No fim, todos respondem amén e batem o pé. Gravem e mandem.",
           "fotos": [
             "img/etapas/fariseus-e4-a-barbearia-al-zouhor.jpg",
             "img/etapas/fariseus-e4-b-fonte-cara.jpg"
@@ -192,20 +192,20 @@
           "raio_m": 150,
           "carta": [
             { "voz": "narrador", "texto": "A carta que fecha o caminho é curta. Letra do velho, dessa vez sem pressa nenhuma." },
-            { "voz": "gamliel", "texto": "Vocês voltaram e me prestaram contas, e eu ouvi tudo. Não é exército. São irmãos. Irmãos que leem uma hora diferente no mesmo céu, que talvez estejam errados sobre a hora, e que mesmo assim não são o nosso inimigo." },
+            { "voz": "gamliel", "texto": "Vocês voltaram e me prestaram contas, e eu ouvi tudo. Não é exército. São irmãos. Irmãos que leem uma hora diferente no mesmo céu, que talvez estejam errados sobre a hora, e que mesmo assim não são o nosso inimigo. Tem muito judeu bom ali dentro, gente que acreditou de coração e não consegue mais voltar atrás. Esse a gente não larga." },
             { "voz": "gamliel", "texto": "Deixem eu dizer a coisa mais difícil que aprendi em oitenta anos. Dá para ter toda a razão sobre os mortos, calar os saduceus, ganhar cada rodada da discussão, e perder tudo mesmo assim. Basta começar a odiar quem espera de um jeito diferente do seu." },
             { "voz": "gamliel", "texto": "Vão até o coração da cidade. Atravessem o mercado dos outros sem comprar briga. Cheguem inteiros ao lugar onde a pedra ainda está de pé, enquanto ela ainda está." }
           ],
           "direcoes": [
-            "Um portão de colunas coroadas marca a saída da praça. Entre elas, procurem um nome de mulher: Sofia. Nas colunas, virem à direita.",
-            "O grande mercado engole vocês. Teto de pano e pedra, barulho por todo lado. Aqui, quem fala compra. Andem calados.",
+            "Ao sair da praça, achem o arco com a placa do restaurante. Ali, virem à direita.",
+            "O mercado engole vocês. Pano e pedra por cima, barulho por todo lado. Aqui, quem fala compra. Andem calados.",
             "Não desçam. Sigam pelo nível de vocês, atravessando o shuk inteiro.",
-            "Parem quando o mercado abrir num respiro, antes da grande escadaria. É ali que a corrente se junta."
+            "Parem quando o mercado abrir, antes da grande escadaria. É ali que a corrente se junta."
           ],
           "marcos": [
-            { "nome": "O portão de Sofia", "ponto": [31.7769, 35.2303] }
+            { "nome": "O arco do restaurante", "ponto": [31.7769, 35.2303] }
           ],
-          "missao": "Mãos no centro do círculo. O grito da corrente é uma palavra só, que vocês escolhem agora. Sussurrem três vezes, cada vez mais baixo. Na quarta, soltem de uma vez, com tudo que tiverem. Gravem: vai para o mural da peula.",
+          "missao": "Achem o arco com a placa do restaurante. Foto do grupo inteiro embaixo dele, todos calados, como quem cruza o território dos outros sem comprar briga. Mandem ao madrich.",
           "fotos": [
             "img/etapas/fariseus-e5-a-portao-colunas.jpg",
             "img/etapas/fariseus-e5-b-passagem-porta-azul.jpg",
@@ -230,10 +230,10 @@
           ],
           "direcoes": [
             "Deixem o mercado pela direita e enfrentem a primeira escada. Ela sobe para um bairro mais quieto.",
-            "No caminho, um arco de pedra guarda um número gravado na parede. É o segredo do trecho. Achem, leiam, guardem.",
-            "Depois do arco, numa bifurcação, subam pela esquerda.",
-            "Uma torre grande de igreja aparece iluminada acima dos telhados. Vão em direção a ela.",
-            "Subam ao último nível, o dos telhados. No alto, virem à direita, até o pátio que olha o shuk por cima."
+            "Assim que subirem, virem à esquerda. Vão ver uma árvore, e da árvore, o arco de pedra.",
+            "No arco, um número gravado na parede. É o segredo do trecho. Achem, leiam, guardem.",
+            "Sigam subindo até a torre grande da igreja, iluminada acima dos telhados. Vão nela.",
+            "No último nível, o dos telhados, avancem pelo pátio de olho na direita até achar a escada. É ela que leva ao alto, onde vocês param."
           ],
           "marcos": [
             { "nome": "O arco do código", "ponto": [31.7772, 35.2300] },
