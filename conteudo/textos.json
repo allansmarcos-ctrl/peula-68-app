@@ -114,7 +114,7 @@
   "missao_enviar_video": "Enviar o vídeo",
   "missao_video_enviando": "Enviando o vídeo...",
   "missao_video_ok": "Vídeo no cofre. O caminho segue.",
-  "missao_video_fila": "Sem sinal pra guardar agora. O vídeo sobe sozinho quando a rede voltar. Sigam.",
+  "missao_video_fila": "Sem sinal pra guardar agora. Deixem o app aberto: ele tenta de novo quando a rede voltar. Sigam.",
   "missao_video_falha": "Não deu pra guardar o vídeo aqui. Sigam, e mandem ao madrich por fora.",
   "missao_gravou_codigo": "Agora leiam o número gravado na pedra e digitem.",
   "missao_gravou_gps": "Agora cheguem ao alto: as pedras avisam quando chegarem.",

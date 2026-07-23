@@ -14,6 +14,7 @@
 const CHAVE_ESTADO = 'peula68';
 const CHAVE_ADM = 'peula68_adm';               // pontos do modo ADM: salvos a cada toque (sobrevive a reload/reboot)
 const CHAVE_INV = 'peula68_inv';               // inventario coletado nas chegadas (sobrevive a reload)
+const CHAVE_GRAVOU = 'peula68_gravou';         // etapas com video enviado/"ja gravamos" (sobrevive a reload)
 const CHAVE_BEATS = 'peula68_beats';           // beats ja disparados por etapa (o pop do mapa nao repete)
 const CHAVE_SACOLA = 'peula68_sacola_';        // + rota.id: a revelacao da sacola cheia ja disparou (auto uma vez)
 const INTERVALO_AUTO_MS = 10 * 60 * 1000;      // verificação automática: 10 min
@@ -97,7 +98,7 @@ function salvarEstado() {
 }
 function limparEstado() {
   try {
-    localStorage.removeItem(CHAVE_ESTADO); localStorage.removeItem(CHAVE_INV); localStorage.removeItem(CHAVE_BEATS);
+    localStorage.removeItem(CHAVE_ESTADO); localStorage.removeItem(CHAVE_INV); localStorage.removeItem(CHAVE_BEATS); localStorage.removeItem(CHAVE_GRAVOU);
     // zera as flags da revelacao da sacola (uma por rota): no replay a virada dispara de novo
     Object.keys(localStorage).filter(k => k.indexOf(CHAVE_SACOLA) === 0).forEach(k => localStorage.removeItem(k));
   } catch (e) {}
@@ -107,6 +108,13 @@ function lerInventario() { try { return JSON.parse(localStorage.getItem(CHAVE_IN
 function salvarInventario() { try { localStorage.setItem(CHAVE_INV, JSON.stringify(inventario)); } catch (e) {} }
 function lerBeatsPersist() { try { return JSON.parse(localStorage.getItem(CHAVE_BEATS)) || {}; } catch (e) { return {}; } }
 function salvarBeatsPersist() { try { localStorage.setItem(CHAVE_BEATS, JSON.stringify(beatsPersist)); } catch (e) {} }
+function jaGravouSalvo(etId) { try { return (JSON.parse(localStorage.getItem(CHAVE_GRAVOU)) || []).indexOf(etId) >= 0; } catch (e) { return false; } }
+function marcarGravou(etId) {
+  try {
+    const v = JSON.parse(localStorage.getItem(CHAVE_GRAVOU)) || [];
+    if (v.indexOf(etId) < 0) { v.push(etId); localStorage.setItem(CHAVE_GRAVOU, JSON.stringify(v)); }
+  } catch (e) {}
+}
 
 // ---------- util ----------
 function normalizar(s) {
@@ -146,6 +154,10 @@ function primarAudio() {
       else { a.pause(); a.currentTime = 0; a.muted = false; }
     } catch (e) { try { a.muted = false; } catch (e2) {} }
   });
+  // reload no meio de uma etapa: a trilha ficou presa pelo autoplay (tocarTrilha rodou sem gesto e
+  // deixou trilhaAtual setada). O 1o gesto passa por aqui, entao retoma a trilha pendurada; sem isso
+  // a etapa restaurada (e as seguintes com a MESMA trilha) ficam mudas
+  if (trilhaAtual && trilhaAtual.paused) { try { const p = trilhaAtual.play(); if (p && p.catch) p.catch(() => {}); } catch (e) {} }
 }
 function tocarSom(nome) {
   const a = audioEl(nome);
@@ -588,7 +600,7 @@ function entrarEtapa() {
   passosRevelados = 1;
   marcosAcesos = false;
   selandoEtapa = false;   // etapa nova: solta o guarda de avanco
-  jaGravou = false;       // etapa nova: o "ja gravamos" comeca desligado
+  jaGravou = jaGravouSalvo(et.id);   // sobrevive a reload: video enviado/"ja gravamos" nao se pede de novo
   cerimoniaFeita = inventario.some(x => x.etapa === et.id); // se ja chegou/coletou, nao repete a cerimonia
   limparMarcos();
   limparMarcadoresBeat();
@@ -693,7 +705,10 @@ function renderMissao() {
   $('senha-rotulo').textContent = ehCodigo ? (TEXTOS.rotulo_codigo || TEXTOS.rotulo_senha_desbloqueio) : TEXTOS.rotulo_senha_desbloqueio;
   $('senha-botao').textContent = ehCodigo ? (TEXTOS.selar_codigo || TEXTOS.botao_selar) : TEXTOS.botao_selar;
   $('senha-input').value = '';
-  $('senha-input').setAttribute('inputmode', ehCodigo ? 'numeric' : 'text');
+  // teclado numerico so quando o codigo esperado e todo digito: "CHAIN GATE" (e os
+  // codigos com palavra do item) precisam de letras, e inputmode=numeric esconde o abc
+  const soDigitos = /^[0-9]*$/.test(normalizar(et.senha_desbloqueio || ''));
+  $('senha-input').setAttribute('inputmode', ehCodigo && soDigitos ? 'numeric' : 'text');
   $('senha-erro').textContent = '';
   montarAcaoMissao(et);   // o botao da missao (foto / "ja gravamos") conforme et.avanco; a senha vira reserva
 }
@@ -734,10 +749,13 @@ function montarAcaoMissao(et) {
       montarBotaoVideo(cont, et.id, null);
       if (reservaRot) reservaRot.classList.add('oculto');   // o campo abaixo JA e o codigo do local
       // form-senha fica VISIVEL de proposito: digitar o codigo avanca, tenha o video subido ou nao
+    } else if (jaGravou) {
+      // reload depois do "ja gravamos": o campo do codigo volta revelado, sem pedir de novo
+      if (reservaRot) reservaRot.classList.add('oculto');
     } else {
       // sem sobe_video: "ja gravamos" (so mostra ao madrich) revela o campo do codigo local
       const b = botaoAcaoMissao(TEXTOS.missao_ja_gravamos || 'Já gravamos', 'missao-gravou-btn');
-      b.addEventListener('click', () => { primarAudio(); jaGravou = true; revelarCampoCodigo(); });
+      b.addEventListener('click', () => { primarAudio(); jaGravou = true; marcarGravou(et.id); revelarCampoCodigo(); });
       cont.appendChild(b);
       form.classList.add('oculto');                       // ate "ja gravamos", o campo do codigo fica velado
       if (reservaRot) reservaRot.classList.add('oculto');
@@ -746,11 +764,11 @@ function montarAcaoMissao(et) {
     if (et.sobe_video) {
       // ultima etapa: enviar o video (sobe pro Storage) habilita a chegada por GPS ao ponto final.
       // O form-senha (reserva) segue visivel: o madrich pode ditar a palavra se o GPS nao pegar.
-      montarBotaoVideo(cont, et.id, () => { jaGravou = true; avisarChegadaFinal(); });
+      montarBotaoVideo(cont, et.id, () => { jaGravou = true; marcarGravou(et.id); avisarChegadaFinal(); });
     } else {
       // sem sobe_video: "ja gravamos" habilita a chegada por GPS ao ponto final
       const b = botaoAcaoMissao(TEXTOS.missao_ja_gravamos || 'Já gravamos', 'missao-gravou-btn');
-      b.addEventListener('click', () => { primarAudio(); jaGravou = true; avisarChegadaFinal(); });
+      b.addEventListener('click', () => { primarAudio(); jaGravou = true; marcarGravou(et.id); avisarChegadaFinal(); });
       cont.appendChild(b);
     }
   }
@@ -986,11 +1004,16 @@ function abrirCartas() {
 
 // ---------- sincronia ao vivo (sala compartilhada; degrada para manual sem sinal) ----------
 async function rpcSup(nome, corpo) {
-  const r = await fetch(SB_URL + '/rest/v1/rpc/' + nome, {
-    method: 'POST',
-    headers: { 'apikey': SB_ANON, 'Authorization': 'Bearer ' + SB_ANON, 'Content-Type': 'application/json' },
-    body: JSON.stringify(corpo),
-  });
+  const ctrl = new AbortController();
+  const tmo = setTimeout(() => ctrl.abort(), 10000);   // rede zumbi (conecta e nao responde) nao pendura a sincronia
+  let r;
+  try {
+    r = await fetch(SB_URL + '/rest/v1/rpc/' + nome, {
+      method: 'POST',
+      headers: { 'apikey': SB_ANON, 'Authorization': 'Bearer ' + SB_ANON, 'Content-Type': 'application/json' },
+      body: JSON.stringify(corpo), signal: ctrl.signal,
+    });
+  } finally { clearTimeout(tmo); }
   if (!r.ok) throw new Error('rpc ' + nome + ' ' + r.status);
   // RPC "returns void" (scouting ponto/foto) responde 204 sem corpo: r.json() num corpo
   // vazio rejeita e derrubava a sincronia. As RPC do jogo respondem 200 com JSON e seguem
@@ -2830,11 +2853,20 @@ function configurarGateRetrato() {
   }
 }
 
+let avisoChegadaGateDado = false;
 function verificarChegadaGate() {
   if (!aguardandoGate || !posAtual || !rotaAtiva) return;
   const pt = rotaAtiva.ponto_inicial;
   const folga = Math.min(posAtual.acc || 0, 30);
-  if (pt && distanciaAoCorredorM(posAtual, [pt]) <= 55 + folga) abrirPrimeiraEtapa();
+  if (!pt || distanciaAoCorredorM(posAtual, [pt]) > 55 + folga) return;
+  const ma = rotaAtiva.missao_abertura;
+  if (ma && (ma.tipo === 'foto' || ma.tipo === undefined)) {
+    // com retrato de abertura, a chegada por GPS nao engole a missao: avisa 1x e espera a
+    // foto (ou o botao reserva "toquem aqui") comecar a caca
+    if (!avisoChegadaGateDado) { avisoChegadaGateDado = true; toast(TEXTOS.gate_chegou_retrato || 'Vocês chegaram. Tirem o retrato do grupo pra abrir a caça.', 6000); }
+    return;
+  }
+  abrirPrimeiraEtapa();
 }
 
 // tira o jogador do gate inicial: esconde o card "ESTOU AQUI", apaga o brilho do portão
@@ -3060,9 +3092,11 @@ async function subirFotoJogo(blob, etapaId) {
         headers: { 'apikey': SB_ANON, 'Authorization': 'Bearer ' + SB_ANON, 'Content-Type': 'application/json' },
         body: JSON.stringify(corpo), signal: ctrl.signal,
       });
-      return r.ok;   // 204 (void) tambem conta como ok
+      // 204 (void) tambem conta como ok. 4xx (foto grande demais, config) e recusa
+      // definitiva: reenviar a mesma foto nunca vai passar, entao nao volta pra fila
+      return { ok: r.ok, retry: !r.ok && r.status >= 500 };
     } finally { clearTimeout(tmo); }
-  } catch (e) { return false; }
+  } catch (e) { return { ok: false, retry: true }; }   // rede caiu / timeout: vale tentar depois
 }
 
 // comprime, tenta subir e chama `aoTerminar` (o avanco) SEMPRE: enviar e o gatilho, mas rede ruim
@@ -3071,9 +3105,10 @@ async function enviarFotoBest(file, etapaId, aoTerminar, textoOk, textoFalha) {
   toast(TEXTOS.missao_foto_enviando || 'Guardando a foto...', 3000);
   let blob = file;
   try { blob = await admComprimirFoto(file, 1600, 0.72); } catch (e) { /* compressao falhou: usa o arquivo cru */ }
-  const ok = await subirFotoJogo(blob, etapaId);
-  if (ok) toast(textoOk || TEXTOS.missao_foto_ok || 'Foto no cofre. O caminho segue.');
-  else { fotosPendentes.push({ blob, etapaId }); toast(textoFalha || TEXTOS.missao_foto_falha || 'Sem sinal pra guardar agora. Sigam, mandem ao madrich por fora.', 6000); }
+  const res = await subirFotoJogo(blob, etapaId);
+  if (res.ok) toast(textoOk || TEXTOS.missao_foto_ok || 'Foto no cofre. O caminho segue.');
+  else if (res.retry) { fotosPendentes.push({ blob, etapaId }); toast(textoFalha || TEXTOS.missao_foto_falha || 'Sem sinal pra guardar agora. Sigam, mandem ao madrich por fora.', 6000); }
+  else toast(TEXTOS.missao_foto_recusada || 'A foto não coube no cofre. Sigam, e mandem ao madrich por fora.', 6000);
   if (typeof aoTerminar === 'function') aoTerminar();
 }
 
@@ -3092,7 +3127,17 @@ function enviarFotoMissao(file) {
   const et = etapaObj();
   if (!et) return;
   primarAudio();
-  enviarFotoBest(file, et.id, () => avancarEtapa());
+  // o avanco fica amarrado a etapa de ORIGEM: um 2o toque (ou a senha ditada com upload em voo)
+  // que termine depois do avanco nao pode avancar DE NOVO e pular uma etapa sem missao
+  const idOrigem = et.id;
+  const btn = $('missao-foto-btn');
+  if (btn) { btn.disabled = true; btn.textContent = TEXTOS.missao_enviando_btn || 'Enviando...'; }
+  enviarFotoBest(file, et.id, () => {
+    const agora = etapaObj();
+    if (agora && agora.id === idOrigem) { avancarEtapa(); return; } // o botao da etapa nova renasce habilitado
+    const b2 = $('missao-foto-btn');
+    if (b2) { b2.disabled = false; b2.textContent = TEXTOS.missao_enviar_foto || 'Enviar a foto e seguir'; }
+  });
 }
 
 // ---------- video da missao: sobe pro Storage privado (best-effort, nunca trava) ----------
@@ -3141,11 +3186,22 @@ async function subirVideoStorage(blob, etapaId, caminhoPre) {
 // tenta subir o video e chama `aoTerminar` (o avanco) SEMPRE. Rede ruim vai pra fila, mas nao
 // prende o grupo. 4xx (video grande demais / config) avisa "manda por fora" e segue mesmo assim.
 async function enviarVideoBest(file, etapaId, aoTerminar) {
+  if (file && file.size > 45 * 1024 * 1024) {
+    // acima do teto do Storage (50MB no plano free): nem tenta nem refila, senao o clipe
+    // re-sobe inteiro a cada volta de rede, comendo dados sem nunca caber
+    toast(TEXTOS.missao_video_grande || 'O vídeo ficou grande demais pra subir daqui. Gravem um mais curto, ou mandem esse ao madrich por fora. O jogo segue.', 7000);
+    if (typeof aoTerminar === 'function') aoTerminar();
+    return;
+  }
+  const btn = $('missao-video-btn');
+  if (btn) { btn.disabled = true; btn.textContent = TEXTOS.missao_enviando_btn || 'Enviando...'; }
   toast(TEXTOS.missao_video_enviando || 'Enviando o vídeo...', 4000);
   const res = await subirVideoStorage(file, etapaId, null);
   if (res.ok) toast(TEXTOS.missao_video_ok || 'Vídeo no cofre. O caminho segue.');
-  else if (res.retry) { fotosPendentes.push({ kind: 'video', blob: file, etapaId: etapaId, caminho: res.caminho }); toast(TEXTOS.missao_video_fila || 'Sem sinal pra guardar agora. O vídeo sobe sozinho quando a rede voltar. Sigam.', 6000); }
+  else if (res.retry) { fotosPendentes.push({ kind: 'video', blob: file, etapaId: etapaId, caminho: res.caminho }); toast(TEXTOS.missao_video_fila || 'Sem sinal pra guardar agora. Deixem o app aberto: ele tenta de novo quando a rede voltar. Sigam.', 6000); }
   else toast(TEXTOS.missao_video_falha || 'Não deu pra guardar o vídeo aqui. Sigam, e mandem ao madrich por fora.', 6000);
+  const b2 = $('missao-video-btn');
+  if (b2) { b2.disabled = false; b2.textContent = TEXTOS.missao_enviar_video || 'Enviar o vídeo'; }
   if (typeof aoTerminar === 'function') aoTerminar();
 }
 
@@ -3161,12 +3217,14 @@ function tentarReenviarPendentes() {
   const fila = fotosPendentes.slice();
   fotosPendentes = [];
   fila.forEach(async (item) => {
+    item.tent = (item.tent || 0) + 1;   // teto de tentativas: rede que nunca engole nao vira loop eterno
     if (item.kind === 'video') {
       const r = await subirVideoStorage(item.blob, item.etapaId, item.caminho);
-      if (!r.ok && r.retry) fotosPendentes.push(item);   // so volta pra fila se ainda vale tentar (4xx sai)
+      if (!r.ok && r.retry && item.tent < 3) fotosPendentes.push(item);
+      else if (!r.ok) toast(TEXTOS.missao_video_falha || 'Não deu pra guardar o vídeo aqui. Sigam, e mandem ao madrich por fora.', 6000);
     } else {
-      const ok = await subirFotoJogo(item.blob, item.etapaId);
-      if (!ok) fotosPendentes.push(item);                // foto: tenta de novo na proxima chance
+      const r = await subirFotoJogo(item.blob, item.etapaId);
+      if (!r.ok && r.retry && item.tent < 4) fotosPendentes.push(item);
     }
   });
 }

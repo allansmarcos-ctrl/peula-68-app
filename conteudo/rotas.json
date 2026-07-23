@@ -31,7 +31,7 @@
         "identidade": [
           "Vocês são fariseus, da casa de Hilel.",
           "Hilel chegou pobre da Babilônia, e a fome de Torá dele virou lenda: numa madrugada de inverno, sem a moeda da entrada da casa de estudo, subiu no telhado para ouvir a aula por uma fresta e amanheceu coberto de neve.* Foi ele que resumiu a lei inteira numa frase só.",
-          "Vocês não são os sacerdotes do Templo nem os zelotes do punhal. O que vocês guardam não tem muro nem lâmina que proteja: é o jeito judeu de perguntar. Estudam a Torá escrita e a que passa de boca a ouvido, e teimam que ela não acabou no Sinai. Ela continua sendo dada agora, toda vez que dois de vocês brigam por uma linha dela até o sol raiar. E esperam o Mashiach vivo, que venha endireitar um mundo torto.",
+          "Os sacerdotes guardam o Templo com muro e ferro. Os zelotes guardam a honra com punhal. Vocês guardam uma coisa que muro não cerca e lâmina não corta: o jeito judeu de perguntar. Estudam a Torá escrita e a que passa de boca a ouvido, e teimam que o Sinai foi só o começo: ela continua sendo dada agora, toda vez que dois de vocês brigam por uma linha dela até o sol raiar. E esperam o Mashiach vivo, que venha endireitar um mundo torto.",
           "Duas coisas metem medo em vocês. A primeira é o falso messias, que promete milagre e vira a multidão em revolta. A segunda é pior, e mora dentro de casa: o povo partido em pedaços, cada um certo de que só ele ama o Céu. Contra o primeiro, vocês têm os olhos, que veem antes de a boca julgar. Contra o segundo, a régua do velho Hilel: o que é odioso para ti, não faças ao teu próximo. O resto é comentário. Agora desçam, e estudem a cidade com os pés."
         ],
         "combinados": [
@@ -89,7 +89,7 @@
             },
             {
               "voz": "gamliel",
-              "texto": "Não pedi que julgassem. Pedi que vissem. Desçam, pisem onde essa gente pisa, escutem com o próprio ouvido. Voltem e me digam se é mais um punhal esperando a hora, ou coisa que a Casa nunca viu. Entrem pela porta do ocidente. Confio mais nos olhos de vocês do que na minha pressa."
+              "texto": "O veredito fica para depois. Primeiro, os olhos. Desçam, pisem onde essa gente pisa, escutem com o próprio ouvido. Voltem e me digam se é mais um punhal esperando a hora, ou coisa que a Casa nunca viu. Entrem pela porta do ocidente. Confio mais nos olhos de vocês do que na minha pressa."
             }
           ],
           "direcoes": [
@@ -138,7 +138,7 @@
           "item": {
             "nome": "A carta do velho",
             "glifo": "carta",
-            "sobre": "A ordem de Rabban Gamliel: ver antes de julgar.",
+            "sobre": "A ordem de Rabban Gamliel, sob o selo frio: ver antes de julgar. A única arma que ele cobra, vocês trazem no rosto desde o berço: o par que enxerga antes de a boca condenar.",
             "espelho": {
               "nome": "O áudio encaminhado",
               "glifo": "audio",
@@ -188,7 +188,7 @@
             },
             {
               "voz": "narrador",
-              "texto": "E há coisa pior no ar, e vem da cidade em volta. Yerushalayim está comendo a si mesma. Homens escondem um punhal curto na dobra do manto, os sicários*, se misturam à multidão nas festas e cravam a lâmina nas costas de outro judeu dentro do próprio Templo. Neste mesmo ano, gente da cidade tomou o Monte à força e matou o sumo sacerdote*, e largou o corpo fora do muro sem sepultura. Roma ainda nem chegou, e o sangue que corre já é de irmão."
+              "texto": "E há coisa pior no ar, e para ver esta parte ninguém precisa de carta: basta o par que o velho cobrou. Yerushalayim está comendo a si mesma. Homens escondem um punhal curto na dobra do manto, os sicários*, se misturam à multidão nas festas e cravam a lâmina nas costas de outro judeu dentro do próprio Templo. Neste mesmo ano, gente da cidade tomou o Monte à força e matou o sumo sacerdote*, e largou o corpo fora do muro sem sepultura. Roma ainda nem chegou, e o sangue que corre já é de irmão."
             },
             {
               "voz": "narrador",
@@ -197,7 +197,7 @@
           ],
           "eco": "Vocês conhecem uma cidade que se come por dentro. Já a viram com outro nome, mais perto de casa.",
           "direcoes": [
-            "Aqui é o bairro dos outros. Andem colados, e sigam quando puder o São Francisco, nunca a Casa Nova.",
+            "Aqui é o bairro dos outros. Andem colados. Quando houver escolha, sigam o São Francisco, nunca a Casa Nova.",
             "Virem na rua dos mensageiros, a Ar-Rusul, e mantenham ela sempre descendo.",
             "Adiante, na parede, um rosto pintado olhando para vocês. É ali que vocês param."
           ],
@@ -232,7 +232,7 @@
           "item": {
             "nome": "A rede do pescador",
             "glifo": "rede",
-            "sobre": "Vieram atrás de espadas e acharam redes.",
+            "sobre": "Vieram atrás de espadas e acharam isto: corda, nó, remendo, cheiro de lago. Espada serve para manter o outro longe. Rede é o contrário: ela abraça antes de tirar da água.",
             "espelho": {
               "nome": "O mesmo sidur",
               "glifo": "sidur",
@@ -290,19 +290,19 @@
             },
             {
               "voz": "circulo",
-              "texto": "O velho sabia disso quando mandou ver antes de julgar. Bando não se mede pelo pior que tem dentro, nem pelo melhor. Olha-se um por um, na cara. Este espera? Ou este arma uma revolta e se rebela contra D'us?"
+              "texto": "O velho sabia disso quando mandou ver antes de julgar. Bando não se mede pelo pior que tem dentro, nem pelo melhor. Mede-se um por um, na cara, de perto, na distância em que a rede trabalha: este aqui espera, ou este aqui arma uma revolta em nome do Céu?"
             },
             {
               "voz": "circulo",
-              "texto": "E o que essa gente crê arrepia a espinha: que o mestre se levantou do túmulo, que a morte não ficou com a última palavra. Aí vem o susto. Ressurreição dos mortos é a nossa fé. É ela que separa nós dos saduceus, que riem de quem espera os mortos de volta. Nesse ponto, essa gente está do nosso lado da sala."
+              "texto": "E o que essa gente crê arrepia a espinha: que o mestre se levantou do túmulo, que a morte não ficou com a última palavra. Aí vem o susto. Ressurreição dos mortos é a nossa fé. É ela que nos separa dos saduceus, que riem de quem espera os mortos de volta. Nesse ponto, essa gente está do nosso lado da sala."
             },
             {
               "voz": "circulo",
-              "texto": "A briga, então, não é sobre esperar. Os dois lados esperam. É sobre a hora. Eles dizem que o Mashiach já veio, que já esteve aqui e foi embora. Olhem pela janela: Roma ainda manda, o imposto ainda sobe, o mundo continua torto. Que vinda foi essa, que deixou tudo do mesmo jeito?"
+              "texto": "Esperar, os dois lados esperam. A briga é sobre a hora. Eles dizem que o Mashiach já veio, que esteve aqui e foi embora. Olhem pela janela: Roma ainda manda, o imposto ainda sobe, o mundo continua torto. Que vinda foi essa, que deixou tudo do mesmo jeito?"
             },
             {
               "voz": "circulo",
-              "texto": "Eles esperam de olho para trás, num homem que já foi. Vocês esperam de olho no que ainda vem. Dois povos lendo uma hora diferente no mesmo céu. Não é a primeira vez que o nosso povo não aguenta a morte de um líder e corre atrás do nome dele. O que pesa não é o erro de quem correu. É o que a gente faz para trazer essa gente de volta para perto."
+              "texto": "Eles esperam de olho no ontem, num homem que já passou. Vocês esperam de olho no que ainda vem. Dois povos lendo uma hora diferente no mesmo céu. Não é a primeira vez que o nosso povo perde um mestre e corre atrás do nome dele. O erro de quem correu, o tempo cobra. O braço que não foi buscar, esse fica na nossa conta."
             },
             {
               "voz": "narrador",
@@ -345,7 +345,7 @@
           "item": {
             "nome": "O Messias diferente",
             "glifo": "ampulheta",
-            "sobre": "Dois povos lendo uma hora diferente no mesmo céu.",
+            "sobre": "Duas esperas debaixo do mesmo céu. Eles olham para ontem, para um mestre que veio e se foi. Vocês olham para o dia que ainda não raiou. Guardem o nome desse dia: é para ele que a corrente puxa.",
             "espelho": {
               "nome": "O cartaz do rei",
               "glifo": "cartaz_rei",
@@ -392,7 +392,7 @@
             },
             {
               "voz": "narrador",
-              "texto": "Shaul é um dos nossos. Sentou aos pés de Rabban Gamliel*, no mesmo chão que vocês, decorou os mesmos versos, reza o mesmo Shemá. E virou caçador dos seus. Não caçava romano nem idólatra: caçava judeus, gente como vocês, que tinha posto a fé num messias morto numa cruz. Andava de porta em porta com um maço de cartas na sacola, autorização carimbada para arrastar homem e mulher amarrados de volta para Yerushalayim. Não fazia por moeda. A cada porta que arrombava, tinha certeza de estar servindo ao Céu."
+              "texto": "Shaul é um dos nossos. Sentou aos pés de Rabban Gamliel*, no mesmo chão que vocês, decorou os mesmos versos, reza o mesmo Shemá. E virou caçador dos seus. Romano, ele deixava passar; idólatra também. A caça dele era judeu: gente como vocês, que tinha posto a fé num messias morto numa cruz. Andava de porta em porta com um maço de cartas na sacola, autorização carimbada para arrastar homem e mulher amarrados de volta para Yerushalayim. Moeda nenhuma pagava aquilo. A cada porta que arrombava, tinha certeza de estar servindo ao Céu."
             },
             {
               "voz": "narrador",
@@ -404,11 +404,11 @@
             },
             {
               "voz": "narrador",
-              "texto": "Olhem a sacola de vocês. Cada um carrega um pouco de zelo ali dentro. O mesmo zelo que levanta a Casa é o que arromba a porta do irmão. Shaul perseguiu o Céu achando que servia o Céu. Para um estrago desse tamanho não precisa de ódio: basta uma certeza que nunca duvidou de si."
+              "texto": "Olhem a sacola de vocês. Cada um carrega um pouco de zelo ali dentro. O mesmo zelo que levanta a Casa é o que arromba a porta do irmão. Shaul perseguiu o Céu achando que servia o Céu. Um estrago desse tamanho dispensa o ódio: uma certeza que nunca duvidou de si dá conta sozinha."
             },
             {
               "voz": "gamliel",
-              "texto": "E escutem bem quem é essa gente, porque não são todos iguais. Tem reshaim no meio, sempre tem: gente que veste o nome do Céu para acender o próprio fogo. Mas a maioria é judeu comum, que se deixou levar por um messias que prometeu e foi embora. Esse não é inimigo. Esse a gente aproxima, não mata. A espada de Shaul não trouxe um só de volta. De volta a gente traz puxando pela manga, não arrastando pela corda."
+              "texto": "E escutem bem quem é essa gente, porque não são todos iguais. Tem reshaim no meio, sempre tem: gente que veste o nome do Céu para acender o próprio fogo. Mas a maioria é judeu comum, que se deixou levar por um messias que prometeu e foi embora. Com esse, briga nenhuma: esse a gente chega perto e traz. A espada de Shaul não trouxe um só de volta. De volta se traz puxando pela manga, não arrastando pela corda."
             },
             {
               "voz": "gamliel",
@@ -420,7 +420,7 @@
             },
             {
               "voz": "gamliel",
-              "texto": "Vocês voltaram e me prestaram contas, e eu ouvi tudo. Não é exército. São irmãos. Irmãos que leem uma hora diferente no mesmo céu, que talvez estejam errados sobre a hora, e que mesmo assim não são o nosso inimigo. Tem muito judeu bom ali dentro, gente que acreditou de coração e não consegue mais voltar atrás. Esse a gente não larga."
+              "texto": "Vocês voltaram e me prestaram contas, e eu ouvi tudo. Mandei vocês atrás de um exército, e vocês me trouxeram irmãos: irmãos que leem uma hora diferente no mesmo céu, que talvez estejam errados sobre a hora, e que ainda assim sentam à mesma mesa que nós. Tem muito judeu bom ali dentro, gente que acreditou de coração e não consegue mais voltar atrás. Esse a gente não larga."
             },
             {
               "voz": "gamliel",
@@ -434,7 +434,7 @@
           "direcoes": [
             "Da praça, entrem no portão da foto e virem à direita.",
             "Entrem pelo mercado e vão na direção em que ele se abre para o bairro judeu novo e a descida ao Templo.",
-            "Parem sob a placa da rua. A chave da próxima porta está escrita nela, em inglês, em letras grandes.",
+            "Parem sob a placa da rua. O nome do portão está escrito nela, em inglês, em letras grandes: é a primeira metade da chave.",
             "Antes de seguir, não esqueçam de cumprir a missão deste ponto."
           ],
           "marcos": [
@@ -447,7 +447,7 @@
             }
           ],
           "beats": [],
-          "missao": "Entrando no shuk por este túnel, gravem o vídeo do grupo em duas fileiras, marchando feito soldado que cruza a terra dos outros sem baixar a cabeça. Gritem Torá, Torá, Torá! Gravem e enviem o vídeo pelo app.",
+          "missao": "Entrando no shuk por este túnel, gravem o vídeo do grupo em duas fileiras, marchando feito soldado que cruza a terra dos outros sem baixar a cabeça. Gritem Torá, Torá, Torá! Gravem e enviem o vídeo pelo app. Depois, a porta: digitem o nome do portão escrito na placa e, colado nele, a palavra que O Messias diferente guarda na sacola de vocês.",
           "fotos": [
             "img/etapas/fariseus-e5-a-portao-colunas.jpg",
             "img/etapas/fariseus-e5-b-passagem-porta-azul.jpg",
@@ -456,15 +456,15 @@
           "item": {
             "nome": "A régua de Hilel",
             "glifo": "regua",
-            "sobre": "O que é odioso para ti, não faças ao próximo. O resto é comentário.",
+            "sobre": "O que é odioso para ti, não faças ao próximo. O resto é comentário. Shaul sabia essa régua de cor e arrombou portas com ela debaixo do braço: certeza ele tinha de sobra, sem um arranhão. O que faltou dentro dele é o contrário exato dessa certeza, e cabe aqui na sacola: pesa pouco e segura a mão.",
             "espelho": {
               "nome": "A pedra na mão",
               "glifo": "pedra",
-              "texto": "A régua media o próximo por uma conta só: o que é odioso pra você, não faça a ele. Hoje a mesma mão larga a régua e pega a pedra, contra quem dirige no Shabat da rua, contra quem se veste diferente, sempre em nome do Céu. Para o estrago não precisa de ódio, basta uma certeza que nunca duvidou de si. Onde a sua certeza já virou pedra na mão?"
+              "texto": "A régua media o próximo por uma conta só: o que é odioso pra você, não faça a ele. Hoje a mesma mão larga a régua e pega a pedra, contra quem dirige no Shabat da rua, contra quem se veste diferente, sempre em nome do Céu. O estrago dispensa o ódio: uma certeza que nunca duvidou de si dá conta sozinha. Onde a sua certeza já virou pedra na mão?"
             }
           },
           "codigo_no_local": true,
-          "senha_desbloqueio": "CHAIN GATE"
+          "senha_desbloqueio": "CHAIN GATE AMANHA"
         },
         {
           "id": 5,
@@ -500,11 +500,11 @@
           "carta": [
             {
               "voz": "narrador",
-              "texto": "Não vem carta agora. Vem uma escada. O caminho deixa de ser história e vira subida."
+              "texto": "A última carta fica esperando lá em cima. Aqui embaixo, o que chega é uma escada: o caminho deixa de ser história e vira subida."
             },
             {
               "voz": "viajante",
-              "texto": "Vocês estão quase no alto. Lá de cima dá para ver a cidade inteira onde passaram a noite se perdendo. Subam com atenção, e no fim, procurem o beit midrash perdido, com a cidade toda ao redor."
+              "texto": "Vocês estão quase no alto. Lá de cima dá para ver a cidade inteira onde passaram a noite se perdendo. Subam devagar: degrau gasto escorrega, e certeza sobe mal. Levem a dúvida, que pesa pouco e segura a mão. No fim, procurem o beit midrash perdido, com a cidade toda ao redor."
             }
           ],
           "direcoes": [
@@ -540,11 +540,11 @@
           "item": {
             "nome": "A chave da pedra",
             "glifo": "chave",
-            "sobre": "A última porta se abre por dentro, no alto, de onde a cidade cabe num olhar.",
+            "sobre": "Roma nunca teve cópia desta chave. Tentou a porta da Casa de machado e de imposto, sempre pelo lado da rua, e perdeu tempo: a tranca fica do lado que dá para casa. Foi por esse lado que a porta caiu. É por esse lado que ela volta a abrir.",
             "espelho": {
               "nome": "O espelho",
               "glifo": "espelho",
-              "texto": "Do beco, cada bando de judeu parecia uma emboscada; do alto, é uma cidade só, e cabe num olhar. A chave da última porta nunca esteve com Roma: estava por dentro, na mão de quem morava ali. Amanhã você tira a roupa de fariseu e volta pro seu movimento, pras rusgas de sempre. A Casa caiu com espaço de sobra lá dentro. Qual porta, na sua vida judaica, só você consegue abrir por dentro?"
+              "texto": "Do beco, cada bando de judeu parecia uma emboscada; do alto, é uma cidade só, e cabe num olhar. A chave da última porta sempre esteve por dentro, na mão de quem morava ali; Roma nem sabia que porta era. Amanhã você tira a roupa de fariseu e volta pro seu movimento, pras rusgas de sempre. A Casa caiu com espaço de sobra lá dentro. Qual porta, na sua vida judaica, só você consegue abrir por dentro?"
             }
           },
           "senha_desbloqueio": "YAVNE"
@@ -574,15 +574,19 @@
         },
         {
           "voz": "gamliel",
-          "texto": "E quando os sábios sentarem para entender por quê, não vão escrever o nome de Roma na primeira linha. Vão escrever o nosso. Com o inimigo já no portão, três facções judias* vão rachar a cidade e brigar entre si por ela. Vão queimar, com a própria mão, os armazéns de trigo que dariam para aguentar anos de cerco*, e a fome que vai matar meia cidade vai ser fome plantada por judeu. Vocês conhecem o Kamtza e o Bar Kamtza*: um convite trocado, um homem humilhado numa festa, a sala inteira calada. Foi por miudeza desse tamanho que a Casa caiu. Deram nome a isso quando já era cinza: sinat chinam, ódio de graça. O incêndio que nenhuma legião precisa vir atear."
+          "texto": "E quando os sábios sentarem para entender por quê, o nome que vão escrever na primeira linha vai ser o nosso, antes do de Roma. Com o inimigo já no portão, três facções judias* vão rachar a cidade e brigar entre si por ela. Vão queimar, com a própria mão, os armazéns de trigo que dariam para aguentar anos de cerco*, e a fome que vai matar meia cidade vai ser fome plantada por judeu. Vocês conhecem o Kamtza e o Bar Kamtza*: um convite trocado, um homem humilhado numa festa, a sala inteira calada. Foi por miudeza desse tamanho que a Casa caiu. Deram nome a isso quando já era cinza: sinat chinam, ódio de graça. O incêndio que nenhuma legião precisa atear: ele entra pelo lado da tranca, o que dá para casa."
         },
         {
           "voz": "gamliel",
-          "texto": "E aqui está o milagre. Um sábio da nossa casa, Rabban Yochanan ben Zakkai, viu que a pedra estava perdida. Se fez de morto, e mandou os alunos o carregarem para fora da cidade sitiada dentro de um caixão*, porque os radicais não deixavam sair vivo quem falasse em paz. Diante do general de Roma, não pediu o Templo de volta. Pediu uma sala de sábios numa cidadezinha chamada Yavne. O muro queimou. A voz não. Ela cabia num caixão, e Roma não sabia pesar. Dois mil anos depois, essa voz chegou até aqui. Se ela ainda está viva na sala atrás de vocês, ou se o que sobe é silêncio, isso já não depende de Roma. Depende de vocês."
+          "texto": "E aqui está o milagre, e ele é da nossa casa. Rabban Yochanan ben Zakkai viu que a pedra estava perdida. Se fez de morto, e os alunos o carregaram para fora da cidade sitiada dentro de um caixão*, porque os radicais matavam quem falasse em paz. De pé diante do general de Roma, com a cidade em brasa às costas, ele podia pedir qualquer coisa. Pediu uma escola: uma sala de estudo numa cidadezinha chamada Yavne, com meia dúzia de sábios dentro. Roma sabia pesar ouro, muralha e exército; um povo guardado dentro de um livro, a balança dela nunca soube pesar. O muro queimou. A voz não. Abram o livro hoje, e Hilel discute com Shammai no presente, como se ninguém tivesse morrido. Se a sala atrás de vocês ainda estuda, ou se emudeceu, isso saiu da mão de Roma faz tempo. Está na de vocês."
+        },
+        {
+          "voz": "gamliel",
+          "texto": "A lição que sobra é curta. Vocês desceram achando que a missão era julgar um bando, e me prestaram contas como quem fecha um caso. Agora abram a sacola e releiam as peças, uma a uma: ver antes de julgar, chegar perto, apostar no dia que ainda não raiou, desconfiar da certeza sem arranhão, guardar a tranca do lado de casa. Para espião, isso é peso morto. Para aluno, é caixa de ferramentas. A noite inteira foi aula. O aluno eram vocês. Enquanto o Templo guarda ouro e o zelote afia ferro, a nossa casa embala numa sacola o que o fogo não come: a escola e o livro. Foi essa a nossa aposta. A pedra cai. A pergunta que passa de boca a ouvido, nenhuma Roma derruba."
         },
         {
           "voz": "viajante",
-          "texto": "Agora a parte que só vocês, que vieram de longe, podem ouvir. Vocês sabem que a voz chegou até aqui, porque vieram de onde ela chegou. Amanhã tiram a roupa de fariseu e voltam para a vida de vocês, para o mesmo movimento e as mesmas rusgas de sempre. Quando a próxima briga chegar, e ela sempre chega, lembrem do que viram do alto. A Casa de pedra foi perdida uma vez, por ódio de graça entre irmãos que amavam o mesmo D'us. Aquela voz que não parou de estudar em dois mil anos depende de uma coisa só: de vocês não desistirem uns dos outros. A Casa cabia em todos. Foram os que estavam dentro que não couberam. Não deixem esse fogo achar vocês de novo."
+          "texto": "Agora a parte que só vocês, que vieram de longe, podem ouvir. O velho matriculou vocês numa escola sem placa e sem muro, e escondeu a lista de material dentro das peças da sacola: os olhos, o perto, o amanhã, a dúvida, o lado de dentro. Até a senha que destrancou esta noite, lá na primeira tela, era a aposta inteira numa palavra só. A voz que saiu daqui num caixão atravessou a Babilônia, a Espanha, a Polônia, o porão dos navios, e foi dar no Kidush de sexta, na peulá do movimento, na discussão que vira madrugada. Vocês ouviram essa voz a vida inteira sem saber o nome dela. Amanhã tiram a roupa de fariseu e voltam para as mesmas rusgas de sempre. Quando a próxima briga chegar, e ela sempre chega, lembrem do que viram do alto: a Casa de pedra caiu por ódio de graça, entre irmãos que amavam o mesmo D'us, e a escola do velho fica de pé enquanto vocês não desistirem uns dos outros. A Casa cabia em todos. Foram os que estavam dentro que não couberam. Não deixem esse fogo achar vocês de novo."
         }
       ],
       "revelacao_sacola": {
@@ -1249,7 +1253,7 @@
         31.776225,
         35.228744
       ],
-      "_nota_rota": "Rota dos Zelotes (bairro armenio ao bairro judeu), levantada em campo 22/07/2026 (scouting ADM + 2 audios). 15 pontos GPS reais. MECANICA NOVA: 'avanco':'gps' avanca ao GPS bater no fim do corredor + missao (sem senha do madrich); 'avanco':'codigo' pede o numero da pista fisica (5359/198/728). A 'senha_desbloqueio' das etapas gps e so fallback ate a mecanica de GPS entrar no app.js. Fotos reais em img/etapas/zelotes-*. Ponto 1 (Migdal) sem foto ainda.",
+      "_nota_rota": "Rota dos Zelotes (bairro armenio ao bairro judeu), levantada em campo 22/07/2026 (scouting ADM + 2 audios). 15 pontos GPS reais. 'avanco':'foto' avanca por missao cumprida; 'avanco':'codigo' pede o codigo fisico do local. MECANICA DE SEGREDOS (revisao textual 23/07/2026): cada item.sobre esconde 1 palavra-segredo (nunca escrita; a descricao aponta por imagem). Nas 4 etapas de codigo a senha_desbloqueio = codigo fisico + palavra do item nomeado na missao: 5359+FOME (armamentos), 198+TRIGO (chave dos armazens), 10+FOGO (tocha), 728+COSTAS (punhal curto). O normalizar() do app ignora espacos/acentos/caixa, entao '5359 fome' tambem abre. Itens sem trava (pavio=PRESSA, grito=MEDO) pagam em frase das cartas seguintes (recompensa de atencao). As 4 palavras em ordem reversa contam a queda (costas > fogo > trigo > fome); a revelacao esta no fragmento final. Senhas das etapas sem codigo (KANAI/SICA/KANAIM/MASSADA) seguem reserva do madrich, intactas. Fotos reais em img/etapas/zelotes-*. Ponto 1 (Migdal) sem foto ainda.",
       "abertura": {
         "viajante": [
           "Esta noite vocês descem ao ano 68, e escolheram o lado da espada. Roma acampa nas colinas e o Templo ainda respira, por pouco tempo.",
@@ -1257,12 +1261,12 @@
         ],
         "identidade": [
           "Vocês não têm medo de ninguém. Enquanto os fariseus discutem a lei e os saduceus apertam a mão do governador, vocês compraram armas.",
-          "Escondem o punhal curto na dobra do manto, e na multidão da festa cravam a lâmina em quem se acerta com Roma. O sumo sacerdote que lambeu a bota do inimigo já apareceu morto, sem sepultura, fora do muro. Foram vocês.*",
+          "Escondem o punhal curto na dobra do manto, e na multidão da festa cravam a lâmina em quem se vende pra Roma. O sumo sacerdote que lambeu a bota do inimigo já apareceu morto, sem sepultura, fora do muro. Foram vocês.*",
           "Roma tem um nome para vocês, e vocês o carregam como medalha: terroristas. Não negam, se gabam. Tacam o terror na cara de quem entrega a Terra ao império, nos inimigos de D'us, nos que sujam Eretz Israel Shlemá com a sandália de Roma. O medo trabalha antes do punhal. Que o traidor durma mal sabendo que vocês existem.",
-          "Um sábio, Yochanan ben Zakkai, viu a guerra chegar e se fez de morto para ser levado num caixão, negociar uma escola em Yavne.* Vocês têm uma palavra para isso: covardia. Enquanto ele salva livros, vocês salvam Jerusalém. Torá dita num pé só não para legião. Punhal para."
+          "Um sábio, Yochanan ben Zakkai, viu a guerra chegar e se fez de morto: saiu da cidade dentro de um caixão pra negociar com Roma uma escolinha em Yavne.* Vocês têm uma palavra para isso: covardia. Enquanto ele salva livros, vocês salvam Jerusalém. Torá dita num pé só não para legião. Punhal para."
         ],
         "combinados": [
-          "Aqui quase não vem carta, vem missão. Cumpram e sigam. E reparem: no caminho vão aparecer coisas que parecem ordem e são história, o que vocês fizeram e o que estão prestes a fazer. Leiam sem parar de andar. Tudo que vier com asterisco aconteceu de verdade."
+          "Aqui a carta é curta e a missão é grossa. Cumpram e sigam andando. No caminho vão chegar ordens que são história: o que vocês já fizeram e o que estão prestes a fazer. Tudo que vier com asterisco aconteceu de verdade. E atenção à sacola: cada peça que entrar nela esconde uma palavra, apontada por imagem, nunca escrita na letra. Quando uma porta pedir a palavra de uma peça, releiam a peça com calma. Quem lê com olho de ronda acha em menos de um minuto."
         ]
       },
       "etapas": [
@@ -1294,12 +1298,12 @@
             },
             {
               "voz": "circulo",
-              "texto": "Passem a senha boca a ouvido enquanto andam. Compramos as armas, escondemos os punhais, e o sacerdote que servia Roma não vê o próximo Shabat. A grande revolta está sendo costurada rua por rua. Falta pouco."
+              "texto": "Passem a senha boca a ouvido, sem parar de andar. As armas estão pagas, os punhais dormem na dobra do manto, e o próximo nome da lista já está riscado. A grande revolta está costurada rua por rua. Falta um puxão."
             }
           ],
           "direcoes": [
             "Sigam em frente. Vocês estão na Cidade Velha, e aqui, hoje, todos podem ser inimigos.",
-            "Passem pelo Tauná Coffee House, colados à muralha. Esses muros não guardam, prendem. Tem irmão que quer fugir por eles. Vocês querem lutar.",
+            "Passem pelo Tauná Coffee House, colados à muralha. Tem irmão sonhando em fugir por cima dessas pedras. Vocês ficaram pra brigar.",
             "A primeira virada é no Fiuden, o famoso Santo Jaime. Entrem ali.",
             "Sigam até uma yeshiva erguer a fachada na frente de vocês. Parem e cumpram a missão."
           ],
@@ -1322,7 +1326,7 @@
           "item": {
             "nome": "O punhal curto",
             "glifo": "lamina",
-            "sobre": "A lâmina do sicário. A primeira peça do que vocês vão juntar esta noite.",
+            "sobre": "A lâmina do sicário, curta porque a distância é curta. Entra embaixo do ombro, pelo lado do corpo onde homem nenhum tem olhos. O freguês morre sem ver a mão. Primeira peça da noite.",
             "espelho": {
               "nome": "O cartaz do traidor",
               "glifo": "cartaz_traidor",
@@ -1363,7 +1367,7 @@
           "carta": [
             {
               "voz": "narrador",
-              "texto": "Enquanto vocês afiam o ferro, os sacerdotes de linho branco comem da mesa de Roma e chamam isso de salvar o Templo. Salvam a própria barriga. O sumo sacerdote beija o anel do governador e jura que é pela paz. Essa paz é só o pescoço que já se acostumou com a bota. O caminho do guerreiro não passa pelo altar dos que se venderam."
+              "texto": "Enquanto vocês afiam o ferro, os sacerdotes de linho branco comem da mesa de Roma e chamam isso de salvar o Templo. Salvam a própria barriga. O sumo sacerdote beija o anel do governador e jura que é pela paz. Essa paz é um pescoço acostumado com a bota. Guerreiro não reza no altar de quem se vendeu."
             }
           ],
           "direcoes": [
@@ -1388,11 +1392,11 @@
           "item": {
             "nome": "Os armamentos",
             "glifo": "estrela",
-            "sobre": "O ferro juntado em segredo para o dia da revolta. Cada lâmina, uma boca a menos para alimentar.",
+            "sobre": "Ferro comprado calado, pago com o pão das mesas. Cada lâmina nova, uma janta que não veio em alguma casa. Esse preço a cidade ainda vai sentir no estômago, por anos.",
             "espelho": {
               "nome": "O colete tático",
               "glifo": "colete",
-              "texto": "O ferro se juntava em segredo, e cada lâmina nova era um pão a menos na mesa da cidade. Hoje o civil também se arma sozinho, veste o colete, sobe a colina, e treina para o dia em que a lei do país não servir mais. Toda força guardada contra o inimigo acaba achando uma mão e um vizinho. Quanto da sua comunidade já foi gasto afiando a próxima briga, em vez de guardar trigo pro próximo inverno?"
+              "texto": "O ferro se juntava em segredo, e cada lâmina nova era um pão a menos na mesa da cidade. Hoje o civil também se arma sozinho, veste o colete, sobe a colina, e treina para o dia em que a lei do país não servir mais. Toda força guardada contra o inimigo acaba achando uma mão e um vizinho. Quanto da sua comunidade já foi gasto afiando a próxima briga, em vez de encher a despensa pro inverno?"
             }
           },
           "senha_desbloqueio": "SICA"
@@ -1443,7 +1447,7 @@
               ]
             }
           ],
-          "missao": "Achem o número pintado na pedra, no começo do túnel. É a chave para descer pelas escadas certas. Leiam com cuidado e digitem os quatro dígitos, sem o traço.",
+          "missao": "Achem o número pintado na pedra, no começo do túnel. É ele que manda nas escadas certas. Digitem os quatro números sem o traço e, colados neles, a palavra que os armamentos guardam.",
           "fotos": [
             "img/etapas/zelotes-e3-a-codigo.jpg",
             "img/etapas/zelotes-e3-b-ref.jpg"
@@ -1451,14 +1455,14 @@
           "item": {
             "nome": "A chave dos armazéns",
             "glifo": "chave",
-            "sobre": "A cidade tranca o trigo dos anos ruins atrás de uma pedra. Agora o número dela é de vocês. Guardem.",
+            "sobre": "Atrás da pedra a cidade guarda o ouro que se come: o grão que vira pão, saca em cima de saca, o bastante pra aguentar anos de cerco com as portas fechadas. Agora o número da pedra é de vocês. A cidade não sabe.",
             "espelho": {
               "nome": "O fósforo no celeiro",
               "glifo": "fosforo",
               "texto": "O trigo trancado seguraria a cidade por anos de cerco. Os zelotes preferiram queimar tudo, pra que ninguém tivesse a opção de esperar em vez de lutar. O trigo comum de hoje é o que segura a casa de pé no inverno: o exército que todos dividem, as instituições, o respeito mínimo por quem vota diferente. Sempre aparece quem prefira incendiar o comum a repartir com o outro lado. Na sua sociedade, quem já está com o fósforo aceso perto do celeiro?"
             }
           },
-          "senha_desbloqueio": "5359"
+          "senha_desbloqueio": "5359FOME"
         },
         {
           "id": 4,
@@ -1493,7 +1497,7 @@
           "carta": [
             {
               "voz": "narrador",
-              "texto": "Aqui embaixo é obra de Roma. Coluna reta, pedra caríssima, uma avenida que o império rasgou no meio da nossa cidade só para desfilar. Enquanto Jerusalém aperta o cinto, Roma levanta praça. E cada pedra dessas foi assentada por mão judia obrigada. Olhem bem. Esse ódio ainda vai ter uso."
+              "texto": "Aqui embaixo é obra de Roma. Coluna reta, pedra caríssima, uma avenida rasgada no meio da nossa cidade só para o império desfilar. Enquanto Jerusalém aperta o cinto, Roma levanta praça. E cada pedra dessas foi assentada por mão judia obrigada. Olhem bem para o chão. Decorem esse ódio. Ele ainda vai ter uso."
             }
           ],
           "direcoes": [
@@ -1510,21 +1514,21 @@
               ]
             }
           ],
-          "missao": "Sob o letreiro yrleweJ aiadaH ⇄, marquem de que década ele é. O ano exato foi esquecido, mas a década está ali. Digitem os três números.",
+          "missao": "Sob o letreiro yrleweJ aiadaH ⇄, descubram de que década ele é. O ano exato se perdeu, a década ficou ali. Digitem os três números e, colados neles, a palavra que a chave dos armazéns guarda.",
           "fotos": [
             "img/etapas/zelotes-e4-a-cardo.jpg"
           ],
           "item": {
             "nome": "A tocha",
             "glifo": "estrela",
-            "sobre": "Fogo na mão. Um dia Roma arde, e o Cardo dela junto. É só escolher a hora.",
+            "sobre": "Pano, breu e um cabo de pau. O que vai nascer na ponta come sem ter boca, cresce comendo, e manda a fumaça na frente pra avisar que chegou. Roma acha que ele tem dono. Ninguém avisou Roma.",
             "espelho": {
               "nome": "O galão na oliveira",
               "glifo": "galao",
               "texto": "Ergueram a tocha contra Roma, e ela desceu sobre o próprio trigo. O fogo é assim: você acende mirando o inimigo, e ele não sabe ler mapa nem fronteira. Ainda tem quem despeje o galão na oliveira do vizinho e na porta da casa do outro, e chame isso de amor por Israel. Amor que precisa de gasolina já é outra coisa. O que você acende contra o de fora, quem garante que para antes de chegar no seu?"
             }
           },
-          "senha_desbloqueio": "198"
+          "senha_desbloqueio": "198TRIGO"
         },
         {
           "id": 8,
@@ -1548,7 +1552,7 @@
           "carta": [
             {
               "voz": "narrador",
-              "texto": "Sigam o diamante. Ele para numa porta baixa: a yeshiva dos cabalistas, o Sha'ar Shamaim, o Portão dos Céus. Lá dentro, homens debruçados a noite inteira sobre as letras do Nome, procurando no alfabeto a salvação que a espada não deu. Enquanto vocês afiam o ferro, eles somam as combinações de D'us e esperam o milagre chegar sozinho. Superstição não para legião. Deixem os sonhadores com os livros deles, mas levem o número da porta: ele abre o caminho."
+              "texto": "Sigam o diamante. Ele para numa porta baixa: a yeshiva dos cabalistas, o Sha'ar Shamaim, o Portão dos Céus. Lá dentro, homens passam a noite debruçados nas letras do Nome, somando combinações, esperando a salvação descer do céu por conta própria. Gente boa. Inofensiva como chuva fina. Superstição não para legião. Levem o número da porta e sigam: a resposta que eles procuram no alfabeto, vocês carregam na mão, com cheiro de breu."
             }
           ],
           "direcoes": [
@@ -1563,15 +1567,15 @@
               ]
             }
           ],
-          "missao": "Na arcada da porta da yeshiva, achem o número gravado na pedra. Leiam e digitem.",
+          "missao": "Na arcada da porta da yeshiva, achem o número gravado na pedra. Digitem o número e, colada nele, a palavra que a tocha guarda.",
           "fotos": [
             "img/etapas/zelotes-e5b-cabalista.jpg"
           ],
-          "senha_desbloqueio": "10"
+          "senha_desbloqueio": "10FOGO"
         },
         {
           "id": 5,
-          "titulo": "Sigam o diamante",
+          "titulo": "A ordem do trigo",
           "guia_diamante": true,
           "trilha": "trilha-gerudo",
           "som_chegada": "chegada-media",
@@ -1591,7 +1595,11 @@
           "carta": [
             {
               "voz": "narrador",
-              "texto": "Agora vocês entram na parte mais judia da cidade, mais protegida. Aqui os nossos andam sem precisar de tanta ordem. Não vem instrução. Vem um ponto no mapa. Achem."
+              "texto": "Vocês entram na parte mais protegida da cidade, onde os nossos mandam. Aqui a ordem anda de cabeça erguida, com o selo do comando. Capitão, leia em voz alta."
+            },
+            {
+              "voz": "circulo",
+              "texto": "Ordem aos nossos da cidade alta. Quando a revolta estourar, esqueçam por uma noite o acampamento de Roma. O primeiro alvo fica dentro dos muros: os armazéns.* Celeiro cheio deixa a cidade sentada, contando saca, esperando o cerco passar, pronta pra negociar rendição. Queimem a espera. Com o depósito em cinza sobra um caminho só, e é o nosso: lutar agora, com tudo, até o fim. Vocês têm a chave. Vocês têm a tocha. A cidade ainda vai agradecer."
             }
           ],
           "direcoes": [
@@ -1606,7 +1614,7 @@
               ]
             }
           ],
-          "missao": "Ao chegar, procurem na parede um telefone escrito na placa dos caraítas. Os últimos três dígitos abrem as próximas instruções. Digitem.",
+          "missao": "Ao chegar, procurem na parede o telefone escrito na placa dos caraítas. Os três últimos números abrem as próximas instruções. Digitem os três números e, colada neles, a palavra que o punhal curto guarda. Ele está com vocês desde a primeira rua.",
           "fotos": [
             "img/etapas/zelotes-e5-a-telefone.jpg",
             "img/etapas/zelotes-e5-c-ref.jpg"
@@ -1614,14 +1622,14 @@
           "item": {
             "nome": "O pavio curto",
             "glifo": "ampulheta",
-            "sobre": "A recusa de esperar. Quem enche o celeiro se prepara para o cerco. Zelote não quer cerco, quer o ataque agora. Pavio curto é o orgulho de não saber aguardar, e ele pega fogo fácil.",
+            "sobre": "Um dedo de corda encerada, e só. Celeiro cheio é de quem aguenta esperar; vocês cortaram a espera no tamanho da corda. O que sobrou anda de passo dobrado, chega sempre antes da hora e tem fama de inimiga da perfeição. Vocês deram a ela outro nome: coragem.",
             "espelho": {
               "nome": "A maquete do Templo",
               "glifo": "templo",
               "texto": "O zelote não sabia esperar: queria o ataque agora, e chamava a pressa de coragem. Hoje o mesmo pavio quer forçar a hora de D'us: apressar a redenção na marra, subir ao Monte antes do tempo, montar a maquete do Terceiro Templo e resolver dois mil anos de espera dentro de um mandato. Tem fruto que só o tempo amadurece, e arrancar verde estraga a árvore. O que você está tentando forçar antes da hora?"
             }
           },
-          "senha_desbloqueio": "728"
+          "senha_desbloqueio": "728COSTAS"
         },
         {
           "id": 6,
@@ -1663,7 +1671,7 @@
           "carta": [
             {
               "voz": "narrador",
-              "texto": "Bem na frente tem um centro de estudos, os 'fariseus sionistas', um nome que nem existe ainda. Ali dentro estão os que passam a noite sobre o livro, enquanto vocês passam a noite sobre o ferro. Acham que Torá segura legião. São do nosso povo, e por isso vocês não tocam num fio deles. Mas escutem uma verdade: livro nenhum nunca parou um exército. Guardem o desprezo, mas guardem a mão."
+              "texto": "Bem na frente tem um centro de estudos, os 'fariseus sionistas', um nome que ainda nem existe. Ali dentro, gente da nossa gente passa a noite no livro enquanto vocês passam a noite no ferro. São do nosso povo. Ninguém encosta num fio deles. Mas reparem na calma: eles estudam como quem tem tempo. Vocês sabem que o tempo acabou. A inimiga da perfeição dorme no bolso de vocês, do tamanho de um dedo de corda, e esta noite ela tem razão. Livro nenhum jamais parou uma legião. Guardem o desprezo, e guardem a mão."
             }
           ],
           "direcoes": [
@@ -1682,14 +1690,14 @@
               ]
             }
           ],
-          "missao": "Na árvore do pátio, a missão final. Uma foto e um vídeo do grupo girando em volta da árvore, gritando juntos: Vamos queimar, vamos ganhar, somos os terroristas! Mandem, e peguem a última chave.",
+          "missao": "Na árvore do pátio, a última prova antes do alto. Girem em volta da árvore gritando juntos: Vamos queimar, vamos ganhar, somos os terroristas! Gravem esse grito em vídeo no celular de vocês, que ele vai ter vez no fim. Depois mandem pelo app uma foto do grupo na árvore, e peguem a última chave.",
           "fotos": [
             "img/etapas/zelotes-e6-a-arvore.jpg"
           ],
           "item": {
             "nome": "O grito da revolta",
             "glifo": "estrela",
-            "sobre": "Vamos ganhar. A certeza que não duvida de si, nem na hora de riscar o fogo.",
+            "sobre": "Vamos ganhar, gritado junto, no volume mais alto que a rua aguenta. Alto assim por quê? Porque embaixo do grito mora um bicho frio, que gela a barriga e trava o joelho na hora de riscar o fogo. Grito é cobertor. Quanto mais alto, menos vocês escutam o bicho.",
             "espelho": {
               "nome": "O megafone",
               "glifo": "megafone",
@@ -1726,7 +1734,7 @@
           "carta": [
             {
               "voz": "narrador",
-              "texto": "Subam. Lá de cima dá para ver Jerusalém inteira do jeito que ela está agora: dourada, cheia, viva, achando que Roma é só mais um inverno que passa. Olhem com calma, porque é a última vez que ela está assim. Vocês juraram defender esta cidade. Guardem a imagem dela cheia. Vai fazer falta."
+              "texto": "Subam. Lá de cima se vê Jerusalém inteira do jeito que ela está agora: cheia, dourada, certa de que Roma é um inverno que passa. Olhem com calma, porque é a última vez que ela está assim. Aqui em cima o vento é maior que o grito, e sem o grito dá pra sentir o bicho frio que ele tapou a noite inteira. Deixem o bicho subir. Vocês juraram defender esta cidade. Guardem a imagem dela cheia. Vai fazer falta."
             }
           ],
           "direcoes": [
@@ -1763,25 +1771,34 @@
         },
         {
           "voz": "circulo",
-          "texto": "Vocês passaram a noite jurando expulsar Roma na força. E é bom que vocês saibam o que a força fez. Dentro de dois anos, no ano 70, o Templo cai. Roma queima a cidade e derruba a pedra, e dessa vez não se reergue."
+          "texto": "Vocês passaram a noite jurando expulsar Roma na força. Escutem o que a força fez. Dentro de dois anos, no ano 70, o Templo cai. Roma queima a cidade e derruba a pedra, e dessa vez não se reergue."
         },
         {
           "voz": "circulo",
-          "texto": "Mas antes, abram a sacola que encheram a noite inteira. O punhal curto. Os armamentos. A chave dos armazéns. A tocha. O pavio curto. O grito da revolta. Cada peça vocês juntaram com orgulho, achando que era o arsenal que ia derrubar Roma. Agora escutem para o que ele serviu de verdade."
+          "texto": "Antes, abram a sacola que encheram a noite inteira. O punhal curto. Os armamentos. A chave dos armazéns. A tocha. O pavio curto. O grito da revolta. Vocês juntaram peça por peça com orgulho, certos de que era o arsenal que ia derrubar Roma. Agora escutem pra que ele serviu."
         },
         {
           "voz": "circulo",
-          "texto": "Com o inimigo já no portão, foram facções judias como a nossa que rasgaram a cidade por dentro.* A chave que vocês guardaram abriu os armazéns da própria Jerusalém. A tocha que ergueram contra Roma desceu sobre o trigo do próprio povo. O pavio curto venceu o medo de passar fome. O fogo dos zelotes queimou as reservas que segurariam anos de cerco,* e meia Jerusalém morreu de uma fome plantada por judeu, com as ferramentas que vocês carregaram orgulhosos. Deram nome a isso quando já era cinza: sinat chinam, ódio de graça."
+          "texto": "Com o inimigo já no portão, foram facções judias como a nossa que rasgaram a cidade por dentro.* A chave que vocês guardaram abriu os armazéns da própria Jerusalém. A tocha desceu sobre o depósito cheio, e o fogo dos nossos comeu as reservas que aguentariam anos de cerco.* O pavio curto venceu o medo de passar fome. E meia Jerusalém morreu de uma fome plantada por judeu, com as ferramentas que vocês carregaram a noite toda. Quando já era tudo cinza, deram um nome: sinat chinam, ódio de graça."
+        },
+        {
+          "voz": "circulo",
+          "texto": "Agora as palavras. Cada porta desta noite abriu com uma palavra escondida numa peça da sacola, e vocês digitaram todas com o próprio dedo. Fome. Trigo. Fogo. Costas. Leiam de trás pra frente: a lâmina nas costas do irmão, o fogo no trigo, a fome na cidade. Vocês soletraram a queda de Jerusalém uma porta por vez. E nenhuma senha era sobre Roma."
         },
         {
           "voz": "viajante",
-          "texto": "Vocês vieram de dois mil anos depois, e sabem no que a coragem sem freio dá. O covarde que fugiu num caixão salvou a voz que ainda estuda hoje. Os corajosos que ficaram para lutar entregaram a cidade ao fogo. Amanhã vocês tiram a roupa de zelote e voltam para o seu movimento, para as mesmas brigas de sempre. Lembrem do que viram do alto: dá para ter toda a raiva do mundo, e perder tudo mesmo assim. A Casa caiu porque os que estavam dentro não couberam uns nos outros."
+          "texto": "Vocês vieram de dois mil anos depois, e sabem como termina. Os do punhal que sobraram da cidade em cinza desceram o deserto e subiram numa pedra alta. O nome dela o madrich segurou a noite inteira: era a última senha, Massada. Três anos depois da cidade cair, Roma subiu a rampa e encontrou novecentos corpos lá em cima: escolheram a própria mão em vez do mercado de escravos.* O punhal começou nas costas de um irmão. Terminou na própria mão."
+        },
+        {
+          "voz": "viajante",
+          "texto": "O covarde do caixão salvou a voz que estuda até hoje. Dos valentes do punhal sobrou o silêncio de uma pedra no deserto. Amanhã vocês tiram a roupa de zelote e voltam pro movimento, pras mesmas brigas de sempre. Lembrem do que viram daqui de cima: dá pra amar uma cidade com toda a força do mundo, e ser o fogo que come ela. A Casa caiu porque os que estavam dentro não couberam uns nos outros."
         },
         {
           "voz": "narrador",
           "texto": "As três correntes chegaram ao mesmo teto, cada uma pelo seu caminho. Fariseus, saduceus, zelotes. Daqui em diante, a última instrução é a mesma para todos."
         }
-      ]
+      ],
+      "foto_final": "img/etapas/zelotes-e7-a-patio.jpg"
     }
   ]
 }
