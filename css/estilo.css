@@ -592,25 +592,26 @@ input[type="text"]:focus { border-color: var(--dourado); }
   position: relative; z-index: 2; width: 56px; height: 56px; margin: 0 auto;
   color: #ffe08a; filter: drop-shadow(0 0 10px rgba(255, 205, 80, 0.7));
 }
-/* modo bau: o glifo comeca escondido dentro do bau e emerge quando a tampa abre */
-.item-ganho:not(.sem-bau) #item-ganho-glifo { opacity: 0; }
-.item-ganho:not(.sem-bau).visivel #item-ganho-glifo { animation: glifo-emerge 0.9s cubic-bezier(0.2, 0.85, 0.3, 1) 0.15s forwards; }
-.item-ganho:not(.sem-bau).visivel .bau-tampa { animation: bau-tampa-abre 1.9s cubic-bezier(0.34, 1.5, 0.5, 1) 0.12s forwards; }
-.item-ganho:not(.sem-bau).visivel .bau-luz { animation: bau-luz-pulsa 1.9s ease-out 0.12s forwards; }
-.item-ganho:not(.sem-bau).visivel .bau-boca { animation: bau-boca-acende 1.9s ease-out 0.12s forwards; }
-.item-ganho:not(.sem-bau).visivel .bau { animation: bau-recolhe 1.9s ease-in 0.12s forwards; }
+/* modo bau: o glifo fica escondido dentro do bau e emerge quando a tampa abre.
+   (reduzir movimento cai no .sem-bau abaixo, com opacity 1; a tela final esconde o overlay todo) */
+#item-ganho:not(.sem-bau) #item-ganho-glifo { opacity: 0; }
+#item-ganho:not(.sem-bau).visivel #item-ganho-glifo { animation: glifo-emerge 1s cubic-bezier(0.2, 0.85, 0.3, 1) forwards; }
+#item-ganho:not(.sem-bau).visivel .bau-tampa { animation: bau-tampa-abre 1.9s cubic-bezier(0.34, 1.5, 0.5, 1) 0.12s forwards; }
+#item-ganho:not(.sem-bau).visivel .bau-luz { animation: bau-luz-pulsa 1.9s ease-out 0.12s forwards; }
+#item-ganho:not(.sem-bau).visivel .bau-boca { animation: bau-boca-acende 1.9s ease-out 0.12s forwards; }
+#item-ganho:not(.sem-bau).visivel .bau { animation: bau-recolhe 1.9s ease-in 0.12s forwards; }
 /* modo sem bau (reduzir movimento): o item aparece direto, sem a animacao do bau */
-.item-ganho.sem-bau .bau { display: none; }
-.item-ganho.sem-bau #item-ganho-glifo { opacity: 1; }
-.item-ganho.sem-bau .item-ganho-palco { min-height: 0; margin: 10px auto 6px; }
+#item-ganho.sem-bau .bau { display: none; }
+#item-ganho.sem-bau #item-ganho-glifo { opacity: 1; }
+#item-ganho.sem-bau .item-ganho-palco { min-height: 0; margin: 10px auto 6px; }
 
 #item-ganho-nome { font-family: 'Cinzel', Georgia, serif; font-size: 17px; color: #ffe3a0; letter-spacing: 0.04em; }
 #item-ganho-sobre { font-size: 14px; font-style: italic; line-height: 1.5; color: #e7cf9e; margin-top: 5px; }
 
 @keyframes bau-tampa-abre {
   0% { transform: translateY(0) rotate(0deg); }
-  45% { transform: translateY(-13px) rotate(-9deg); }
-  100% { transform: translateY(-11px) rotate(-7deg); }
+  55% { transform: translateY(-14px) rotate(-3.5deg); }
+  100% { transform: translateY(-12px) rotate(-2.5deg); }
 }
 @keyframes bau-boca-acende { 0%, 12% { opacity: 0; } 42% { opacity: 1; } 100% { opacity: 0.9; } }
 @keyframes bau-luz-pulsa {

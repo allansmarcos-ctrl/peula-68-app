@@ -185,7 +185,6 @@ function pararTrilha() {
 // junta os mp3 que a rota realmente usa (retrato de abertura, chegadas e beats), pra primar so eles
 function coletarSonsDaRota(rota) {
   const s = new Set();
-  s.add('item');   // o "ding" do tesouro toca em toda cerimonia de item: prima sempre (iOS trava autoplay)
   if (rota && rota.missao_abertura && rota.missao_abertura.som) s.add(rota.missao_abertura.som);
   if (rota && rota.revelacao_sacola) s.add('sino');   // a virada da sacola cheia toca o sino: prima junto (iOS)
   (rota && rota.etapas || []).forEach(et => {
@@ -919,7 +918,7 @@ function avancarEtapa() {
 function mostrarFinal() {
   // a ultima selagem pode ter disparado a cerimonia de chegada: tira o card do item, o flash
   // dourado e o diamante do checkpoint de cima da tela final (senao ficam ~3,4s por cima)
-  clearTimeout(mostrarItemGanho._t);
+  limparCerimoniaItem();   // encerra som/pisca/fechamento da cerimonia, senao rodam por cima da tela final
   $('item-ganho').classList.remove('visivel');
   $('item-ganho').classList.add('oculto');
   $('flash-cerimonia').classList.remove('pisca');
@@ -2540,18 +2539,46 @@ function ganharItem(et) {
   talvezRevelarSacola();   // se esse foi o ultimo item, a virada da sacola cheia (rota fariseus)
 }
 
+// a cerimonia do item: o overlay entra com o bau abrindo (CSS, disparado por .visivel),
+// o glifo emerge do bau para o card e, no fim, a sacola pisca (a peca foi guardada).
+// prefers-reduced-motion (.sem-bau): pula o bau, mostra o item direto.
+// Nunca trava: se um timer falhar, o glifo ja emerge sozinho pelo CSS e o card fica legivel.
 function mostrarItemGanho(it) {
+  const el = $('item-ganho');
+  limparCerimoniaItem();   // cancela uma cerimonia anterior ainda em curso (itens em sequencia)
   $('item-ganho-glifo').innerHTML = glifoSVG(it.glifo);
   $('item-ganho-nome').textContent = it.nome;
   $('item-ganho-sobre').textContent = it.sobre;
-  const el = $('item-ganho');
+  const reduz = reduzMovimento();
+  el.classList.toggle('sem-bau', reduz);
   el.classList.remove('oculto');
   requestAnimationFrame(() => el.classList.add('visivel'));
-  clearTimeout(mostrarItemGanho._t);
-  mostrarItemGanho._t = setTimeout(() => {
+  agendarCerimonia(destacarSacola, reduz ? 250 : 980);   // a peca guardada: a sacola se destaca
+  agendarCerimonia(() => {
     el.classList.remove('visivel');
-    setTimeout(() => el.classList.add('oculto'), 400);
+    agendarCerimonia(() => el.classList.add('oculto'), 400);
   }, 3400);
+}
+// timers da cerimonia reunidos: a tela final (mostrarFinal) limpa tudo de uma vez, sem sobrar som/pisca
+function agendarCerimonia(fn, ms) {
+  const t = setTimeout(fn, ms);
+  (mostrarItemGanho._timers || (mostrarItemGanho._timers = [])).push(t);
+  return t;
+}
+function limparCerimoniaItem() {
+  (mostrarItemGanho._timers || []).forEach(clearTimeout);
+  mostrarItemGanho._timers = [];
+  const b = $('botao-inventario');
+  if (b) b.classList.remove('sacola-destaca');
+}
+// a sacola pisca/pulsa: mostra onde a peca recem-ganha ficou guardada (o contador ja foi atualizado antes)
+function destacarSacola() {
+  const b = $('botao-inventario');
+  if (!b) return;
+  b.classList.remove('sacola-destaca');
+  void b.offsetWidth;   // reinicia a animacao mesmo em itens seguidos
+  b.classList.add('sacola-destaca');
+  agendarCerimonia(() => b.classList.remove('sacola-destaca'), 1500);
 }
 
 function atualizarContadorInv() {
