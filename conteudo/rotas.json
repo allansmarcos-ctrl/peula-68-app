@@ -1191,6 +1191,7 @@
           "id": 1,
           "titulo": "A ronda",
           "som_chegada": "chegada-suave",
+          "trilha": "trilha-comeco",
           "corredor": [
             [
               31.776225,

@@ -152,6 +152,36 @@ function tocarSom(nome) {
   if (!a) return;
   try { a.muted = false; a.currentTime = 0; const p = a.play(); if (p && p.catch) p.catch(() => {}); } catch (e) {}
 }
+// trilha de fundo por etapa: musica ambiente em loop, volume baixo, some ao trocar de etapa.
+// et.trilha = nome do mp3; sem trilha na etapa nova, a de antes para (o "do 1o ao 2o ponto").
+let trilhaAtual = null;
+function tocarTrilha(nome) {
+  if (!nome) { pararTrilha(); return; }
+  if (trilhaAtual && trilhaAtual._trilha === nome) return; // ja e essa: nao reinicia
+  pararTrilha();
+  const a = audioEl(nome);
+  if (!a) return;
+  if (a._fadeInt) { clearInterval(a._fadeInt); a._fadeInt = null; } // cancela fade pendente neste elemento
+  a._trilha = nome;
+  a.loop = true;
+  a.volume = 0.45;   // fundo: acompanha sem abafar quem le a carta em voz alta
+  try { a.muted = false; a.currentTime = 0; const p = a.play(); if (p && p.catch) p.catch(() => {}); } catch (e) {}
+  trilhaAtual = a;
+}
+function pararTrilha() {
+  const a = trilhaAtual;
+  if (!a) return;
+  trilhaAtual = null;
+  if (a._fadeInt) { clearInterval(a._fadeInt); a._fadeInt = null; }
+  try {
+    let v = a.volume;
+    a._fadeInt = setInterval(() => {
+      v -= 0.09;
+      if (v <= 0) { clearInterval(a._fadeInt); a._fadeInt = null; try { a.pause(); a.currentTime = 0; } catch (e) {} a.volume = 0.45; }
+      else { try { a.volume = Math.max(0, v); } catch (e) {} }
+    }, 60);
+  } catch (e) { try { a.pause(); } catch (e2) {} }
+}
 // junta os mp3 que a rota realmente usa (retrato de abertura, chegadas e beats), pra primar so eles
 function coletarSonsDaRota(rota) {
   const s = new Set();
@@ -159,6 +189,7 @@ function coletarSonsDaRota(rota) {
   if (rota && rota.revelacao_sacola) s.add('sino');   // a virada da sacola cheia toca o sino: prima junto (iOS)
   (rota && rota.etapas || []).forEach(et => {
     if (et.som_chegada) s.add(et.som_chegada);
+    if (et.trilha) s.add(et.trilha);
     (et.beats || []).forEach(b => { if (b.som) s.add(b.som); });
   });
   sonsRota = Array.from(s);
@@ -574,6 +605,7 @@ function entrarEtapa() {
   precisaVerificarEntrada = true;
   verificar('entrada');
   sincronizarConvite();   // se ja alcancamos o grupo, o convite some; senao mantem a pilula coerente
+  if (et.trilha) tocarTrilha(et.trilha); else pararTrilha();   // trilha de fundo da etapa (some quando a proxima nao tem)
 }
 
 function blocosDaCarta(et) {
@@ -889,6 +921,7 @@ function mostrarFinal() {
   $('flash-cerimonia').classList.add('oculto');
   limparAlvo();
   pararCronometro();
+  pararTrilha();   // fim do jogo: a trilha de fundo some
   $('cronometro').classList.add('oculto');
   // o jogo acabou: encerra o GPS (watchPosition) e a sincronia de 35s, que seguiriam rodando
   if (watchId !== null && 'geolocation' in navigator) { navigator.geolocation.clearWatch(watchId); watchId = null; }

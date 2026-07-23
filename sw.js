@@ -6,7 +6,7 @@
      Assim uma edição pós-scouting chega aos celulares sem trocar versão,
      e com sinal ruim vale a última cópia boa. */
 
-const VERSAO = 'p68-v29';
+const VERSAO = 'p68-v30';
 
 const NUCLEO = [
   './',
@@ -31,6 +31,7 @@ const NUCLEO = [
   './audio/sino.mp3',
   './audio/coragem.mp3',
   './audio/item.mp3',
+  './audio/trilha-comeco.mp3',
 ];
 
 self.addEventListener('install', (e) => {
