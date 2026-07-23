@@ -33,7 +33,7 @@ const PASSO_MOCK_M = 12;                       // "andar" do GPS simulado no pai
 // tudo cai no modo manual (digita a senha e avança local): nunca trava.
 const SB_URL = 'https://nwdacjcbafaizbfjoxzn.supabase.co';
 const SB_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im53ZGFjamNiYWZhaXpiZmpveHpuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODEyNDUyNTAsImV4cCI6MjA5NjgyMTI1MH0.Ko6R_GUWWrzF72lnQchVcN3kDK04dA0Enj5bACnB61k';
-const SYNC_MS = 35000;                          // consulta a sala a cada 35s
+const SYNC_MS = 12000;                          // consulta a sala a cada 12s (veneno do traidor e convites chegam rapido)
 const BUCKET_MIDIA = 'jogo-midia';              // Storage PRIVADO dos videos de missao (DDL em db/0004_jogo_videos.sql)
 
 // ---------- estado global ----------
