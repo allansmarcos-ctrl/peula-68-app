@@ -185,6 +185,7 @@ function pararTrilha() {
 // junta os mp3 que a rota realmente usa (retrato de abertura, chegadas e beats), pra primar so eles
 function coletarSonsDaRota(rota) {
   const s = new Set();
+  s.add('item');   // o "ding" do tesouro toca em toda cerimonia de item: prima sempre (iOS trava autoplay)
   if (rota && rota.missao_abertura && rota.missao_abertura.som) s.add(rota.missao_abertura.som);
   if (rota && rota.revelacao_sacola) s.add('sino');   // a virada da sacola cheia toca o sino: prima junto (iOS)
   (rota && rota.etapas || []).forEach(et => {
@@ -376,6 +377,9 @@ function ligarEventos() {
     toast(TEXTOS.cron_oculto || 'Cronômetro escondido. Recarregue com ?reset para trazer de volta.');
   });
   $('inv-voltar').addEventListener('click', () => $('tela-inventario').classList.add('oculto'));
+  $('espelho-fechar').addEventListener('click', fecharEspelho);
+  $('espelho-carta').addEventListener('click', () => $('espelho-carta').classList.toggle('virada'));
+  $('espelho-carta').addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); $('espelho-carta').classList.toggle('virada'); } });
   $('rev-fechar').addEventListener('click', fecharRevelacaoSacola);
 
   $('form-senha').addEventListener('submit', (e) => { e.preventDefault(); selarEtapa(); });
@@ -2473,6 +2477,18 @@ function glifoSVG(chave) {
     lamina: '<path d="M12 2l2.2 13h-4.4z"/><rect x="8.4" y="14.4" width="7.2" height="1.8" rx="0.5"/><rect x="11" y="16" width="2" height="6" rx="0.6"/>',
     regua: '<rect x="3" y="8.5" width="18" height="7" rx="1"/><path d="M6 8.5v3.4M9 8.5v2.2M12 8.5v3.4M15 8.5v2.2M18 8.5v3.4" stroke="#241804" stroke-width="1.1"/>',
     chave: '<circle cx="8" cy="8" r="4.2"/><circle cx="8" cy="8" r="1.5" fill="#241804"/><path d="M10.9 10.9L19 19M16.2 16.2l2.2-2.2M18.4 18.4l1.5-1.5" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round"/>',
+    // ---- glifos "hoje": o gemeo de cada peca, no verso do cartao (espelho) ----
+    audio: '<path d="M13 5.5l6.5 5.5-6.5 5.5v-3.2c-4.2-.2-7.2 1-9.2 3.9.2-5.4 3.4-8.2 9.2-8.4V5.5z"/>',
+    sidur: '<path d="M12 7c-2.3-1.4-5.2-1.8-8-1.2v11c2.8-.6 5.7-.2 8 1.2 2.3-1.4 5.2-1.8 8-1.2v-11c-2.8-.6-5.7-.2-8 1.2z"/><path d="M12 7v11M5.5 8.5h4M5.5 11h4M14.5 8.5h4M14.5 11h4" stroke="#241804" stroke-width="0.85" fill="none" stroke-linecap="round"/>',
+    cartaz_rei: '<path d="M4 8.5l2.8 2.6L12 6l5.2 5.1L20 8.5l-1.4 8.5H5.4z"/><rect x="5" y="17.6" width="14" height="2.2" rx="0.4"/><circle cx="7" cy="10.6" r="0.9" fill="#241804"/><circle cx="12" cy="9" r="0.9" fill="#241804"/><circle cx="17" cy="10.6" r="0.9" fill="#241804"/>',
+    pedra: '<path d="M7 15.5L4.5 10 9 6.5l6 .5 4 4.5-2.5 6.5-7 .8z"/><path d="M9 6.5l2 5.2 6-1.2M11 11.7l-1.4 6.6M11 11.7l6.2-.4" stroke="#241804" stroke-width="0.8" fill="none"/>',
+    espelho: '<ellipse cx="12" cy="9" rx="6.2" ry="7"/><ellipse cx="12" cy="9" rx="4.3" ry="5" fill="#241804" opacity="0.22"/><path d="M9.4 6a4 5 0 0 0-1 4.4" stroke="#fffaeb" stroke-width="1.2" fill="none" stroke-linecap="round" opacity="0.6"/><rect x="10.8" y="15.6" width="2.4" height="5.4" rx="1"/>',
+    cartaz_traidor: '<rect x="4.5" y="4" width="15" height="10.5" rx="1"/><rect x="11" y="14.5" width="2" height="6.5" rx="0.4"/><path d="M8 7l8 6M16 7l-8 6" stroke="#241804" stroke-width="1.6" fill="none" stroke-linecap="round"/>',
+    colete: '<path d="M8 3l4 3.2L16 3l3.5 2.8-2 3.7v11.5h-4.5V13h-2v7H6.5V9.5l-2-3.7z"/><rect x="7.6" y="12" width="2.2" height="2.2" fill="#241804"/><rect x="14.2" y="12" width="2.2" height="2.2" fill="#241804"/>',
+    fosforo: '<rect x="11" y="9" width="2" height="12" rx="0.8"/><path d="M12 2.5c-2 2-2.6 3.8-1.6 5.4.7 1.1 2.5 1.1 3.2 0 1-1.6.4-3.4-1.6-5.4z" fill="#a83218"/><path d="M12 5.2c-.8 1-1 1.8-.5 2.6.4.5 1.1.5 1.5 0 .5-.8.3-1.6-1-2.6z" fill="#f0b038"/>',
+    galao: '<path d="M6 8.5h8.5l3 3v8.5a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V9.5a1 1 0 0 1 1-1z"/><rect x="7" y="5.5" width="4.5" height="3" rx="0.5"/><path d="M6 8.3c0-2 1.1-3 3-3" stroke="#241804" stroke-width="1.2" fill="none"/><rect x="7" y="13" width="6.5" height="1.6" fill="#241804" opacity="0.5"/>',
+    templo: '<path d="M12 3l9 4.5H3z"/><rect x="4.5" y="8" width="2" height="8.5"/><rect x="8.5" y="8" width="2" height="8.5"/><rect x="13.5" y="8" width="2" height="8.5"/><rect x="17.5" y="8" width="2" height="8.5"/><rect x="3" y="17" width="18" height="2.5"/>',
+    megafone: '<path d="M4 10v4a1 1 0 0 0 .8 1l2.2.4 7 4V4.6l-7 4-2.2.4A1 1 0 0 0 4 10z"/><path d="M17.5 8.5c1.8 1.6 1.8 5.4 0 7M19.6 6.6c2.9 2.6 2.9 8.2 0 10.8" stroke="currentColor" stroke-width="1.3" fill="none" stroke-linecap="round"/>',
   };
   return '<svg viewBox="0 0 24 24" width="100%" height="100%" aria-hidden="true" fill="currentColor">' + (g[chave] || g.carta) + '</svg>';
 }
@@ -2560,6 +2576,17 @@ function abrirInventario() {
         + '<p class="inv-nome"></p><p class="inv-sobre"></p>';
       cel.querySelector('.inv-nome').textContent = et.item.nome;
       cel.querySelector('.inv-sobre').textContent = et.item.sobre;
+      if (et.item.espelho) {   // a peca tem um gemeo de hoje: vira clicavel e ganha a dica
+        cel.classList.add('tem-espelho');
+        cel.setAttribute('role', 'button');
+        cel.tabIndex = 0;
+        const dica = document.createElement('p');
+        dica.className = 'inv-vira';
+        dica.textContent = 'ver hoje ↻';
+        cel.appendChild(dica);
+        cel.addEventListener('click', () => abrirEspelho(et));
+        cel.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); abrirEspelho(et); } });
+      }
     } else {
       cel.innerHTML = '<div class="inv-glifo inv-glifo-vazio">?</div><p class="inv-nome">Ainda não achado</p>';
     }
@@ -2570,7 +2597,7 @@ function abrirInventario() {
   if (painel) {
     const rev = rotaAtiva.revelacao_sacola;
     if (rev && inventarioCompleto(rotaAtiva)) {
-      preencherRevelacao(rev, $('inv-rev-glifos'), $('inv-rev-titulo'), $('inv-rev-texto'));
+      preencherRevelacao(rev, $('inv-rev-glifos'), $('inv-rev-titulo'), $('inv-rev-texto'), $('inv-rev-dica'));
       painel.classList.remove('oculto');
     } else {
       painel.classList.add('oculto');
@@ -2578,6 +2605,22 @@ function abrirInventario() {
   }
   $('tela-inventario').classList.remove('oculto');
 }
+
+// ---------- o cartao-espelho: a peca de 68 (frente) e o gemeo de hoje (verso) ----------
+// abre sempre pela frente (68); um toque no cartao vira para o hoje.
+function abrirEspelho(et) {
+  if (!et || !et.item || !et.item.espelho) return;
+  const it = et.item, esp = it.espelho;
+  $('esp-frente-glifo').innerHTML = glifoSVG(it.glifo);
+  $('esp-frente-nome').textContent = it.nome;
+  $('esp-frente-sobre').textContent = it.sobre || '';
+  $('esp-verso-glifo').innerHTML = glifoSVG(esp.glifo);
+  $('esp-verso-nome').textContent = esp.nome || '';
+  $('esp-verso-texto').textContent = esp.texto || '';
+  $('espelho-carta').classList.remove('virada');
+  $('tela-espelho').classList.remove('oculto');
+}
+function fecharEspelho() { $('tela-espelho').classList.add('oculto'); }
 
 // ---------- a revelacao da sacola cheia (a virada da rota fariseus) ----------
 // "Completo" = para cada etapa que define et.item, a sacola ja tem o item correspondente.
@@ -2608,24 +2651,36 @@ function talvezRevelarSacola() {
 }
 
 // preenche os glifos coletados + titulo + texto (lidos do rotas.json) nos elementos dados
-function preencherRevelacao(rev, glifosEl, tituloEl, textoEl) {
+function preencherRevelacao(rev, glifosEl, tituloEl, textoEl, dicaEl) {
+  let temEspelho = false;
   if (glifosEl) {
     glifosEl.innerHTML = '';
+    glifosEl.removeAttribute('aria-hidden');   // os glifos agora podem ser tocados
     (rotaAtiva && rotaAtiva.etapas || []).forEach(et => {
       if (!et.item || !inventario.some(x => x.etapa === et.id)) return;
       const g = document.createElement('span');
       g.className = 'rev-glifo';
       g.innerHTML = glifoSVG(et.item.glifo);
+      if (et.item.espelho) {   // a peca tem gemeo de hoje: tocar abre o cartao-espelho
+        temEspelho = true;
+        g.classList.add('rev-glifo-toca');
+        g.setAttribute('role', 'button');
+        g.tabIndex = 0;
+        g.setAttribute('aria-label', et.item.nome + ': ver o gêmeo de hoje');
+        g.addEventListener('click', () => abrirEspelho(et));
+        g.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); abrirEspelho(et); } });
+      }
       glifosEl.appendChild(g);
     });
   }
   if (tituloEl) tituloEl.textContent = rev.titulo || '';
   if (textoEl) textoEl.textContent = rev.texto || '';
+  if (dicaEl) dicaEl.textContent = temEspelho ? 'Toquem cada peça acima: ela vira e mostra o gêmeo de hoje.' : '';
 }
 
 function mostrarRevelacaoSacola(rev) {
   if (!rev) return;
-  preencherRevelacao(rev, $('rev-glifos'), $('rev-titulo'), $('rev-texto'));
+  preencherRevelacao(rev, $('rev-glifos'), $('rev-titulo'), $('rev-texto'), $('rev-dica'));
   tocarSom('sino');   // um toque solene marca a virada (best-effort; sem audio, nao faz nada)
   const el = $('revelacao-sacola');
   if (!el) return;

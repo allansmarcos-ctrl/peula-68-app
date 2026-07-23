@@ -576,10 +576,59 @@ input[type="text"]:focus { border-color: var(--dourado); }
 }
 #item-ganho.visivel .item-ganho-cartela { opacity: 1; transform: none; }
 .item-ganho-rotulo { font-family: 'Cinzel', Georgia, serif; font-size: 11px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--dourado-claro); }
-#item-ganho-glifo { width: 56px; height: 56px; margin: 10px auto 6px; color: #ffe08a; filter: drop-shadow(0 0 10px rgba(255, 205, 80, 0.7)); animation: item-surge 0.5s ease-out; }
+/* palco do bau: o bau abre e o glifo do item emerge para o card (entra junto com .visivel) */
+.item-ganho-palco { position: relative; display: flex; align-items: center; justify-content: center; min-height: 84px; margin: 8px auto 2px; }
+.bau { position: absolute; left: 50%; bottom: -8px; width: 120px; height: 96px; transform: translateX(-50%); pointer-events: none; }
+.bau-svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.bau-sombra { fill: rgba(0, 0, 0, 0.4); }
+.bau-boca { opacity: 0; }
+.bau-tampa { transform-box: fill-box; transform-origin: 50% 100%; }
+.bau-luz {
+  position: absolute; left: 50%; top: 44%; width: 96px; height: 96px; border-radius: 50%;
+  transform: translate(-50%, -50%) scale(0.4); opacity: 0;
+  background: radial-gradient(circle, rgba(255, 233, 160, 0.95), rgba(255, 190, 60, 0.35) 45%, transparent 70%);
+}
+#item-ganho-glifo {
+  position: relative; z-index: 2; width: 56px; height: 56px; margin: 0 auto;
+  color: #ffe08a; filter: drop-shadow(0 0 10px rgba(255, 205, 80, 0.7));
+}
+/* modo bau: o glifo comeca escondido dentro do bau e emerge quando a tampa abre */
+.item-ganho:not(.sem-bau) #item-ganho-glifo { opacity: 0; }
+.item-ganho:not(.sem-bau).visivel #item-ganho-glifo { animation: glifo-emerge 0.9s cubic-bezier(0.2, 0.85, 0.3, 1) 0.15s forwards; }
+.item-ganho:not(.sem-bau).visivel .bau-tampa { animation: bau-tampa-abre 1.9s cubic-bezier(0.34, 1.5, 0.5, 1) 0.12s forwards; }
+.item-ganho:not(.sem-bau).visivel .bau-luz { animation: bau-luz-pulsa 1.9s ease-out 0.12s forwards; }
+.item-ganho:not(.sem-bau).visivel .bau-boca { animation: bau-boca-acende 1.9s ease-out 0.12s forwards; }
+.item-ganho:not(.sem-bau).visivel .bau { animation: bau-recolhe 1.9s ease-in 0.12s forwards; }
+/* modo sem bau (reduzir movimento): o item aparece direto, sem a animacao do bau */
+.item-ganho.sem-bau .bau { display: none; }
+.item-ganho.sem-bau #item-ganho-glifo { opacity: 1; }
+.item-ganho.sem-bau .item-ganho-palco { min-height: 0; margin: 10px auto 6px; }
+
 #item-ganho-nome { font-family: 'Cinzel', Georgia, serif; font-size: 17px; color: #ffe3a0; letter-spacing: 0.04em; }
 #item-ganho-sobre { font-size: 14px; font-style: italic; line-height: 1.5; color: #e7cf9e; margin-top: 5px; }
-@keyframes item-surge { from { transform: scale(0.3); opacity: 0; } 60% { transform: scale(1.12); } to { transform: scale(1); opacity: 1; } }
+
+@keyframes bau-tampa-abre {
+  0% { transform: translateY(0) rotate(0deg); }
+  45% { transform: translateY(-13px) rotate(-9deg); }
+  100% { transform: translateY(-11px) rotate(-7deg); }
+}
+@keyframes bau-boca-acende { 0%, 12% { opacity: 0; } 42% { opacity: 1; } 100% { opacity: 0.9; } }
+@keyframes bau-luz-pulsa {
+  0%, 10% { opacity: 0; transform: translate(-50%, -50%) scale(0.4); }
+  45% { opacity: 1; transform: translate(-50%, -50%) scale(1.05); }
+  70% { opacity: 0.75; transform: translate(-50%, -50%) scale(1.12); }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(1.2); }
+}
+@keyframes glifo-emerge {
+  0%, 16% { opacity: 0; transform: translateY(15px) scale(0.35); }
+  55% { opacity: 1; transform: translateY(-5px) scale(1.16); }
+  72% { transform: translateY(0) scale(0.98); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes bau-recolhe {
+  0%, 52% { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }
+  100% { opacity: 0; transform: translateX(-50%) translateY(8px) scale(0.9); }
+}
 
 /* ---- botao da sacola: contador de itens ---- */
 #botao-inventario { position: relative; color: #ffe08a; }
@@ -588,6 +637,22 @@ input[type="text"]:focus { border-color: var(--dourado); }
   display: flex; align-items: center; justify-content: center;
   font-family: 'Cinzel', Georgia, serif; font-size: 11px; color: #241804;
   background: radial-gradient(circle at 40% 35%, #ffe08a, #d4a017); border: 1.5px solid #241804; border-radius: 10px;
+}
+/* destaque da sacola: fim da cerimonia, a peca entrou (o bau pos a peca aqui) */
+#botao-inventario.sacola-destaca { animation: sacola-pulsa 1.3s ease-out; z-index: 5; }
+#botao-inventario.sacola-destaca::after {
+  content: ""; position: absolute; inset: -3px; border-radius: 50%; pointer-events: none;
+  border: 2px solid rgba(255, 220, 130, 0.9); animation: sacola-anel 1.3s ease-out forwards;
+}
+#botao-inventario.sacola-destaca #inv-contador { animation: contador-pisca 1.3s ease-out; }
+@keyframes sacola-pulsa {
+  0% { transform: scale(1); } 18% { transform: scale(1.16); } 36% { transform: scale(0.97); }
+  54% { transform: scale(1.07); } 100% { transform: scale(1); }
+}
+@keyframes sacola-anel { 0% { opacity: 0.9; transform: scale(0.85); } 100% { opacity: 0; transform: scale(1.7); } }
+@keyframes contador-pisca {
+  0% { transform: scale(1); } 25% { transform: scale(1.55); filter: drop-shadow(0 0 8px rgba(255, 220, 120, 0.95)); }
+  55% { transform: scale(1.12); } 100% { transform: scale(1); }
 }
 
 /* ---- inventario (a sacola da corrente) ---- */
@@ -602,6 +667,45 @@ input[type="text"]:focus { border-color: var(--dourado); }
 .inv-glifo-vazio { display: flex; align-items: center; justify-content: center; font-family: 'Cinzel', Georgia, serif; font-size: 24px; color: var(--sepia-claro); }
 .inv-nome { font-family: 'Cinzel', Georgia, serif; font-size: 13.5px; color: #4a3418; letter-spacing: 0.03em; line-height: 1.3; }
 .inv-sobre { font-size: 12.5px; font-style: italic; line-height: 1.45; color: var(--sepia); margin-top: 5px; }
+/* peca com gemeo de hoje: clicavel, abre o cartao-espelho */
+.inv-item.tem-espelho { cursor: pointer; transition: transform 0.15s ease, box-shadow 0.15s ease; }
+.inv-item.tem-espelho:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(80, 52, 20, 0.28); }
+.inv-item.tem-espelho:active { transform: translateY(0); }
+.inv-vira { margin-top: 8px; font-size: 10.5px; letter-spacing: 0.05em; color: var(--dourado); opacity: 0.9; }
+
+/* ---- cartao-espelho: a peca de 68 (frente, pergaminho) e o gemeo de hoje (verso, escuro) ---- */
+#tela-espelho { z-index: 3800; }
+.revelacao-dica { margin-top: 12px; font-size: 12.5px; font-style: italic; letter-spacing: 0.02em; opacity: 0.72; }
+.rev-glifo-toca { cursor: pointer; border-radius: 8px; transition: transform 0.15s ease; }
+.rev-glifo-toca:hover { transform: scale(1.12); }
+.espelho-cena { perspective: 1400px; width: min(92vw, 380px); display: flex; flex-direction: column; align-items: center; gap: 16px; }
+.espelho-carta { display: grid; width: 100%; cursor: pointer; transform-style: preserve-3d; transition: transform 0.65s cubic-bezier(0.4, 0.15, 0.2, 1); }
+.espelho-carta.virada { transform: rotateY(180deg); }
+.espelho-face {
+  grid-area: 1 / 1; -webkit-backface-visibility: hidden; backface-visibility: hidden;
+  display: flex; flex-direction: column; align-items: center; text-align: center;
+  padding: 26px 22px; border-radius: 14px; box-sizing: border-box;
+}
+.espelho-frente {
+  background: linear-gradient(165deg, #fbf3df, #efe2c4);
+  border: 1.5px solid var(--sepia-claro); color: #4a3418;
+  box-shadow: 0 12px 30px rgba(60, 40, 16, 0.35);
+}
+.espelho-verso {
+  transform: rotateY(180deg);
+  background: radial-gradient(360px 220px at 50% 0%, rgba(120, 84, 40, 0.5), transparent 70%), linear-gradient(165deg, #3a2a16, #241804);
+  border: 2px solid var(--dourado); color: #f0deb6;
+  box-shadow: 0 12px 30px rgba(30, 18, 6, 0.5);
+}
+.espelho-era { font-family: 'Cinzel', Georgia, serif; font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; opacity: 0.6; margin-bottom: 10px; }
+.espelho-glifo { width: 54px; height: 54px; color: var(--dourado); margin-bottom: 12px; }
+.espelho-verso .espelho-glifo { color: #ffe08a; filter: drop-shadow(0 0 9px rgba(255, 205, 80, 0.55)); }
+.espelho-nome { font-family: 'Cinzel', Georgia, serif; font-size: 19px; letter-spacing: 0.03em; line-height: 1.25; margin-bottom: 12px; color: #4a3418; }
+.espelho-verso .espelho-nome { color: #ffe3a0; }
+.espelho-sobre { font-size: 14.5px; font-style: italic; line-height: 1.5; color: var(--sepia); }
+.espelho-texto { font-size: 14.5px; line-height: 1.6; text-align: left; }
+.espelho-vira { margin-top: 16px; font-size: 12px; letter-spacing: 0.04em; opacity: 0.6; }
+@media (prefers-reduced-motion: reduce) { .espelho-carta { transition: none; } }
 
 /* ---- a revelacao da sacola: a virada quando as pecas coletadas se juntam ---- */
 /* overlay solene (disparo automatico ao completar): fica acima de tudo, so fecha no botao */
@@ -1072,9 +1176,15 @@ input[type="text"]:focus { border-color: var(--dourado); }
   .tocha .chama, .tocha::after { animation: none; }
   .tocha::after { opacity: 0.7; }
   .carimbo-novo, .passo.surgiu, .marco-halo { animation: none; }
-  .diamante-luz, .diamante-corpo, #item-ganho-glifo { animation: none; }
+  .diamante-luz, .diamante-corpo { animation: none; }
   #flash-cerimonia.pisca { animation: none; opacity: 0; }
   .item-ganho-cartela { transition: none; }
+  /* cerimonia do bau: sem movimento, o item aparece direto e sem bau */
+  .bau { display: none; }
+  #item-ganho-glifo { animation: none; opacity: 1; }
+  .bau-tampa, .bau-luz, .bau-boca { animation: none; }
+  .item-ganho-palco { min-height: 0; }
+  #botao-inventario.sacola-destaca, #botao-inventario.sacola-destaca::after, #botao-inventario.sacola-destaca #inv-contador { animation: none; }
   .rev-glifo { animation: none; }
   .revelacao-cartela { transition: opacity 0.3s ease; transform: none; }
   .bloco-leitura { transition: none; opacity: 1; transform: none; }

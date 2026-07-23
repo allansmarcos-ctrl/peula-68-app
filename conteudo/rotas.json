@@ -20,7 +20,7 @@
         31.7768,
         35.2277
       ],
-      "_nota_rota": "E1 a E4: corredores REAIS do scouting de 18/07/2026 (nao mexer sem alinhar com o Allan). E5 (rumo ao shuk, sem descer pro Cardo/Kotel) e E6 (subida aos telhados) tem coordenadas ESTIMADAS: andar com ?debug=1 ou ?adm=1 e coletar as posicoes reais. Raio 150m nesses dois trechos para o geofence estimado nao dar falso alarme.",
+      "_nota_rota": "Rota refeita em 22/07/2026 com o scouting real do Allan (diario ADM, rota 'fariaeus testando'): 5 partes, corredores e checkpoints por GPS de campo. Avanco por MISSAO cumprida: foto sobe e avanca; video pede toque 'ja gravamos'; a etapa 4 pelo codigo local CHAIN GATE; senha_desbloqueio e reserva do madrich. Campos avanco/raio_chegada_m/som_chegada/beats/revela/missao_abertura sao lidos pela mecanica nova; o motor antigo os ignora e usa a senha.",
       "abertura": {
         "viajante": [
           "Vocês chegaram a esta cidade tarde. Dois mil anos tarde.",
@@ -38,6 +38,11 @@
           "Antes de descer, três combinados. Tudo que vier marcado com asterisco aconteceu de verdade: está nos livros, no Talmud, em Josefo, nas crônicas da época. Na dúvida sobre onde ir, quase sempre é seguir reto. E leiam as cartas em voz alta, o grupo inteiro junto, que a história pega mais forte no ouvido do que no olho."
         ]
       },
+      "missao_abertura": {
+        "texto": "No Shaar Yafo, a porta do ocidente, montem o retrato oficial da corrente: pose de time, metade agachada na frente, metade em pé atrás, o capitão com o pé em cima de uma bola que não existe. Sérios como quem vai disputar uma final. Tirem o retrato e enviem pelo app: é ele que abre a caça.",
+        "tipo": "foto",
+        "som": "inicio"
+      },
       "etapas": [
         {
           "id": 1,
@@ -49,15 +54,22 @@
               35.2277
             ],
             [
-              31.77775,
-              35.22735
+              31.776842,
+              35.227914
             ],
             [
-              31.778597,
-              35.22732
+              31.778622,
+              35.227333
+            ],
+            [
+              31.77862,
+              35.22735
             ]
           ],
-          "raio_m": 50,
+          "raio_m": 40,
+          "raio_chegada_m": 25,
+          "avanco": "foto",
+          "som_chegada": "chegada-suave",
           "carta": [
             {
               "voz": "narrador",
@@ -65,7 +77,7 @@
             },
             {
               "voz": "narrador",
-              "texto": "Dizem. Ninguém viu o velho escrever, e a cera do selo já estava fria quando o mensageiro chegou. Vocês vão ter que decidir se confiam nela sem ter como provar de quem é. Acostumem com isso hoje. Vai voltar."
+              "texto": "Dizem. Ninguém viu o velho escrever, e a cera do selo já estava fria quando o mensageiro chegou. Vocês vão ter que decidir se confiam nela sem ter como provar de quem é. Acostumem com isso hoje."
             },
             {
               "voz": "gamliel",
@@ -81,55 +93,85 @@
             }
           ],
           "direcoes": [
-            "Entrem pela porta do ocidente.",
-            "Logo à esquerda, uma ladeira sobe com uma placa: Latin Patriarchate. Subam por ela, sem gritaria.",
-            "Achem uma torre com uma cruz recortada contra o céu. Aos pés dela há degraus. Subam.",
-            "O caminho se abre em duas bocas. Desçam pela da direita.",
-            "Sigam até o chão pedir uma parada. É ali."
+            "Entrem pela porta do ocidente, o Shaar Yafo, e subam a ladeira do Patriarcado Latino.",
+            "No caminho, o Palácio dos Cavaleiros. Guardem o nome, e sigam reto, sem descer.",
+            "Sigam reto até acharem a imagem da Virgem Maria na parede. É ali que o grupo para."
           ],
           "marcos": [
             {
-              "nome": "A torre da cruz",
+              "nome": "A Virgem Maria",
               "ponto": [
-                31.778597,
-                35.22732
+                31.77862,
+                35.22735
               ]
             }
           ],
-          "missao": "Antes de atravessar a porta, montem o retrato oficial da corrente: pose de time, metade agachada na frente, metade em pé atrás, o capitão com o pé em cima de uma bola que não existe. Todos sérios como quem vai disputar uma final. Mandem ao madrich. A senha só chega depois do retrato.",
+          "beats": [
+            {
+              "ponto": [
+                31.778385,
+                35.226432
+              ],
+              "raio_m": 25,
+              "texto": "Palácio dos Cavaleiros. Daqui a mil anos, cruzados vão erguer um reino nesta pedra e sonhar com o Templo de volta.",
+              "simbolo": "templarios",
+              "som": "sino"
+            },
+            {
+              "ponto": [
+                31.777777,
+                35.227211
+              ],
+              "raio_m": 25,
+              "texto": "À esquerda, a cruz. É o feitio que Roma usa pra pendurar quem chama de rebelde. Foi assim que mataram o tal messias da Galileia.",
+              "simbolo": "cruz"
+            }
+          ],
+          "missao": "Diante da imagem da Virgem Maria, foto do grupo inteiro discutindo com ela: apontando, questionando, cara de quem tem uma pergunta atravessada na garganta. Tirem a foto e enviem pelo app.",
+          "revela": "Vocês encontraram gente que conheceu a tal Maria. Uma judia como qualquer outra. Teve outros filhos além do Yeshua, nunca disse que o filho era D'us, nem que ela era virgem. Isso inventaram muito depois, longe daqui, sem nunca perguntar a ela.",
           "fotos": [
             "img/etapas/fariseus-e1-a-ladeira-inicio.jpg",
-            "img/etapas/fariseus-e1-b-cruz.jpg",
-            "img/etapas/fariseus-e1-c-virgem.jpg",
             "img/etapas/fariseus-e1-d-patriarcado-latino.jpg",
-            "img/etapas/fariseus-e1-e-tunel.jpg"
+            "img/etapas/fariseus-e1-b-cruz.jpg",
+            "img/etapas/fariseus-e1-c-virgem.jpg"
           ],
           "item": {
             "nome": "A carta do velho",
             "glifo": "carta",
-            "sobre": "A ordem de Rabban Gamliel: ver antes de julgar."
+            "sobre": "A ordem de Rabban Gamliel: ver antes de julgar.",
+            "espelho": {
+              "nome": "O áudio encaminhado",
+              "glifo": "audio",
+              "texto": "A carta chegava sem assinatura, e mesmo assim virava verdade na boca de quem repassava. Hoje ela é o áudio no seu bolso: um 'me contaram que aquele tipo de judeu', um print, uma manchete com o veredito já colado. O velho mandou ver antes de crer. De quantos judeus você já sabe tudo sem nunca ter chegado perto de um?"
+            }
           },
-          "senha_desbloqueio": "OFEL"
+          "senha_desbloqueio": "MIRIAM"
         },
         {
           "id": 2,
           "titulo": "Os mensageiros",
-          "trilha": "trilha-murmurio",
           "corredor": [
             [
-              31.778597,
-              35.22732
+              31.77862,
+              35.22735
             ],
             [
-              31.7794,
-              35.2285
+              31.778953,
+              35.228707
             ],
             [
-              31.779624,
-              35.229645
+              31.779614,
+              35.228899
+            ],
+            [
+              31.779635,
+              35.229664
             ]
           ],
-          "raio_m": 50,
+          "raio_m": 40,
+          "raio_chegada_m": 25,
+          "avanco": "foto",
+          "som_chegada": "chegada-media",
           "carta": [
             {
               "voz": "narrador",
@@ -154,52 +196,79 @@
           ],
           "eco": "Vocês conhecem uma cidade que se come por dentro. Já a viram com outro nome, mais perto de casa.",
           "direcoes": [
-            "Daqui é o bairro dos outros. Vocês são forasteiros, e forasteiro perdido chama olho. Andem colados, ninguém se solta.",
-            "Procurem a igreja de São Francisco, o homem de Assis, e a Casa Nova ao lado, a casa dos peregrinos. É o ponto de virar.",
-            "Ali, duas placas. Recusem a de Francisco. Sigam a dos mensageiros, a Ar-Rusul.",
-            "Vão ver uma mulher de pedra com uma roda: Santa Catarina. Ali não tem virada. Sigam o único caminho que tem.",
-            "À frente, placas para portas da cidade, o Bab el-Jadid entre elas. Nenhuma é a sua. Sigam reto até a rua acabar."
+            "Aqui é o bairro dos outros. Andem colados, e sigam quando puder o São Francisco, nunca a Casa Nova.",
+            "Virem na rua dos mensageiros, a Ar-Rusul, e mantenham ela sempre descendo.",
+            "Adiante, na parede, um rosto pintado olhando para vocês. É ali que vocês param."
           ],
           "marcos": [
             {
-              "nome": "A mulher da roda",
+              "nome": "O rosto na parede",
               "ponto": [
-                31.779624,
-                35.229645
+                31.779635,
+                35.229664
               ]
             }
           ],
-          "missao": "Diante da mulher da roda, uma foto só: o grupo inteiro apontando para ela ao mesmo tempo, em silêncio, cara séria. Nada de riso. Mandem ao madrich.",
+          "beats": [
+            {
+              "ponto": [
+                31.778953,
+                35.228707
+              ],
+              "raio_m": 25,
+              "texto": "Viraram certo, na Ar-Rusul, a rua dos mensageiros.",
+              "simbolo": "seta",
+              "som": "coragem"
+            }
+          ],
+          "missao": "Diante do rosto pintado na parede, o mestre de Natzrat, o grupo encara em silêncio. Tirem a foto e enviem pelo app.",
+          "revela": "Guardem esse rosto. Ele morreu sem imaginar o que os gentios, séculos depois, iam construir em cima do nome dele.",
           "fotos": [
             "img/etapas/fariseus-e2-a-sao-francisco.jpg",
-            "img/etapas/fariseus-e2-b-mulher-da-roda.jpg"
+            "img/etapas/fariseus-e2-b-mulher-da-roda.jpg",
+            "img/etapas/fariseus-e3-b-yeshu-parede.jpg"
           ],
           "item": {
             "nome": "A rede do pescador",
             "glifo": "rede",
-            "sobre": "Vieram atrás de espadas e acharam redes."
+            "sobre": "Vieram atrás de espadas e acharam redes.",
+            "espelho": {
+              "nome": "O mesmo sidur",
+              "glifo": "sidur",
+              "texto": "Desceram atrás de um exército e acharam pescador repartindo pão. O medo pinta o outro grande e armado; de perto, ele reza o mesmo Shemá que você. Você já tem o nome do grupo de judeu que te assusta de longe: os que não servem, os que rezam com guitarra, os que só vestem preto. Chega perto de um, um só. Ainda é o exército que você montou na cabeça, ou é rede de pescador?"
+            }
           },
-          "senha_desbloqueio": "SHOFAR"
+          "senha_desbloqueio": "NATZRAT"
         },
         {
           "id": 3,
           "titulo": "A descida que engana",
-          "trilha": "trilha-gerudo",
           "corredor": [
             [
-              31.779624,
-              35.229645
+              31.779635,
+              35.229664
             ],
             [
-              31.7793,
-              35.2295
+              31.779597,
+              35.229736
             ],
             [
-              31.778958,
-              35.229195
+              31.77895,
+              35.229235
+            ],
+            [
+              31.777623,
+              35.229297
+            ],
+            [
+              31.777516,
+              35.229951
             ]
           ],
-          "raio_m": 50,
+          "raio_m": 40,
+          "raio_chegada_m": 25,
+          "avanco": "foto",
+          "som_chegada": "chegada-media",
           "carta": [
             {
               "voz": "narrador",
@@ -219,7 +288,7 @@
             },
             {
               "voz": "circulo",
-              "texto": "O velho sabia disso quando mandou ver antes de julgar. Bando não se mede pelo pior que tem dentro, nem pelo melhor. Olha-se um por um, na cara. Este espera? Ou este arma?"
+              "texto": "O velho sabia disso quando mandou ver antes de julgar. Bando não se mede pelo pior que tem dentro, nem pelo melhor. Olha-se um por um, na cara. Este espera? Ou este arma uma revolta e se rebela contra D'us?"
             },
             {
               "voz": "circulo",
@@ -231,60 +300,84 @@
             },
             {
               "voz": "circulo",
-              "texto": "Eles esperam de olho para trás, num homem que já foi. Vocês esperam de olho no que ainda vem. Dois povos lendo uma hora diferente no mesmo céu."
+              "texto": "Eles esperam de olho para trás, num homem que já foi. Vocês esperam de olho no que ainda vem. Dois povos lendo uma hora diferente no mesmo céu. Não é a primeira vez que o nosso povo não aguenta a morte de um líder e corre atrás do nome dele. O que pesa não é o erro de quem correu. É o que a gente faz para trazer essa gente de volta para perto."
             },
             {
               "voz": "narrador",
               "texto": "Fechem o círculo e sigam."
             }
           ],
-          "eco": "Que vinda foi essa, que deixou o mundo torto? Vocês vêm de dois mil anos depois. A pergunta continua aberta.",
+          "eco": "Que vinda foi essa, que deixou o mundo torto? Vocês vêm de dois mil anos depois. A pergunta continua aberta. O Mashiach ainda não veio.",
           "direcoes": [
-            "No muro do mosteiro, à direita, e desçam.",
-            "Um corredor imita o grande mercado. É isca. À direita, subindo, a torre verde na frente de vocês.",
-            "Na rua larga, uma placa: Christian Quarter. Virem à esquerda.",
-            "Sigam até a rua abrir. É ali que vocês param."
+            "Ao lado, o mosteiro etíope. Passem por ele.",
+            "Na placa Christian Quarter, virem à esquerda.",
+            "Agora sigam em frente até a barbearia Al-Zouhor. Ali, virem à esquerda. Depois à esquerda de novo, e então à direita, para dentro da praça.",
+            "A praça se abre. É ali que vocês param."
           ],
           "marcos": [
             {
-              "nome": "A torre verde",
+              "nome": "A praça",
               "ponto": [
-                31.778958,
-                35.229195
+                31.777516,
+                35.229951
               ]
             }
           ],
-          "missao": "Diante do homem pintado na parede, o mestre de Natzrat, gravem dez segundos: o grupo passa em fila, um por um, em silêncio, cara séria. É o rosto que rachou a cidade. Mandem ao madrich.",
+          "beats": [
+            {
+              "ponto": [
+                31.77895,
+                35.229235
+              ],
+              "raio_m": 25,
+              "texto": "Aqui a corrente vira para o Christian Quarter. O shuk já chama de longe.",
+              "simbolo": "shuk"
+            }
+          ],
+          "missao": "Diante da cara de monstro na parede, o grupo inteiro caído no chão fingindo de ferido, a cidade que se machuca sozinha. Tirem a foto e enviem pelo app.",
           "fotos": [
-            "img/etapas/fariseus-e3-b-yeshu-parede.jpg",
-            "img/etapas/fariseus-e3-a-torre-verde.jpg"
+            "img/etapas/fariseus-e3-a-torre-verde.jpg",
+            "img/etapas/fariseus-e4-a-barbearia-al-zouhor.jpg",
+            "img/etapas/fariseus-e4-b-fonte-cara.jpg"
           ],
           "item": {
-            "nome": "A hora diferente",
+            "nome": "O Messias diferente",
             "glifo": "ampulheta",
-            "sobre": "Dois povos lendo uma hora diferente no mesmo céu."
+            "sobre": "Dois povos lendo uma hora diferente no mesmo céu.",
+            "espelho": {
+              "nome": "O cartaz do rei",
+              "glifo": "cartaz_rei",
+              "texto": "Lá atrás, os dois lados esperavam o Mashiach; a briga era sobre a hora. Um deles jurava que ele já tinha vindo e ido embora. Hoje ainda tem judeu que amou um mestre com a alma inteira e enche a rua de cartaz pedindo que ele volte e reine agora. O amor é verdadeiro. Esperar o Mashiach junta o povo inteiro; dizer que ele já veio racha. Você conhece alguma espera que anda perto dessa linha?"
+            }
           },
-          "senha_desbloqueio": "MENORA"
+          "senha_desbloqueio": "SICARIOS"
         },
         {
           "id": 4,
-          "titulo": "O corredor dos outros",
-          "trilha": "trilha-murmurio",
+          "titulo": "O mercado e a chave",
           "corredor": [
             [
-              31.778958,
-              35.229195
+              31.777516,
+              35.229951
             ],
             [
-              31.7782,
-              35.2292
+              31.776975,
+              35.230372
             ],
             [
-              31.777513,
-              35.229932
+              31.776922,
+              35.230357
+            ],
+            [
+              31.776764,
+              35.230985
             ]
           ],
           "raio_m": 50,
+          "raio_chegada_m": 30,
+          "avanco": "codigo",
+          "sobe_video": true,
+          "som_chegada": "chegada-forte",
           "carta": [
             {
               "voz": "narrador",
@@ -304,6 +397,10 @@
             },
             {
               "voz": "narrador",
+              "texto": "Trocou de nome junto com o lado: Shaul virou Paulo. E foi ele, mais que qualquer um, que levou esse messias para fora de casa, para os gentios, para povos que nunca tinham ouvido do D'us de Israel. A briga que começou entre irmãos, ele abriu para o mundo inteiro."
+            },
+            {
+              "voz": "narrador",
               "texto": "Olhem a sacola de vocês. Cada um carrega um pouco de zelo ali dentro. O mesmo zelo que levanta a Casa é o que arromba a porta do irmão. Shaul perseguiu o Céu achando que servia o Céu. Para um estrago desse tamanho não precisa de ódio: basta uma certeza que nunca duvidou de si."
             },
             {
@@ -313,55 +410,7 @@
             {
               "voz": "gamliel",
               "texto": "Quando prenderam os primeiros dessa gente e o Sinédrio quis matá-los, fui eu que segurei a corte*. Disse: se isto vem de homem, se desfaz sozinho. Se vem de D'us, vocês não desfazem, e ainda vão se ver brigando contra o Céu. Deixem o tempo julgar o que a pressa não sabe."
-            }
-          ],
-          "direcoes": [
-            "Atrás das lojas, à esquerda, dorme o santuário mais guardado deles. Não é o destino de hoje. Não parem e não apontem.",
-            "Adiante, uma barbearia leva o nome Al-Zouhor. Ali, virem à esquerda.",
-            "Depois, à esquerda outra vez. Em seguida, rápido: direita, e direita de novo.",
-            "O beco solta vocês numa praça com uma fonte. Respirem."
-          ],
-          "marcos": [
-            {
-              "nome": "A praça da fonte",
-              "ponto": [
-                31.777513,
-                35.229932
-              ]
-            }
-          ],
-          "missao": "Na praça, círculo fechado. Um de vocês vira rav e solta meio minuto de drashá: por que ainda vale esperar o Mashiach mais um dia, com Roma parada na porta. No fim, todos respondem amén e batem o pé. Gravem e mandem.",
-          "fotos": [
-            "img/etapas/fariseus-e4-a-barbearia-al-zouhor.jpg",
-            "img/etapas/fariseus-e4-b-fonte-cara.jpg"
-          ],
-          "item": {
-            "nome": "A lâmina do zelo",
-            "glifo": "lamina",
-            "sobre": "Zelo é lâmina de dois gumes: corta a mão que aperta demais."
-          },
-          "senha_desbloqueio": "KEREN"
-        },
-        {
-          "id": 5,
-          "titulo": "O mercado e a travessia",
-          "trilha": "trilha-gerudo",
-          "corredor": [
-            [
-              31.777513,
-              35.229932
-            ],
-            [
-              31.7772,
-              35.2301
-            ],
-            [
-              31.7769,
-              35.2303
-            ]
-          ],
-          "raio_m": 150,
-          "carta": [
+            },
             {
               "voz": "narrador",
               "texto": "A carta que fecha o caminho é curta. Letra do velho, dessa vez sem pressa nenhuma."
@@ -380,21 +429,22 @@
             }
           ],
           "direcoes": [
-            "Ao sair da praça, achem o arco com a placa do restaurante. Ali, virem à direita.",
-            "O mercado engole vocês. Pano e pedra por cima, barulho por todo lado. Aqui, quem fala compra. Andem calados.",
-            "Não desçam. Sigam pelo nível de vocês, atravessando o shuk inteiro.",
-            "Parem quando o mercado abrir, antes da grande escadaria. É ali que a corrente se junta."
+            "Da praça, entrem no portão da foto e virem à direita.",
+            "Entrem pelo mercado e vão na direção em que ele se abre para o bairro judeu novo e a descida ao Templo.",
+            "Parem sob a placa da rua. A chave da próxima porta está escrita nela, em inglês, em letras grandes.",
+            "Antes de seguir, não esqueçam de cumprir a missão deste ponto."
           ],
           "marcos": [
             {
-              "nome": "O arco do restaurante",
+              "nome": "A placa da chave",
               "ponto": [
-                31.7769,
-                35.2303
+                31.776764,
+                35.230985
               ]
             }
           ],
-          "missao": "Achem o arco com a placa do restaurante. Foto do grupo inteiro embaixo dele, todos calados, como quem cruza o território dos outros sem comprar briga. Mandem ao madrich.",
+          "beats": [],
+          "missao": "Entrando no shuk por este túnel, gravem o vídeo do grupo em duas fileiras, marchando feito soldado que cruza a terra dos outros sem baixar a cabeça. Gritem Torá, Torá, Torá! Gravem e enviem o vídeo pelo app.",
           "fotos": [
             "img/etapas/fariseus-e5-a-portao-colunas.jpg",
             "img/etapas/fariseus-e5-b-passagem-porta-azul.jpg",
@@ -403,30 +453,46 @@
           "item": {
             "nome": "A régua de Hilel",
             "glifo": "regua",
-            "sobre": "O que é odioso para ti, não faças ao próximo. O resto é comentário."
+            "sobre": "O que é odioso para ti, não faças ao próximo. O resto é comentário.",
+            "espelho": {
+              "nome": "A pedra na mão",
+              "glifo": "pedra",
+              "texto": "A régua media o próximo por uma conta só: o que é odioso pra você, não faça a ele. Hoje a mesma mão larga a régua e pega a pedra, contra quem dirige no Shabat da rua, contra quem se veste diferente, sempre em nome do Céu. Para o estrago não precisa de ódio, basta uma certeza que nunca duvidou de si. Onde a sua certeza já virou pedra na mão?"
+            }
           },
-          "senha_desbloqueio": "CHOTAM"
+          "codigo_no_local": true,
+          "senha_desbloqueio": "CHAIN GATE"
         },
         {
-          "id": 6,
+          "id": 5,
           "titulo": "A subida aos telhados",
-          "trilha": "trilha-jerusalem",
           "corredor": [
             [
-              31.7769,
-              35.2303
+              31.776764,
+              35.230985
             ],
             [
-              31.7772,
-              35.23
+              31.776725,
+              35.231025
             ],
             [
-              31.7774,
-              35.2298
+              31.776719,
+              35.231471
+            ],
+            [
+              31.776621,
+              35.231844
+            ],
+            [
+              31.776767,
+              35.231761
             ]
           ],
-          "raio_m": 150,
-          "codigo_no_local": true,
+          "raio_m": 50,
+          "raio_chegada_m": 30,
+          "avanco": "video",
+          "sobe_video": true,
+          "som_chegada": "chegada-forte",
           "carta": [
             {
               "voz": "narrador",
@@ -434,62 +500,61 @@
             },
             {
               "voz": "viajante",
-              "texto": "Vocês estão quase no alto. Lá de cima dá para ver a cidade inteira onde passaram a noite se perdendo. Subam com atenção: no meio da pedra, alguém deixou um número à vista de todos."
+              "texto": "Vocês estão quase no alto. Lá de cima dá para ver a cidade inteira onde passaram a noite se perdendo. Subam com atenção, e no fim, procurem o beit midrash perdido, com a cidade toda ao redor."
             }
           ],
           "direcoes": [
-            "Deixem o mercado pela direita e enfrentem a primeira escada. Ela sobe para um bairro mais quieto.",
-            "Assim que subirem, virem à esquerda. Vão ver uma árvore, e da árvore, o arco de pedra.",
-            "No arco, um número gravado na parede. É o segredo do trecho. Achem, leiam, guardem.",
-            "Sigam subindo até a torre grande da igreja, iluminada acima dos telhados. Vão nela.",
-            "No último nível, o dos telhados, avancem pelo pátio de olho na direita até achar a escada. É ela que leva ao alto, onde vocês param."
+            "Desçam em direção ao Templo.",
+            "Subam à direita, na direção da plugat.",
+            "E na vida, quando o caminho se abrir em dois: devolvam territórios, façam as pazes, defendam as minorias. É por aí, e só por aí, que se chega ao alto.",
+            "Antes de seguir, não esqueçam de cumprir a missão deste ponto.",
+            "Passem pela árvore e sigam até o alto, os telhados. É ali que a caça termina."
           ],
           "marcos": [
             {
-              "nome": "O arco do código",
+              "nome": "A árvore",
               "ponto": [
-                31.7772,
-                35.23
-              ]
-            },
-            {
-              "nome": "A torre da igreja",
-              "ponto": [
-                31.7774,
-                35.22975
+                31.776621,
+                35.231844
               ]
             },
             {
               "nome": "Os telhados",
               "ponto": [
-                31.7774,
-                35.2298
+                31.776767,
+                35.231761
               ]
             }
           ],
-          "missao": "Achem o número gravado no arco de pedra, aquele que a cidade escondeu à vista de todos. Ele é a chave da última porta. Leiam com cuidado, a pedra gasta engana, e digitem.",
+          "beats": [],
+          "missao": "No alto, o vídeo do grupo girando junto da árvore, ao som de Torat Hashem Temima. Gravem e enviem o vídeo pelo app.",
           "fotos": [
             "img/etapas/fariseus-e5-d-escada-plugat-hakotel.jpg",
-            "img/etapas/fariseus-e5-e-codigo-325-338.jpg",
             "img/etapas/fariseus-final-a-telhados-torre.jpg",
             "img/etapas/fariseus-final-b-patio-shuk.jpg"
           ],
           "item": {
             "nome": "A chave da pedra",
             "glifo": "chave",
-            "sobre": "O número gravado no arco, que abre a última porta."
+            "sobre": "A última porta se abre por dentro, no alto, de onde a cidade cabe num olhar.",
+            "espelho": {
+              "nome": "O espelho",
+              "glifo": "espelho",
+              "texto": "Do beco, cada bando de judeu parecia uma emboscada; do alto, é uma cidade só, e cabe num olhar. A chave da última porta nunca esteve com Roma: estava por dentro, na mão de quem morava ali. Amanhã você tira a roupa de fariseu e volta pro seu movimento, pras rusgas de sempre. A Casa caiu com espaço de sobra lá dentro. Qual porta, na sua vida judaica, só você consegue abrir por dentro?"
+            }
           },
-          "senha_desbloqueio": "325-338"
+          "senha_desbloqueio": "YAVNE"
         }
       ],
       "ponto_final": [
-        31.7774,
-        35.2298
+        31.776767,
+        35.231761
       ],
+      "foto_final": "img/etapas/fariseus-final-b-patio-shuk.jpg",
       "fragmento_final": [
         {
           "voz": "narrador",
-          "texto": "Capitão, o grupo já está no alto, a última parada. Ponham todos de frente para a cidade lá embaixo. Depois desta leitura não vem missão. Só o que vocês vão fazer com ela."
+          "texto": "Capitão, o grupo já está no alto, a última parada. Ponham todos de frente para a cidade lá embaixo."
         },
         {
           "voz": "gamliel",
@@ -497,7 +562,7 @@
         },
         {
           "voz": "gamliel",
-          "texto": "Agora escutem o que sobe da sala atrás de vocês. Vozes. Gente jovem debruçada nos livros, repetindo a Torá em voz alta, do mesmo jeito de dois mil anos atrás, palavra por palavra. Essa vista e esse som são o fim da caça."
+          "texto": "Vocês ainda precisam achar o beit midrash escondido. Parem, fiquem quietos, e tentem escutar. Talvez subam vozes: gente jovem debruçada nos livros, repetindo a Torá em voz alta, do mesmo jeito de dois mil anos atrás. Ou talvez ele esteja abandonado, e o que suba seja só o silêncio."
         },
         {
           "voz": "gamliel",
@@ -509,13 +574,17 @@
         },
         {
           "voz": "gamliel",
-          "texto": "E aqui está o milagre. Um sábio da nossa casa, Rabban Yochanan ben Zakkai, viu que a pedra estava perdida. Se fez de morto, e mandou os alunos o carregarem para fora da cidade sitiada dentro de um caixão*, porque os radicais não deixavam sair vivo quem falasse em paz. Diante do general de Roma, não pediu o Templo de volta. Pediu uma sala de sábios numa cidadezinha chamada Yavne. O muro queimou. A voz não. Ela cabia num caixão, e Roma não sabia pesar. Dois mil anos depois, ela ainda está estudando na sala atrás de vocês."
+          "texto": "E aqui está o milagre. Um sábio da nossa casa, Rabban Yochanan ben Zakkai, viu que a pedra estava perdida. Se fez de morto, e mandou os alunos o carregarem para fora da cidade sitiada dentro de um caixão*, porque os radicais não deixavam sair vivo quem falasse em paz. Diante do general de Roma, não pediu o Templo de volta. Pediu uma sala de sábios numa cidadezinha chamada Yavne. O muro queimou. A voz não. Ela cabia num caixão, e Roma não sabia pesar. Dois mil anos depois, essa voz chegou até aqui. Se ela ainda está viva na sala atrás de vocês, ou se o que sobe é silêncio, isso já não depende de Roma. Depende de vocês."
         },
         {
           "voz": "viajante",
           "texto": "Agora a parte que só vocês, que vieram de longe, podem ouvir. Vocês sabem que a voz chegou até aqui, porque vieram de onde ela chegou. Amanhã tiram a roupa de fariseu e voltam para a vida de vocês, para o mesmo movimento e as mesmas rusgas de sempre. Quando a próxima briga chegar, e ela sempre chega, lembrem do que viram do alto. A Casa de pedra foi perdida uma vez, por ódio de graça entre irmãos que amavam o mesmo D'us. Aquela voz que não parou de estudar em dois mil anos depende de uma coisa só: de vocês não desistirem uns dos outros. A Casa cabia em todos. Foram os que estavam dentro que não couberam. Não deixem esse fogo achar vocês de novo."
         }
-      ]
+      ],
+      "revelacao_sacola": {
+        "titulo": "A sacola inteira",
+        "texto": "Cinco peças, e agora juntas. A carta do velho: ver antes de julgar. A rede: não era exército. O Messias diferente: esperava como vocês, não era herege de fora. A régua de Hilel: o zelo que arromba a porta do irmão era o de vocês. E a chave. Somem tudo. O falso messias não era o inimigo. Nem os zelotes, nem os saduceus. Era a Casa brigando com todos e com tudo, esquecendo a régua do velho Hilel. O incêndio começou dentro."
+      }
     },
     {
       "id": "fariseus-teste",

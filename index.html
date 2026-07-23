@@ -223,16 +223,79 @@
       <div id="inv-rev-glifos" class="revelacao-glifos" aria-hidden="true"></div>
       <h2 id="inv-rev-titulo" class="revelacao-titulo"></h2>
       <p id="inv-rev-texto" class="revelacao-texto"></p>
+      <p id="inv-rev-dica" class="revelacao-dica"></p>
     </div>
     <button id="inv-voltar" class="botao botao-claro" type="button" data-txt="botao_voltar_mapa"></button>
   </div>
 </div>
 
-<!-- CERIMONIA: o item encontrado ao chegar no ponto (overlay curto) -->
+<!-- CARTAO-ESPELHO: tocar numa peca da sacola vira o cartao. Frente = objeto de 68; verso = o gemeo de hoje -->
+<div id="tela-espelho" class="overlay oculto" role="dialog" aria-modal="true">
+  <div class="espelho-cena">
+    <div id="espelho-carta" class="espelho-carta" role="button" tabindex="0" aria-label="Virar o cartão para o hoje">
+      <div class="espelho-face espelho-frente">
+        <p class="espelho-era">Ano 68</p>
+        <div id="esp-frente-glifo" class="espelho-glifo" aria-hidden="true"></div>
+        <h3 id="esp-frente-nome" class="espelho-nome"></h3>
+        <p id="esp-frente-sobre" class="espelho-sobre"></p>
+        <p class="espelho-vira">tocar para o hoje &#8635;</p>
+      </div>
+      <div class="espelho-face espelho-verso">
+        <p class="espelho-era">Hoje</p>
+        <div id="esp-verso-glifo" class="espelho-glifo" aria-hidden="true"></div>
+        <h3 id="esp-verso-nome" class="espelho-nome"></h3>
+        <p id="esp-verso-texto" class="espelho-texto"></p>
+        <p class="espelho-vira">voltar ao ano 68 &#8634;</p>
+      </div>
+    </div>
+    <button id="espelho-fechar" class="botao botao-claro" type="button">Fechar</button>
+  </div>
+</div>
+
+<!-- CERIMONIA: o item encontrado ao chegar no ponto (overlay curto, entra com o baú abrindo) -->
 <div id="item-ganho" class="oculto" aria-live="polite">
   <div class="item-ganho-cartela">
     <p class="item-ganho-rotulo">Vocês encontraram</p>
-    <div id="item-ganho-glifo"></div>
+    <div class="item-ganho-palco">
+      <div class="bau" aria-hidden="true">
+        <span class="bau-luz"></span>
+        <svg class="bau-svg" viewBox="0 0 120 96" width="120" height="96" aria-hidden="true">
+          <defs>
+            <linearGradient id="bauMadeira" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#6b4a28"/><stop offset="1" stop-color="#2b1c0b"/>
+            </linearGradient>
+            <linearGradient id="bauMadeiraTampa" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#7d5a31"/><stop offset="1" stop-color="#3a2712"/>
+            </linearGradient>
+            <linearGradient id="bauOuro" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#ffe9a8"/><stop offset="0.5" stop-color="#d4a017"/><stop offset="1" stop-color="#93670c"/>
+            </linearGradient>
+            <radialGradient id="bauInterior" cx="0.5" cy="0.32" r="0.85">
+              <stop offset="0" stop-color="#fff0c0"/><stop offset="0.45" stop-color="#c78a1e"/><stop offset="1" stop-color="#160f05"/>
+            </radialGradient>
+          </defs>
+          <ellipse class="bau-sombra" cx="60" cy="90" rx="40" ry="4.5"/>
+          <rect class="bau-boca" x="21" y="45" width="78" height="13" rx="3" fill="url(#bauInterior)"/>
+          <g class="bau-base">
+            <rect x="18" y="52" width="84" height="32" rx="5" fill="url(#bauMadeira)" stroke="#170f04" stroke-width="1.5"/>
+            <path d="M40 53 v30 M60 53 v30 M80 53 v30" stroke="#170f04" stroke-width="1" opacity="0.3"/>
+            <rect x="17" y="64" width="86" height="6" fill="url(#bauOuro)" opacity="0.92"/>
+            <rect x="52.5" y="60" width="15" height="17" rx="2.5" fill="url(#bauOuro)" stroke="#5b3d08" stroke-width="1"/>
+            <circle cx="60" cy="66.5" r="2.4" fill="#241804"/>
+            <rect x="59" y="66.5" width="2" height="6.5" rx="1" fill="#241804"/>
+          </g>
+          <g class="bau-tampa">
+            <path d="M16 54 V45 A44 21 0 0 1 104 45 V54 Z" fill="url(#bauMadeiraTampa)" stroke="#170f04" stroke-width="1.5"/>
+            <path d="M40 52 V31 M60 52 V27 M80 52 V31" stroke="#170f04" stroke-width="1" opacity="0.28" fill="none"/>
+            <rect x="14.5" y="49.5" width="91" height="5.5" rx="1.5" fill="url(#bauOuro)" opacity="0.95"/>
+            <path d="M27 43 A36 16 0 0 1 93 41" stroke="#ffe9b0" stroke-width="1.4" opacity="0.4" fill="none"/>
+            <circle cx="23" cy="50" r="1.7" fill="url(#bauOuro)"/>
+            <circle cx="97" cy="50" r="1.7" fill="url(#bauOuro)"/>
+          </g>
+        </svg>
+      </div>
+      <div id="item-ganho-glifo"></div>
+    </div>
     <p id="item-ganho-nome"></p>
     <p id="item-ganho-sobre"></p>
   </div>
@@ -244,6 +307,7 @@
     <div id="rev-glifos" class="revelacao-glifos" aria-hidden="true"></div>
     <h2 id="rev-titulo" class="revelacao-titulo"></h2>
     <p id="rev-texto" class="revelacao-texto"></p>
+    <p id="rev-dica" class="revelacao-dica"></p>
     <p class="ornamento">&#10022;</p>
     <button id="rev-fechar" class="botao" type="button">Guardar na sacola</button>
   </div>
