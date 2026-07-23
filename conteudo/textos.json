@@ -31,7 +31,6 @@
   "botao_voltar_mapa": "Voltar ao mapa",
   "inicio_tooltip": "Aqui começa",
   "gps_simulado": "GPS simulado",
-
   "_ui_jogo_vivo": "Strings da tela viva (mapa + instruções juntos). Edite à vontade.",
   "prosseguir": "Prosseguir",
   "abertura_para_mapa": "Começar a caça",
@@ -55,7 +54,6 @@
   "codigo_ajuda": "Achem o arco de pedra, leiam o número gravado e digitem (com ou sem o traço).",
   "codigo_errado": "Não é esse número. A pedra gasta engana. Voltem ao arco e leiam de novo.",
   "selar_codigo": "Abrir a última porta",
-
   "_ui_navegacao": "Strings das mecânicas de navegação (reorder, voltar, tela cheia, ponto, cronômetro).",
   "rotulo_fotos_destino": "O que vocês vão encontrar",
   "fotos_ajuda": "Guardem estas imagens. É o que vão reconhecer no caminho.",
@@ -65,7 +63,6 @@
   "voltar_ponto": "Voltar ao último ponto",
   "sem_ponto": "Ainda não há ponto marcado. Sigam para o primeiro.",
   "cron_rotulo": "tempo desta etapa",
-
   "_ui_gate": "Gate inicial (começar longe da cidade) e bússola.",
   "gate_rotulo": "O portão",
   "gate_texto": "Vão até o brilho no mapa: é o portão por onde a corrente entra na cidade. Quando o grupo inteiro estiver lá, toquem em Estou aqui.",
@@ -75,14 +72,12 @@
   "bussola_ligar": "A bússola",
   "bussola_sem_heading": "O aparelho não deu o norte. A agulha aponta como no mapa, com o norte para cima.",
   "bussola_sem_gps": "Sem posição ainda. A agulha acorda quando o céu abrir.",
-
   "_ui_coach": "Apresentação dos socorros, uma vez só na 1a etapa.",
   "coach_titulo": "Os socorros de vocês",
   "coach_intro": "No mapa há botões redondos que ajudam quando o grupo empaca:",
   "coach_extra": "E puxem a barrinha do painel para ver o mapa em tela cheia.",
   "coach_botao": "Entendi",
   "fotos_toque": "toque pra ampliar",
-
   "_ui_convite": "Convite pra avancar junto com o grupo (aparece quando alguem do grupo rompe o selo). {n} vira o numero da etapa.",
   "convite_rotulo": "A corrente avançou",
   "convite_texto": "O grupo rompeu o selo e seguiu para a etapa {n}. Vão com eles?",
@@ -91,7 +86,6 @@
   "convite_depois": "Ainda não",
   "ir_grupo": "O grupo está na etapa {n}",
   "ir_grupo_final": "O grupo chegou ao fim",
-
   "_ui_grupo": "Tela da equipe (a sala de sincronia). O 1o cria e passa o codigo; os outros entram.",
   "grupo_rotulo": "A sua equipe",
   "grupo_intro": "Cada equipe joga junta, no mesmo passo. Criem um grupo e passem o código aos outros celulares, ou entrem no código que a equipe já criou.",
@@ -102,7 +96,6 @@
   "grupo_entrar_rotulo": "Entrar num grupo que já existe",
   "grupo_entrar": "Entrar na equipe",
   "grupo_codigo_curto": "Digitem o código da equipe (a palavra e o número).",
-
   "_ui_missao_nova": "Mecanica nova (rota fariseus): o avanco vem da missao cumprida. A foto sobe e avanca; o video pede o toque 'ja gravamos'. A senha_desbloqueio segue de reserva do madrich.",
   "gate_retrato_botao": "Enviar o retrato e começar",
   "gate_estou_aqui_reserva": "Ou toquem aqui quando o grupo chegar",
@@ -120,5 +113,19 @@
   "missao_gravou_gps": "Agora cheguem ao alto: as pedras avisam quando chegarem.",
   "missao_reserva": "Palavra do madrich (reserva)",
   "retrato_ok": "Retrato guardado. A caça começa.",
-  "retrato_falha": "Sem sinal pra guardar o retrato. A caça começa mesmo assim."
+  "retrato_falha": "Sem sinal pra guardar o retrato. A caça começa mesmo assim.",
+  "nome_rotulo": "Seu nome (a história registra quem andou nela)",
+  "nome_falta": "Escreva seu nome antes de entrar.",
+  "papel_titulo": "PAPEL SECRETO",
+  "papel_aviso": "Olhe sozinho. Cole a tela no peito. O que está escrito aqui morre com você até o fim da noite.",
+  "papel_revelar": "Estou sozinho. Abrir.",
+  "papel_fechar": "Queimar a carta",
+  "papel_traidor": "Esta noite o ódio escolheu você. Ninguém sabe. Ninguém pode saber. No seu mapa vão acender pontos que só você enxerga: leve o grupo até cada um deles sem nunca dar o motivo. Peça com cara de inocente: preciso de um banheiro; vem ver esse ângulo pra foto; conheço um atalho. Cada ponto alcançado acende uma brasa embaixo da cidade. Ninguém vai ver você acender. Minta com calma. Sorria. Sirva bem.",
+  "odio_rotulo": "Brasas acesas",
+  "traidor_toast_ponto": "Mais uma brasa acesa. Ninguém viu.",
+  "traidor_pontos_rotulo": "Brasa por acender",
+  "revelacao_rotulo": "A última verdade da noite",
+  "revelacao_com_traidor": "Esta caça tinha um jogador a mais, e vocês nunca viram. O ódio anda assim: dentro do grupo, com cara de amigo, pedindo um banheiro, um atalho, uma foto. {nome} servia ao ódio esta noite. Brasas acesas por baixo dos passos de vocês: {n}. E vocês seguiram sorrindo. Foi assim que Jerusalém caiu no ano 68: Roma ainda estava do lado de fora, e o inimigo já jantava na mesa. Sinat chinam, ódio de graça. Ele não grita. Ele acompanha.",
+  "revelacao_sem_odio": "Esta caça tinha um jogador a mais. O ódio escolheu {nome} para desviar o grupo, e perdeu a aposta: nenhuma brasa acesa na cidade inteira. No ano 68 o ódio pediu passagem e Jerusalém abriu. Aqui ele pediu a noite toda e passou fome. É assim que uma cidade fica de pé.",
+  "revelacao_sem_traidor": "O ódio rondou o grupo a noite inteira e achou porta nenhuma. No ano 68 ele achou todas abertas. Esta noite, sinat chinam passou fome."
 }

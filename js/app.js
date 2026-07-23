@@ -15,6 +15,8 @@ const CHAVE_ESTADO = 'peula68';
 const CHAVE_ADM = 'peula68_adm';               // pontos do modo ADM: salvos a cada toque (sobrevive a reload/reboot)
 const CHAVE_INV = 'peula68_inv';               // inventario coletado nas chegadas (sobrevive a reload)
 const CHAVE_GRAVOU = 'peula68_gravou';         // etapas com video enviado/"ja gravamos" (sobrevive a reload)
+const CHAVE_NOME = 'peula68_nome';             // nome do jogador neste aparelho
+const CHAVE_PAPEL = 'peula68_papel';           // papel na sala (traidor: pontos + batidos); so o sorteado tem carga
 const CHAVE_BEATS = 'peula68_beats';           // beats ja disparados por etapa (o pop do mapa nao repete)
 const CHAVE_SACOLA = 'peula68_sacola_';        // + rota.id: a revelacao da sacola cheia ja disparou (auto uma vez)
 const INTERVALO_AUTO_MS = 10 * 60 * 1000;      // verificação automática: 10 min
@@ -84,6 +86,12 @@ let marcadoresBeat = [];       // marcadores dos beats acesos na etapa atual
 let beatsPersist = {};         // { "rota:etapa": [indices ja disparados] }: o pop nao se repete
 let sonsRota = [];             // nomes dos mp3 que a rota usa (primados no 1o gesto, iOS trava autoplay)
 let fotosPendentes = [];       // fotos E videos que ainda nao subiram (reenvio best-effort nesta sessao; item de video leva kind:'video')
+let nomeJogador = '';          // nome digitado na entrada do grupo (base do sorteio do traidor)
+let papelInfo = null;          // null = indefinido; {papel:'fiel'} ou {papel:'traidor', pontos, batidos}
+let jogadorRegistrado = false; // ja avisou o servidor que este celular esta na sala
+let marcadoresTraidor = {};    // id do ponto -> marcador no mapa (so no celular do traidor)
+let traidorFixes = {};         // id do ponto -> fixes de GPS seguidos dentro do raio
+let traidorPendentes = [];     // pontos batidos aguardando rede pro RPC
 
 const $ = (id) => document.getElementById(id);
 
@@ -98,7 +106,7 @@ function salvarEstado() {
 }
 function limparEstado() {
   try {
-    localStorage.removeItem(CHAVE_ESTADO); localStorage.removeItem(CHAVE_INV); localStorage.removeItem(CHAVE_BEATS); localStorage.removeItem(CHAVE_GRAVOU);
+    localStorage.removeItem(CHAVE_ESTADO); localStorage.removeItem(CHAVE_INV); localStorage.removeItem(CHAVE_BEATS); localStorage.removeItem(CHAVE_GRAVOU); localStorage.removeItem(CHAVE_PAPEL);
     // zera as flags da revelacao da sacola (uma por rota): no replay a virada dispara de novo
     Object.keys(localStorage).filter(k => k.indexOf(CHAVE_SACOLA) === 0).forEach(k => localStorage.removeItem(k));
   } catch (e) {}
@@ -211,7 +219,7 @@ function mostrarTela(nome) {
   $('aviso').classList.add('oculto'); // aviso é contextual: trocou de tela, morreu
   // overlays soltos também morrem na troca de tela: um sync pode trocar a tela por baixo e
   // deixá-los presos (a sacola, as cartas, o lightbox, o coach) por cima da tela nova
-  ['tela-inventario', 'tela-cartas', 'tela-foto', 'coach-socorros'].forEach(o => $(o).classList.add('oculto'));
+  ['tela-inventario', 'tela-cartas', 'tela-foto', 'coach-socorros', 'papel-secreto'].forEach(o => { const el = $(o); if (el) el.classList.add('oculto'); });
   ['portao', 'grupo', 'abertura', 'jogo', 'final'].forEach(t => $('tela-' + t).classList.toggle('ativa', t === nome));
   if (nome === 'jogo' && mapa) setTimeout(() => { mapa.invalidateSize(); ajustarMapaAoPainel(); }, 60);
 }
@@ -348,6 +356,23 @@ function ligarEventos() {
 
   // tela de grupo (criar ou entrar numa equipe)
   $('grupo-criar').addEventListener('click', criarGrupo);
+  // papel secreto (so o traidor chega a ver este overlay)
+  $('papel-revelar').addEventListener('click', () => {
+    $('papel-conteudo').classList.remove('oculto');
+    $('papel-revelar').classList.add('oculto');
+    $('papel-fechar').classList.remove('oculto');
+  });
+  $('papel-fechar').addEventListener('click', () => $('papel-secreto').classList.add('oculto'));
+  // segurar o selo da seita (600ms) reabre a carta; nos celulares fieis nao faz nada
+  let seloTimer = null;
+  const selo = $('selo-seita');
+  if (selo) {
+    const arma = () => { seloTimer = setTimeout(() => { if (papelInfo && papelInfo.papel === 'traidor') abrirPapelSecreto(); }, 600); };
+    const solta = () => { if (seloTimer) { clearTimeout(seloTimer); seloTimer = null; } };
+    selo.addEventListener('pointerdown', arma);
+    selo.addEventListener('pointerup', solta);
+    selo.addEventListener('pointerleave', solta);
+  }
   $('grupo-comecar').addEventListener('click', comecarComGrupoCriado);
   $('form-grupo').addEventListener('submit', (e) => { e.preventDefault(); entrarGrupoDigitado(); });
 
@@ -520,12 +545,30 @@ function criarGrupo() {
   $('grupo-codigo-bloco').classList.remove('oculto');
 }
 
+// nome do jogador: base do sorteio do traidor e da revelacao final (fica salvo no aparelho)
+function pegarNomeDigitado() {
+  const el = $('nome-input');
+  const n = el ? (el.value || '').trim().slice(0, 30) : '';
+  if (n) { nomeJogador = n; try { localStorage.setItem(CHAVE_NOME, n); } catch (e) {} }
+  return n;
+}
+
 function comecarComGrupoCriado() {
+  if (!pegarNomeDigitado()) {
+    $('grupo-erro').textContent = TEXTOS.nome_falta || 'Escreva seu nome antes de entrar.';
+    const el = $('nome-input'); if (el) el.focus();
+    return;
+  }
   const codigo = $('grupo-comecar').dataset.codigo;
   if (codigo) entrarComGrupo(codigo);
 }
 
 function entrarGrupoDigitado() {
+  if (!pegarNomeDigitado()) {
+    $('grupo-erro').textContent = TEXTOS.nome_falta || 'Escreva seu nome antes de entrar.';
+    const el = $('nome-input'); if (el) el.focus();
+    return;
+  }
   const codigo = $('grupo-input').value;
   if (normalizar(codigo).length < 3) {
     $('grupo-erro').textContent = TEXTOS.grupo_codigo_curto || 'Digitem o código da equipe (a palavra e o número).';
@@ -608,6 +651,7 @@ function entrarEtapa() {
   if (cerimoniaFeita) acenderAlvoAtual(et, true);   // reentrou numa etapa ja "chegada" (reload): o diamante do checkpoint volta ao mapa, sem voar
   else if (et.guia_diamante) acenderAlvoAtual(et);  // etapa "siga o diamante" (sem direcoes de texto): acende o destino ao entrar, pra guiar
   redesenharBeatsDisparados(et);   // reload no meio da etapa: os beats ja vistos voltam ao mapa (sem pop/som)
+  desenharPontosTraidor();         // so desenha algo no celular do traidor (idempotente)
   renderCarta();
   renderCaminho();
   renderMissao();
@@ -945,6 +989,7 @@ function mostrarFinal() {
   pararCronometro();
   pararTrilha();   // fim do jogo: a trilha de fundo some
   $('cronometro').classList.add('oculto');
+  consultarRevelacao();   // se houve traidor na sala, a tela final de TODOS ganha a ultima verdade
   // o jogo acabou: encerra o GPS (watchPosition) e a sincronia de 35s, que seguiriam rodando
   if (watchId !== null && 'geolocation' in navigator) { navigator.geolocation.clearWatch(watchId); watchId = null; }
   clearInterval(syncTimer); syncTimer = null;
@@ -1031,6 +1076,8 @@ function iniciarSincronia() {
   sala = normalizar(rotaAtiva.id + grupoAtivo);
   rpcSup('peula_entrar', { p_sala: sala, p_corrente: rotaAtiva.id })
     .then((r) => aplicarSincronia(r && r[0] && r[0].etapa)).catch(() => {});
+  registrarJogador();
+  setTimeout(consultarPapel, 3000);   // da tempo do registro chegar antes da 1a consulta
   clearInterval(syncTimer);
   syncTimer = setInterval(puxarSincronia, SYNC_MS);
 }
@@ -1041,7 +1088,12 @@ function puxarSincronia() {
   rpcSup('peula_estado', { p_sala: sala })
     .then((r) => aplicarSincronia(r && r[0] && r[0].etapa))
     .catch(() => {})
-    .then(() => { sincronizando = false; });
+    .then(() => {
+      sincronizando = false;
+      registrarJogador();        // best-effort: se o registro falhou antes, tenta no pulso
+      consultarPapel();          // enquanto o sorteio nao sai, re-pergunta a cada pulso
+      reenviarPontosTraidor();   // pontos batidos sem rede sobem quando ela volta
+    });
 }
 
 function empurrarSincronia() {
@@ -1179,6 +1231,7 @@ function atualizarPosicao(lat, lng, acc, fonte) {
     }
   }
   if (aguardandoGate) verificarChegadaGate();  // chegou ao portao inicial pelo GPS: abre a 1a etapa
+  verificarPontosTraidor();                    // so faz algo no celular do traidor
   if (bussolaAtiva) atualizarBussola();         // a agulha segue a posicao
   if (window.ADM && admModoTeste) admAtualizarTeste(); // no teste, o HUD acompanha a posicao
   if (precisaVerificarEntrada) { precisaVerificarEntrada = false; verificar('entrada'); }
@@ -3227,6 +3280,136 @@ function tentarReenviarPendentes() {
       if (!r.ok && r.retry && item.tent < 4) fotosPendentes.push(item);
     }
   });
+}
+
+// ---------- o traidor (sinat chinam) ----------
+// Um jogador por sala e sorteado no servidor (peula_papel) quando a sala chega na E2 com 2+
+// jogadores registrados E o ADM marcou pontos numa rota de scouting chamada TRAIDOR-<corrente>.
+// So o celular sorteado ve: a carta secreta, os pontos no mapa e o progresso. Os fieis nao veem
+// NADA; a existencia do traidor so aparece na tela final (peula_revelacao). Tudo best-effort:
+// sem rede ou sem pontos marcados, o jogo segue identico ao normal.
+function lerPapelSalvo() {
+  try {
+    const p = JSON.parse(localStorage.getItem(CHAVE_PAPEL));
+    if (p && p.sala === sala && p.papel) return p;
+  } catch (e) {}
+  return null;
+}
+function salvarPapel() {
+  try {
+    if (papelInfo) localStorage.setItem(CHAVE_PAPEL, JSON.stringify(Object.assign({ sala: sala }, papelInfo)));
+  } catch (e) {}
+}
+function registrarJogador() {
+  if (jogadorRegistrado || window.SOLO || !sala) return;
+  if (!nomeJogador) { try { nomeJogador = localStorage.getItem(CHAVE_NOME) || ''; } catch (e) {} }
+  if (!nomeJogador) return;   // sem nome (entrou por link/convite): fica fora do sorteio, jogo normal
+  jogadorRegistrado = true;
+  rpcSup('peula_jogador_entrar', { p_sala: sala, p_disp: admDispId(), p_nome: nomeJogador })
+    .catch(() => { jogadorRegistrado = false; });   // sem rede: tenta de novo no proximo pulso
+}
+function consultarPapel() {
+  if (window.SOLO || !sala || papelInfo) return;
+  const salvo = lerPapelSalvo();
+  if (salvo) {
+    papelInfo = salvo;
+    if (papelInfo.papel === 'traidor') desenharPontosTraidor();
+    return;
+  }
+  rpcSup('peula_papel', { p_sala: sala, p_disp: admDispId() }).then((r) => {
+    if (!r || papelInfo) return;
+    if (r.papel === 'traidor') {
+      papelInfo = { papel: 'traidor', pontos: r.pontos || [], batidos: (r.batidos || []).slice() };
+      salvarPapel();
+      desenharPontosTraidor();
+      abrirPapelSecreto();   // a carta chega 1 vez; depois ele reabre segurando o selo
+    } else if (r.sorteado) {
+      papelInfo = { papel: 'fiel' };   // definitivo: nunca mais pergunta
+      salvarPapel();
+    }
+    // sorteado=false: a sala ainda esta se formando; o proximo pulso pergunta de novo
+  }).catch(() => {});
+}
+function abrirPapelSecreto() {
+  if (!papelInfo || papelInfo.papel !== 'traidor') return;
+  $('papel-titulo').textContent = TEXTOS.papel_titulo || 'UMA CARTA SÓ SUA';
+  $('papel-aviso').textContent = TEXTOS.papel_aviso || 'Chegou uma carta pro seu ouvido. Leia sozinho, longe dos outros.';
+  $('papel-texto').textContent = TEXTOS.papel_traidor || 'Leve o grupo aos pontos vermelhos do seu mapa, sem que ninguém perceba.';
+  atualizarProgressoPapel();
+  $('papel-conteudo').classList.add('oculto');
+  $('papel-revelar').textContent = TEXTOS.papel_revelar || 'Estou sozinho. Abrir.';
+  $('papel-fechar').textContent = TEXTOS.papel_fechar || 'Queimar a carta';
+  $('papel-revelar').classList.remove('oculto');
+  $('papel-fechar').classList.add('oculto');
+  $('papel-secreto').classList.remove('oculto');
+}
+function atualizarProgressoPapel() {
+  if (!papelInfo || papelInfo.papel !== 'traidor') return;
+  const rot = TEXTOS.odio_rotulo || 'Fogos acesos';
+  $('papel-progresso').textContent = rot + ': ' + (papelInfo.batidos || []).length + ' de ' + (papelInfo.pontos || []).length;
+}
+function desenharPontosTraidor() {
+  if (!mapa || !papelInfo || papelInfo.papel !== 'traidor') return;
+  (papelInfo.pontos || []).forEach((pt) => {
+    if (marcadoresTraidor[pt.id]) return;
+    const batido = (papelInfo.batidos || []).indexOf(pt.id) >= 0;
+    const ic = L.divIcon({ className: '', html: '<div class="ponto-traidor' + (batido ? ' batido' : '') + '"></div>', iconSize: [18, 18], iconAnchor: [9, 9] });
+    const m = L.marker([pt.lat, pt.lng], { icon: ic, zIndexOffset: 620, interactive: true }).addTo(mapa);
+    const rotulo = (TEXTOS.traidor_pontos_rotulo || 'Leve o grupo até aqui') + (pt.nota ? ': ' + pt.nota : '');
+    m.bindTooltip(rotulo, { direction: 'top', offset: [0, -10] });
+    marcadoresTraidor[pt.id] = m;
+  });
+}
+function atualizarMarcadorTraidor(id) {
+  const m = marcadoresTraidor[id];
+  if (!m) return;
+  const el = m.getElement();
+  if (el) { const d = el.querySelector('.ponto-traidor'); if (d) d.classList.add('batido'); }
+}
+function verificarPontosTraidor() {
+  if (!papelInfo || papelInfo.papel !== 'traidor' || !posAtual) return;
+  (papelInfo.pontos || []).forEach((pt) => {
+    if ((papelInfo.batidos || []).indexOf(pt.id) >= 0) return;
+    const folga = Math.min(posAtual.acc || 0, 20);
+    if (distanciaAoCorredorM(posAtual, [[pt.lat, pt.lng]]) <= 30 + folga) {
+      traidorFixes[pt.id] = (traidorFixes[pt.id] || 0) + 1;
+      if (traidorFixes[pt.id] >= 2) baterPontoTraidor(pt);   // 2 fixes seguidos: presenca real, nao ruido
+    } else {
+      traidorFixes[pt.id] = 0;
+    }
+  });
+}
+function baterPontoTraidor(pt) {
+  if ((papelInfo.batidos || []).indexOf(pt.id) >= 0) return;
+  papelInfo.batidos.push(pt.id);
+  salvarPapel();
+  atualizarMarcadorTraidor(pt.id);
+  atualizarProgressoPapel();
+  toast(TEXTOS.traidor_toast_ponto || 'Um fogo aceso. Ninguém viu.', 4000);
+  enviarPontoTraidor(pt.id);
+}
+function enviarPontoTraidor(id) {
+  rpcSup('peula_traidor_ponto', { p_sala: sala, p_disp: admDispId(), p_ponto: id })
+    .catch(() => { if (traidorPendentes.indexOf(id) < 0) traidorPendentes.push(id); });
+}
+function reenviarPontosTraidor() {
+  if (!traidorPendentes.length) return;
+  const fila = traidorPendentes.slice();
+  traidorPendentes = [];
+  fila.forEach((id) => enviarPontoTraidor(id));
+}
+function consultarRevelacao() {
+  if (window.SOLO || !sala || !rotaAtiva) return;
+  rpcSup('peula_revelacao', { p_sala: sala, p_total: rotaAtiva.etapas.length }).then((r) => {
+    if (!r || !r.teve) return;
+    const el = $('revelacao-traidor');
+    if (!el) return;
+    const modelo = (r.odio > 0)
+      ? (TEXTOS.revelacao_com_traidor || 'Entre vocês, {nome} servia ao ódio, e acendeu {n} fogo(s).')
+      : (TEXTOS.revelacao_sem_odio || '{nome} recebeu a ordem de acender o ódio. Não conseguiu.');
+    $('revelacao-traidor-texto').textContent = modelo.split('{nome}').join(r.nome).split('{n}').join(String(r.odio));
+    el.classList.remove('oculto');
+  }).catch(() => {});
 }
 
 // ---------- início ----------

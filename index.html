@@ -36,6 +36,9 @@
     <p class="ano" data-txt="grupo_rotulo"></p>
     <p class="abertura" data-txt="grupo_intro"></p>
 
+    <label class="rotulo" for="nome-input" data-txt="nome_rotulo"></label>
+    <input id="nome-input" type="text" autocomplete="off" spellcheck="false" maxlength="30">
+
     <button id="grupo-criar" class="botao" type="button" data-txt="grupo_criar"></button>
     <div id="grupo-codigo-bloco" class="oculto">
       <p class="grupo-codigo-rotulo" data-txt="grupo_codigo_rotulo"></p>
@@ -210,8 +213,26 @@
     </div>
     <p class="ornamento">&#10022;</p>
     <p id="final-convergencia" class="texto-diwan oculto"></p>
+    <div id="revelacao-traidor" class="oculto">
+      <p class="ano" data-txt="revelacao_rotulo"></p>
+      <p id="revelacao-traidor-texto" class="texto-diwan"></p>
+    </div>
   </div>
 </section>
+
+<!-- PAPEL SECRETO: so o celular sorteado (traidor) recebe; os fieis nunca veem este overlay -->
+<div id="papel-secreto" class="overlay oculto" role="dialog" aria-modal="true">
+  <div class="overlay-cartela tela-pergaminho">
+    <p id="papel-titulo" class="ano"></p>
+    <p id="papel-aviso" class="abertura"></p>
+    <div id="papel-conteudo" class="oculto">
+      <p id="papel-texto" class="texto-diwan"></p>
+      <p id="papel-progresso" class="ano"></p>
+    </div>
+    <button id="papel-revelar" class="botao" type="button"></button>
+    <button id="papel-fechar" class="botao botao-claro oculto" type="button"></button>
+  </div>
+</div>
 
 <!-- INVENTARIO: a sacola (overlay), itens coletados ao chegar nos pontos -->
 <div id="tela-inventario" class="overlay oculto" role="dialog" aria-modal="true">

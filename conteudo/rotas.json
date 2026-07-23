@@ -31,11 +31,11 @@
         "identidade": [
           "Vocês são fariseus, da casa de Hilel.",
           "Hilel chegou pobre da Babilônia, e a fome de Torá dele virou lenda: numa madrugada de inverno, sem a moeda da entrada da casa de estudo, subiu no telhado para ouvir a aula por uma fresta e amanheceu coberto de neve.* Foi ele que resumiu a lei inteira numa frase só.",
-          "Os sacerdotes guardam o Templo com muro e ferro. Os zelotes guardam a honra com punhal. Vocês guardam uma coisa que muro não cerca e lâmina não corta: o jeito judeu de perguntar. Estudam a Torá escrita e a que passa de boca a ouvido, e teimam que o Sinai foi só o começo: ela continua sendo dada agora, toda vez que dois de vocês brigam por uma linha dela até o sol raiar. E esperam o Mashiach vivo, que venha endireitar um mundo torto.",
-          "Duas coisas metem medo em vocês. A primeira é o falso messias, que promete milagre e vira a multidão em revolta. A segunda é pior, e mora dentro de casa: o povo partido em pedaços, cada um certo de que só ele ama o Céu. Contra o primeiro, vocês têm os olhos, que veem antes de a boca julgar. Contra o segundo, a régua do velho Hilel: o que é odioso para ti, não faças ao teu próximo. O resto é comentário. Agora desçam, e estudem a cidade com os pés."
+          "Os sacerdotes guardam o Templo com muro e ferro. Os zelotes guardam a honra com punhal. Vocês guardam o que muro não cerca e lâmina não corta: o jeito judeu de perguntar. Estudam a Torá escrita e a que passa de boca a ouvido, e teimam que o Sinai foi só o começo: ela continua sendo dada agora, toda vez que dois de vocês brigam por uma linha até o sol raiar. E esperam o Mashiach vivo, que venha endireitar um mundo torto.",
+          "Duas coisas metem medo em vocês. A primeira é o falso messias, que promete milagre e vira a multidão em revolta. A segunda é pior, e mora dentro de casa: o povo partido em pedaços, cada um certo de que só ele ama o Céu. Contra o primeiro, os olhos, que veem antes de a boca julgar. Contra o segundo, a régua do velho Hilel: o que é odioso para ti, não faças ao teu próximo. O resto é comentário. Desçam, e estudem a cidade com os pés."
         ],
         "combinados": [
-          "Antes de descer, três combinados. Tudo que vier marcado com asterisco aconteceu de verdade: está nos livros, no Talmud, em Josefo, nas crônicas da época. Na dúvida sobre onde ir, quase sempre é seguir reto. E leiam as cartas em voz alta, o grupo inteiro junto, que a história pega mais forte no ouvido do que no olho."
+          "Antes de descer, três combinados. Tudo que vier com asterisco aconteceu de verdade: está nos livros, no Talmud, em Josefo. Na dúvida sobre onde ir, quase sempre é seguir reto. E leiam as cartas em voz alta, o grupo inteiro junto, que a história pega mais forte no ouvido do que no olho."
         ]
       },
       "missao_abertura": {
@@ -77,11 +77,11 @@
             },
             {
               "voz": "narrador",
-              "texto": "Dizem. Ninguém viu o velho escrever, e a cera do selo já estava fria quando o mensageiro chegou. Vocês vão ter que decidir se confiam nela sem ter como provar de quem é. Acostumem com isso hoje."
+              "texto": "Dizem. Ninguém viu o velho escrever, e a cera do selo já estava fria quando o mensageiro chegou. Vão ter que decidir se confiam sem ter prova. Acostumem com isso hoje."
             },
             {
               "voz": "gamliel",
-              "texto": "Talmidim de Beit Hilel. Chegou mais um. Yeshua de Natzrat, um mestre da Galileia, morto numa cruz por Roma como se pendura um ladrão. Até aí, história repetida. Theudas* prometeu partir o rio e acabou com a cabeça num poste. Yehudá, o Galileu*, pegou em armas no ano do censo e virou pó, com os seus atrás. Falso messias termina sempre igual: o mestre cai, o bando se esconde, o nome apaga."
+              "texto": "Chegou mais um. Yeshua de Natzrat, mestre da Galileia, morto numa cruz por Roma como se pendura um ladrão. História repetida: Theudas* prometeu partir o rio e acabou com a cabeça num poste; Yehudá, o Galileu*, pegou em armas no ano do censo e virou pó, com os seus atrás. Falso messias termina sempre igual: o mestre cai, o bando se esconde, o nome apaga."
             },
             {
               "voz": "gamliel",
@@ -188,11 +188,11 @@
             },
             {
               "voz": "narrador",
-              "texto": "E há coisa pior no ar, e para ver esta parte ninguém precisa de carta: basta o par que o velho cobrou. Yerushalayim está comendo a si mesma. Homens escondem um punhal curto na dobra do manto, os sicários*, se misturam à multidão nas festas e cravam a lâmina nas costas de outro judeu dentro do próprio Templo. Neste mesmo ano, gente da cidade tomou o Monte à força e matou o sumo sacerdote*, e largou o corpo fora do muro sem sepultura. Roma ainda nem chegou, e o sangue que corre já é de irmão."
+              "texto": "Há coisa pior no ar, e esta parte se vê sem carta: basta o par que o velho cobrou. Yerushalayim está comendo a si mesma. Homens escondem um punhal na dobra do manto, os sicários*, se misturam à multidão da festa e cravam a lâmina nas costas de outro judeu, dentro do próprio Templo. Neste ano, gente da cidade tomou o Monte e matou o sumo sacerdote*, e largou o corpo fora do muro, sem sepultura. Roma nem chegou, e o sangue que corre já é de irmão."
             },
             {
               "voz": "narrador",
-              "texto": "Até a nossa casa já provou desse veneno. Houve um dia em que Beit Shammai e Beit Hilel discordaram tanto que cravaram uma espada no chão da casa de estudo*, e disseram: quem entra, entra; quem sai, não sai. Os sábios lembram desse dia como um dos piores que Israel viveu. Brigar por Torá ainda é vida. O veneno vem depois, no dia em que um lado para de acreditar que o outro ama o mesmo Céu."
+              "texto": "Até a nossa casa já provou desse veneno. Houve um dia em que Beit Shammai e Beit Hilel discordaram tanto que cravaram uma espada no chão da casa de estudo*: quem entra, entra; quem sai, não sai. Os sábios lembram esse dia como um dos piores que Israel viveu. Brigar por Torá ainda é vida. O veneno vem depois, no dia em que um lado para de acreditar que o outro ama o mesmo Céu."
             }
           ],
           "eco": "Vocês conhecem uma cidade que se come por dentro. Já a viram com outro nome, mais perto de casa.",
@@ -278,19 +278,15 @@
             },
             {
               "voz": "circulo",
-              "texto": "Tem um homem pintado nessa parede, olhando para vocês. É ele. O mestre de Natzrat, o motivo de a gente estar aqui."
+              "texto": "Tem um homem pintado nessa parede, olhando para vocês. É ele. O mestre de Natzrat, o motivo de a gente estar aqui. Essa gente é judia: reza o Shemá que vocês rezam, chora pelo mesmo Templo. Não veio de fora. Senta do outro lado da mesma mesa."
             },
             {
               "voz": "circulo",
-              "texto": "Essa gente é judia. Reza o Shemá que vocês rezam, chora pelo mesmo Templo. Não veio de fora. Senta do outro lado da mesma mesa."
+              "texto": "E cabe muita gente debaixo de um nome só. Tem o pescador que reparte o pão sem perguntar quem você é, e espera o Mashiach com a alma inteira, igual a vocês na reza da manhã. E tem o outro, que já enxerga na multidão uma faca, e sonha em virar a espera em revolta. Em toda casa é assim: os que amam o Céu, e os que vestem o nome do Céu para acender o próprio fogo."
             },
             {
               "voz": "circulo",
-              "texto": "E cabe muita gente debaixo de um nome só. Tem o pescador que reparte o pão sem perguntar quem você é, e quer o Mashiach com a alma inteira, igual a vocês na reza da manhã. Tem também o outro, que já enxerga na multidão uma faca, e sonha em virar a espera em revolta. Theudas* sonhou parecido, e acabou com a cabeça num poste. Yehudá, o Galileu*, também, e virou pó com os seus atrás. Em toda casa é assim. Os que amam o Céu, e os que vestem o nome do Céu para acender o próprio fogo."
-            },
-            {
-              "voz": "circulo",
-              "texto": "O velho sabia disso quando mandou ver antes de julgar. Bando não se mede pelo pior que tem dentro, nem pelo melhor. Mede-se um por um, na cara, de perto, na distância em que a rede trabalha: este aqui espera, ou este aqui arma uma revolta em nome do Céu?"
+              "texto": "Bando não se mede pelo pior que tem dentro, nem pelo melhor. Mede-se um por um, na cara, de perto, na distância em que a rede trabalha: este aqui espera, ou este arma revolta em nome do Céu? O velho sabia disso quando mandou ver antes de julgar."
             },
             {
               "voz": "circulo",
@@ -313,7 +309,7 @@
           "direcoes": [
             "Ao lado, o mosteiro etíope. Passem por ele.",
             "Na placa Christian Quarter, virem à esquerda.",
-            "Agora sigam em frente até a barbearia Al-Zouhor. Ali, virem à esquerda. Depois à esquerda de novo, e então à direita, para dentro da praça.",
+            "Sigam em frente até a barbearia Al-Zouhor. Ali, virem à esquerda. Esquerda de novo, e então à direita, para dentro da praça.",
             "A praça se abre. É ali que vocês param."
           ],
           "marcos": [
@@ -392,15 +388,11 @@
             },
             {
               "voz": "narrador",
-              "texto": "Shaul é um dos nossos. Sentou aos pés de Rabban Gamliel*, no mesmo chão que vocês, decorou os mesmos versos, reza o mesmo Shemá. E virou caçador dos seus. Romano, ele deixava passar; idólatra também. A caça dele era judeu: gente como vocês, que tinha posto a fé num messias morto numa cruz. Andava de porta em porta com um maço de cartas na sacola, autorização carimbada para arrastar homem e mulher amarrados de volta para Yerushalayim. Moeda nenhuma pagava aquilo. A cada porta que arrombava, tinha certeza de estar servindo ao Céu."
+              "texto": "Shaul é um dos nossos. Sentou aos pés de Rabban Gamliel*, no mesmo chão que vocês, decorou os mesmos versos, reza o mesmo Shemá. E virou caçador dos seus. Romano, ele deixava passar; idólatra também. A caça dele era judeu: gente que tinha posto a fé num messias morto numa cruz. Andava de porta em porta com autorização carimbada na sacola, arrastando homem e mulher amarrados de volta. A cada porta que arrombava, a certeza de estar servindo ao Céu."
             },
             {
               "voz": "narrador",
-              "texto": "Aí, no meio do dia, na estrada aberta, alguma coisa o derrubou. O caçador que corria para cegar os outros levantou cego. Quando a vista voltou, ele tinha trocado de lado. Passou a anunciar, de praça em praça, exatamente o que jurara arrancar pela raiz."
-            },
-            {
-              "voz": "narrador",
-              "texto": "Trocou de nome junto com o lado: Shaul virou Paulo. E foi ele, mais que qualquer um, que levou esse messias para fora de casa, para os gentios, para povos que nunca tinham ouvido do D'us de Israel. A briga que começou entre irmãos, ele abriu para o mundo inteiro."
+              "texto": "Aí, na estrada aberta, alguma coisa o derrubou. O caçador que corria para cegar os outros levantou cego. Quando a vista voltou, tinha trocado de lado, e de nome: Shaul virou Paulo. Passou a anunciar, de praça em praça, o que jurara arrancar pela raiz. E foi ele, mais que qualquer um, que levou esse messias para fora de casa, para povos que nunca tinham ouvido do D'us de Israel. A briga que começou entre irmãos, ele abriu para o mundo inteiro."
             },
             {
               "voz": "narrador",
@@ -408,11 +400,11 @@
             },
             {
               "voz": "gamliel",
-              "texto": "E escutem bem quem é essa gente, porque não são todos iguais. Tem reshaim no meio, sempre tem: gente que veste o nome do Céu para acender o próprio fogo. Mas a maioria é judeu comum, que se deixou levar por um messias que prometeu e foi embora. Com esse, briga nenhuma: esse a gente chega perto e traz. A espada de Shaul não trouxe um só de volta. De volta se traz puxando pela manga, não arrastando pela corda."
+              "texto": "Tem reshaim no meio, sempre tem: gente que veste o nome do Céu para acender o próprio fogo. Mas a maioria é judeu comum, que se deixou levar por um messias que prometeu e foi embora. Com esse, briga nenhuma: esse a gente chega perto e traz. A espada de Shaul não trouxe um só de volta. De volta se traz puxando pela manga, não arrastando pela corda."
             },
             {
               "voz": "gamliel",
-              "texto": "Quando prenderam os primeiros dessa gente e o Sinédrio quis matá-los, fui eu que segurei a corte*. Disse: se isto vem de homem, se desfaz sozinho. Se vem de D'us, vocês não desfazem, e ainda vão se ver brigando contra o Céu. Deixem o tempo julgar o que a pressa não sabe."
+              "texto": "Quando prenderam os primeiros dessa gente e o Sinédrio quis matá-los, fui eu que segurei a corte*. Se isto vem de homem, se desfaz sozinho. Se vem de D'us, vocês não desfazem, e ainda vão se ver brigando contra o Céu. Deixem o tempo julgar o que a pressa não sabe."
             },
             {
               "voz": "narrador",
@@ -420,7 +412,7 @@
             },
             {
               "voz": "gamliel",
-              "texto": "Vocês voltaram e me prestaram contas, e eu ouvi tudo. Mandei vocês atrás de um exército, e vocês me trouxeram irmãos: irmãos que leem uma hora diferente no mesmo céu, que talvez estejam errados sobre a hora, e que ainda assim sentam à mesma mesa que nós. Tem muito judeu bom ali dentro, gente que acreditou de coração e não consegue mais voltar atrás. Esse a gente não larga."
+              "texto": "Mandei vocês atrás de um exército, e vocês me trouxeram irmãos. Irmãos que leem uma hora diferente no mesmo céu, que talvez estejam errados sobre a hora, e ainda assim sentam à mesma mesa que nós. Tem muito judeu bom ali dentro, gente que acreditou de coração e não consegue mais voltar atrás. Esse a gente não larga."
             },
             {
               "voz": "gamliel",
@@ -447,7 +439,7 @@
             }
           ],
           "beats": [],
-          "missao": "Entrando no shuk por este túnel, gravem o vídeo do grupo em duas fileiras, marchando feito soldado que cruza a terra dos outros sem baixar a cabeça. Gritem Torá, Torá, Torá! Gravem e enviem o vídeo pelo app. Depois, a porta: digitem o nome do portão escrito na placa e, colado nele, a palavra que O Messias diferente guarda na sacola de vocês.",
+          "missao": "Entrando no shuk por este túnel, gravem o vídeo do grupo em duas fileiras, marchando feito soldado que cruza a terra dos outros sem baixar a cabeça. Gritem: Torá, Torá, Torá! Enviem o vídeo pelo app. Depois, a porta: digitem o nome do portão escrito na placa e, colado nele, a palavra que O Messias diferente guarda na sacola de vocês.",
           "fotos": [
             "img/etapas/fariseus-e5-a-portao-colunas.jpg",
             "img/etapas/fariseus-e5-b-passagem-porta-azul.jpg",
@@ -548,6 +540,42 @@
             }
           },
           "senha_desbloqueio": "YAVNE"
+        },
+        {
+          "id": 6,
+          "titulo": "O beit midrash abandonado",
+          "trilha": "trilha-jerusalem",
+          "som_chegada": "chegada-forte",
+          "corredor": [
+            [
+              31.776767,
+              35.231761
+            ]
+          ],
+          "raio_m": 45,
+          "_gps_pendente": "PROVISORIO: trocar pelo ponto real do beit midrash quando o Allan marcar (rota ADM FINAL-JOGO)",
+          "carta": [
+            {
+              "texto": "Dos telhados se vê a cidade inteira. Desçam dela. Perto daqui existe um beit midrash abandonado: bancos vazios, poeira sentada onde havia voz. Yavne começou assim, numa sala que todos deram por morta e alguém teimou em encher de novo. Achem essa porta. A última lição espera atrás dela.",
+              "voz": "narrador"
+            }
+          ],
+          "direcoes": [
+            "Fica a poucos passos do telhado. Procurem a porta que ninguém abre há tempo demais; se precisarem, perguntem: onde se estudava aqui, e hoje não se estuda?",
+            "Quando acharem, fiquem juntos na porta. O madrich tem a palavra que sela a noite."
+          ],
+          "marcos": [
+            {
+              "nome": "O beit midrash abandonado",
+              "ponto": [
+                31.776767,
+                35.231761
+              ]
+            }
+          ],
+          "missao": "Achem o beit midrash abandonado e cheguem juntos até a porta dele. Lá, o madrich fala a palavra que sela a noite.",
+          "fotos": [],
+          "senha_desbloqueio": "AHAVAT"
         }
       ],
       "ponto_final": [
@@ -562,11 +590,11 @@
         },
         {
           "voz": "gamliel",
-          "texto": "Olhem em volta. Esse mar de telhados de pedra, pano e cúpula, até onde a vista alcança, é o shuk. O mesmo mercado onde vocês se perderam a noite toda. Lá dentro, cada beco parecia uma armadilha. Daqui de cima é uma cidade só, e cabe num olhar. Lá dentro, ninguém conseguia enxergar isso."
+          "texto": "Olhem em volta. Esse mar de telhados de pedra, pano e cúpula é o shuk, o mesmo mercado onde vocês se perderam a noite toda. Lá dentro, cada beco parecia uma armadilha. Daqui de cima é uma cidade só, e cabe num olhar."
         },
         {
           "voz": "gamliel",
-          "texto": "Vocês ainda precisam achar o beit midrash escondido. Parem, fiquem quietos, e tentem escutar. Talvez subam vozes: gente jovem debruçada nos livros, repetindo a Torá em voz alta, do mesmo jeito de dois mil anos atrás. Ou talvez ele esteja abandonado, e o que suba seja só o silêncio."
+          "texto": "Vocês ainda precisam achar o beit midrash escondido. Parem, fiquem quietos, e escutem. Talvez subam vozes: gente jovem debruçada nos livros, repetindo a Torá em voz alta, do mesmo jeito de dois mil anos atrás. Ou talvez suba só o silêncio."
         },
         {
           "voz": "gamliel",
@@ -574,19 +602,39 @@
         },
         {
           "voz": "gamliel",
-          "texto": "E quando os sábios sentarem para entender por quê, o nome que vão escrever na primeira linha vai ser o nosso, antes do de Roma. Com o inimigo já no portão, três facções judias* vão rachar a cidade e brigar entre si por ela. Vão queimar, com a própria mão, os armazéns de trigo que dariam para aguentar anos de cerco*, e a fome que vai matar meia cidade vai ser fome plantada por judeu. Vocês conhecem o Kamtza e o Bar Kamtza*: um convite trocado, um homem humilhado numa festa, a sala inteira calada. Foi por miudeza desse tamanho que a Casa caiu. Deram nome a isso quando já era cinza: sinat chinam, ódio de graça. O incêndio que nenhuma legião precisa atear: ele entra pelo lado da tranca, o que dá para casa."
+          "texto": "E quando os sábios sentarem para entender por quê, o primeiro nome da lista vai ser o nosso, antes do de Roma. Com o inimigo já no portão, três facções judias* vão rachar a cidade e queimar, com a própria mão, os armazéns de trigo que dariam para aguentar anos de cerco*. A fome que vai matar meia cidade vai ser fome plantada por judeu."
         },
         {
           "voz": "gamliel",
-          "texto": "E aqui está o milagre, e ele é da nossa casa. Rabban Yochanan ben Zakkai viu que a pedra estava perdida. Se fez de morto, e os alunos o carregaram para fora da cidade sitiada dentro de um caixão*, porque os radicais matavam quem falasse em paz. De pé diante do general de Roma, com a cidade em brasa às costas, ele podia pedir qualquer coisa. Pediu uma escola: uma sala de estudo numa cidadezinha chamada Yavne, com meia dúzia de sábios dentro. Roma sabia pesar ouro, muralha e exército; um povo guardado dentro de um livro, a balança dela nunca soube pesar. O muro queimou. A voz não. Abram o livro hoje, e Hilel discute com Shammai no presente, como se ninguém tivesse morrido. Se a sala atrás de vocês ainda estuda, ou se emudeceu, isso saiu da mão de Roma faz tempo. Está na de vocês."
+          "texto": "Vocês conhecem o Kamtza e o Bar Kamtza*: um convite trocado, um homem humilhado numa festa, a sala inteira calada. Foi por miudeza desse tamanho que a Casa caiu. Deram nome a isso quando já era cinza: sinat chinam, ódio de graça. O incêndio que legião nenhuma precisa atear: ele entra pelo lado da tranca, o que dá para casa."
         },
         {
           "voz": "gamliel",
-          "texto": "A lição que sobra é curta. Vocês desceram achando que a missão era julgar um bando, e me prestaram contas como quem fecha um caso. Agora abram a sacola e releiam as peças, uma a uma: ver antes de julgar, chegar perto, apostar no dia que ainda não raiou, desconfiar da certeza sem arranhão, guardar a tranca do lado de casa. Para espião, isso é peso morto. Para aluno, é caixa de ferramentas. A noite inteira foi aula. O aluno eram vocês. Enquanto o Templo guarda ouro e o zelote afia ferro, a nossa casa embala numa sacola o que o fogo não come: a escola e o livro. Foi essa a nossa aposta. A pedra cai. A pergunta que passa de boca a ouvido, nenhuma Roma derruba."
+          "texto": "O milagre é da nossa casa. Rabban Yochanan ben Zakkai viu que a pedra estava perdida. Se fez de morto, e os alunos o carregaram para fora da cidade num caixão*, porque os radicais matavam quem falasse em paz. Diante do general de Roma, podia pedir qualquer coisa. Pediu uma escola: uma sala em Yavne, meia dúzia de sábios dentro. Roma sabia pesar ouro, muralha e exército. Um povo guardado num livro, a balança dela nunca soube pesar. O muro queimou. A voz não."
+        },
+        {
+          "voz": "gamliel",
+          "texto": "A lição que sobra é curta. Vocês desceram achando que a missão era julgar um bando. Abram a sacola e releiam as peças: ver antes de julgar, chegar perto, apostar no dia que ainda não raiou, desconfiar da certeza sem arranhão, guardar a tranca do lado de casa. Para espião, peso morto. Para aluno, caixa de ferramentas. A noite inteira foi aula. O aluno eram vocês. A pedra cai. A pergunta que passa de boca a ouvido, nenhuma Roma derruba."
         },
         {
           "voz": "viajante",
-          "texto": "Agora a parte que só vocês, que vieram de longe, podem ouvir. O velho matriculou vocês numa escola sem placa e sem muro, e escondeu a lista de material dentro das peças da sacola: os olhos, o perto, o amanhã, a dúvida, o lado de dentro. Até a senha que destrancou esta noite, lá na primeira tela, era a aposta inteira numa palavra só. A voz que saiu daqui num caixão atravessou a Babilônia, a Espanha, a Polônia, o porão dos navios, e foi dar no Kidush de sexta, na peulá do movimento, na discussão que vira madrugada. Vocês ouviram essa voz a vida inteira sem saber o nome dela. Amanhã tiram a roupa de fariseu e voltam para as mesmas rusgas de sempre. Quando a próxima briga chegar, e ela sempre chega, lembrem do que viram do alto: a Casa de pedra caiu por ódio de graça, entre irmãos que amavam o mesmo D'us, e a escola do velho fica de pé enquanto vocês não desistirem uns dos outros. A Casa cabia em todos. Foram os que estavam dentro que não couberam. Não deixem esse fogo achar vocês de novo."
+          "texto": "Agora a parte que só vocês, que vieram de longe, podem ouvir. O velho matriculou vocês numa escola sem placa e sem muro, e escondeu a lista de material dentro das peças: os olhos, o perto, o amanhã, a dúvida, o lado de dentro. Até a senha da primeira tela era a aposta inteira numa palavra só. A voz que saiu daqui num caixão atravessou a Babilônia, a Espanha, o porão dos navios, e foi dar no Kidush, na peulá do movimento, na discussão que vira madrugada."
+        },
+        {
+          "voz": "viajante",
+          "texto": "Vocês ouviram essa voz a vida inteira sem saber o nome dela. Quando a próxima briga chegar, e ela sempre chega, lembrem do que viram do alto: a Casa caiu por ódio de graça, entre irmãos que amavam o mesmo D'us, e a escola do velho fica de pé enquanto vocês não desistirem uns dos outros. A Casa cabia em todos. Foram os que estavam dentro que não couberam. Não deixem esse fogo achar vocês de novo."
+        },
+        {
+          "texto": "A escola de vocês está montada. Falta a última matéria, e ela não se aprende em sala: desçam ao Kotel.",
+          "voz": "viajante"
+        },
+        {
+          "texto": "Encontrem lá cinco judeus de cinco casas: um chassid, um litai, um dati leumi, um chiloni, um sefaradi. Cinco que não rezam igual, não vestem igual, não votam igual.",
+          "voz": "viajante"
+        },
+        {
+          "texto": "Façam uma roda com os cinco. Cantem Am Hanetzach Lo Mefached MiDerech Aruca, o povo eterno não teme o caminho longo, e dancem até a roda virar uma só. Depois contem a eles o que vocês viram esta noite: esta cidade caiu de sinat chinam, ódio de graça, e só fica de pé por ahavat Israel. Vão.",
+          "voz": "viajante"
         }
       ],
       "revelacao_sacola": {
@@ -1266,7 +1314,7 @@
           "Um sábio, Yochanan ben Zakkai, viu a guerra chegar e se fez de morto: saiu da cidade dentro de um caixão pra negociar com Roma uma escolinha em Yavne.* Vocês têm uma palavra para isso: covardia. Enquanto ele salva livros, vocês salvam Jerusalém. Torá dita num pé só não para legião. Punhal para."
         ],
         "combinados": [
-          "Aqui a carta é curta e a missão é grossa. Cumpram e sigam andando. No caminho vão chegar ordens que são história: o que vocês já fizeram e o que estão prestes a fazer. Tudo que vier com asterisco aconteceu de verdade. E atenção à sacola: cada peça que entrar nela esconde uma palavra, apontada por imagem, nunca escrita na letra. Quando uma porta pedir a palavra de uma peça, releiam a peça com calma. Quem lê com olho de ronda acha em menos de um minuto."
+          "Aqui a carta é curta e a missão é grossa. Cumpram e sigam andando. No caminho chegam ordens que são história: o que vocês já fizeram e o que estão prestes a fazer. Tudo que vier com asterisco aconteceu de verdade. E atenção à sacola: cada peça esconde uma palavra, apontada por imagem, nunca escrita na letra. Quando uma porta pedir a palavra de uma peça, releiam a peça com calma. Olho de ronda acha em menos de um minuto."
         ]
       },
       "etapas": [
@@ -1552,7 +1600,7 @@
           "carta": [
             {
               "voz": "narrador",
-              "texto": "Sigam o diamante. Ele para numa porta baixa: a yeshiva dos cabalistas, o Sha'ar Shamaim, o Portão dos Céus. Lá dentro, homens passam a noite debruçados nas letras do Nome, somando combinações, esperando a salvação descer do céu por conta própria. Gente boa. Inofensiva como chuva fina. Superstição não para legião. Levem o número da porta e sigam: a resposta que eles procuram no alfabeto, vocês carregam na mão, com cheiro de breu."
+              "texto": "Sigam o diamante. Ele para numa porta baixa: a yeshiva dos cabalistas, o Sha'ar Shamaim, o Portão dos Céus. Lá dentro, homens passam a noite somando as letras do Nome, esperando a salvação descer do céu por conta própria. Gente boa. Inofensiva como chuva fina. Superstição não para legião. Levem o número da porta e sigam: a resposta que eles procuram no alfabeto, vocês carregam na mão, com cheiro de breu."
             }
           ],
           "direcoes": [
@@ -1595,7 +1643,7 @@
           "carta": [
             {
               "voz": "narrador",
-              "texto": "Vocês entram na parte mais protegida da cidade, onde os nossos mandam. Aqui a ordem anda de cabeça erguida, com o selo do comando. Capitão, leia em voz alta."
+              "texto": "Aqui quem manda somos nós. Vocês entram na parte mais protegida da cidade, e a ordem anda de cabeça erguida, com o selo do comando. Capitão, leia em voz alta."
             },
             {
               "voz": "circulo",
@@ -1671,7 +1719,7 @@
           "carta": [
             {
               "voz": "narrador",
-              "texto": "Bem na frente tem um centro de estudos, os 'fariseus sionistas', um nome que ainda nem existe. Ali dentro, gente da nossa gente passa a noite no livro enquanto vocês passam a noite no ferro. São do nosso povo. Ninguém encosta num fio deles. Mas reparem na calma: eles estudam como quem tem tempo. Vocês sabem que o tempo acabou. A inimiga da perfeição dorme no bolso de vocês, do tamanho de um dedo de corda, e esta noite ela tem razão. Livro nenhum jamais parou uma legião. Guardem o desprezo, e guardem a mão."
+              "texto": "Bem na frente, um centro de estudos: os 'fariseus sionistas', um nome que ainda nem existe. Gente da nossa gente passa a noite no livro enquanto vocês passam a noite no ferro. São do nosso povo. Ninguém encosta num fio deles. Eles estudam como quem tem tempo. Vocês sabem que o tempo acabou. A inimiga da perfeição dorme no bolso de vocês, um dedo de corda, e esta noite ela tem razão. Livro nenhum parou legião. Guardem o desprezo, e guardem a mão."
             }
           ],
           "direcoes": [
@@ -1758,6 +1806,42 @@
             "img/etapas/zelotes-e7-a-patio.jpg"
           ],
           "senha_desbloqueio": "MASSADA"
+        },
+        {
+          "id": 9,
+          "titulo": "O beit midrash abandonado",
+          "trilha": "trilha-jerusalem",
+          "som_chegada": "chegada-forte",
+          "corredor": [
+            [
+              31.77678,
+              35.231647
+            ]
+          ],
+          "raio_m": 45,
+          "_gps_pendente": "PROVISORIO: trocar pelo ponto real do beit midrash quando o Allan marcar (rota ADM FINAL-JOGO)",
+          "carta": [
+            {
+              "texto": "O caminho do fogo termina em Massada, e vocês já sabem como termina Massada. Existe outro caminho, e ele começa perto daqui: um beit midrash abandonado, bancos vazios, nenhuma voz. Onde a cidade parou de estudar, alguém precisa ser o primeiro a voltar. Achem essa porta.",
+              "voz": "narrador"
+            }
+          ],
+          "direcoes": [
+            "Fica a poucos passos do telhado. Procurem a porta que ninguém abre há tempo demais; se precisarem, perguntem: onde se estudava aqui, e hoje não se estuda?",
+            "Quando acharem, fiquem juntos na porta. O madrich tem a palavra que sela a noite."
+          ],
+          "marcos": [
+            {
+              "nome": "O beit midrash abandonado",
+              "ponto": [
+                31.77678,
+                35.231647
+              ]
+            }
+          ],
+          "missao": "Achem o beit midrash abandonado e cheguem juntos até a porta dele. Lá, o madrich fala a palavra que sela a noite.",
+          "fotos": [],
+          "senha_desbloqueio": "AHAVAT"
         }
       ],
       "ponto_final": [
@@ -1775,11 +1859,11 @@
         },
         {
           "voz": "circulo",
-          "texto": "Antes, abram a sacola que encheram a noite inteira. O punhal curto. Os armamentos. A chave dos armazéns. A tocha. O pavio curto. O grito da revolta. Vocês juntaram peça por peça com orgulho, certos de que era o arsenal que ia derrubar Roma. Agora escutem pra que ele serviu."
+          "texto": "Antes, abram a sacola que encheram a noite inteira. O punhal curto. Os armamentos. A chave dos armazéns. A tocha. O pavio curto. O grito da revolta. Peça por peça juntada com orgulho, certos de que era o arsenal que ia derrubar Roma. Agora escutem pra que ele serviu."
         },
         {
           "voz": "circulo",
-          "texto": "Com o inimigo já no portão, foram facções judias como a nossa que rasgaram a cidade por dentro.* A chave que vocês guardaram abriu os armazéns da própria Jerusalém. A tocha desceu sobre o depósito cheio, e o fogo dos nossos comeu as reservas que aguentariam anos de cerco.* O pavio curto venceu o medo de passar fome. E meia Jerusalém morreu de uma fome plantada por judeu, com as ferramentas que vocês carregaram a noite toda. Quando já era tudo cinza, deram um nome: sinat chinam, ódio de graça."
+          "texto": "Com o inimigo já no portão, foram facções judias como a nossa que rasgaram a cidade por dentro.* A chave que vocês guardaram abriu os armazéns da própria Jerusalém. A tocha desceu sobre o depósito cheio, e o fogo dos nossos comeu as reservas que aguentariam anos de cerco.* O pavio curto venceu o medo de passar fome. Meia Jerusalém morreu de fome plantada por judeu, com as ferramentas da sacola de vocês. Quando já era cinza, deram nome: sinat chinam, ódio de graça."
         },
         {
           "voz": "circulo",
@@ -1796,6 +1880,18 @@
         {
           "voz": "narrador",
           "texto": "As três correntes chegaram ao mesmo teto, cada uma pelo seu caminho. Fariseus, saduceus, zelotes. Daqui em diante, a última instrução é a mesma para todos."
+        },
+        {
+          "texto": "O fogo de vocês ainda está aceso. Esta noite ele aprende a esquentar em vez de queimar: desçam ao Kotel.",
+          "voz": "narrador"
+        },
+        {
+          "texto": "Encontrem lá cinco judeus de cinco casas: um chassid, um litai, um dati leumi, um chiloni, um sefaradi. Cinco que não rezam igual, não vestem igual, não votam igual.",
+          "voz": "narrador"
+        },
+        {
+          "texto": "Façam uma roda com os cinco. Cantem Am Hanetzach Lo Mefached MiDerech Aruca, o povo eterno não teme o caminho longo, e dancem até a roda virar uma só. Depois contem a eles o que vocês viram esta noite: esta cidade caiu de sinat chinam, ódio de graça, e só fica de pé por ahavat Israel. Vão.",
+          "voz": "narrador"
         }
       ],
       "foto_final": "img/etapas/zelotes-e7-a-patio.jpg"

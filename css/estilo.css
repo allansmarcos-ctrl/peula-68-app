@@ -1250,3 +1250,15 @@ input[type="text"]:focus { border-color: var(--dourado); }
   .beat-marco { animation: none; }
   #sussurro { transition: none; }
 }
+
+/* ---------- o traidor (sinat chinam): pontos que so o sorteado ve ---------- */
+.ponto-traidor {
+  width: 18px; height: 18px; border-radius: 50%;
+  border: 1px solid rgba(150, 28, 28, .85);
+  background: radial-gradient(circle, rgba(150, 28, 28, .85) 0%, rgba(150, 28, 28, .12) 70%);
+  box-shadow: 0 0 12px rgba(150, 28, 28, .5);
+}
+.ponto-traidor.batido { opacity: .25; box-shadow: none; }
+#revelacao-traidor { margin-top: 16px; padding: 14px 16px; border: 1px solid rgba(184, 134, 11, .45); border-radius: 10px; }
+#papel-secreto .overlay-cartela { max-width: 360px; }
+#nome-input { text-align: center; }
