@@ -1987,6 +1987,14 @@ function montarPainelAdm() {
   $('adm-copiar').addEventListener('click', admCopiarAnotacoes);
   $('adm-exportar').addEventListener('click', admExportarFotos);
   $('adm-limpar').addEventListener('click', admLimparTudo);
+  // toque no titulo recolhe/expande o diario (pra ver o mapa por inteiro no campo)
+  const cab = p.querySelector('.adm-cab');
+  const aplicarMin = (min) => {
+    p.classList.toggle('adm-min', min);
+    try { localStorage.setItem('peula68_adm_min', min ? '1' : ''); } catch (e) {}
+  };
+  cab.addEventListener('click', () => aplicarMin(!p.classList.contains('adm-min')));
+  try { if (localStorage.getItem('peula68_adm_min') === '1') aplicarMin(true); } catch (e) {}
 }
 
 // popula o <select> de rotas com as rotas conhecidas e marca a ativa
