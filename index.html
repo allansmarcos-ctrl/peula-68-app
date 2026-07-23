@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#2b1d10">
 <title>As Portas de Jerusalém</title>
 <link rel="manifest" href="manifest.webmanifest">
@@ -27,6 +27,30 @@
     </form>
     <p id="erro-portao" class="erro" role="alert"></p>
     <p class="assinatura" data-txt="subtitulo"></p>
+  </div>
+</section>
+
+<!-- TELA 1b: O GRUPO. Cada equipe cria ou entra num codigo (a sala de sincronia). -->
+<section id="tela-grupo" class="tela tela-pergaminho">
+  <div class="cartela-central">
+    <p class="ano" data-txt="grupo_rotulo"></p>
+    <p class="abertura" data-txt="grupo_intro"></p>
+
+    <button id="grupo-criar" class="botao" type="button" data-txt="grupo_criar"></button>
+    <div id="grupo-codigo-bloco" class="oculto">
+      <p class="grupo-codigo-rotulo" data-txt="grupo_codigo_rotulo"></p>
+      <p id="grupo-codigo" class="grupo-codigo"></p>
+      <button id="grupo-comecar" class="botao" type="button" data-txt="grupo_comecar"></button>
+    </div>
+
+    <p class="grupo-ou" data-txt="grupo_ou"></p>
+
+    <form id="form-grupo" autocomplete="off">
+      <label class="rotulo" for="grupo-input" data-txt="grupo_entrar_rotulo"></label>
+      <input id="grupo-input" type="text" autocapitalize="characters" autocomplete="off" spellcheck="false">
+      <button type="submit" class="botao botao-claro" data-txt="grupo_entrar"></button>
+    </form>
+    <p id="grupo-erro" class="erro" role="alert"></p>
   </div>
 </section>
 
@@ -109,10 +133,13 @@
         </details>
       </div>
 
-      <!-- ABA: A MISSAO (o que fazer no lugar + a senha) -->
+      <!-- ABA: A MISSAO (o avanco vem da missao cumprida: foto/video; a senha e reserva do madrich) -->
       <div id="aba-missao" class="aba">
         <p class="painel-titulo" data-txt="abrir_missao"></p>
         <p id="missao-texto"></p>
+        <div id="missao-acao"></div>
+        <input id="missao-foto-input" type="file" accept="image/*" hidden>
+        <p id="missao-reserva-rotulo" class="missao-reserva-rotulo oculto"></p>
         <form id="form-senha" autocomplete="off">
           <label id="senha-rotulo" class="rotulo" for="senha-input"></label>
           <input id="senha-input" type="text" autocapitalize="characters" autocomplete="off" spellcheck="false" required>
@@ -137,14 +164,36 @@
     <span class="pm-seta">&#9650;</span><span data-txt="painel_mostrar"></span>
   </button>
 
-  <!-- GATE inicial: comecar longe da cidade, ir ate o brilho e tocar ESTOU AQUI -->
+  <!-- GATE inicial: comecar longe da cidade, ir ate o brilho. O RETRATO do time comeca a caca. -->
   <div id="gate-inicial" class="oculto">
     <div class="gate-cartela">
       <p class="gate-rotulo" data-txt="gate_rotulo"></p>
       <p id="gate-texto" data-txt="gate_texto"></p>
+      <div id="gate-retrato" class="oculto">
+        <p id="gate-retrato-texto" class="gate-retrato-texto"></p>
+        <button id="gate-retrato-btn" class="botao" type="button"><span id="gate-retrato-btn-txt"></span></button>
+        <input id="gate-foto-input" type="file" accept="image/*" hidden>
+      </div>
       <button id="gate-botao" class="botao" type="button" data-txt="gate_botao"></button>
     </div>
   </div>
+
+  <!-- CONVITE: o grupo avancou; ir junto ou adiar (troca o teleporte por consentimento) -->
+  <div id="convite-grupo" class="oculto">
+    <div class="convite-cartela">
+      <p class="convite-rotulo" data-txt="convite_rotulo"></p>
+      <p id="convite-texto"></p>
+      <div class="convite-botoes">
+        <button id="convite-depois" class="botao botao-claro" type="button" data-txt="convite_depois"></button>
+        <button id="convite-ir" class="botao" type="button" data-txt="convite_ir"></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- pilula discreta pra alcancar o grupo depois de adiar o convite -->
+  <button id="ir-grupo" class="oculto" type="button">
+    <span class="ig-seta">&#9650;</span><span id="ir-grupo-texto"></span>
+  </button>
 </section>
 
 <!-- TELA 4: FRAGMENTO FINAL (leitura fatiada, no alto). -->
@@ -169,6 +218,12 @@
   <div class="overlay-cartela tela-pergaminho">
     <p class="ano">A sacola da corrente</p>
     <div id="inv-grade"></div>
+    <!-- a virada: so aparece quando a sacola fica completa (rota com revelacao_sacola) -->
+    <div id="inv-revelacao" class="revelacao-painel oculto">
+      <div id="inv-rev-glifos" class="revelacao-glifos" aria-hidden="true"></div>
+      <h2 id="inv-rev-titulo" class="revelacao-titulo"></h2>
+      <p id="inv-rev-texto" class="revelacao-texto"></p>
+    </div>
     <button id="inv-voltar" class="botao botao-claro" type="button" data-txt="botao_voltar_mapa"></button>
   </div>
 </div>
@@ -180,6 +235,17 @@
     <div id="item-ganho-glifo"></div>
     <p id="item-ganho-nome"></p>
     <p id="item-ganho-sobre"></p>
+  </div>
+</div>
+
+<!-- REVELACAO DA SACOLA: a virada, quando as pecas coletadas se juntam (so a rota com revelacao_sacola) -->
+<div id="revelacao-sacola" class="overlay oculto" role="dialog" aria-modal="true">
+  <div class="overlay-cartela revelacao-cartela">
+    <div id="rev-glifos" class="revelacao-glifos" aria-hidden="true"></div>
+    <h2 id="rev-titulo" class="revelacao-titulo"></h2>
+    <p id="rev-texto" class="revelacao-texto"></p>
+    <p class="ornamento">&#10022;</p>
+    <button id="rev-fechar" class="botao" type="button">Guardar na sacola</button>
   </div>
 </div>
 
@@ -224,6 +290,12 @@
 <div id="tela-foto" class="overlay oculto" role="dialog" aria-modal="true">
   <img id="foto-grande" alt="">
   <button id="foto-fechar" class="botao botao-claro" type="button" data-txt="foto_fechar"></button>
+</div>
+
+<!-- SUSSURRO: pop de historia no mapa (os beats do caminho e o "revela" da missao cumprida) -->
+<div id="sussurro" class="oculto" role="status">
+  <div id="sussurro-glifo" class="oculto"></div>
+  <p id="sussurro-texto"></p>
 </div>
 
 <div id="toast" class="oculto" role="status"></div>

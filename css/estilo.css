@@ -355,7 +355,9 @@ input[type="text"]:focus { border-color: var(--dourado); }
 #painel-puxador {
   align-self: center;
   width: 100%; max-width: 160px;
-  padding: 14px 0 10px;
+  min-height: 44px;                 /* alvo de toque WCAG 2.5.5 */
+  display: flex; align-items: center; justify-content: center;
+  padding: 12px 0;
   background: none; border: none; cursor: pointer;
 }
 #painel-puxador span {
@@ -370,6 +372,8 @@ input[type="text"]:focus { border-color: var(--dourado); }
 }
 .aba-btn {
   flex: 1;
+  min-height: 44px;                 /* alvo de toque WCAG 2.5.5 */
+  display: flex; align-items: center; justify-content: center;
   padding: 9px 6px;
   font-family: 'Cinzel', Georgia, serif;
   font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase;
@@ -422,6 +426,10 @@ input[type="text"]:focus { border-color: var(--dourado); }
   background: transparent;
   cursor: pointer; -webkit-tap-highlight-color: transparent;
   position: relative;
+}
+.passo-tique::before {   /* estende o alvo de toque para 44px sem mudar o visual de 26px */
+  content: ''; position: absolute; top: 50%; left: 50%;
+  width: 44px; height: 44px; transform: translate(-50%, -50%);
 }
 .passo.feito .passo-tique {
   background: radial-gradient(circle at 38% 32%, #8fd0d8, #2f6f7d);
@@ -495,6 +503,7 @@ input[type="text"]:focus { border-color: var(--dourado); }
 
 /* ---- carimbo de estacao cumprida (azul turquesa "feito") ---- */
 
+.carimbo-hit { width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; } /* alvo de toque WCAG 2.5.5 */
 .carimbo {
   width: 30px; height: 30px; border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
@@ -594,6 +603,50 @@ input[type="text"]:focus { border-color: var(--dourado); }
 .inv-nome { font-family: 'Cinzel', Georgia, serif; font-size: 13.5px; color: #4a3418; letter-spacing: 0.03em; line-height: 1.3; }
 .inv-sobre { font-size: 12.5px; font-style: italic; line-height: 1.45; color: var(--sepia); margin-top: 5px; }
 
+/* ---- a revelacao da sacola: a virada quando as pecas coletadas se juntam ---- */
+/* overlay solene (disparo automatico ao completar): fica acima de tudo, so fecha no botao */
+#revelacao-sacola { z-index: 3600; opacity: 0; transition: opacity 0.5s ease; }
+#revelacao-sacola.visivel { opacity: 1; }
+.revelacao-cartela {
+  text-align: center; color: #f0deb6;
+  background:
+    radial-gradient(420px 300px at 50% 0%, rgba(120, 84, 40, 0.55), transparent 70%),
+    linear-gradient(165deg, #3a2a16, #241804);
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.7);
+  opacity: 0; transform: translateY(18px) scale(0.975);
+  transition: opacity 0.55s ease 0.08s, transform 0.55s ease 0.08s;
+}
+#revelacao-sacola.visivel .revelacao-cartela { opacity: 1; transform: none; }
+.revelacao-cartela .ornamento { margin: 16px 0 14px; }
+
+/* painel relegivel dentro da sacola: o mesmo card escuro dourado, encaixado na sacola pergaminho */
+.revelacao-painel {
+  margin: 2px 0 16px; padding: 18px 16px; text-align: center; color: #f0deb6;
+  background:
+    radial-gradient(360px 220px at 50% 0%, rgba(120, 84, 40, 0.5), transparent 70%),
+    linear-gradient(165deg, #3a2a16, #241804);
+  border: 2px solid var(--dourado); border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(30, 18, 6, 0.5);
+}
+
+/* comuns aos dois: a fileira de glifos brilhando, o titulo lapidado, o texto da virada */
+.revelacao-glifos { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-bottom: 14px; }
+.rev-glifo {
+  width: 34px; height: 34px; color: #ffe08a;
+  filter: drop-shadow(0 0 8px rgba(255, 205, 80, 0.6));
+  animation: rev-brilho 2.8s ease-in-out infinite;
+}
+.rev-glifo svg { display: block; }
+@keyframes rev-brilho {
+  0%, 100% { opacity: 0.82; filter: drop-shadow(0 0 7px rgba(255, 205, 80, 0.5)); }
+  50% { opacity: 1; filter: drop-shadow(0 0 13px rgba(255, 215, 110, 0.85)); }
+}
+.revelacao-titulo {
+  font-family: 'Cinzel', Georgia, serif; font-size: 20px; letter-spacing: 0.05em;
+  color: #ffe3a0; text-shadow: 0 1px 0 rgba(52, 34, 12, 0.5); margin-bottom: 12px; line-height: 1.25;
+}
+.revelacao-texto { font-size: 15.5px; line-height: 1.7; font-style: italic; color: #ecd9b2; text-align: left; }
+
 /* ---- foto na tela final (o patio no topo) ---- */
 #final-foto {
   display: block; width: 100%; max-width: 400px; margin: 0 auto 14px;
@@ -646,6 +699,61 @@ input[type="text"]:focus { border-color: var(--dourado); }
   font-size: 15px; color: var(--dourado-claro); margin-bottom: 12px;
 }
 .aviso-cartela p { font-size: 17px; line-height: 1.65; font-style: italic; }
+
+/* ---- convite do grupo (avancar junto: troca o teleporte por consentimento) ---- */
+#convite-grupo {
+  position: fixed; inset: 0; z-index: 3100;
+  display: flex; align-items: center; justify-content: center;
+  padding: 24px; background: rgba(16, 10, 4, 0.62);
+}
+#convite-grupo.oculto { display: none; }
+.convite-cartela {
+  max-width: 360px; padding: 24px 24px 22px; text-align: center; color: #f0deb6;
+  background:
+    radial-gradient(400px 260px at 30% 15%, rgba(120, 84, 40, 0.5), transparent 70%),
+    linear-gradient(165deg, #3a2a16, #241804);
+  border: 2px solid var(--dourado);
+  border-radius: 8px 12px 10px 14px / 12px 8px 14px 10px;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.6);
+}
+.convite-rotulo {
+  font-family: 'Cinzel', Georgia, serif; letter-spacing: 0.2em; text-transform: uppercase;
+  font-size: 14px; color: var(--dourado-claro); margin-bottom: 10px;
+}
+#convite-texto { font-size: 17px; line-height: 1.6; font-style: italic; margin-bottom: 18px; }
+.convite-botoes { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+.convite-botoes .botao { flex: 1 1 auto; min-width: 128px; margin: 0; }
+
+/* pilula discreta pra alcancar o grupo depois de adiar o convite */
+#ir-grupo {
+  position: absolute; left: 50%; top: calc(56px + env(safe-area-inset-top)); transform: translateX(-50%);
+  z-index: 1230; display: flex; align-items: center; gap: 8px;
+  padding: 8px 15px; font-family: 'Cinzel', Georgia, serif; font-size: 11.5px; letter-spacing: 0.08em; text-transform: uppercase;
+  color: #ffe08a; background: linear-gradient(180deg, #3a2a16, #241804);
+  border: 2px solid var(--dourado); border-radius: 22px; box-shadow: 0 6px 18px rgba(0, 0, 0, 0.55); cursor: pointer;
+  -webkit-tap-highlight-color: transparent; max-width: 90vw;
+}
+#ir-grupo.oculto { display: none; }
+#ir-grupo .ig-seta { font-size: 9px; opacity: 0.9; }
+
+/* ---- tela de grupo (criar / entrar na equipe) ---- */
+#tela-grupo .cartela-central > * + * { margin-top: 14px; }
+#grupo-criar { width: 100%; }
+#grupo-codigo-bloco {
+  padding: 14px; border: 1px dashed var(--dourado); border-radius: 10px;
+  background: rgba(255, 205, 80, 0.06);
+}
+.grupo-codigo-rotulo {
+  font-family: 'Cinzel', Georgia, serif; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--dourado-claro);
+}
+.grupo-codigo {
+  font-family: 'Cinzel', Georgia, serif; font-size: 30px; letter-spacing: 0.12em; color: #ffe08a;
+  margin: 6px 0 12px; text-shadow: 0 2px 10px rgba(255, 205, 80, 0.35);
+}
+.grupo-ou {
+  font-family: 'Cinzel', Georgia, serif; font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; color: #b89b63; opacity: 0.85;
+}
+#form-grupo { display: flex; flex-direction: column; gap: 8px; }
 
 /* ---- toast ---- */
 
@@ -742,7 +850,7 @@ input[type="text"]:focus { border-color: var(--dourado); }
 .adm-ed-semfoto { font-style: italic; color: #9b7f52; font-size: 13px; margin-bottom: 4px; }
 .adm-ed-addfoto { display: block; text-align: center; padding: 12px; margin-bottom: 6px; background: #3a2a16; border: 1px dashed var(--dourado); border-radius: 9px; color: #ffe3a0; font-family: 'Cinzel', Georgia, serif; font-size: 14px; cursor: pointer; }
 .adm-ed-rot { font-family: 'Cinzel', Georgia, serif; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #b79b6d; margin: 12px 0 5px; display: block; }
-#adm-ed-nota { width: 100%; background: rgba(0, 0, 0, 0.3); border: 1px solid var(--sepia-claro); border-radius: 8px; color: #f0deb6; font-family: Georgia, serif; font-size: 15px; padding: 10px; resize: vertical; }
+#adm-ed-nota { width: 100%; background: rgba(0, 0, 0, 0.3); border: 1px solid var(--sepia-claro); border-radius: 8px; color: #f0deb6; font-family: Georgia, serif; font-size: 16px; padding: 10px; resize: vertical; } /* 16px: sem maximum-scale, <16px daria zoom-on-focus no iOS */
 .adm-ed-etiquetas { display: flex; flex-wrap: wrap; gap: 7px; }
 .adm-et-btn { font-family: 'Cinzel', Georgia, serif; font-size: 12px; padding: 7px 12px; border-radius: 16px; border: 1.5px solid var(--et-cor, var(--sepia-claro)); background: transparent; color: #e8d3a8; cursor: pointer; -webkit-tap-highlight-color: transparent; }
 .adm-et-btn.ativa { background: var(--et-cor, var(--dourado)); color: #fff; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5); }
@@ -810,6 +918,22 @@ input[type="text"]:focus { border-color: var(--dourado); }
 .adm-pista-corr { flex: 0 0 auto; align-self: center; font-family: 'Cinzel', Georgia, serif; font-size: 11px; padding: 5px 9px; border-radius: 7px; border: 1px solid #7a1f1f; background: transparent; color: #d98a8a; cursor: pointer; -webkit-tap-highlight-color: transparent; }
 .adm-pista-extra { font-size: 13px; color: #c7ad7e; margin: 6px 0 2px; }
 .adm-pista-extra b { color: var(--dourado-claro); }
+
+/* o cabecalho do bottom-sheet gruda no topo ao rolar (editor e pistas): o X fica sempre a mao */
+.adm-ed-folha, .adm-pistas-folha { padding-top: 0; }
+.adm-ed-folha > .adm-ed-cab, .adm-pistas-folha > .adm-ed-cab {
+  position: sticky; top: 0; z-index: 3;
+  margin: 0 -14px 10px; padding: 13px 14px 11px;
+  background: #221609; border-radius: 15px 15px 0 0;
+  border-bottom: 1px solid var(--sepia-claro);
+}
+/* saida garantida tambem no fim da lista de pistas */
+.adm-pistas-voltar {
+  display: block; width: 100%; margin-top: 18px; padding: 14px;
+  font-family: 'Cinzel', Georgia, serif; font-size: 14px; color: #ffe3a0;
+  background: linear-gradient(180deg, #6d4f28, #4a3418); border: 1px solid var(--dourado);
+  border-radius: 9px; cursor: pointer; -webkit-tap-highlight-color: transparent;
+}
 
 /* ---- utilidades e Leaflet ---- */
 
@@ -951,6 +1075,8 @@ input[type="text"]:focus { border-color: var(--dourado); }
   .diamante-luz, .diamante-corpo, #item-ganho-glifo { animation: none; }
   #flash-cerimonia.pisca { animation: none; opacity: 0; }
   .item-ganho-cartela { transition: none; }
+  .rev-glifo { animation: none; }
+  .revelacao-cartela { transition: opacity 0.3s ease; transform: none; }
   .bloco-leitura { transition: none; opacity: 1; transform: none; }
   #mapa, #painel, #controles-flutuantes { transition: none; }
   #bussola-agulha { transition: none; }
@@ -960,4 +1086,56 @@ input[type="text"]:focus { border-color: var(--dourado); }
 @media (min-width: 700px) {
   .cartela-central { max-width: 520px; }
   #painel { max-width: 560px; left: 50%; transform: translateX(-50%); border-radius: 18px 18px 0 0; }
+}
+
+/* ---- retrato de abertura no gate (a missao_abertura: a foto que comeca a caca) ---- */
+#gate-retrato { margin: 6px 0 10px; }
+.gate-retrato-texto { font-size: 15px; line-height: 1.55; color: #ecd9b2; margin-bottom: 12px; }
+#gate-retrato-btn { display: block; width: 100%; }
+/* com o retrato como acao principal, "estou aqui" vira link discreto (a reserva do gate por GPS) */
+#gate-botao.gate-reserva {
+  background: none; border: none; box-shadow: none; color: var(--dourado-claro);
+  font-family: inherit; font-size: 13px; letter-spacing: normal; text-transform: none;
+  text-decoration: underline; padding: 8px; margin-top: 2px;
+}
+
+/* ---- acao da missao: botao de foto / "ja gravamos"; a senha vira reserva do madrich ---- */
+#missao-acao:not(:empty) { margin: 8px 0 4px; }
+.botao-missao { display: block; width: 100%; }
+.missao-reserva-rotulo {
+  font-family: 'Cinzel', Georgia, serif; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase;
+  color: #b79b6d; margin: 16px 0 2px;
+}
+
+/* ---- marcador de beat: o glifo do simbolo aceso no mapa quando o grupo passa ---- */
+.beat-marco {
+  width: 34px; height: 34px; padding: 6px; box-sizing: border-box;
+  color: #ffe3a0; pointer-events: auto;
+  background: radial-gradient(circle at 40% 34%, rgba(92, 66, 32, 0.95), #2a1c0b 76%);
+  border: 1.5px solid var(--dourado); border-radius: 50%;
+  box-shadow: 0 0 10px 2px rgba(255, 205, 80, 0.5), 0 2px 6px rgba(0, 0, 0, 0.5);
+  display: flex; align-items: center; justify-content: center;
+  animation: beat-acende 0.5s ease-out;
+}
+@keyframes beat-acende { from { opacity: 0; transform: scale(0.4); } to { opacity: 1; transform: none; } }
+
+/* ---- sussurro do mapa: o pop dos beats e do "revela" da missao cumprida ---- */
+#sussurro {
+  position: fixed; top: calc(60px + env(safe-area-inset-top)); left: 50%;
+  transform: translateX(-50%) translateY(-10px);
+  z-index: 3300; width: calc(100% - 32px); max-width: 360px;
+  display: flex; gap: 11px; align-items: center; padding: 12px 16px;
+  background: radial-gradient(280px 150px at 20% 0%, rgba(120, 84, 40, 0.55), transparent 70%), linear-gradient(165deg, #3a2a16, #241804);
+  border: 1.5px solid var(--dourado); border-radius: 12px;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.55);
+  opacity: 0; transition: opacity 0.4s, transform 0.4s; cursor: pointer;
+}
+#sussurro.visivel { opacity: 1; transform: translateX(-50%) translateY(0); }
+#sussurro-glifo { flex: none; width: 32px; height: 32px; color: #ffe3a0; filter: drop-shadow(0 0 6px rgba(255, 205, 80, 0.6)); }
+#sussurro-texto { font-size: 14.5px; line-height: 1.5; color: #f0dcae; }
+#sussurro-texto .fato-real { color: var(--dourado-claro); font-weight: 700; }
+
+@media (prefers-reduced-motion: reduce) {
+  .beat-marco { animation: none; }
+  #sussurro { transition: none; }
 }

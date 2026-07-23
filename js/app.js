@@ -14,6 +14,8 @@
 const CHAVE_ESTADO = 'peula68';
 const CHAVE_ADM = 'peula68_adm';               // pontos do modo ADM: salvos a cada toque (sobrevive a reload/reboot)
 const CHAVE_INV = 'peula68_inv';               // inventario coletado nas chegadas (sobrevive a reload)
+const CHAVE_BEATS = 'peula68_beats';           // beats ja disparados por etapa (o pop do mapa nao repete)
+const CHAVE_SACOLA = 'peula68_sacola_';        // + rota.id: a revelacao da sacola cheia ja disparou (auto uma vez)
 const INTERVALO_AUTO_MS = 10 * 60 * 1000;      // verificação automática: 10 min
 const COOLDOWN_AVISO_AUTO_MS = 5 * 60 * 1000;  // não repetir aviso automático antes disso
 const PASSO_MOCK_M = 12;                       // "andar" do GPS simulado no painel debug
@@ -26,6 +28,7 @@ const PASSO_MOCK_M = 12;                       // "andar" do GPS simulado no pai
 const SB_URL = 'https://nwdacjcbafaizbfjoxzn.supabase.co';
 const SB_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im53ZGFjamNiYWZhaXpiZmpveHpuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODEyNDUyNTAsImV4cCI6MjA5NjgyMTI1MH0.Ko6R_GUWWrzF72lnQchVcN3kDK04dA0Enj5bACnB61k';
 const SYNC_MS = 35000;                          // consulta a sala a cada 35s
+const BUCKET_MIDIA = 'jogo-midia';              // Storage PRIVADO dos videos de missao (DDL em db/0004_jogo_videos.sql)
 
 // ---------- estado global ----------
 let TEXTOS = null, CONFIG = null, ROTAS = null;
@@ -45,6 +48,7 @@ let watchId = null;
 let sala = null;               // sala de sincronia (todos da corrente compartilham)
 let syncTimer = null;
 let sincronizando = false;
+let etapaPendente = 0;         // etapa que o grupo ja alcancou e ainda nao aceitamos ir (convite pendente)
 
 // estado da tela viva
 let abaAtual = 'carta';
@@ -69,6 +73,17 @@ let bussolaListener = null;
 let aguardandoGate = false;
 let marcadorBrilhoGate = null;
 
+let grupoAtivo = null;         // codigo da equipe: define a sala de sincronia (rota + grupo)
+let rotaPendenteGrupo = null;  // rota escolhida no portao, aguardando a escolha da equipe
+
+// mecanica nova (rota fariseus): avanco pela MISSAO cumprida, beats no caminho, sons, foto
+let selandoEtapa = false;      // guarda contra avanco reentrante (o GPS reavalia a cada fix)
+let jaGravou = false;          // etapa de video: o grupo tocou "ja gravamos" (libera a chegada/o codigo)
+let marcadoresBeat = [];       // marcadores dos beats acesos na etapa atual
+let beatsPersist = {};         // { "rota:etapa": [indices ja disparados] }: o pop nao se repete
+let sonsRota = [];             // nomes dos mp3 que a rota usa (primados no 1o gesto, iOS trava autoplay)
+let fotosPendentes = [];       // fotos E videos que ainda nao subiram (reenvio best-effort nesta sessao; item de video leva kind:'video')
+
 const $ = (id) => document.getElementById(id);
 
 // ---------- estado no localStorage (nunca travar se indisponível) ----------
@@ -77,14 +92,21 @@ function lerEstado() {
   catch (e) { return null; }
 }
 function salvarEstado() {
-  try { localStorage.setItem(CHAVE_ESTADO, JSON.stringify({ rota: rotaAtiva.id, etapa: etapaAtual })); }
+  try { localStorage.setItem(CHAVE_ESTADO, JSON.stringify({ rota: rotaAtiva.id, etapa: etapaAtual, grupo: grupoAtivo || '' })); }
   catch (e) { /* modo privado sem storage: o jogo segue, só não sobrevive a reload */ }
 }
 function limparEstado() {
-  try { localStorage.removeItem(CHAVE_ESTADO); localStorage.removeItem(CHAVE_INV); } catch (e) {}
+  try {
+    localStorage.removeItem(CHAVE_ESTADO); localStorage.removeItem(CHAVE_INV); localStorage.removeItem(CHAVE_BEATS);
+    // zera as flags da revelacao da sacola (uma por rota): no replay a virada dispara de novo
+    Object.keys(localStorage).filter(k => k.indexOf(CHAVE_SACOLA) === 0).forEach(k => localStorage.removeItem(k));
+  } catch (e) {}
+  beatsPersist = {};
 }
 function lerInventario() { try { return JSON.parse(localStorage.getItem(CHAVE_INV)) || []; } catch (e) { return []; } }
 function salvarInventario() { try { localStorage.setItem(CHAVE_INV, JSON.stringify(inventario)); } catch (e) {} }
+function lerBeatsPersist() { try { return JSON.parse(localStorage.getItem(CHAVE_BEATS)) || {}; } catch (e) { return {}; } }
+function salvarBeatsPersist() { try { localStorage.setItem(CHAVE_BEATS, JSON.stringify(beatsPersist)); } catch (e) {} }
 
 // ---------- util ----------
 function normalizar(s) {
@@ -101,9 +123,53 @@ function toast(msg, ms) {
   toastTimer = setTimeout(() => el.classList.remove('visivel'), ms || 4200);
 }
 
+// ---------- audio: prime no 1o gesto (iOS bloqueia autoplay), toca por nome ----------
+// Os mp3 vivem em audio/. iOS so deixa tocar depois de um gesto do usuario: no 1o toque
+// relevante (enviar o retrato, "estou aqui", digitar a senha) primamos todos os sons da
+// rota com um play mudo+pause, que destrava o elemento pra tocar com som fora do gesto.
+let audioCache = {};
+let audioPronto = false;
+function audioEl(nome) {
+  if (!nome) return null;
+  if (!audioCache[nome]) { const a = new Audio('audio/' + nome + '.mp3'); a.preload = 'auto'; audioCache[nome] = a; }
+  return audioCache[nome];
+}
+function primarAudio() {
+  if (audioPronto || !sonsRota.length) return;
+  audioPronto = true;
+  sonsRota.forEach(n => {
+    const a = audioEl(n);
+    try {
+      a.muted = true;
+      const p = a.play();
+      if (p && p.then) p.then(() => { a.pause(); a.currentTime = 0; a.muted = false; }).catch(() => { a.muted = false; });
+      else { a.pause(); a.currentTime = 0; a.muted = false; }
+    } catch (e) { try { a.muted = false; } catch (e2) {} }
+  });
+}
+function tocarSom(nome) {
+  const a = audioEl(nome);
+  if (!a) return;
+  try { a.muted = false; a.currentTime = 0; const p = a.play(); if (p && p.catch) p.catch(() => {}); } catch (e) {}
+}
+// junta os mp3 que a rota realmente usa (retrato de abertura, chegadas e beats), pra primar so eles
+function coletarSonsDaRota(rota) {
+  const s = new Set();
+  if (rota && rota.missao_abertura && rota.missao_abertura.som) s.add(rota.missao_abertura.som);
+  if (rota && rota.revelacao_sacola) s.add('sino');   // a virada da sacola cheia toca o sino: prima junto (iOS)
+  (rota && rota.etapas || []).forEach(et => {
+    if (et.som_chegada) s.add(et.som_chegada);
+    (et.beats || []).forEach(b => { if (b.som) s.add(b.som); });
+  });
+  sonsRota = Array.from(s);
+}
+
 function mostrarTela(nome) {
   $('aviso').classList.add('oculto'); // aviso é contextual: trocou de tela, morreu
-  ['portao', 'abertura', 'jogo', 'final'].forEach(t => $('tela-' + t).classList.toggle('ativa', t === nome));
+  // overlays soltos também morrem na troca de tela: um sync pode trocar a tela por baixo e
+  // deixá-los presos (a sacola, as cartas, o lightbox, o coach) por cima da tela nova
+  ['tela-inventario', 'tela-cartas', 'tela-foto', 'coach-socorros'].forEach(o => $(o).classList.add('oculto'));
+  ['portao', 'grupo', 'abertura', 'jogo', 'final'].forEach(t => $('tela-' + t).classList.toggle('ativa', t === nome));
   if (nome === 'jogo' && mapa) setTimeout(() => { mapa.invalidateSize(); ajustarMapaAoPainel(); }, 60);
 }
 
@@ -158,6 +224,8 @@ async function init() {
   if (params.has('reset')) { limparEstado(); try { localStorage.removeItem('peula68_coach'); localStorage.removeItem('peula68_nocron'); } catch (e) {} }
   // modo solo: joga 100% local, sem entrar na sala compartilhada (teste/playtest e fallback do dia)
   window.SOLO = params.has('solo');
+  // link direto pra equipe (ex.: ?grupo=CEDRO47): entra sem passar pela tela de grupo
+  if (params.get('grupo')) grupoAtivo = params.get('grupo');
   if (params.has('mock')) {
     const m = (params.get('mock') || '').split(',').map(Number);
     if (m.length === 2 && m.every(isFinite)) mock = { lat: m[0], lng: m[1] };
@@ -178,6 +246,7 @@ async function init() {
   registrarSW();
   ligarEventos();
   inventario = lerInventario();
+  beatsPersist = lerBeatsPersist();
 
   // modo ADM: tela de coleta de coordenadas (toque no mapa marca pontos numerados)
   if (params.has('adm')) { iniciarAdm(); return; }
@@ -186,6 +255,7 @@ async function init() {
   if (salvo) {
     const rota = ROTAS.rotas.find(r => r.id === salvo.rota);
     if (rota && salvo.etapa >= 1 && salvo.etapa <= rota.etapas.length + 1) {
+      if (salvo.grupo) grupoAtivo = salvo.grupo;   // reusa a equipe salva (nao pergunta de novo)
       entrarNoJogo(rota, salvo.etapa);
       if (params.has('debug')) ativarDebug();
       return;
@@ -228,9 +298,15 @@ function ligarEventos() {
     $('erro-portao').textContent = '';
     etapaAtual = 1;
     rotaAtiva = rota;
-    salvarEstado();
-    entrarNoJogo(rota, 1, true);
+    // solo ou link com a equipe ja definida: entra direto. Senao, cria/entra no grupo.
+    if (window.SOLO || grupoAtivo) { salvarEstado(); entrarNoJogo(rota, 1, true); }
+    else { mostrarTelaGrupo(rota); }
   });
+
+  // tela de grupo (criar ou entrar numa equipe)
+  $('grupo-criar').addEventListener('click', criarGrupo);
+  $('grupo-comecar').addEventListener('click', comecarComGrupoCriado);
+  $('form-grupo').addEventListener('submit', (e) => { e.preventDefault(); entrarGrupoDigitado(); });
 
   // abertura (viajante + identidade), fatiada
   $('abertura-prosseguir').addEventListener('click', () => avancarFluxo('abertura'));
@@ -246,7 +322,7 @@ function ligarEventos() {
   $('caminho-ponto').addEventListener('click', voltarAoUltimoPonto);
 
   $('botao-centrar').addEventListener('click', () => {
-    if (posAtual && mapa) mapa.flyTo([posAtual.lat, posAtual.lng], Math.max(mapa.getZoom(), CONFIG.zoom.inicial), { duration: 0.8 });
+    if (posAtual && mapa) voarPara([posAtual.lat, posAtual.lng], Math.max(mapa.getZoom(), CONFIG.zoom.inicial), 0.8);
     else toast(TEXTOS.sem_gps);
   });
   $('botao-ajuda').addEventListener('click', pedirAjuda);
@@ -254,6 +330,9 @@ function ligarEventos() {
   $('botao-bussola').addEventListener('click', toggleBussola);
   $('painel-mostrar').addEventListener('click', restaurarPainel);
   $('gate-botao').addEventListener('click', abrirPrimeiraEtapa);
+  $('convite-ir').addEventListener('click', aceitarAvanco);
+  $('convite-depois').addEventListener('click', recusarAvanco);
+  $('ir-grupo').addEventListener('click', aceitarAvanco);
   $('foto-fechar').addEventListener('click', fecharFoto);
   $('coach-fechar').addEventListener('click', () => {
     $('coach-socorros').classList.add('oculto');
@@ -266,6 +345,7 @@ function ligarEventos() {
     toast(TEXTOS.cron_oculto || 'Cronômetro escondido. Recarregue com ?reset para trazer de volta.');
   });
   $('inv-voltar').addEventListener('click', () => $('tela-inventario').classList.add('oculto'));
+  $('rev-fechar').addEventListener('click', fecharRevelacaoSacola);
 
   $('form-senha').addEventListener('submit', (e) => { e.preventDefault(); selarEtapa(); });
   // no celular, ao abrir o teclado, rola para o botao nao ficar escondido atras dele
@@ -282,6 +362,13 @@ function ligarEventos() {
 
   $('aviso-fechar').addEventListener('click', () => $('aviso').classList.add('oculto'));
 
+  // mecanica nova: retrato de abertura + foto de missao (avanco pela missao cumprida)
+  $('gate-retrato-btn').addEventListener('click', () => { primarAudio(); $('gate-foto-input').click(); });
+  $('gate-foto-input').addEventListener('change', (e) => { const f = e.target.files && e.target.files[0]; e.target.value = ''; if (f) enviarRetratoAbertura(f); });
+  $('missao-foto-input').addEventListener('change', (e) => { const f = e.target.files && e.target.files[0]; e.target.value = ''; if (f) enviarFotoMissao(f); });
+  $('sussurro').addEventListener('click', fecharSussurro);
+  window.addEventListener('online', tentarReenviarPendentes); // voltou a rede: reenvia as fotos e videos pendentes
+
   document.addEventListener('visibilitychange', () => { if (!document.hidden) puxarSincronia(); });
 
   // 7 toques no cabeçalho do mapa abrem o painel de calibração
@@ -293,7 +380,19 @@ function ligarEventos() {
     if (taps >= 7) { taps = 0; ativarDebug(); }
   });
 
-  setInterval(() => { if (rotaAtiva && !window.ADM && etapaAtual <= rotaAtiva.etapas.length) verificar('auto'); }, INTERVALO_AUTO_MS);
+  // Safari iOS: a barra de endereço aparecendo/sumindo muda innerHeight; reajusta painel+mapa juntos
+  let redimTimer = null;
+  const aoRedimensionar = () => {
+    // teclado virtual (Android que encolhe o layout viewport) muda innerHeight: não reajusta com
+    // um campo focado, senão o painel "pula" ao digitar a senha; no blur o resize seguinte corrige
+    const ae = document.activeElement;
+    if (ae && (ae.tagName === 'INPUT' || ae.tagName === 'TEXTAREA')) return;
+    clearTimeout(redimTimer); redimTimer = setTimeout(ajustarMapaAoPainel, 150);
+  };
+  window.addEventListener('resize', aoRedimensionar);
+  window.addEventListener('orientationchange', aoRedimensionar);
+
+  setInterval(() => { if (rotaAtiva && !window.ADM && !aguardandoGate && etapaAtual <= rotaAtiva.etapas.length) verificar('auto'); }, INTERVALO_AUTO_MS);
 }
 
 // ---------- leitura fatiada (abertura, carta, fragmento): um bloco por toque ----------
@@ -348,10 +447,61 @@ function renderPontos(container, total, atual) {
   }
 }
 
+// ---------- grupo: cada equipe tem sua sala de sincronia (rota + codigo) ----------
+// A sala deixou de ser a senha da seita (igual pra todo celular) e passou a ser a EQUIPE.
+// Varios celulares no mesmo codigo = mesma sala, isolada das outras equipes e dos eventos
+// passados. O 1o da equipe cria (o app gera um codigo facil de ditar) e os outros digitam.
+const GRUPO_PALAVRAS = ['CEDRO', 'TORRE', 'MURO', 'FONTE', 'TRIGO', 'TEMPLO', 'PEDRA', 'ARCO', 'OURO', 'RIO', 'SINO', 'FOLHA', 'RAIZ', 'LUZ'];
+
+function gerarCodigoGrupo() {
+  const palavra = GRUPO_PALAVRAS[Math.floor(Math.random() * GRUPO_PALAVRAS.length)];
+  const num = 10 + Math.floor(Math.random() * 90); // 2 digitos: quase sem colisao entre equipes
+  return palavra + ' ' + num;
+}
+
+function mostrarTelaGrupo(rota) {
+  rotaPendenteGrupo = rota;
+  $('grupo-codigo-bloco').classList.add('oculto');
+  $('grupo-input').value = '';
+  $('grupo-erro').textContent = '';
+  mostrarTela('grupo');
+}
+
+function criarGrupo() {
+  const codigo = gerarCodigoGrupo();
+  $('grupo-codigo').textContent = codigo;
+  $('grupo-comecar').dataset.codigo = codigo;
+  $('grupo-codigo-bloco').classList.remove('oculto');
+}
+
+function comecarComGrupoCriado() {
+  const codigo = $('grupo-comecar').dataset.codigo;
+  if (codigo) entrarComGrupo(codigo);
+}
+
+function entrarGrupoDigitado() {
+  const codigo = $('grupo-input').value;
+  if (normalizar(codigo).length < 3) {
+    $('grupo-erro').textContent = TEXTOS.grupo_codigo_curto || 'Digitem o código da equipe (a palavra e o número).';
+    $('grupo-input').focus();
+    return;
+  }
+  entrarComGrupo(codigo);
+}
+
+function entrarComGrupo(codigo) {
+  grupoAtivo = codigo;
+  etapaAtual = 1;
+  rotaAtiva = rotaPendenteGrupo;
+  salvarEstado();
+  entrarNoJogo(rotaPendenteGrupo, 1, true);
+}
+
 // ---------- fluxo do jogo ----------
 function entrarNoJogo(rota, etapa, novoJogo) {
   rotaAtiva = rota;
   etapaAtual = etapa;
+  coletarSonsDaRota(rota);   // lista os mp3 da rota pra primar no 1o gesto do usuario
   if (!mapa) montarMapa();
   atualizarHeader();
   iniciarGeolocalizacao();
@@ -399,12 +549,18 @@ function etapaObj() {
 function entrarEtapa() {
   const et = etapaObj();
   if (!et) { mostrarFinal(); return; }
+  if (aguardandoGate) sairDoGate(); // nunca abrir uma etapa com o card do gate ("ESTOU AQUI") preso por cima
   atualizarHeader();
   passosRevelados = 1;
   marcosAcesos = false;
+  selandoEtapa = false;   // etapa nova: solta o guarda de avanco
+  jaGravou = false;       // etapa nova: o "ja gravamos" comeca desligado
   cerimoniaFeita = inventario.some(x => x.etapa === et.id); // se ja chegou/coletou, nao repete a cerimonia
   limparMarcos();
+  limparMarcadoresBeat();
   limparAlvo();
+  if (cerimoniaFeita) acenderAlvoAtual(et, true);   // reentrou numa etapa ja "chegada" (reload): o diamante do checkpoint volta ao mapa, sem voar
+  redesenharBeatsDisparados(et);   // reload no meio da etapa: os beats ja vistos voltam ao mapa (sem pop/som)
   renderCarta();
   renderCaminho();
   renderMissao();
@@ -417,6 +573,7 @@ function entrarEtapa() {
   talvezMostrarCoach();              // apresenta os socorros uma vez (na 1a etapa vista neste aparelho)
   precisaVerificarEntrada = true;
   verificar('entrada');
+  sincronizarConvite();   // se ja alcancamos o grupo, o convite some; senao mantem a pilula coerente
 }
 
 function blocosDaCarta(et) {
@@ -502,6 +659,98 @@ function renderMissao() {
   $('senha-input').value = '';
   $('senha-input').setAttribute('inputmode', ehCodigo ? 'numeric' : 'text');
   $('senha-erro').textContent = '';
+  montarAcaoMissao(et);   // o botao da missao (foto / "ja gravamos") conforme et.avanco; a senha vira reserva
+}
+
+// ---------- avanco pela missao cumprida (foto sobe / "ja gravamos" libera codigo ou GPS) ----------
+// A troca de etapa deixa de depender so da senha: a MISSAO e o gatilho. Foto que sobe avanca
+// sozinha; video pede o toque "ja gravamos" antes de liberar o codigo (E4) ou a chegada (E5).
+// A senha_desbloqueio continua SEMPRE como reserva do madrich (nunca travar).
+function botaoAcaoMissao(txt, id) {
+  const b = document.createElement('button');
+  b.type = 'button';
+  b.className = 'botao botao-missao';
+  b.id = id;
+  b.textContent = txt;
+  return b;
+}
+
+function montarAcaoMissao(et) {
+  const cont = $('missao-acao');
+  if (!cont) return;
+  cont.innerHTML = '';
+  const avanco = et.avanco || (et.codigo_no_local ? 'codigo' : '');
+  const form = $('form-senha');
+  const reservaRot = $('missao-reserva-rotulo');
+  // padrao: a senha e a RESERVA do madrich, sempre a vista (o jogo nunca trava por falta de foto/GPS)
+  form.classList.remove('oculto');
+  if (reservaRot) { reservaRot.classList.remove('oculto'); reservaRot.textContent = TEXTOS.missao_reserva || 'Palavra do madrich (reserva)'; }
+
+  if (avanco === 'foto') {
+    const b = botaoAcaoMissao(TEXTOS.missao_enviar_foto || 'Enviar a foto e seguir', 'missao-foto-btn');
+    b.addEventListener('click', () => { primarAudio(); $('missao-foto-input').click(); });
+    cont.appendChild(b);
+  } else if (avanco === 'codigo') {
+    if (et.sobe_video) {
+      // missao de video que SOBE pro Storage (sobe_video). A missao e enviar o video; o GATE
+      // continua sendo o codigo CHAIN GATE achado no local, que fica a vista e nunca trava (e e
+      // tambem a palavra de reserva do madrich). Enviar/enfileirar o video nao avanca sozinho.
+      montarBotaoVideo(cont, et.id, null);
+      if (reservaRot) reservaRot.classList.add('oculto');   // o campo abaixo JA e o codigo do local
+      // form-senha fica VISIVEL de proposito: digitar o codigo avanca, tenha o video subido ou nao
+    } else {
+      // sem sobe_video: "ja gravamos" (so mostra ao madrich) revela o campo do codigo local
+      const b = botaoAcaoMissao(TEXTOS.missao_ja_gravamos || 'Já gravamos', 'missao-gravou-btn');
+      b.addEventListener('click', () => { primarAudio(); jaGravou = true; revelarCampoCodigo(); });
+      cont.appendChild(b);
+      form.classList.add('oculto');                       // ate "ja gravamos", o campo do codigo fica velado
+      if (reservaRot) reservaRot.classList.add('oculto');
+    }
+  } else if (avanco === 'video') {
+    if (et.sobe_video) {
+      // ultima etapa: enviar o video (sobe pro Storage) habilita a chegada por GPS ao ponto final.
+      // O form-senha (reserva) segue visivel: o madrich pode ditar a palavra se o GPS nao pegar.
+      montarBotaoVideo(cont, et.id, () => { jaGravou = true; avisarChegadaFinal(); });
+    } else {
+      // sem sobe_video: "ja gravamos" habilita a chegada por GPS ao ponto final
+      const b = botaoAcaoMissao(TEXTOS.missao_ja_gravamos || 'Já gravamos', 'missao-gravou-btn');
+      b.addEventListener('click', () => { primarAudio(); jaGravou = true; avisarChegadaFinal(); });
+      cont.appendChild(b);
+    }
+  }
+  // avanco 'gps' ou rotas antigas (sem avanco): sem botao; a chegada por GPS e a senha resolvem
+}
+
+// botao "Enviar o video" + input de video (capture), criado na hora (nao depende do HTML).
+// aoConcluir roda DEPOIS que o video sobe OU entra na fila offline: nunca prende o grupo.
+function montarBotaoVideo(cont, etapaId, aoConcluir) {
+  const inp = document.createElement('input');
+  inp.type = 'file';
+  inp.accept = 'video/*';
+  inp.setAttribute('capture', 'environment');   // abre a camera (traseira) no celular; no desktop vira seletor de arquivo
+  inp.hidden = true;
+  inp.addEventListener('change', (e) => {
+    const f = e.target.files && e.target.files[0];
+    e.target.value = '';
+    if (f) enviarVideoMissao(f, etapaId, aoConcluir);
+  });
+  const b = botaoAcaoMissao(TEXTOS.missao_enviar_video || 'Enviar o vídeo', 'missao-video-btn');
+  b.addEventListener('click', () => { primarAudio(); inp.click(); });
+  cont.appendChild(b);
+  cont.appendChild(inp);
+}
+
+function revelarCampoCodigo() {
+  $('form-senha').classList.remove('oculto');
+  const rot = $('missao-reserva-rotulo');
+  if (rot) rot.classList.add('oculto');   // aqui o campo E o codigo do local, nao a "reserva"
+  toast(TEXTOS.missao_gravou_codigo || 'Agora leiam o número gravado na pedra e digitem.');
+  setTimeout(() => { const i = $('senha-input'); if (i) i.focus(); }, 200);
+}
+
+function avisarChegadaFinal() {
+  toast(TEXTOS.missao_gravou_gps || 'Agora cheguem ao alto: as pedras avisam quando chegarem.', 6000);
+  verificar('entrada');   // reavalia ja: se o grupo ja esta no ponto final, a chegada fecha a caca
 }
 
 // ---------- abas e painel deslizante ----------
@@ -556,8 +805,13 @@ function ajustarMapaAoPainel() {
   const fechado = p.classList.contains('painel-fechado') || p.classList.contains('oculto');
   const painelVh = fechado ? 0 : (p.classList.contains('painel-baixo') ? 34 : 56);
   const debugPx = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--debug-alt')) || 0;
-  const altPx = Math.round(painelVh / 100 * window.innerHeight + debugPx);
+  const painelPx = Math.round(painelVh / 100 * window.innerHeight);   // altura do painel em px (base innerHeight)
+  const altPx = painelPx + debugPx;                                   // o mapa e os controles terminam onde o painel+debug começam
   document.documentElement.style.setProperty('--painel-alt', fechado ? '0px' : painelVh + 'vh');
+  // o painel passa a usar a MESMA base (innerHeight) do mapa: no Safari iOS o 56vh/34vh do CSS media
+  // a viewport GRANDE (barra retraída) e o painel cobria a sacola/ajuda, que o JS posiciona por
+  // innerHeight; fixando o painel em px os dois batem sempre. Fechado: a classe .painel-fechado manda.
+  p.style.height = fechado ? '' : painelPx + 'px';
   const mapaEl = $('mapa'); if (mapaEl) mapaEl.style.bottom = altPx + 'px';
   const ctrl = $('controles-flutuantes'); if (ctrl) ctrl.style.bottom = (altPx + 12) + 'px';
   if (!mapa) return;
@@ -585,8 +839,11 @@ function pedirAjuda() {
 
 // ---------- selar etapa ----------
 function selarEtapa() {
+  if (selandoEtapa) return;   // ja avancou nesta etapa: ignora o reenvio da senha nos 700ms ate a
+                              // proxima carta (o input nao-limpo bateria na etapa nova = "senha errada" espuria)
   const et = etapaObj();
   if (!et) return;
+  primarAudio();   // digitar a senha tambem serve de 1o gesto: destrava o som da cerimonia
   const tentativa = normalizar($('senha-input').value);
   if (tentativa !== normalizar(et.senha_desbloqueio)) {
     $('senha-erro').textContent = et.codigo_no_local ? (TEXTOS.codigo_errado || TEXTOS.senha_desbloqueio_errada) : TEXTOS.senha_desbloqueio_errada;
@@ -594,26 +851,49 @@ function selarEtapa() {
     $('senha-input').select();
     return;
   }
+  avancarEtapa();
+}
+
+// Nucleo do avanco: usado pela senha (reserva), pela foto ENVIADA e pela chegada por GPS.
+// Guarda contra reentrancia, porque o GPS reavalia a cada fix e nao pode avancar duas vezes.
+function avancarEtapa() {
+  const et = etapaObj();
+  if (!et || selandoEtapa) return;
+  selandoEtapa = true;
   if (etapaInicioTs) temposEtapa[et.id] = Date.now() - etapaInicioTs; // quanto durou esta etapa
-  if (!cerimoniaFeita) cerimoniaChegada(); // fallback: GPS nao pegou, a senha garante o item
+  if (!cerimoniaFeita) cerimoniaChegada(); // se o GPS nao pegou, a cerimonia (item + som) sai aqui
+  const revela = et.revela;                // o spoiler da recompensa, mostrado ao cumprir a missao
   etapaAtual++;
   salvarEstado();
   empurrarSincronia(); // avisa a sala; os outros celulares revelam a nova carta
-  if (etapaAtual > rotaAtiva.etapas.length) { mostrarFinal(); return; }
+  if (etapaAtual > rotaAtiva.etapas.length) { if (revela) mostrarSussurro(revela, null, 8000); mostrarFinal(); return; }
   toast(TEXTOS.etapa_avancou);
   // o mapa se preenche: carimba a etapa recém-cumprida e a câmera voa até ela (o "achei")
   desenharCarimbos(true);
   const corrFeita = rotaAtiva.etapas[etapaAtual - 2].corredor;
   if (mapa && corrFeita && corrFeita.length) {
     const alvo = corrFeita[corrFeita.length - 1];
-    setTimeout(() => { mapa.invalidateSize(); mapa.flyTo(alvo, Math.max(mapa.getZoom(), CONFIG.zoom.inicial), { duration: 1.1 }); }, 160);
+    setTimeout(() => { mapa.invalidateSize(); voarPara(alvo, Math.max(mapa.getZoom(), CONFIG.zoom.inicial), 1.1); }, 160);
   }
+  if (revela) setTimeout(() => mostrarSussurro(revela, null, 8000), 950); // quando a nova carta ja entrou
   setTimeout(entrarEtapa, 700); // deixa o carimbo estampar antes de trocar a carta
 }
 
 function mostrarFinal() {
+  // a ultima selagem pode ter disparado a cerimonia de chegada: tira o card do item, o flash
+  // dourado e o diamante do checkpoint de cima da tela final (senao ficam ~3,4s por cima)
+  clearTimeout(mostrarItemGanho._t);
+  $('item-ganho').classList.remove('visivel');
+  $('item-ganho').classList.add('oculto');
+  $('flash-cerimonia').classList.remove('pisca');
+  $('flash-cerimonia').classList.add('oculto');
+  limparAlvo();
   pararCronometro();
   $('cronometro').classList.add('oculto');
+  // o jogo acabou: encerra o GPS (watchPosition) e a sincronia de 35s, que seguiriam rodando
+  if (watchId !== null && 'geolocation' in navigator) { navigator.geolocation.clearWatch(watchId); watchId = null; }
+  clearInterval(syncTimer); syncTimer = null;
+  sala = null;   // sem sala, puxarSincronia sai cedo: o visibilitychange nao consulta mais o servidor após o fim
   $('final-seita').textContent = rotaAtiva.seita;
   const ff = $('final-foto');
   if (ff) {
@@ -675,12 +955,20 @@ async function rpcSup(nome, corpo) {
     body: JSON.stringify(corpo),
   });
   if (!r.ok) throw new Error('rpc ' + nome + ' ' + r.status);
-  return r.json();
+  // RPC "returns void" (scouting ponto/foto) responde 204 sem corpo: r.json() num corpo
+  // vazio rejeita e derrubava a sincronia. As RPC do jogo respondem 200 com JSON e seguem
+  // parseando igual (via r.text() + JSON.parse).
+  if (r.status === 204) return null;
+  const t = await r.text();
+  return t ? JSON.parse(t) : null;
 }
 
 function iniciarSincronia() {
   if (!rotaAtiva || window.SOLO) return; // modo solo: fica fora da sala compartilhada
-  sala = normalizar(rotaAtiva.senha_entrada);
+  if (!grupoAtivo) return;               // sem equipe definida (nao deveria acontecer fora do solo): fica local
+  // a sala e a EQUIPE dentro da rota: rota + codigo. Assim cada equipe (e cada dia/evento,
+  // com codigo novo) tem sala propria; um grupo novo nunca herda a etapa alta de outro.
+  sala = normalizar(rotaAtiva.id + grupoAtivo);
   rpcSup('peula_entrar', { p_sala: sala, p_corrente: rotaAtiva.id })
     .then((r) => aplicarSincronia(r && r[0] && r[0].etapa)).catch(() => {});
   clearInterval(syncTimer);
@@ -701,18 +989,98 @@ function empurrarSincronia() {
   rpcSup('peula_avancar', { p_sala: sala, p_para: etapaAtual }).catch(() => {});
 }
 
-// Recebe a etapa do servidor. Se o grupo avançou, revela a(s) nova(s) carta(s).
+// Recebe a etapa do servidor. Se o grupo avançou, revela a(s) nova(s) carta(s) — mas
+// com rede de segurança: nunca arranca quem ainda está no portão, na leitura de abertura
+// ou no gate, nem teleporta um aparelho recém-chegado (ainda sem progresso local). Na
+// sala compartilhada por senha, é isso que impede um grupo novo de herdar a etapa alta
+// e cair direto no final. (A raiz, a chave da sala, se resolve no passo do código de grupo.)
 function aplicarSincronia(etapaServidor) {
   if (!etapaServidor || !rotaAtiva || etapaServidor <= etapaAtual) return;
+  const foraDoJogo = $('tela-portao').classList.contains('ativa') || $('tela-grupo').classList.contains('ativa') || $('tela-abertura').classList.contains('ativa');
+  const semProgresso = etapaAtual <= 1 && inventario.length === 0 && !cerimoniaFeita;
+  if (aguardandoGate || foraDoJogo || semProgresso) return;
+  oferecerAvanco(etapaServidor);
+}
+
+// Aplica de fato o avanço vindo do grupo: revela a nova carta (ou vai ao final).
+function aplicarEtapaDoGrupo(etapaServidor) {
   const total = rotaAtiva.etapas.length;
   etapaAtual = Math.min(etapaServidor, total + 1);
   salvarEstado();
   if (etapaAtual > total) { mostrarFinal(); toast('O caminho chegou ao fim.'); return; }
   desenharCarimbos();
-  const emJogo = $('tela-jogo').classList.contains('ativa') || $('tela-abertura').classList.contains('ativa');
   toast('Uma nova carta chegou.');
-  if (emJogo) entrarEtapa();
-  precisaVerificarEntrada = true;
+  entrarEtapa();
+}
+
+// ---------- avançar por convite (o grupo seguiu; o jogador decide ir junto) ----------
+// Em vez de teleportar quando a sala avança, o app convida ("vamos juntos?"). Guarda a
+// etapa pendente; o jogador aceita agora, adia (uma pílula discreta fica no topo) ou
+// alcança o grupo jogando por conta própria (aí o convite se resolve sozinho, sem pulo).
+function oferecerAvanco(etapaServidor) {
+  if (etapaServidor <= etapaAtual || etapaServidor <= etapaPendente) return; // ja convidado (ou ja alcancado)
+  etapaPendente = etapaServidor;
+  mostrarConviteGrupo();
+}
+
+function alvoConvite() {
+  const total = rotaAtiva ? rotaAtiva.etapas.length : 0;
+  return Math.min(etapaPendente, total + 1);
+}
+
+// texto do alvo, com {n} trocado pela etapa; usa a chave "final" quando o grupo terminou.
+function textoConvite(chaveNormal, chaveFinal, padraoNormal, padraoFinal) {
+  const total = rotaAtiva ? rotaAtiva.etapas.length : 0;
+  if (etapaPendente > total) return TEXTOS[chaveFinal] || padraoFinal;
+  return (TEXTOS[chaveNormal] || padraoNormal).replace('{n}', alvoConvite());
+}
+
+function mostrarConviteGrupo() {
+  if (!etapaPendente) return;
+  $('convite-texto').textContent = textoConvite(
+    'convite_texto', 'convite_final',
+    'O grupo rompeu o selo e seguiu para a etapa {n}. Vão com eles?',
+    'O grupo chegou ao fim do caminho. Vão encontrá-los?'
+  );
+  $('convite-grupo').classList.remove('oculto');
+  $('ir-grupo').classList.add('oculto'); // com o card aberto, a pílula some
+}
+
+function aceitarAvanco() {
+  const alvo = etapaPendente;
+  etapaPendente = 0;
+  $('convite-grupo').classList.add('oculto');
+  $('ir-grupo').classList.add('oculto');
+  if (alvo > etapaAtual) aplicarEtapaDoGrupo(alvo);
+}
+
+function recusarAvanco() {
+  $('convite-grupo').classList.add('oculto');
+  atualizarPilulaGrupo(); // vira uma pílula discreta no topo, pra ir quando quiser
+}
+
+function atualizarPilulaGrupo() {
+  const pilula = $('ir-grupo');
+  if (!pilula) return;
+  const cardAberto = !$('convite-grupo').classList.contains('oculto');
+  const temPendencia = etapaPendente > etapaAtual;
+  if (temPendencia && !cardAberto) {
+    $('ir-grupo-texto').textContent = textoConvite(
+      'ir_grupo', 'ir_grupo_final',
+      'O grupo está na etapa {n}', 'O grupo chegou ao fim'
+    );
+  }
+  pilula.classList.toggle('oculto', !temPendencia || cardAberto);
+}
+
+// ao entrar em qualquer etapa: se o jogador alcançou (ou passou) a etapa pendente por
+// conta própria, o convite se resolve; senão, mantém a pílula coerente com o estado.
+function sincronizarConvite() {
+  if (etapaPendente && etapaPendente <= etapaAtual) {
+    etapaPendente = 0;
+    $('convite-grupo').classList.add('oculto');
+  }
+  atualizarPilulaGrupo();
 }
 
 // ---------- geolocalização ----------
@@ -787,20 +1155,29 @@ function verificar(origem) {
 function avaliar(origem) {
   const et = etapaObj();
   if (!et || !posAtual) return;
+  verificarBeats(et);   // pops de historia no caminho (uma vez cada), seja qual for o avanco
   const dist = distanciaAoCorredorM(posAtual, et.corredor);
   const folga = Math.min(posAtual.acc || 0, 30);
   const dentro = dist <= (et.raio_m || 50) + folga;
-  // cerimonia de chegada (B): perto do FIM do corredor (o checkpoint), dispara uma vez
-  if (!cerimoniaFeita && et.corredor && et.corredor.length) {
-    const fim = et.corredor[et.corredor.length - 1];
-    if (distanciaAoCorredorM(posAtual, [fim]) <= (et.raio_m || 50) + folga) cerimoniaChegada();
-  }
+  // cerimonia de chegada: perto do FIM do corredor (o checkpoint). Usa raio_chegada_m, o raio
+  // PEQUENO (25-30m), e nao o raio_m largo do "no caminho": corrige o P1-1 (cerimonia precoce).
+  const fim = (et.corredor && et.corredor.length) ? et.corredor[et.corredor.length - 1] : null;
+  const raioCheg = (et.raio_chegada_m || et.raio_m || 50);
+  const chegouAoFim = fim && distanciaAoCorredorM(posAtual, [fim]) <= raioCheg + folga;
+  if (!cerimoniaFeita && chegouAoFim) cerimoniaChegada();
+  // avanco automatico por GPS: so quando a etapa avanca pela CHEGADA (avanco "gps", ou "video"
+  // depois do "ja gravamos"). Foto e codigo avancam pela foto/pelo codigo, nao pela chegada.
+  if (chegouAoFim && chegadaGpsAvanca(et)) { avancarEtapa(); return; }
   if (dentro) {
     if (origem === 'botao') toast(TEXTOS.no_caminho);
   } else {
     const agora = Date.now();
     if (origem === 'auto' && agora - ultimoAvisoAutoTs < COOLDOWN_AVISO_AUTO_MS) return;
     if (origem === 'auto') ultimoAvisoAutoTs = agora;
+    // na entrada da etapa (e na E1 logo apos o gate) o grupo ainda nao andou: nao avisa nada.
+    // O texto de "fora do caminho" pressupoe que erraram uma virada, o que e falso aqui (acabaram
+    // de chegar), e o modal roubava o foco. O auto (10min) e o botao cobrem quando o rumo importa.
+    if (origem === 'entrada') return;
     clearTimeout(toastTimer);
     $('toast').classList.remove('visivel');
     $('aviso-texto').textContent = TEXTOS.fora_do_caminho;
@@ -808,6 +1185,40 @@ function avaliar(origem) {
     $('aviso-fechar').focus();
   }
   atualizarPainelDebug(dist);
+}
+
+// a etapa avanca sozinha ao chegar no checkpoint? So no avanco por GPS puro, ou no video ja gravado
+function chegadaGpsAvanca(et) {
+  if (!et) return false;
+  if (et.avanco === 'gps') return true;
+  if (et.avanco === 'video') return jaGravou;   // "ja gravamos" libera a chegada da ultima etapa
+  return false;
+}
+
+// ---------- voo de câmera (respeita prefers-reduced-motion) ----------
+// flyTo/flyToBounds IGNORAM animate:false; no "reduzir movimento" ramificamos para
+// setView/fitBounds sem animação, senão a câmera voa mesmo com o sistema pedindo parar.
+function reduzMovimento() {
+  try { return !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches); }
+  catch (e) { return false; }
+}
+// Se o mapa estiver 0x0 (o _size do Leaflet zera por um instante numa troca de tela/painel),
+// o flyTo/flyToBounds calcula sobre tamanho zero e estoura "Invalid LatLng (NaN, NaN)".
+// Sem tamanho valido, ou no "reduzir movimento", vamos direto sem animacao.
+function mapaSemTamanho() {
+  if (!mapa) return true;
+  try { const s = mapa.getSize(); return !s || !s.x || !s.y; } catch (e) { return true; }
+}
+function voarPara(latlng, zoom, duracao) {
+  if (!mapa) return;
+  const z = (zoom != null) ? zoom : mapa.getZoom();
+  if (reduzMovimento() || mapaSemTamanho()) mapa.setView(latlng, z, { animate: false });
+  else mapa.flyTo(latlng, z, { duration: (duracao != null ? duracao : 1.0) });
+}
+function voarParaBounds(bounds, duracao) {
+  if (!mapa) return;
+  if (reduzMovimento() || mapaSemTamanho()) mapa.fitBounds(bounds, { animate: false });
+  else mapa.flyToBounds(bounds, { duration: (duracao != null ? duracao : 0.8) });
 }
 
 // ---------- mapa ----------
@@ -841,8 +1252,8 @@ function montarMapa() {
 function iconeCarimbo(n, novo) {
   return L.divIcon({
     className: '',
-    html: '<div class="carimbo' + (novo ? ' carimbo-novo' : '') + '">' + n + '</div>',
-    iconSize: [30, 30], iconAnchor: [15, 15],
+    html: '<div class="carimbo-hit"><div class="carimbo' + (novo ? ' carimbo-novo' : '') + '">' + n + '</div></div>',
+    iconSize: [44, 44], iconAnchor: [22, 22],
   });
 }
 
@@ -898,7 +1309,7 @@ function acenderMarcosDaEtapa() {
     marcadoresMarco.push(m);
   });
   const alvo = et.marcos[0] && et.marcos[0].ponto;
-  if (alvo) mapa.flyTo(alvo, Math.max(mapa.getZoom(), CONFIG.zoom.inicial), { duration: 1.0 });
+  if (alvo) voarPara(alvo, Math.max(mapa.getZoom(), CONFIG.zoom.inicial), 1.0);
 }
 
 // ---------- painel de calibração (debug) ----------
@@ -1361,6 +1772,7 @@ async function admTocarPonto(pontoId) {
 function admRenderLista() {
   const l = $('adm-lista');
   if (!l) return;
+  admAtualizarSeletorRotas();   // a contagem por rota no <select> acompanha marcar/apagar/limpar
   const pts = admPontosDaRota();
   if (!pts.length) { l.innerHTML = '<p class="adm-vazio">Rota "' + admEsc(admRotaAtiva) + '" ainda vazia. Toque no mapa onde tem algo, ou use o botão de baixo para marcar onde você está.</p>'; admAtualizarContagem(); return; }
   l.innerHTML = '';
@@ -1469,7 +1881,7 @@ async function admTrocarRota(nome) {
   admRedesenhar();
   admRenderLista();
   const pts = admPontosDaRota();
-  if (pts.length && mapa) mapa.flyTo([pts[pts.length - 1].lat, pts[pts.length - 1].lng], Math.max(mapa.getZoom(), CONFIG.zoom.inicial), { duration: 0.7 });
+  if (pts.length && mapa) voarPara([pts[pts.length - 1].lat, pts[pts.length - 1].lng], Math.max(mapa.getZoom(), CONFIG.zoom.inicial), 0.7);
   toast('Rota ativa: ' + nome + '.');
 }
 
@@ -1488,7 +1900,13 @@ async function admRenomearRota() {
   if (admTodasRotas().includes(novo)) { toast('Já existe uma rota com esse nome.'); return; }
   // atualiza os pontos dessa rota
   const pts = admPontosDaRota(atual);
-  for (const p of pts) { p.rota = novo; await admPut('pontos', p); }
+  const agora = new Date().toISOString();
+  for (const p of pts) {
+    p.rota = novo;
+    p.sincronizado = false;   // mudou a rota: reabre a pendencia de sync (servidor tem o nome antigo)
+    p.atualizado_em = agora;
+    await admPut('pontos', p);
+  }
   // troca na lista salva
   const lista = admLerRotas().map(r => r === atual ? novo : r);
   if (!lista.includes(novo)) lista.push(novo);
@@ -1598,12 +2016,20 @@ function admRenderEditor() {
 }
 
 // abre a foto em tamanho grande, lendo o blob do IDB (o lightbox do jogo, reaproveitado)
+let admFotoUrlAtual = null;   // object URL aberto no lightbox ADM; revogado ao trocar de foto
 async function admVerFoto(fotoId) {
   const f = await admGet('fotos', fotoId);
   if (!f || !f.blob) { toast('Foto não encontrada.'); return; }
-  const url = URL.createObjectURL(f.blob);
   const g = $('foto-grande');
-  if (g) { g.onload = () => URL.revokeObjectURL(url); g.src = url; }
+  if (admFotoUrlAtual) { URL.revokeObjectURL(admFotoUrlAtual); admFotoUrlAtual = null; } // reabrir rapido: revoga a anterior antes de trocar
+  const url = URL.createObjectURL(f.blob);
+  admFotoUrlAtual = url;
+  if (g) {
+    const soltar = () => { URL.revokeObjectURL(url); if (admFotoUrlAtual === url) admFotoUrlAtual = null; };
+    g.onload = soltar;    // onload E onerror revogam: imagem quebrada nao deixa a URL vazando
+    g.onerror = soltar;
+    g.src = url;
+  }
   $('tela-foto').classList.remove('oculto');
 }
 
@@ -1663,7 +2089,12 @@ async function admApagarPontoAtual() {
 async function admRenumerarRota(rota) {
   const pts = admPontosDaRota(rota);
   for (let i = 0; i < pts.length; i++) {
-    if (pts[i].n !== i + 1) { pts[i].n = i + 1; await admPut('pontos', pts[i]); }
+    if (pts[i].n !== i + 1) {
+      pts[i].n = i + 1;
+      pts[i].sincronizado = false;   // mudou o numero: reabre a pendencia de sync (servidor tem o n antigo)
+      pts[i].atualizado_em = new Date().toISOString();
+      await admPut('pontos', pts[i]);
+    }
   }
 }
 
@@ -1871,7 +2302,7 @@ function admToggleTeste(forcar) {
     admAtualizarTeste();
     admTesteTimer = setInterval(admAtualizarTeste, 2000);
     const pts = admPontosDaRota();
-    if (mapa && pts.length) { setTimeout(() => { mapa.invalidateSize(); mapa.flyToBounds(L.latLngBounds(pts.map(p => [p.lat, p.lng])).pad(0.25), { duration: 0.8 }); }, 60); }
+    if (mapa && pts.length) { setTimeout(() => { mapa.invalidateSize(); voarParaBounds(L.latLngBounds(pts.map(p => [p.lat, p.lng])).pad(0.25), 0.8); }, 60); }
     toast('Modo teste: siga a trilha dourada. O HUD mostra o diamante mais perto.', 5000);
   } else {
     admModoTeste = false;
@@ -1899,10 +2330,10 @@ function admMostrarHudTeste() {
   $('ath-voltar').addEventListener('click', () => {
     const d = admDiamanteMaisPerto();
     if (!d) { toast(posAtual ? 'Sem diamantes nesta rota.' : TEXTOS.sem_gps); return; }
-    if (mapa) mapa.flyTo([d.ponto.lat, d.ponto.lng], Math.max(mapa.getZoom(), CONFIG.zoom.inicial + 1), { duration: 0.9 });
+    if (mapa) voarPara([d.ponto.lat, d.ponto.lng], Math.max(mapa.getZoom(), CONFIG.zoom.inicial + 1), 0.9);
     toast('Diamante #' + d.ponto.n + ' a ' + Math.round(d.dist) + ' m.');
   });
-  $('ath-centrar').addEventListener('click', () => { if (posAtual && mapa) mapa.flyTo([posAtual.lat, posAtual.lng], Math.max(mapa.getZoom(), CONFIG.zoom.inicial), { duration: 0.6 }); else toast(TEXTOS.sem_gps); });
+  $('ath-centrar').addEventListener('click', () => { if (posAtual && mapa) voarPara([posAtual.lat, posAtual.lng], Math.max(mapa.getZoom(), CONFIG.zoom.inicial), 0.6); else toast(TEXTOS.sem_gps); });
   $('ath-sair').addEventListener('click', () => admToggleTeste(false));
 }
 
@@ -1961,7 +2392,15 @@ function admAbrirPistas() {
     bloco.querySelectorAll('.adm-pista-corr').forEach(b => b.addEventListener('click', () => admCorrigirDirecao(Number(b.dataset.et), Number(b.dataset.di))));
     corpo.appendChild(bloco);
   });
+  const volta = document.createElement('button');
+  volta.type = 'button';
+  volta.className = 'adm-pistas-voltar';
+  volta.textContent = '✕ voltar ao ADM';
+  volta.addEventListener('click', admFecharPistas);
+  corpo.appendChild(volta);
   $('adm-pistas-ov').classList.remove('oculto');
+  const folha = document.querySelector('.adm-pistas-folha');
+  if (folha) folha.scrollTop = 0;   // abre sempre do topo, com o cabecalho e o X a vista
 }
 
 function admFecharPistas() { const o = $('adm-pistas-ov'); if (o) o.classList.add('oculto'); }
@@ -2012,9 +2451,11 @@ function cerimoniaChegada() {
   const et = etapaObj();
   if (cerimoniaFeita || !et) return;
   cerimoniaFeita = true;
+  tocarSom(et.som_chegada);   // o toque da chegada (mp3 por etapa); sem som_chegada, nao faz nada
   flashDourado();
-  acenderAlvoAtual(et);
+  // o item vem primeiro: uma falha ao acender o alvo no mapa nunca pode custar o item do inventario
   ganharItem(et);
+  try { acenderAlvoAtual(et); } catch (e) { console.warn('acenderAlvoAtual falhou', e); }
 }
 
 function flashDourado() {
@@ -2025,14 +2466,17 @@ function flashDourado() {
   setTimeout(() => { f.classList.remove('pisca'); f.classList.add('oculto'); }, 720);
 }
 
-function acenderAlvoAtual(et) {
+function acenderAlvoAtual(et, semVoo) {
   limparAlvo();
   if (!mapa || !et.corredor || !et.corredor.length) return;
   const pt = et.corredor[et.corredor.length - 1];
   const ic = L.divIcon({ className: '', html: '<div class="diamante"><span class="diamante-luz"></span><span class="diamante-corpo"></span></div>', iconSize: [46, 46], iconAnchor: [23, 23] });
   marcadorAlvo = L.marker(pt, { icon: ic, zIndexOffset: 700 }).addTo(mapa)
     .bindTooltip(et.titulo || '', { direction: 'top', offset: [0, -20] });
-  mapa.flyTo(pt, Math.max(mapa.getZoom(), CONFIG.zoom.inicial), { duration: 1.0 });
+  // no boot/reload a frio a cerimonia roda antes do invalidateSize que mostrarTela agenda:
+  // sem dar tamanho ao mapa aqui, o flyTo calcula sobre um container 0x0 e estoura "Invalid LatLng (NaN, NaN)"
+  mapa.invalidateSize();
+  if (!semVoo) voarPara(pt, Math.max(mapa.getZoom(), CONFIG.zoom.inicial), 1.0); // no restore (reload) o diamante volta sem saltar a camera
 }
 
 function ganharItem(et) {
@@ -2043,6 +2487,7 @@ function ganharItem(et) {
   salvarInventario();
   atualizarContadorInv();
   mostrarItemGanho(it);
+  talvezRevelarSacola();   // se esse foi o ultimo item, a virada da sacola cheia (rota fariseus)
 }
 
 function mostrarItemGanho(it) {
@@ -2086,7 +2531,78 @@ function abrirInventario() {
     }
     grade.appendChild(cel);
   });
+  // a virada fica sempre relegivel aqui embaixo, num painel destacado, quando a sacola esta completa
+  const painel = $('inv-revelacao');
+  if (painel) {
+    const rev = rotaAtiva.revelacao_sacola;
+    if (rev && inventarioCompleto(rotaAtiva)) {
+      preencherRevelacao(rev, $('inv-rev-glifos'), $('inv-rev-titulo'), $('inv-rev-texto'));
+      painel.classList.remove('oculto');
+    } else {
+      painel.classList.add('oculto');
+    }
+  }
   $('tela-inventario').classList.remove('oculto');
+}
+
+// ---------- a revelacao da sacola cheia (a virada da rota fariseus) ----------
+// "Completo" = para cada etapa que define et.item, a sacola ja tem o item correspondente.
+// So a rota com revelacao_sacola dispara; as outras nao tem o campo e sao ignoradas.
+function inventarioCompleto(rota) {
+  if (!rota) return false;
+  const slots = (rota.etapas || []).filter(et => et.item);
+  if (!slots.length) return false;
+  return slots.every(et => inventario.some(x => x.etapa === et.id));
+}
+function revelacaoJaVista(rota) {
+  try { return localStorage.getItem(CHAVE_SACOLA + rota.id) === '1'; } catch (e) { return false; }
+}
+function marcarRevelacaoVista(rota) {
+  try { localStorage.setItem(CHAVE_SACOLA + rota.id, '1'); } catch (e) {}
+}
+
+// chamada a cada item novo: dispara a virada UMA vez, quando a sacola acaba de completar
+function talvezRevelarSacola() {
+  const rota = rotaAtiva;
+  if (!rota || !rota.revelacao_sacola) return;   // so a rota que carrega a virada
+  if (!inventarioCompleto(rota)) return;         // ainda faltam pecas
+  if (revelacaoJaVista(rota)) return;            // ja rolou nesta rota: nao repete no automatico
+  marcarRevelacaoVista(rota);
+  // deixa a cerimonia do ultimo item (mostrarItemGanho, ~3,4s) respirar antes da virada solene
+  clearTimeout(talvezRevelarSacola._t);
+  talvezRevelarSacola._t = setTimeout(() => mostrarRevelacaoSacola(rota.revelacao_sacola), 3400);
+}
+
+// preenche os glifos coletados + titulo + texto (lidos do rotas.json) nos elementos dados
+function preencherRevelacao(rev, glifosEl, tituloEl, textoEl) {
+  if (glifosEl) {
+    glifosEl.innerHTML = '';
+    (rotaAtiva && rotaAtiva.etapas || []).forEach(et => {
+      if (!et.item || !inventario.some(x => x.etapa === et.id)) return;
+      const g = document.createElement('span');
+      g.className = 'rev-glifo';
+      g.innerHTML = glifoSVG(et.item.glifo);
+      glifosEl.appendChild(g);
+    });
+  }
+  if (tituloEl) tituloEl.textContent = rev.titulo || '';
+  if (textoEl) textoEl.textContent = rev.texto || '';
+}
+
+function mostrarRevelacaoSacola(rev) {
+  if (!rev) return;
+  preencherRevelacao(rev, $('rev-glifos'), $('rev-titulo'), $('rev-texto'));
+  tocarSom('sino');   // um toque solene marca a virada (best-effort; sem audio, nao faz nada)
+  const el = $('revelacao-sacola');
+  if (!el) return;
+  el.classList.remove('oculto');
+  requestAnimationFrame(() => el.classList.add('visivel'));
+}
+function fecharRevelacaoSacola() {
+  const el = $('revelacao-sacola');
+  if (!el) return;
+  el.classList.remove('visivel');
+  setTimeout(() => el.classList.add('oculto'), 420);
 }
 
 // ---------- fotos da etapa: galeria + lightbox (modo Easy de referencia) ----------
@@ -2109,8 +2625,13 @@ function abrirFoto(src) {
 }
 function fecharFoto() { $('tela-foto').classList.add('oculto'); }
 
-// coach dos socorros: mostra uma vez (por aparelho) na 1a etapa vista
+// coach dos socorros: mostra uma vez (por aparelho) na 1a etapa vista.
+// coachVisto guarda a decisao em memoria: em aba privada (sem localStorage) o coach
+// reaparecia a cada etapa; com a flag de sessao, aparece no maximo uma vez.
+let coachVisto = false;
 function talvezMostrarCoach() {
+  if (coachVisto) return;
+  coachVisto = true;
   try { if (localStorage.getItem('peula68_coach') === '1') return; } catch (e) {}
   $('coach-socorros').classList.remove('oculto');
 }
@@ -2150,7 +2671,7 @@ function ultimoPontoMarcado() {
 function voltarAoUltimoPonto() {
   const pt = ultimoPontoMarcado();
   if (!pt || !mapa) { toast(TEXTOS.sem_ponto); return; }
-  mapa.flyTo(pt, Math.max(mapa.getZoom(), CONFIG.zoom.inicial), { duration: 0.9 });
+  voarPara(pt, Math.max(mapa.getZoom(), CONFIG.zoom.inicial), 0.9);
 }
 
 // ---------- gate inicial: comecar longe, ir ate o portao e tocar ESTOU AQUI ----------
@@ -2169,10 +2690,28 @@ function mostrarGateInicial() {
     marcadorBrilhoGate = L.marker(pt, { icon: ic, zIndexOffset: 650, interactive: false }).addTo(mapa);
     // o mapa acabou de ficar visivel (vinha da abertura): da o tamanho a ele antes de voar,
     // senao o flyTo calcula sobre um container 0x0 e estoura "Invalid LatLng (NaN, NaN)"
-    setTimeout(() => { mapa.invalidateSize(); mapa.flyTo(pt, Math.max(mapa.getZoom(), CONFIG.zoom.inicial), { duration: 1.0 }); }, 80);
+    setTimeout(() => { mapa.invalidateSize(); voarPara(pt, Math.max(mapa.getZoom(), CONFIG.zoom.inicial), 1.0); }, 80);
   }
+  configurarGateRetrato();   // se a rota tem retrato de abertura, e ele que comeca a caca
   $('gate-inicial').classList.remove('oculto');
   aguardandoGate = true;
+}
+
+// no gate inicial: se a rota tem missao_abertura (foto), o RETRATO do time e o que comeca a caca.
+// Enviar a foto substitui/complementa o "estou aqui" (que fica de reserva, junto do gate por GPS).
+function configurarGateRetrato() {
+  const ma = rotaAtiva && rotaAtiva.missao_abertura;
+  const bloco = $('gate-retrato');
+  const estouAqui = $('gate-botao');
+  if (ma && (ma.tipo === 'foto' || ma.tipo === undefined) && bloco) {
+    $('gate-retrato-texto').textContent = ma.texto || '';
+    $('gate-retrato-btn-txt').textContent = TEXTOS.gate_retrato_botao || 'Enviar o retrato e começar';
+    bloco.classList.remove('oculto');
+    if (estouAqui) { estouAqui.classList.add('gate-reserva'); estouAqui.textContent = TEXTOS.gate_estou_aqui_reserva || 'Ou toquem aqui quando o grupo chegar'; }
+  } else if (bloco) {
+    bloco.classList.add('oculto');
+    if (estouAqui) { estouAqui.classList.remove('gate-reserva'); estouAqui.textContent = TEXTOS.gate_botao || 'Estou aqui'; }
+  }
 }
 
 function verificarChegadaGate() {
@@ -2182,13 +2721,22 @@ function verificarChegadaGate() {
   if (pt && distanciaAoCorredorM(posAtual, [pt]) <= 55 + folga) abrirPrimeiraEtapa();
 }
 
-function abrirPrimeiraEtapa() {
+// tira o jogador do gate inicial: esconde o card "ESTOU AQUI", apaga o brilho do portão
+// e traz o painel de volta. Extraído para que a entrada na etapa (inclusive por sync)
+// possa limpar o gate com segurança, sem o card ficar preso por cima do jogo.
+function sairDoGate() {
   if (!aguardandoGate) return;
   aguardandoGate = false;
   $('gate-inicial').classList.add('oculto');
   limparBrilhoGate();
-  $('painel').classList.remove('painel-fechado'); // traz o painel de volta pra 1a carta
+  $('painel').classList.remove('painel-fechado');
   atualizarPinoMostrar();
+}
+
+function abrirPrimeiraEtapa() {
+  if (!aguardandoGate) return;
+  primarAudio();   // "estou aqui" tambem serve de 1o gesto pra destravar o som
+  sairDoGate();
   entrarEtapa();
   toast(TEXTOS.gate_chegou || TEXTOS.portao_abriu);
 }
@@ -2274,6 +2822,237 @@ function atualizarBussola() {
   if (agulha) agulha.style.transform = 'translate(-50%, -50%) rotate(' + rot.toFixed(0) + 'deg)';
   const d = distanciaAoCorredorM(posAtual, [destino]);
   if (distEl) distEl.textContent = isFinite(d) ? (d < 1000 ? Math.round(d) + ' m' : (d / 1000).toFixed(1) + ' km') : '';
+}
+
+// ---------- simbolos dos beats (glifos SVG proprios) ----------
+// Chaves usadas nos beats do rotas.json: templarios (cruz de Jerusalem), cruz, seta, shuk, maria.
+function simboloSVG(chave) {
+  const g = {
+    // cruz de Jerusalem: a cruz potente (bracos em T) no centro + 4 marcas nos quadrantes
+    templarios:
+      '<path d="M10.7 4h2.6v16h-2.6z"/><path d="M4 10.7h16v2.6H4z"/>' +
+      '<path d="M8.3 4h7.4v1.7H8.3zM8.3 18.3h7.4V20H8.3zM4 8.3h1.7v7.4H4zM18.3 8.3H20v7.4h-1.7z"/>' +
+      '<circle cx="7" cy="7" r="1.05"/><circle cx="17" cy="7" r="1.05"/><circle cx="7" cy="17" r="1.05"/><circle cx="17" cy="17" r="1.05"/>',
+    // cruz latina simples
+    cruz: '<path d="M10.7 3h2.6v6.1H19v2.6h-5.7V21h-2.6v-9.3H5V9.1h5.7z"/>',
+    // seta de rumo (pra frente)
+    seta: '<path d="M4 10.4h9.2V6l6.4 6-6.4 6v-4.4H4z"/>',
+    // shuk: uma arcada de tres arcos (as ruas abobadadas do mercado) sobre a linha do chao
+    shuk:
+      '<g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round">' +
+      '<path d="M3 20v-6a3 3 0 0 1 6 0M9 14a3 3 0 0 1 6 0M15 14a3 3 0 0 1 6 0v6"/>' +
+      '<path d="M3 20h18"/></g>',
+    // maria: cabeca com veu (auréola em arco) e os ombros do manto
+    maria:
+      '<circle cx="12" cy="8.4" r="3.1"/>' +
+      '<path d="M6.4 20.5c0-3.6 2.5-6.1 5.6-6.1s5.6 2.5 5.6 6.1z"/>' +
+      '<path d="M7.7 5.2a5.6 5.6 0 0 1 8.6 0" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>',
+  };
+  return '<svg viewBox="0 0 24 24" width="100%" height="100%" aria-hidden="true" fill="currentColor">' + (g[chave] || g.seta) + '</svg>';
+}
+
+// ---------- beats: pops de historia no caminho (marcador com o simbolo + som), uma vez cada ----------
+function chaveBeatsEtapa(et) { return (rotaAtiva ? rotaAtiva.id : '?') + ':' + (et ? et.id : '?'); }
+function beatsFeitosDaEtapa(et) {
+  const k = chaveBeatsEtapa(et);
+  return beatsPersist[k] || (beatsPersist[k] = []);
+}
+
+function verificarBeats(et) {
+  if (!et || !et.beats || !et.beats.length || !posAtual) return;
+  const feitos = beatsFeitosDaEtapa(et);
+  const folga = Math.min(posAtual.acc || 0, 20);
+  et.beats.forEach((b, i) => {
+    if (!b || !b.ponto || feitos.indexOf(i) >= 0) return;
+    if (distanciaAoCorredorM(posAtual, [b.ponto]) <= (b.raio_m || 20) + folga) {
+      feitos.push(i);
+      salvarBeatsPersist();
+      dispararBeat(b);
+    }
+  });
+}
+
+function dispararBeat(b) {
+  mostrarSussurro(b.texto, b.simbolo, 7000);   // o pop de mensagem no mapa
+  desenharMarcadorBeat(b);                      // o marcador com o glifo fica no mapa
+  if (b.som) tocarSom(b.som);
+}
+
+function desenharMarcadorBeat(b) {
+  if (!mapa || !b || !b.ponto) return;
+  const ic = L.divIcon({ className: '', html: '<div class="beat-marco">' + simboloSVG(b.simbolo) + '</div>', iconSize: [34, 34], iconAnchor: [17, 17] });
+  const m = L.marker(b.ponto, { icon: ic, zIndexOffset: 560 }).addTo(mapa);
+  if (b.texto) m.bindTooltip(b.texto, { direction: 'top', offset: [0, -16] });
+  marcadoresBeat.push(m);
+}
+
+function limparMarcadoresBeat() {
+  marcadoresBeat.forEach(m => mapa && mapa.removeLayer(m));
+  marcadoresBeat = [];
+}
+
+// reload no meio da etapa: os beats ja disparados voltam ao mapa (so o marcador, sem pop nem som)
+function redesenharBeatsDisparados(et) {
+  if (!et || !et.beats) return;
+  beatsFeitosDaEtapa(et).forEach(i => { if (et.beats[i]) desenharMarcadorBeat(et.beats[i]); });
+}
+
+// ---------- sussurro do mapa: o pop dos beats e do "revela" (com glifo opcional) ----------
+function mostrarSussurro(texto, simbolo, ms) {
+  const el = $('sussurro');
+  if (!el) { if (texto) toast(texto, ms || 6000); return; }
+  const gl = $('sussurro-glifo');
+  if (simbolo) { gl.innerHTML = simboloSVG(simbolo); gl.classList.remove('oculto'); }
+  else { gl.innerHTML = ''; gl.classList.add('oculto'); }
+  $('sussurro-texto').innerHTML = textoComAsterisco(texto || '');
+  el.classList.remove('oculto');
+  requestAnimationFrame(() => el.classList.add('visivel'));
+  clearTimeout(mostrarSussurro._t);
+  mostrarSussurro._t = setTimeout(fecharSussurro, ms || 6500);
+}
+function fecharSussurro() {
+  const el = $('sussurro');
+  if (!el) return;
+  el.classList.remove('visivel');
+  setTimeout(() => el.classList.add('oculto'), 400);
+}
+
+// ---------- foto da missao: sobe pro Supabase (best-effort, nunca trava) ----------
+// O retrato de abertura (etapa 0) e as fotos das etapas "foto" sobem comprimidas pro schema peula
+// (RPC peula_jogo_foto, DDL em db/0003_jogo_fotos.sql). Se a rede falhar, a foto entra numa fila
+// de reenvio desta sessao e o jogo SEGUE assim mesmo (a palavra do madrich fica de reserva).
+function salaFotoAtual() {
+  if (sala) return sala;   // ja definida pela sincronia (rota + grupo)
+  if (!rotaAtiva) return '';
+  return normalizar(rotaAtiva.id + (grupoAtivo || 'SOLO'));
+}
+
+// sobe uma foto (com timeout, pra rede lenta nao travar o jogo). Resolve true/false, nunca rejeita.
+async function subirFotoJogo(blob, etapaId) {
+  try {
+    const b64 = await admBlobParaB64(blob);   // reusa o utilitario do ADM (base64 sem o prefixo)
+    const corpo = {
+      p_id: admUuid(), p_sala: salaFotoAtual(), p_rota: rotaAtiva ? rotaAtiva.id : '',
+      p_etapa: (etapaId != null ? etapaId : 0), p_dispositivo: admDispId(),
+      p_mime: (blob.type || 'image/jpeg'), p_dados_b64: b64,
+    };
+    const ctrl = new AbortController();
+    const tmo = setTimeout(() => ctrl.abort(), 12000);
+    try {
+      const r = await fetch(SB_URL + '/rest/v1/rpc/peula_jogo_foto', {
+        method: 'POST',
+        headers: { 'apikey': SB_ANON, 'Authorization': 'Bearer ' + SB_ANON, 'Content-Type': 'application/json' },
+        body: JSON.stringify(corpo), signal: ctrl.signal,
+      });
+      return r.ok;   // 204 (void) tambem conta como ok
+    } finally { clearTimeout(tmo); }
+  } catch (e) { return false; }
+}
+
+// comprime, tenta subir e chama `aoTerminar` (o avanco) SEMPRE: enviar e o gatilho, mas rede ruim
+// nao pode prender o grupo. O que nao subiu vai pra fila e tenta de novo quando a rede voltar.
+async function enviarFotoBest(file, etapaId, aoTerminar, textoOk, textoFalha) {
+  toast(TEXTOS.missao_foto_enviando || 'Guardando a foto...', 3000);
+  let blob = file;
+  try { blob = await admComprimirFoto(file, 1600, 0.72); } catch (e) { /* compressao falhou: usa o arquivo cru */ }
+  const ok = await subirFotoJogo(blob, etapaId);
+  if (ok) toast(textoOk || TEXTOS.missao_foto_ok || 'Foto no cofre. O caminho segue.');
+  else { fotosPendentes.push({ blob, etapaId }); toast(textoFalha || TEXTOS.missao_foto_falha || 'Sem sinal pra guardar agora. Sigam, mandem ao madrich por fora.', 6000); }
+  if (typeof aoTerminar === 'function') aoTerminar();
+}
+
+// retrato de abertura (etapa 0): enviar COMECA a caca (prima o audio, toca o som e abre a E1)
+function enviarRetratoAbertura(file) {
+  const som = (rotaAtiva && rotaAtiva.missao_abertura && rotaAtiva.missao_abertura.som) || 'inicio';
+  primarAudio();
+  tocarSom(som);
+  enviarFotoBest(file, 0, () => { if (aguardandoGate) abrirPrimeiraEtapa(); },
+    TEXTOS.retrato_ok || 'Retrato guardado. A caça começa.',
+    TEXTOS.retrato_falha || 'Sem sinal pra guardar o retrato. A caça começa mesmo assim.');
+}
+
+// foto de missao de etapa (avanco "foto"): enviar AVANCA a etapa (cerimonia + item + proxima carta)
+function enviarFotoMissao(file) {
+  const et = etapaObj();
+  if (!et) return;
+  primarAudio();
+  enviarFotoBest(file, et.id, () => avancarEtapa());
+}
+
+// ---------- video da missao: sobe pro Storage privado (best-effort, nunca trava) ----------
+// Video nao cabe na tabela das fotos (teto de ~4MB): vai pro Supabase Storage, bucket privado
+// 'jogo-midia' (DDL em db/0004_jogo_videos.sql). O app (anon) so INSERE o objeto, nao le nem
+// lista. Se a rede cair, o video entra na MESMA fila das fotos (com kind:'video') e sobe quando
+// a rede voltar. O jogo nunca espera o upload: o codigo (E4) ou a chegada por GPS (E5) e o gate.
+function extDeMimeVideo(m) {
+  m = (m || '').toLowerCase();
+  if (m.indexOf('quicktime') >= 0) return 'mov';   // iPhone grava .mov (video/quicktime)
+  if (m.indexOf('webm') >= 0) return 'webm';
+  if (m.indexOf('matroska') >= 0) return 'mkv';
+  if (m.indexOf('3gp') >= 0) return '3gp';
+  return 'mp4';                                     // Android e a maioria: video/mp4
+}
+
+// sobe um video pro Storage. Resolve {ok, retry, caminho}, nunca rejeita. `caminhoPre` reusa o
+// mesmo objeto num reenvio (idempotente: 409 "ja existe" conta como ok). retry=true so quando
+// vale tentar de novo (rede caiu / 5xx); um 4xx (tamanho, config) nao volta pra fila.
+async function subirVideoStorage(blob, etapaId, caminhoPre) {
+  let caminho = caminhoPre || '';
+  try {
+    if (!caminho) {
+      const ext = extDeMimeVideo(blob.type);
+      caminho = [salaFotoAtual(), (rotaAtiva ? rotaAtiva.id : 'rota'), (etapaId != null ? etapaId : 0), admUuid() + '.' + ext].join('/');
+    }
+    const ctrl = new AbortController();
+    const tmo = setTimeout(() => ctrl.abort(), 120000);   // video e pesado: ate 2 min antes de desistir
+    try {
+      const r = await fetch(SB_URL + '/storage/v1/object/' + BUCKET_MIDIA + '/' + caminho, {
+        method: 'POST',
+        headers: {
+          'apikey': SB_ANON, 'Authorization': 'Bearer ' + SB_ANON,
+          'Content-Type': blob.type || 'video/mp4', 'x-upsert': 'false',
+        },
+        body: blob, signal: ctrl.signal,
+      });
+      if (r.ok || r.status === 409) return { ok: true, retry: false, caminho };   // 409 = ja tinha subido
+      return { ok: false, retry: r.status >= 500, caminho };   // 4xx: recusa definitiva; 5xx: tenta depois
+    } finally { clearTimeout(tmo); }
+  } catch (e) {
+    return { ok: false, retry: true, caminho };   // rede caiu / timeout: vale reenfileirar
+  }
+}
+
+// tenta subir o video e chama `aoTerminar` (o avanco) SEMPRE. Rede ruim vai pra fila, mas nao
+// prende o grupo. 4xx (video grande demais / config) avisa "manda por fora" e segue mesmo assim.
+async function enviarVideoBest(file, etapaId, aoTerminar) {
+  toast(TEXTOS.missao_video_enviando || 'Enviando o vídeo...', 4000);
+  const res = await subirVideoStorage(file, etapaId, null);
+  if (res.ok) toast(TEXTOS.missao_video_ok || 'Vídeo no cofre. O caminho segue.');
+  else if (res.retry) { fotosPendentes.push({ kind: 'video', blob: file, etapaId: etapaId, caminho: res.caminho }); toast(TEXTOS.missao_video_fila || 'Sem sinal pra guardar agora. O vídeo sobe sozinho quando a rede voltar. Sigam.', 6000); }
+  else toast(TEXTOS.missao_video_falha || 'Não deu pra guardar o vídeo aqui. Sigam, e mandem ao madrich por fora.', 6000);
+  if (typeof aoTerminar === 'function') aoTerminar();
+}
+
+// video de missao de etapa: enviar dispara o avanco (aoConcluir), que o chamador define por etapa
+function enviarVideoMissao(file, etapaId, aoConcluir) {
+  primarAudio();
+  enviarVideoBest(file, etapaId, aoConcluir);
+}
+
+// a rede voltou: tenta subir de novo as fotos e videos que ficaram na fila desta sessao
+function tentarReenviarPendentes() {
+  if (!fotosPendentes.length || !navigator.onLine) return;
+  const fila = fotosPendentes.slice();
+  fotosPendentes = [];
+  fila.forEach(async (item) => {
+    if (item.kind === 'video') {
+      const r = await subirVideoStorage(item.blob, item.etapaId, item.caminho);
+      if (!r.ok && r.retry) fotosPendentes.push(item);   // so volta pra fila se ainda vale tentar (4xx sai)
+    } else {
+      const ok = await subirFotoJogo(item.blob, item.etapaId);
+      if (!ok) fotosPendentes.push(item);                // foto: tenta de novo na proxima chance
+    }
+  });
 }
 
 // ---------- início ----------

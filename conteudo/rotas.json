@@ -1179,6 +1179,7 @@
         "identidade": [
           "Vocês são os zelotes. Não têm medo de ninguém. Os fariseus discutem a lei, os saduceus apertam a mão do governador. Vocês compraram armas.",
           "Escondem o punhal curto na dobra do manto, e na multidão da festa cravam a lâmina em quem se acerta com Roma. O sumo sacerdote que lambeu a bota do inimigo já apareceu morto, sem sepultura, fora do muro. Foram vocês.*",
+          "Roma tem um nome para vocês, e vocês o carregam como medalha: terroristas. Não negam, se gabam. Tacam o terror na cara de quem entrega a Terra ao império, nos inimigos de D'us, nos que sujam Eretz Israel Shlemá com a sandália de Roma. O medo trabalha antes do punhal. Que o traidor durma mal sabendo que vocês existem.",
           "Um sábio, Yochanan ben Zakkai, viu a guerra chegar e se fez de morto para ser levado num caixão, negociar uma escola em Yavne.* Vocês têm uma palavra para isso: covardia. Enquanto ele salva livros, vocês salvam Jerusalém. Torá dita num pé só não para legião. Punhal para."
         ],
         "combinados": [
@@ -1189,6 +1190,7 @@
         {
           "id": 1,
           "titulo": "A ronda",
+          "som_chegada": "chegada-suave",
           "corredor": [
             [
               31.776225,
@@ -1208,7 +1210,7 @@
           "carta": [
             {
               "voz": "narrador",
-              "texto": "Vocês saem à ronda. A cidade está calma demais, e calma, para vocês, é véspera."
+              "texto": "Noite de festa em Jerusalém. A cidade incha de peregrino, e peregrino não repara em quem anda colado na parede. Noite boa para quem trabalha no escuro. O manto cobre o ferro, o ferro fica perto da mão. Ninguém descobre um zelote antes da lâmina."
             },
             {
               "voz": "circulo",
@@ -1217,9 +1219,9 @@
           ],
           "direcoes": [
             "Sigam em frente. Vocês estão na Cidade Velha, e aqui, hoje, todos podem ser inimigos.",
-            "Passem pelo Tauná Coffee House, colados à muralha. Esses muros não guardam vocês, prendem. Tem irmão que quer fugir por eles. Vocês querem lutar.",
+            "Passem pelo Tauná Coffee House, colados à muralha. Esses muros não guardam, prendem. Tem irmão que quer fugir por eles. Vocês querem lutar.",
             "A primeira virada é na St. James. Virem ali.",
-            "Sigam até uma yeshiva erguer a fachada na frente de vocês. Parem."
+            "Sigam até uma yeshiva erguer a fachada na frente de vocês. Parem e cumpram a missão."
           ],
           "marcos": [
             {
@@ -1230,7 +1232,7 @@
               ]
             }
           ],
-          "missao": "Diante da Yeshivas Bircas HaTorah. Esses aí escolheram o livro e viraram as costas para a guerra. Foto do grupo encarando a fachada, cara de bravo, apontando e gritando para eles descerem e lutar. Se pularem, seguem, mas ficam sem o item.",
+          "missao": "Diante da Yeshivas Bircas HaTorah. Esses aí escolheram o livro e viraram as costas para a guerra. Fariseus covardes! Foto do grupo encarando a fachada, cara de bravo, apontando e gritando para eles descerem e lutar.",
           "fotos": [
             "img/etapas/zelotes-e1-a-st-james.jpg",
             "img/etapas/zelotes-e1-b-yeshiva.jpg"
@@ -1238,13 +1240,26 @@
           "item": {
             "nome": "O punhal curto",
             "glifo": "lamina",
-            "sobre": "A lâmina que o sicário esconde na dobra do manto."
+            "sobre": "A lâmina do sicário. A primeira peça do que vocês vão juntar esta noite."
           },
           "senha_desbloqueio": "KANAI"
         },
         {
           "id": 2,
           "titulo": "A descida armada",
+          "som_chegada": "chegada-suave",
+          "beats": [
+            {
+              "ponto": [
+                31.77563,
+                35.230031
+              ],
+              "raio_m": 20,
+              "simbolo": "seta",
+              "texto": "Túnel dos nossos. Mãos zelotes fortificaram esta pedra para o dia que enfim chegou.",
+              "som": "coragem"
+            }
+          ],
           "corredor": [
             [
               31.775268,
@@ -1260,7 +1275,7 @@
           "carta": [
             {
               "voz": "narrador",
-              "texto": "Sigam à esquerda, em direção à Rua Ararat. Sob os túneis, a mensagem que os nossos deixaram na pedra: aqui os guerreiros ergueram as fortificações."
+              "texto": "Enquanto vocês afiam o ferro, os sacerdotes de linho branco comem da mesa de Roma e chamam isso de salvar o Templo. Salvam a própria barriga. O sumo sacerdote beija o anel do governador e jura que é pela paz. Essa paz é só o pescoço que já se acostumou com a bota. O caminho do guerreiro não passa pelo altar dos que se venderam."
             }
           ],
           "direcoes": [
@@ -1277,20 +1292,21 @@
               ]
             }
           ],
-          "missao": "Nas escadas, subam pela portinha e fiquem em posição de quem está armado, olhando para baixo, vigiando a rua. Alguém tira a foto de baixo. Cumprida a missão, vocês pegam os armamentos.",
+          "missao": "Subam nas escadas e fiquem em posição de quem está armado, olhando para baixo, vigiando a rua. Alguém tira a foto de baixo. Cumprida a missão, vocês pegam os armamentos.",
           "fotos": [
             "img/etapas/zelotes-e2-a-deir-al-syrian.jpg"
           ],
           "item": {
             "nome": "Os armamentos",
             "glifo": "estrela",
-            "sobre": "O que se junta escondido para o dia da revolta."
+            "sobre": "O ferro juntado em segredo para o dia da revolta. Cada lâmina, uma boca a menos para alimentar."
           },
           "senha_desbloqueio": "SICA"
         },
         {
           "id": 3,
           "titulo": "O número na pedra",
+          "som_chegada": "chegada-media",
           "corredor": [
             [
               31.775992,
@@ -1315,15 +1331,11 @@
           "carta": [
             {
               "voz": "narrador",
-              "texto": "Numa bifurcação vocês vão ter que escolher um lado, e a cidade não perdoa quem erra. Para acertar, uma charada de gente da terra: entre Shamir e Shakrabi, sou Shamir. Entre Peres e Bibi, sou Bibi. Os dois que eu sou puxam para o mesmo lado. Vão por ali."
-            },
-            {
-              "voz": "narrador",
-              "texto": "Na próxima bifurcação, sigam o Reb de Lubavitch. Entrem sob o túnel. Logo no começo, alguém deixou um número gravado na parede, à vista de todos."
+              "texto": "Nem todo mundo do nosso lado tem estômago para isso. Tem zelote que sussurra para poupar este, conversar com aquele, esperar mais um pouco. Chamam de prudência. A gente chama de fraqueza, e fraqueza racha um grupo mais rápido que espada romana. Decorem a cara de quem hesita. Um dia essa conta se acerta."
             }
           ],
           "direcoes": [
-            "A bifurcação pede uma escolha. Resolvam a charada: entre Shamir e Shakrabi, sou Shamir. Entre Peres e Bibi, sou Bibi. Para que lado esses dois puxam? Sigam por ali.",
+            "A bifurcação pede uma escolha. Resolvam a charada: entre Shamir e Rabin, sou Shamir. Entre Peres e Bibi, sou Bibi. Para que lado esses dois puxam? Sigam por ali.",
             "Na próxima bifurcação, sigam o Reb de Lubavitch, e entrem sob o túnel.",
             "No começo do túnel, achem o número na pedra. Leiam, guardem, e desçam as escadas certas."
           ],
@@ -1341,15 +1353,28 @@
             "img/etapas/zelotes-e3-a-codigo.jpg"
           ],
           "item": {
-            "nome": "A chave da pedra",
+            "nome": "A chave dos armazéns",
             "glifo": "chave",
-            "sobre": "O número gravado que abre a descida certa."
+            "sobre": "A cidade tranca o trigo dos anos ruins atrás de uma pedra. Agora o número dela é de vocês. Guardem."
           },
           "senha_desbloqueio": "5359"
         },
         {
           "id": 4,
           "titulo": "O Cardo dos romanos",
+          "som_chegada": "chegada-media",
+          "beats": [
+            {
+              "ponto": [
+                31.775576,
+                35.230957
+              ],
+              "raio_m": 20,
+              "simbolo": "shuk",
+              "texto": "Pisem devagar. Cada laje deste chão foi assentada por mão judia que Roma obrigou.",
+              "som": "item"
+            }
+          ],
           "corredor": [
             [
               31.775751,
@@ -1366,12 +1391,12 @@
           "carta": [
             {
               "voz": "narrador",
-              "texto": "Desçam as escadas e virem à direita. Abaixo de vocês abre-se o Cardo, a rua larga onde os romanos fizeram suas praças. Um dia a gente derruba isso."
+              "texto": "Aqui embaixo é obra de Roma. Coluna reta, pedra caríssima, uma avenida que o império rasgou no meio da nossa cidade só para desfilar. Enquanto Jerusalém aperta o cinto, Roma levanta praça. E cada pedra dessas foi assentada por mão judia obrigada. Olhem bem. Esse ódio ainda vai ter uso."
             }
           ],
           "direcoes": [
             "Desçam as escadas e virem à direita.",
-            "Abaixo é o Cardo Romano, onde Roma fez suas praças.",
+            "Abaixo é o Cardo Romano, onde Roma fez suas praças. Um dia a gente derruba isso.",
             "Parem sob a placa Hadaia Jewelry Showroom. É a porta da próxima fase."
           ],
           "marcos": [
@@ -1386,15 +1411,16 @@
           "missao": "Sob o letreiro Hadaia Jewelry, marquem de que década ele é. O ano exato foi esquecido, mas a década está ali. Digitem os três números.",
           "fotos": [],
           "item": {
-            "nome": "A década esquecida",
-            "glifo": "ampulheta",
-            "sobre": "O tempo que o letreiro guarda, quando o ano já se perdeu."
+            "nome": "A tocha",
+            "glifo": "estrela",
+            "sobre": "Fogo na mão. Um dia Roma arde, e o Cardo dela junto. É só escolher a hora."
           },
           "senha_desbloqueio": "198"
         },
         {
           "id": 5,
           "titulo": "Sigam o diamante",
+          "som_chegada": "chegada-media",
           "corredor": [
             [
               31.775402,
@@ -1426,15 +1452,33 @@
               ]
             }
           ],
-          "missao": "Ao chegar, procurem na parede um telefone escrito. Os últimos três dígitos abrem as próximas instruções. Digitem.",
+          "missao": "Ao chegar, procurem na parede um telefone escrito na placa dos caraítas. Os últimos três dígitos abrem as próximas instruções. Digitem.",
           "fotos": [
             "img/etapas/zelotes-e5-a-telefone.jpg"
           ],
+          "item": {
+            "nome": "O pavio curto",
+            "glifo": "ampulheta",
+            "sobre": "A recusa de esperar. Quem enche o celeiro se prepara para o cerco. Zelote não quer cerco, quer o ataque agora. Pavio curto é o orgulho de não saber aguardar, e ele pega fogo fácil."
+          },
           "senha_desbloqueio": "728"
         },
         {
           "id": 6,
           "titulo": "O bairro protegido",
+          "som_chegada": "chegada-forte",
+          "beats": [
+            {
+              "ponto": [
+                31.775767,
+                35.232726
+              ],
+              "raio_m": 20,
+              "simbolo": "seta",
+              "texto": "Aqui rezam os que confundem oração com muralha. Passem sem tocar, é o nosso povo.",
+              "som": "sino"
+            }
+          ],
           "corredor": [
             [
               31.775334,
@@ -1458,11 +1502,7 @@
           "carta": [
             {
               "voz": "narrador",
-              "texto": "Olhando para a sinagoga caraíta, virem à esquerda, e à esquerda de novo. Na frente, um centro de estudos talmúdicos dos fariseus sionistas, um nome que nem existia ainda."
-            },
-            {
-              "voz": "narrador",
-              "texto": "Não entrem no túnel. Sigam pelo pátio, desçam as escadas no fundo, e não virem em direção ao Kotel. Atravessem o túnel estreito, e ao sair sigam o Aish e o Nahal Haim, uma vez só, sem descer."
+              "texto": "Bem na frente tem um centro de estudos, os 'fariseus sionistas', um nome que nem existe ainda. Ali dentro estão os que passam a noite sobre o livro, enquanto vocês passam a noite sobre o ferro. Acham que Torá segura legião. São do nosso povo, e por isso vocês não tocam num fio deles. Mas escutem uma verdade: livro nenhum nunca parou um exército. Guardem o desprezo, mas guardem a mão."
             }
           ],
           "direcoes": [
@@ -1481,20 +1521,21 @@
               ]
             }
           ],
-          "missao": "Na árvore do pátio, a missão final. Uma foto e um vídeo do grupo girando em volta da árvore, gritando juntos: vamos ganhar. Mandem, e peguem a última chave.",
+          "missao": "Na árvore do pátio, a missão final. Uma foto e um vídeo do grupo girando em volta da árvore, gritando juntos: Vamos queimar, vamos ganhar, somos os terroristas! Mandem, e peguem a última chave.",
           "fotos": [
             "img/etapas/zelotes-e6-a-arvore.jpg"
           ],
           "item": {
             "nome": "O grito da revolta",
             "glifo": "estrela",
-            "sobre": "Vamos ganhar. A palavra que junta a corrente antes do fim."
+            "sobre": "Vamos ganhar. A certeza que não duvida de si, nem na hora de riscar o fogo."
           },
           "senha_desbloqueio": "KANAIM"
         },
         {
           "id": 7,
           "titulo": "O teto do shuk",
+          "som_chegada": "chegada-forte",
           "corredor": [
             [
               31.776126,
@@ -1518,18 +1559,14 @@
           "carta": [
             {
               "voz": "narrador",
-              "texto": "Voltem por onde vieram e virem à esquerda. Desçam as escadas até um pátio com vista para onde o Templo se ergue, em direção ao Talmud Torá Moriá."
-            },
-            {
-              "voz": "narrador",
-              "texto": "Cheguem ao shuk, virem à esquerda e subam. Logo antes do cruzamento com a Rova, virem à esquerda na Plugat HaKotel. Subam e deem a volta no teto do shuk. É ali que a corrente se encerra."
+              "texto": "Subam. Lá de cima dá para ver Jerusalém inteira do jeito que ela está agora: dourada, cheia, viva, achando que Roma é só mais um inverno que passa. Olhem com calma, porque é a última vez que ela está assim. Vocês juraram defender esta cidade. Guardem a imagem dela cheia. Vai fazer falta."
             }
           ],
           "direcoes": [
             "Voltem e virem à esquerda.",
             "Desçam as escadas até o pátio com vista para o Templo (Talmud Torá Moriá).",
             "No shuk, virem à esquerda e subam.",
-            "Antes do cruzamento com a Rova, esquerda na Plugat HaKotel.",
+            "Antes do cruzamento do shuk que vai para a Rova, esquerda na Plugat HaKotel.",
             "Subam e deem a volta no teto do shuk. É o fim do caminho de vocês."
           ],
           "marcos": [
@@ -1545,11 +1582,6 @@
           "fotos": [
             "img/etapas/zelotes-e7-a-patio.jpg"
           ],
-          "item": {
-            "nome": "O alto da cidade",
-            "glifo": "regua",
-            "sobre": "O ponto onde as três correntes chegam, cada uma pelo seu caminho."
-          },
           "senha_desbloqueio": "MASSADA"
         }
       ],
@@ -1568,7 +1600,11 @@
         },
         {
           "voz": "circulo",
-          "texto": "Mas escutem a parte que ninguém gosta de contar. Com o inimigo já no portão, foram grupos como o nosso que rasgaram a cidade por dentro. Facções judias brigando entre si,* queimando com a própria mão os armazéns de trigo que segurariam anos de cerco.* A fome que matou meia Jerusalém foi fome plantada por judeu. Deram nome a isso quando já era cinza: sinat chinam, ódio de graça."
+          "texto": "Mas antes, abram a sacola que encheram a noite inteira. O punhal curto. Os armamentos. A chave dos armazéns. A tocha. O pavio curto. O grito da revolta. Cada peça vocês juntaram com orgulho, achando que era o arsenal que ia derrubar Roma. Agora escutem para o que ele serviu de verdade."
+        },
+        {
+          "voz": "circulo",
+          "texto": "Com o inimigo já no portão, foram facções judias como a nossa que rasgaram a cidade por dentro.* A chave que vocês guardaram abriu os armazéns da própria Jerusalém. A tocha que ergueram contra Roma desceu sobre o trigo do próprio povo. O pavio curto venceu o medo de passar fome. O fogo dos zelotes queimou as reservas que segurariam anos de cerco,* e meia Jerusalém morreu de uma fome plantada por judeu, com as ferramentas que vocês carregaram orgulhosos. Deram nome a isso quando já era cinza: sinat chinam, ódio de graça."
         },
         {
           "voz": "viajante",

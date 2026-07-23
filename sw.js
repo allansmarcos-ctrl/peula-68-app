@@ -6,7 +6,7 @@
      Assim uma edição pós-scouting chega aos celulares sem trocar versão,
      e com sinal ruim vale a última cópia boa. */
 
-const VERSAO = 'p68-v25';
+const VERSAO = 'p68-v29';
 
 const NUCLEO = [
   './',
@@ -23,6 +23,14 @@ const NUCLEO = [
   './conteudo/textos.json',
   './conteudo/config-mapa.json',
   './conteudo/rotas.json',
+  // sons da cerimonia, dos beats e da abertura (a mecanica nova toca offline)
+  './audio/inicio.mp3',
+  './audio/chegada-suave.mp3',
+  './audio/chegada-media.mp3',
+  './audio/chegada-forte.mp3',
+  './audio/sino.mp3',
+  './audio/coragem.mp3',
+  './audio/item.mp3',
 ];
 
 self.addEventListener('install', (e) => {
