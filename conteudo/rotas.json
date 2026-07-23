@@ -1797,6 +1797,7 @@
             "Daqui se vê o Muro. Na nossa época, daqui se via o Templo inteiro. Tirem uma foto de vocês aqui.",
             "Depois voltem por onde vieram e peguem o shuk: virem à esquerda e subam.",
             "Antes do cruzamento do shuk que vai para a Rova, esquerda na Plugat HaKotel.",
+            "Na próxima dúvida, sigam os números: 325-338.",
             "Subam. No alto, virem à esquerda e procurem a escada que desce: quem subiu tudo termina descendo. No fim dela, o pátio. É o fim do caminho de vocês."
           ],
           "marcos": [
@@ -1819,7 +1820,8 @@
           "fotos": [
             "img/etapas/zelotes-e7-a-patio.jpg"
           ],
-          "senha_desbloqueio": "MASSADA"
+          "senha_desbloqueio": "MASSADA",
+          "raio_chegada_m": 45
         },
         {
           "id": 9,
