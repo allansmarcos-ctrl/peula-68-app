@@ -17,6 +17,8 @@ const CHAVE_INV = 'peula68_inv';               // inventario coletado nas chegad
 const CHAVE_GRAVOU = 'peula68_gravou';         // etapas com video enviado/"ja gravamos" (sobrevive a reload)
 const CHAVE_NOME = 'peula68_nome';             // nome do jogador neste aparelho
 const CHAVE_PAPEL = 'peula68_papel';           // papel na sala (traidor: pontos + batidos); so o sorteado tem carga
+const CHAVE_DIF = 'peula68_dif';               // dificuldade escolhida (SO estetica: o jogo e identico)
+const DIF_ROTULOS = { easy: 'EASY', medium: 'MEDIUM', hard: 'HARD', ultra: 'ULTRA HARD' };
 const CHAVE_BEATS = 'peula68_beats';           // beats ja disparados por etapa (o pop do mapa nao repete)
 const CHAVE_SACOLA = 'peula68_sacola_';        // + rota.id: a revelacao da sacola cheia ja disparou (auto uma vez)
 const INTERVALO_AUTO_MS = 10 * 60 * 1000;      // verificação automática: 10 min
@@ -356,6 +358,20 @@ function ligarEventos() {
 
   // tela de grupo (criar ou entrar numa equipe)
   $('grupo-criar').addEventListener('click', criarGrupo);
+  // dificuldade (so estetica): marca o chip, guarda e responde com um toast de estilo
+  document.querySelectorAll('.dif-chip').forEach((ch) => {
+    ch.addEventListener('click', () => {
+      document.querySelectorAll('.dif-chip').forEach((c) => c.classList.remove('ativa'));
+      ch.classList.add('ativa');
+      const d = ch.getAttribute('data-dif');
+      try { localStorage.setItem(CHAVE_DIF, d); } catch (e) {}
+      toast(TEXTOS['dif_toast_' + d] || DIF_ROTULOS[d] || '', 3500);
+    });
+  });
+  try {
+    const d = localStorage.getItem(CHAVE_DIF);
+    if (d) { const ch = document.querySelector('.dif-chip[data-dif="' + d + '"]'); if (ch) ch.classList.add('ativa'); }
+  } catch (e) {}
   // papel secreto (so o traidor chega a ver este overlay)
   $('papel-revelar').addEventListener('click', () => {
     $('papel-conteudo').classList.remove('oculto');
@@ -623,9 +639,12 @@ function mostrarAbertura() {
 
 function atualizarHeader() {
   const total = rotaAtiva.etapas.length;
-  const rotulo = etapaAtual > total
+  let rotulo = etapaAtual > total
     ? rotaAtiva.seita
     : rotaAtiva.seita + ' · ' + TEXTOS.etapa_rotulo + ' ' + etapaAtual + ' ' + TEXTOS.de + ' ' + total;
+  let dif = '';
+  try { dif = localStorage.getItem(CHAVE_DIF) || ''; } catch (e) {}
+  if (DIF_ROTULOS[dif]) rotulo += ' · ' + DIF_ROTULOS[dif];   // so estetico: o selo da escolha acompanha a noite
   $('header-texto').textContent = rotulo;
   $('selo-seita').style.background = rotaAtiva.cor || '#b8860b';
 }

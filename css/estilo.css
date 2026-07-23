@@ -1262,3 +1262,12 @@ input[type="text"]:focus { border-color: var(--dourado); }
 #revelacao-traidor { margin-top: 16px; padding: 14px 16px; border: 1px solid rgba(184, 134, 11, .45); border-radius: 10px; }
 #papel-secreto .overlay-cartela { max-width: 360px; }
 #nome-input { text-align: center; }
+
+/* ---------- seletor de dificuldade (so estetico; o jogo e o mesmo) ---------- */
+#dif-chips { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+.dif-chip {
+  padding: 8px 14px; border-radius: 999px; font: inherit; cursor: pointer;
+  border: 1px solid rgba(184, 134, 11, .55); background: transparent; color: inherit;
+}
+.dif-chip.ativa { background: rgba(184, 134, 11, .28); border-color: rgba(184, 134, 11, .95); font-weight: 700; }
+.dif-chip[data-dif="ultra"].ativa { background: rgba(150, 28, 28, .35); border-color: rgba(150, 28, 28, .95); }
