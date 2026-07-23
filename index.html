@@ -107,6 +107,9 @@
       <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M8 7V6a4 4 0 0 1 8 0v1h2.1a1 1 0 0 1 1 .9l1 10.9a2 2 0 0 1-2 2.2H4.8a2 2 0 0 1-2-2.2l1-10.9a1 1 0 0 1 1-.9H8zm2 0h4V6a2 2 0 0 0-4 0v1z"/></svg>
       <span id="inv-contador"></span>
     </button>
+    <button id="botao-galeria" class="botao-redondo" type="button" aria-label="O que vocês vão encontrar">
+      <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="9" cy="10" r="1.6" fill="currentColor"/><path fill="currentColor" d="M5 17l4.2-4.2 2.6 2.6L16 11l3 3v3H5z"/></svg>
+    </button>
   </div>
 
   <!-- o painel vivo: bottom sheet com abas -->
@@ -382,6 +385,15 @@
 </div>
 
 <!-- LIGHTBOX: uma foto da etapa em tela cheia (modo Easy de referencia) -->
+<!-- GALERIA: as fotos de referencia da etapa, num toque (botao flutuante) -->
+<div id="tela-galeria" class="overlay oculto" role="dialog" aria-modal="true">
+  <div class="overlay-cartela tela-pergaminho galeria-cartela">
+    <p class="ano" data-txt="rotulo_fotos_destino"></p>
+    <div id="galeria-lista"></div>
+    <button id="galeria-fechar" class="botao" type="button" data-txt="foto_fechar"></button>
+  </div>
+</div>
+
 <div id="tela-foto" class="overlay oculto" role="dialog" aria-modal="true">
   <img id="foto-grande" alt="">
   <button id="foto-fechar" class="botao botao-claro" type="button" data-txt="foto_fechar"></button>

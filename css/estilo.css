@@ -1268,6 +1268,12 @@ input[type="text"]:focus { border-color: var(--dourado); }
 #papel-secreto .overlay-cartela { max-width: 360px; }
 #nome-input { text-align: center; }
 
+/* ---------- galeria de um toque: as fotos de referencia da etapa ---------- */
+.galeria-cartela { max-width: 420px; width: calc(100vw - 28px); max-height: 84vh; overflow-y: auto; }
+#galeria-lista { display: flex; flex-direction: column; gap: 10px; margin: 10px 0 12px; }
+#galeria-lista img { width: 100%; border-radius: 10px; border: 1px solid rgba(184, 134, 11, .4); display: block; }
+#galeria-fechar { width: 100%; }
+
 /* ---------- seletor de dificuldade (so estetico; o jogo e o mesmo) ---------- */
 #dif-chips { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
 .dif-chip {

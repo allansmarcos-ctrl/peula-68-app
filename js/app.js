@@ -242,7 +242,7 @@ function mostrarTela(nome) {
   $('aviso').classList.add('oculto'); // aviso é contextual: trocou de tela, morreu
   // overlays soltos também morrem na troca de tela: um sync pode trocar a tela por baixo e
   // deixá-los presos (a sacola, as cartas, o lightbox, o coach) por cima da tela nova
-  ['tela-inventario', 'tela-cartas', 'tela-foto', 'coach-socorros', 'papel-secreto'].forEach(o => { const el = $(o); if (el) el.classList.add('oculto'); });
+  ['tela-inventario', 'tela-cartas', 'tela-foto', 'coach-socorros', 'papel-secreto', 'tela-galeria'].forEach(o => { const el = $(o); if (el) el.classList.add('oculto'); });
   ['portao', 'grupo', 'abertura', 'jogo', 'final'].forEach(t => $('tela-' + t).classList.toggle('ativa', t === nome));
   if (nome === 'jogo' && mapa) setTimeout(() => { mapa.invalidateSize(); ajustarMapaAoPainel(); }, 60);
 }
@@ -436,6 +436,8 @@ function ligarEventos() {
   $('botao-ajuda').addEventListener('click', pedirAjuda);
   $('botao-inventario').addEventListener('click', abrirInventario);
   $('botao-bussola').addEventListener('click', toggleBussola);
+  $('botao-galeria').addEventListener('click', abrirGaleria);
+  $('galeria-fechar').addEventListener('click', () => $('tela-galeria').classList.add('oculto'));
   $('painel-mostrar').addEventListener('click', restaurarPainel);
   $('gate-botao').addEventListener('click', abrirPrimeiraEtapa);
   $('convite-ir').addEventListener('click', aceitarAvanco);
@@ -2884,6 +2886,26 @@ function abrirFoto(src) {
   $('tela-foto').classList.remove('oculto');
 }
 function fecharFoto() { $('tela-foto').classList.add('oculto'); }
+
+// galeria de um toque (botao flutuante): as fotos de referencia da etapa atual, grandes,
+// sempre a mao; toque numa foto amplia no lightbox (que abre por cima da galeria)
+function abrirGaleria() {
+  const et = etapaObj();
+  const fotos = (et && et.fotos) || [];
+  if (!fotos.length) { toast(TEXTOS.galeria_vazia || 'Esta etapa não tem imagens de referência.'); return; }
+  const lista = $('galeria-lista');
+  lista.innerHTML = '';
+  fotos.forEach((src) => {
+    const im = document.createElement('img');
+    im.src = src;
+    im.alt = '';
+    im.loading = 'lazy';
+    im.onerror = () => im.remove();
+    im.addEventListener('click', () => abrirFoto(src));
+    lista.appendChild(im);
+  });
+  $('tela-galeria').classList.remove('oculto');
+}
 
 // coach dos socorros: mostra uma vez (por aparelho) na 1a etapa vista.
 // coachVisto guarda a decisao em memoria: em aba privada (sem localStorage) o coach
