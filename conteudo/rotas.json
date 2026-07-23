@@ -1318,7 +1318,12 @@
           "item": {
             "nome": "O punhal curto",
             "glifo": "lamina",
-            "sobre": "A lâmina do sicário. A primeira peça do que vocês vão juntar esta noite."
+            "sobre": "A lâmina do sicário. A primeira peça do que vocês vão juntar esta noite.",
+            "espelho": {
+              "nome": "O cartaz do traidor",
+              "glifo": "cartaz_traidor",
+              "texto": "O sicário não caçava romano: se misturava na festa e cravava a lâmina nas costas de outro judeu, sempre em nome de D'us. A lâmina de hoje começa antes da lâmina. Começa no cartaz que pinta o outro judeu de traidor, no primeiro-ministro desenhado de inimigo. Num sábado à noite, o cartaz virou bala num comício, na mão de um jovem religioso certo de servir o Céu. O que faz um judeu olhar pro outro e já enxergar um traidor?"
+            }
           },
           "senha_desbloqueio": "KANAI"
         },
@@ -1379,7 +1384,12 @@
           "item": {
             "nome": "Os armamentos",
             "glifo": "estrela",
-            "sobre": "O ferro juntado em segredo para o dia da revolta. Cada lâmina, uma boca a menos para alimentar."
+            "sobre": "O ferro juntado em segredo para o dia da revolta. Cada lâmina, uma boca a menos para alimentar.",
+            "espelho": {
+              "nome": "O colete tático",
+              "glifo": "colete",
+              "texto": "O ferro se juntava em segredo, e cada lâmina nova era um pão a menos na mesa da cidade. Hoje o civil também se arma sozinho, veste o colete, sobe a colina, e treina para o dia em que a lei do país não servir mais. Toda força guardada contra o inimigo acaba achando uma mão e um vizinho. Quanto da sua comunidade já foi gasto afiando a próxima briga, em vez de guardar trigo pro próximo inverno?"
+            }
           },
           "senha_desbloqueio": "SICA"
         },
@@ -1437,7 +1447,12 @@
           "item": {
             "nome": "A chave dos armazéns",
             "glifo": "chave",
-            "sobre": "A cidade tranca o trigo dos anos ruins atrás de uma pedra. Agora o número dela é de vocês. Guardem."
+            "sobre": "A cidade tranca o trigo dos anos ruins atrás de uma pedra. Agora o número dela é de vocês. Guardem.",
+            "espelho": {
+              "nome": "O fósforo no celeiro",
+              "glifo": "fosforo",
+              "texto": "O trigo trancado seguraria a cidade por anos de cerco. Os zelotes preferiram queimar tudo, pra que ninguém tivesse a opção de esperar em vez de lutar. O trigo comum de hoje é o que segura a casa de pé no inverno: o exército que todos dividem, as instituições, o respeito mínimo por quem vota diferente. Sempre aparece quem prefira incendiar o comum a repartir com o outro lado. Na sua sociedade, quem já está com o fósforo aceso perto do celeiro?"
+            }
           },
           "senha_desbloqueio": "5359"
         },
@@ -1498,7 +1513,12 @@
           "item": {
             "nome": "A tocha",
             "glifo": "estrela",
-            "sobre": "Fogo na mão. Um dia Roma arde, e o Cardo dela junto. É só escolher a hora."
+            "sobre": "Fogo na mão. Um dia Roma arde, e o Cardo dela junto. É só escolher a hora.",
+            "espelho": {
+              "nome": "O galão na oliveira",
+              "glifo": "galao",
+              "texto": "Ergueram a tocha contra Roma, e ela desceu sobre o próprio trigo. O fogo é assim: você acende mirando o inimigo, e ele não sabe ler mapa nem fronteira. Ainda tem quem despeje o galão na oliveira do vizinho e na porta da casa do outro, e chame isso de amor por Israel. Amor que precisa de gasolina já é outra coisa. O que você acende contra o de fora, quem garante que para antes de chegar no seu?"
+            }
           },
           "senha_desbloqueio": "198"
         },
@@ -1590,7 +1610,12 @@
           "item": {
             "nome": "O pavio curto",
             "glifo": "ampulheta",
-            "sobre": "A recusa de esperar. Quem enche o celeiro se prepara para o cerco. Zelote não quer cerco, quer o ataque agora. Pavio curto é o orgulho de não saber aguardar, e ele pega fogo fácil."
+            "sobre": "A recusa de esperar. Quem enche o celeiro se prepara para o cerco. Zelote não quer cerco, quer o ataque agora. Pavio curto é o orgulho de não saber aguardar, e ele pega fogo fácil.",
+            "espelho": {
+              "nome": "A maquete do Templo",
+              "glifo": "templo",
+              "texto": "O zelote não sabia esperar: queria o ataque agora, e chamava a pressa de coragem. Hoje o mesmo pavio quer forçar a hora de D'us: apressar a redenção na marra, subir ao Monte antes do tempo, montar a maquete do Terceiro Templo e resolver dois mil anos de espera dentro de um mandato. Tem fruto que só o tempo amadurece, e arrancar verde estraga a árvore. O que você está tentando forçar antes da hora?"
+            }
           },
           "senha_desbloqueio": "728"
         },
@@ -1660,7 +1685,12 @@
           "item": {
             "nome": "O grito da revolta",
             "glifo": "estrela",
-            "sobre": "Vamos ganhar. A certeza que não duvida de si, nem na hora de riscar o fogo."
+            "sobre": "Vamos ganhar. A certeza que não duvida de si, nem na hora de riscar o fogo.",
+            "espelho": {
+              "nome": "O megafone",
+              "glifo": "megafone",
+              "texto": "Vamos ganhar, gritado junto, com o punho no ar. O grito é bom porque não deixa brecha pra dúvida, e a dúvida era a única coisa capaz de segurar a mão antes do fogo. A certeza que não pisca é o combustível mais barato do mercado, e o que pega fogo mais rápido. Hoje ela mora no coro das redes, na hashtag que chama o outro campo de traidor. Qual é o grito que a sua turma repete de olhos fechados, e o que ele já ajudou a queimar?"
+            }
           },
           "senha_desbloqueio": "KANAIM"
         },
