@@ -1347,11 +1347,11 @@
             },
             {
               "voz": "circulo",
-              "texto": "Passem a senha boca a ouvido, sem parar de andar. As armas estão pagas, os punhais dormem na dobra do manto, e o próximo nome da lista já está riscado. A grande revolta está costurada rua por rua. Falta um puxão."
+              "texto": "Passem a senha de boca em boca, andando. As armas estão pagas. Os punhais, escondidos. Falta pouco pra revolta estourar."
             }
           ],
           "direcoes": [
-            "Sigam em frente. Vocês estão na Cidade Velha, e aqui, hoje, todos podem ser inimigos.",
+            "Sigam reto, como quem vigia: em silêncio, olhando cada porta.",
             "Passem pelo Tauná Coffee House, colados à muralha. Tem irmão sonhando em fugir por cima dessas pedras. Vocês ficaram pra brigar.",
             "A primeira virada é no Fiuden, o famoso Santo Jaime. Entrem ali.",
             "Sigam até uma yeshiva erguer a fachada na frente de vocês. Parem e cumpram a missão."
@@ -1895,7 +1895,12 @@
           "voz": "narrador"
         }
       ],
-      "foto_final": "img/etapas/zelotes-e7-a-patio.jpg"
+      "foto_final": "img/etapas/zelotes-e7-a-patio.jpg",
+      "missao_abertura": {
+        "texto": "Antes da primeira rua, o retrato da ronda: o grupo inteiro em fila cerrada, ombro com ombro, cara de quem guarda a cidade. Quem tiver capuz, levanta. Tirem o retrato e enviem pelo app: é ele que abre a caça.",
+        "tipo": "foto",
+        "som": "inicio"
+      }
     }
   ]
 }
