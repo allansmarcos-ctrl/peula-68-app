@@ -1178,7 +1178,7 @@
           "Vão vestir a pele dos zelotes. Os que não esperam messias, não estudam enquanto o inimigo pisa, e juram tirar Roma daqui na força. Vocês já viram gente assim. Gente que ama tanto a própria terra que está pronta a queimá-la junto com o inimigo. Desçam, e reparem em quem eles chamam de covarde."
         ],
         "identidade": [
-          "Vocês são os zelotes. Não têm medo de ninguém. Os fariseus discutem a lei, os saduceus apertam a mão do governador. Vocês compraram armas.",
+          "Vocês não têm medo de ninguém. Enquanto os fariseus discutem a lei e os saduceus apertam a mão do governador, vocês compraram armas.",
           "Escondem o punhal curto na dobra do manto, e na multidão da festa cravam a lâmina em quem se acerta com Roma. O sumo sacerdote que lambeu a bota do inimigo já apareceu morto, sem sepultura, fora do muro. Foram vocês.*",
           "Roma tem um nome para vocês, e vocês o carregam como medalha: terroristas. Não negam, se gabam. Tacam o terror na cara de quem entrega a Terra ao império, nos inimigos de D'us, nos que sujam Eretz Israel Shlemá com a sandália de Roma. O medo trabalha antes do punhal. Que o traidor durma mal sabendo que vocês existem.",
           "Um sábio, Yochanan ben Zakkai, viu a guerra chegar e se fez de morto para ser levado num caixão, negociar uma escola em Yavne.* Vocês têm uma palavra para isso: covardia. Enquanto ele salva livros, vocês salvam Jerusalém. Torá dita num pé só não para legião. Punhal para."
@@ -1208,11 +1208,11 @@
             ]
           ],
           "raio_m": 50,
-          "avanco": "gps",
+          "avanco": "foto",
           "carta": [
             {
               "voz": "narrador",
-              "texto": "Noite de festa em Jerusalém. A cidade incha de peregrino, e peregrino não repara em quem anda colado na parede. Noite boa para quem trabalha no escuro. O manto cobre o ferro, o ferro fica perto da mão. Ninguém descobre um zelote antes da lâmina."
+              "texto": "Comecem a ronda. Olhos em tudo, mão perto do ferro. A cidade está cheia para a festa, e multidão é o melhor esconderijo de quem anda calado. Vocês saem para ver quem ainda é dos nossos, e quem já se deitou com Roma."
             },
             {
               "voz": "circulo",
@@ -1222,7 +1222,7 @@
           "direcoes": [
             "Sigam em frente. Vocês estão na Cidade Velha, e aqui, hoje, todos podem ser inimigos.",
             "Passem pelo Tauná Coffee House, colados à muralha. Esses muros não guardam, prendem. Tem irmão que quer fugir por eles. Vocês querem lutar.",
-            "A primeira virada é na St. James. Virem ali.",
+            "A primeira virada é no Fiuden, o famoso Santo Jaime. Entrem ali.",
             "Sigam até uma yeshiva erguer a fachada na frente de vocês. Parem e cumpram a missão."
           ],
           "marcos": [
@@ -1236,8 +1236,10 @@
           ],
           "missao": "Diante da Yeshivas Bircas HaTorah. Esses aí escolheram o livro e viraram as costas para a guerra. Fariseus covardes! Foto do grupo encarando a fachada, cara de bravo, apontando e gritando para eles descerem e lutar.",
           "fotos": [
+            "img/etapas/zelotes-e1-c-migdal.jpg",
             "img/etapas/zelotes-e1-a-st-james.jpg",
-            "img/etapas/zelotes-e1-b-yeshiva.jpg"
+            "img/etapas/zelotes-e1-b-yeshiva.jpg",
+            "img/etapas/zelotes-e1-d-ref.jpg"
           ],
           "item": {
             "nome": "O punhal curto",
@@ -1274,7 +1276,7 @@
             ]
           ],
           "raio_m": 50,
-          "avanco": "gps",
+          "avanco": "foto",
           "carta": [
             {
               "voz": "narrador",
@@ -1297,7 +1299,8 @@
           ],
           "missao": "Subam nas escadas e fiquem em posição de quem está armado, olhando para baixo, vigiando a rua. Alguém tira a foto de baixo. Cumprida a missão, vocês pegam os armamentos.",
           "fotos": [
-            "img/etapas/zelotes-e2-a-deir-al-syrian.jpg"
+            "img/etapas/zelotes-e2-a-deir-al-syrian.jpg",
+            "img/etapas/zelotes-e2-b-ref.jpg"
           ],
           "item": {
             "nome": "Os armamentos",
@@ -1354,7 +1357,8 @@
           ],
           "missao": "Achem o número pintado na pedra, no começo do túnel. É a chave para descer pelas escadas certas. Leiam com cuidado e digitem os quatro dígitos, sem o traço.",
           "fotos": [
-            "img/etapas/zelotes-e3-a-codigo.jpg"
+            "img/etapas/zelotes-e3-a-codigo.jpg",
+            "img/etapas/zelotes-e3-b-ref.jpg"
           ],
           "item": {
             "nome": "A chave dos armazéns",
@@ -1402,7 +1406,7 @@
           "direcoes": [
             "Desçam as escadas e virem à direita.",
             "Abaixo é o Cardo Romano, onde Roma fez suas praças. Um dia a gente derruba isso.",
-            "Parem sob a placa Hadaia Jewelry Showroom. É a porta da próxima fase."
+            "Parem sob a placa moorwohS yrleweJ aiadaH ⇄. É a porta da próxima fase."
           ],
           "marcos": [
             {
@@ -1413,7 +1417,7 @@
               ]
             }
           ],
-          "missao": "Sob o letreiro Hadaia Jewelry, marquem de que década ele é. O ano exato foi esquecido, mas a década está ali. Digitem os três números.",
+          "missao": "Sob o letreiro yrleweJ aiadaH ⇄, marquem de que década ele é. O ano exato foi esquecido, mas a década está ali. Digitem os três números.",
           "fotos": [],
           "item": {
             "nome": "A tocha",
@@ -1423,14 +1427,58 @@
           "senha_desbloqueio": "198"
         },
         {
-          "id": 5,
-          "titulo": "Sigam o diamante",
-          "trilha": "trilha-gerudo",
+          "id": 8,
+          "titulo": "A yeshiva dos cabalistas",
+          "guia_diamante": true,
+          "trilha": "trilha-murmurio",
           "som_chegada": "chegada-media",
           "corredor": [
             [
               31.775402,
               35.231063
+            ],
+            [
+              31.774459,
+              35.232059
+            ]
+          ],
+          "raio_m": 50,
+          "avanco": "codigo",
+          "codigo_no_local": true,
+          "carta": [
+            {
+              "voz": "narrador",
+              "texto": "Sigam o diamante. Ele para numa porta baixa: a yeshiva dos cabalistas, o Sha'ar Shamaim, o Portão dos Céus. Lá dentro, homens debruçados a noite inteira sobre as letras do Nome, procurando no alfabeto a salvação que a espada não deu. Enquanto vocês afiam o ferro, eles somam as combinações de D'us e esperam o milagre chegar sozinho. Superstição não para legião. Deixem os sonhadores com os livros deles, mas levem o número da porta: ele abre o caminho."
+            }
+          ],
+          "direcoes": [
+            "Sigam o diamante até a porta da yeshiva Sha'ar Shamaim. Sem instrução de rua: só o ponto no mapa."
+          ],
+          "marcos": [
+            {
+              "nome": "A yeshiva Sha'ar Shamaim",
+              "ponto": [
+                31.774459,
+                35.232059
+              ]
+            }
+          ],
+          "missao": "Na arcada da porta da yeshiva, achem o número gravado na pedra. Leiam e digitem.",
+          "fotos": [
+            "img/etapas/zelotes-e5b-cabalista.jpg"
+          ],
+          "senha_desbloqueio": "10"
+        },
+        {
+          "id": 5,
+          "titulo": "Sigam o diamante",
+          "guia_diamante": true,
+          "trilha": "trilha-gerudo",
+          "som_chegada": "chegada-media",
+          "corredor": [
+            [
+              31.774459,
+              35.232059
             ],
             [
               31.775334,
@@ -1460,7 +1508,8 @@
           ],
           "missao": "Ao chegar, procurem na parede um telefone escrito na placa dos caraítas. Os últimos três dígitos abrem as próximas instruções. Digitem.",
           "fotos": [
-            "img/etapas/zelotes-e5-a-telefone.jpg"
+            "img/etapas/zelotes-e5-a-telefone.jpg",
+            "img/etapas/zelotes-e5-c-ref.jpg"
           ],
           "item": {
             "nome": "O pavio curto",
@@ -1505,7 +1554,7 @@
             ]
           ],
           "raio_m": 50,
-          "avanco": "gps",
+          "avanco": "foto",
           "carta": [
             {
               "voz": "narrador",
@@ -1563,7 +1612,7 @@
             ]
           ],
           "raio_m": 60,
-          "avanco": "gps",
+          "avanco": "foto",
           "carta": [
             {
               "voz": "narrador",

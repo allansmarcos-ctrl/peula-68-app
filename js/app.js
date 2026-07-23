@@ -591,6 +591,7 @@ function entrarEtapa() {
   limparMarcadoresBeat();
   limparAlvo();
   if (cerimoniaFeita) acenderAlvoAtual(et, true);   // reentrou numa etapa ja "chegada" (reload): o diamante do checkpoint volta ao mapa, sem voar
+  else if (et.guia_diamante) acenderAlvoAtual(et);  // etapa "siga o diamante" (sem direcoes de texto): acende o destino ao entrar, pra guiar
   redesenharBeatsDisparados(et);   // reload no meio da etapa: os beats ja vistos voltam ao mapa (sem pop/som)
   renderCarta();
   renderCaminho();
