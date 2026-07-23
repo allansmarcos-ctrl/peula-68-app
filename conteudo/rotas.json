@@ -346,7 +346,7 @@
             "espelho": {
               "nome": "O cartaz do rei",
               "glifo": "cartaz_rei",
-              "texto": "Lá atrás, os dois lados esperavam o Mashiach; a briga era sobre a hora. Um deles jurava que ele já tinha vindo e ido embora. Hoje ainda tem judeu que amou um mestre com a alma inteira e enche a rua de cartaz pedindo que ele volte e reine agora. O amor é verdadeiro. Esperar o Mashiach junta o povo inteiro; dizer que ele já veio racha. Você conhece alguma espera que anda perto dessa linha?"
+              "texto": "Lá atrás, os dois lados esperavam o Mashiach; a briga era sobre a hora. Um deles jurava que ele já tinha vindo e ido embora. Hoje ainda tem judeu que amou um mestre com a alma inteira e enche a rua de cartaz pedindo que ele volte e reine agora. O amor é verdadeiro. Esperar o Mashiach junta o povo inteiro; dizer que ele já veio racha. Você conhece alguma espera que anda perto dessa linha? E guardem isto: a segunda metade da chave do portão é o nome do dia que ainda não raiou. Amanhã."
             }
           },
           "senha_desbloqueio": "SICARIOS"
@@ -426,9 +426,9 @@
           ],
           "direcoes": [
             "Da praça, entrem no portão da foto e virem à direita.",
-            "Entrem pelo mercado e vão na direção em que ele se abre para o bairro judeu novo e a descida ao Templo.",
-            "Parem sob a placa da rua. O nome do portão está escrito nela, em inglês, em letras grandes: é a primeira metade da chave.",
-            "Antes de seguir, não esqueçam de cumprir a missão deste ponto."
+            "Vão em direção ao mercado, e não esqueçam de cumprir a missão: é aqui, no túnel, que ela acontece.",
+            "Lá, tomem o caminho em que ele se abre para o bairro judeu novo e a descida ao Templo.",
+            "Parem sob a placa da rua. O nome do portão está escrito nela, em inglês, em letras grandes: é a primeira metade da chave."
           ],
           "marcos": [
             {
@@ -440,7 +440,7 @@
             }
           ],
           "beats": [],
-          "missao": "Entrando no shuk por este túnel, gravem o vídeo do grupo em duas fileiras, marchando feito soldado que cruza a terra dos outros sem baixar a cabeça. Gritem: Torá, Torá, Torá! Enviem o vídeo pelo app. Depois, a porta: digitem o nome do portão escrito na placa e, colado nele, a palavra que O Messias diferente guarda na sacola de vocês.",
+          "missao": "Entrando no shuk por este túnel, gravem o vídeo do grupo em duas fileiras, marchando feito soldado que cruza a terra dos outros sem baixar a cabeça. Gritem: Torá, Torá, Torá! Enviem o vídeo pelo app. Depois, a porta: digitem o nome do portão escrito na placa e, colado nele, a palavra que O Messias diferente guarda na sacola de vocês. Virem o objeto na sacola: o verso conta.",
           "fotos": [
             "img/etapas/fariseus-e5-a-portao-colunas.jpg",
             "img/etapas/fariseus-e5-b-passagem-porta-azul.jpg",
