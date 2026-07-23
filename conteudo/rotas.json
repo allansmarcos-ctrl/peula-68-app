@@ -575,7 +575,9 @@
             }
           ],
           "missao": "Achem o beit midrash que parece abandonado e cheguem juntos até a porta dele. Lá, o madrich fala a palavra que sela a noite.",
-          "fotos": [],
+          "fotos": [
+            "img/etapas/beit-midrash-final.jpg"
+          ],
           "senha_desbloqueio": "AHAVAT"
         }
       ],
@@ -1856,7 +1858,9 @@
             }
           ],
           "missao": "Achem o beit midrash que parece abandonado e cheguem juntos até a porta dele. Lá, o madrich fala a palavra que sela a noite.",
-          "fotos": [],
+          "fotos": [
+            "img/etapas/beit-midrash-final.jpg"
+          ],
           "senha_desbloqueio": "AHAVAT"
         }
       ],
