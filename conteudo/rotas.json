@@ -1249,6 +1249,7 @@
         {
           "id": 2,
           "titulo": "A descida armada",
+          "trilha": "trilha-marcha",
           "som_chegada": "chegada-suave",
           "beats": [
             {
@@ -1308,6 +1309,7 @@
         {
           "id": 3,
           "titulo": "O número na pedra",
+          "trilha": "trilha-murmurio",
           "som_chegada": "chegada-media",
           "corredor": [
             [
@@ -1364,6 +1366,7 @@
         {
           "id": 4,
           "titulo": "O Cardo dos romanos",
+          "trilha": "trilha-roma",
           "som_chegada": "chegada-media",
           "beats": [
             {
@@ -1422,6 +1425,7 @@
         {
           "id": 5,
           "titulo": "Sigam o diamante",
+          "trilha": "trilha-gerudo",
           "som_chegada": "chegada-media",
           "corredor": [
             [
@@ -1468,6 +1472,7 @@
         {
           "id": 6,
           "titulo": "O bairro protegido",
+          "trilha": "trilha-revolta",
           "som_chegada": "chegada-forte",
           "beats": [
             {
@@ -1537,6 +1542,7 @@
         {
           "id": 7,
           "titulo": "O teto do shuk",
+          "trilha": "trilha-jerusalem",
           "som_chegada": "chegada-forte",
           "corredor": [
             [
