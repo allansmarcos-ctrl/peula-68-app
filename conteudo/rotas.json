@@ -42,6 +42,7 @@
         {
           "id": 1,
           "titulo": "A porta do ocidente",
+          "trilha": "trilha-comeco",
           "corredor": [
             [
               31.7768,
