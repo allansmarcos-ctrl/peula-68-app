@@ -474,7 +474,12 @@ function ligarEventos() {
   $('aviso-fechar').addEventListener('click', () => $('aviso').classList.add('oculto'));
 
   // mecanica nova: retrato de abertura + foto de missao (avanco pela missao cumprida)
-  $('gate-retrato-btn').addEventListener('click', () => { primarAudio(); $('gate-foto-input').click(); });
+  $('gate-retrato-btn').addEventListener('click', () => {
+    primarAudio();
+    // trava suave de GPS: com posicao conhecida, o retrato so se tira NO portao (sem GPS, deixa)
+    if (!pertoDoGate()) { toast(TEXTOS.gate_longe || 'Cheguem primeiro ao portão: o retrato se tira lá.', 5000); return; }
+    $('gate-foto-input').click();
+  });
   $('gate-foto-input').addEventListener('change', (e) => { const f = e.target.files && e.target.files[0]; e.target.value = ''; if (f) enviarRetratoAbertura(f); });
   $('missao-foto-input').addEventListener('change', (e) => { const f = e.target.files && e.target.files[0]; e.target.value = ''; if (f) enviarFotoMissao(f); });
   $('sussurro').addEventListener('click', fecharSussurro);
@@ -826,7 +831,12 @@ function montarAcaoMissao(et) {
 
   if (avanco === 'foto') {
     const b = botaoAcaoMissao(TEXTOS.missao_enviar_foto || 'Enviar a foto e seguir', 'missao-foto-btn');
-    b.addEventListener('click', () => { primarAudio(); $('missao-foto-input').click(); });
+    b.addEventListener('click', () => {
+      primarAudio();
+      // trava suave de GPS: a foto da missao se tira NO lugar (sem GPS/fix, deixa; a reserva do madrich cobre)
+      if (!pertoDoCheckpoint(et)) { toast(TEXTOS.missao_longe || 'Ainda não chegaram ao lugar da missão. Sigam o mapa: a foto se tira lá.', 5000); return; }
+      $('missao-foto-input').click();
+    });
     cont.appendChild(b);
   } else if (avanco === 'codigo') {
     if (et.sobe_video) {
@@ -2681,10 +2691,15 @@ function mostrarItemGanho(it) {
   el.classList.remove('oculto');
   requestAnimationFrame(() => el.classList.add('visivel'));
   agendarCerimonia(destacarSacola, reduz ? 250 : 980);   // a peca guardada: a sacola se destaca
-  agendarCerimonia(() => {
+  // o item FICA na tela ate um toque (precisa dar tempo de LER: o "sobre" guarda o segredo do
+  // codigo); teto de 45s pra nao prender a tela se ninguem tocar
+  const fechar = () => {
+    el.onclick = null;
     el.classList.remove('visivel');
     agendarCerimonia(() => el.classList.add('oculto'), 400);
-  }, 3400);
+  };
+  el.onclick = fechar;
+  agendarCerimonia(fechar, 45000);
 }
 // timers da cerimonia reunidos: a tela final (mostrarFinal) limpa tudo de uma vez, sem sobrar som/pisca
 function agendarCerimonia(fn, ms) {
@@ -2695,6 +2710,8 @@ function agendarCerimonia(fn, ms) {
 function limparCerimoniaItem() {
   (mostrarItemGanho._timers || []).forEach(clearTimeout);
   mostrarItemGanho._timers = [];
+  const ig = $('item-ganho');
+  if (ig) ig.onclick = null;
   const b = $('botao-inventario');
   if (b) b.classList.remove('sacola-destaca');
 }
@@ -2950,11 +2967,26 @@ function configurarGateRetrato() {
     $('gate-retrato-texto').textContent = ma.texto || '';
     $('gate-retrato-btn-txt').textContent = TEXTOS.gate_retrato_botao || 'Enviar o retrato e começar';
     bloco.classList.remove('oculto');
-    if (estouAqui) { estouAqui.classList.add('gate-reserva'); estouAqui.textContent = TEXTOS.gate_estou_aqui_reserva || 'Ou toquem aqui quando o grupo chegar'; }
+    // com retrato de abertura, a foto e OBRIGATORIA (pedido do Allan em campo): sem botao de pular
+    if (estouAqui) estouAqui.classList.add('oculto');
   } else if (bloco) {
     bloco.classList.add('oculto');
-    if (estouAqui) { estouAqui.classList.remove('gate-reserva'); estouAqui.textContent = TEXTOS.gate_botao || 'Estou aqui'; }
+    if (estouAqui) { estouAqui.classList.remove('oculto', 'gate-reserva'); estouAqui.textContent = TEXTOS.gate_botao || 'Estou aqui'; }
   }
+}
+
+// trava suave de GPS pras fotos: com posicao conhecida exige estar no lugar; sem GPS, deixa
+function pertoDoPonto(pt, raio) {
+  if (!posAtual || !pt) return true;
+  const folga = Math.min(posAtual.acc || 0, 30);
+  return distanciaAoCorredorM(posAtual, [pt]) <= raio + folga + 15;
+}
+function pertoDoGate() {
+  return pertoDoPonto(rotaAtiva && rotaAtiva.ponto_inicial, 55);
+}
+function pertoDoCheckpoint(et) {
+  const fim = (et && et.corredor && et.corredor.length) ? et.corredor[et.corredor.length - 1] : null;
+  return pertoDoPonto(fim, (et && (et.raio_chegada_m || et.raio_m)) || 50);
 }
 
 let avisoChegadaGateDado = false;
