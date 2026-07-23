@@ -1918,6 +1918,1264 @@
         "tipo": "foto",
         "som": "inicio"
       }
+    },
+    {
+      "id": "fariseus-es",
+      "seita": "Fariseos",
+      "senha_entrada": "PREGUNTA",
+      "cor": "#b8860b",
+      "ponto_inicial": [
+        31.7768,
+        35.2277
+      ],
+      "_nota_rota": "Rota irma em espanhol da rota 'fariseus' (traduzida em 23/07/2026; campos tecnicos 1:1 com a PT, so texto muda). Senha de entrada PREGUNTA. Unica senha diferente da PT: E4 = CHAIN GATE + MANANA (palavra escondida no item da E3, 'El Mesias diferente'; manana normaliza pra MANANA). Reservas do madrich identicas a PT: MIRIAM, NATZRAT, SICARIOS, YAVNE, AHAVAT. Mecanica completa: ver a _nota_rota da rota PT 'fariseus'.",
+      "abertura": {
+        "viajante": [
+          "Ustedes llegaron tarde a esta ciudad. Dos mil años tarde.",
+          "Esta noche bajan al año 68. Faltan dos veranos para que el Templo se vuelva ceniza, y nadie aquí adentro lo sospecha. Ustedes sí. Vinieron del futuro con el final de la historia en el bolsillo.",
+          "Van a ponerse en la piel de un grupo de fariseos y cruzar una ciudad que se odia sin saber que se odia. Mucho les va a parecer conocido. Gente esperando a un mesías que ya pasó. Hermanos peleando por D-os hasta que corre sangre. Cada callejón con su verdad y su banda lista para morir por ella.",
+          "Ustedes ya vieron eso. No en una clase de historia. Hace poco, y de cerca. Por eso son ustedes los que están aquí. Bajen."
+        ],
+        "identidade": [
+          "Ustedes son fariseos, de la casa de Hilel.",
+          "Hilel llegó pobre de Babilonia, y su hambre de Torá se hizo leyenda: una madrugada de invierno, sin la moneda de la entrada de la casa de estudio, subió al techo para oír la clase por una rendija y amaneció cubierto de nieve.* Fue él quien resumió toda la ley en una sola frase.",
+          "Los sacerdotes guardan el Templo con muro y hierro. Los zelotes guardan el honor con puñal. Ustedes guardan lo que ningún muro cerca y ninguna hoja corta: el modo judío de preguntar. Estudian la Torá escrita y la que pasa de boca a oído, y porfían que el Sinaí fue solo el comienzo: ella sigue siendo entregada ahora, cada vez que dos de ustedes pelean por una línea hasta que sale el sol. Y esperan al Mashiach vivo, que venga a enderezar un mundo torcido.",
+          "Dos cosas les meten miedo. La primera es el falso mesías, que promete milagro y convierte a la multitud en revuelta. La segunda es peor, y vive dentro de casa: el pueblo partido en pedazos, cada uno seguro de que solo él ama al Cielo. Contra el primero, los ojos, que ven antes de que la boca juzgue. Contra el segundo, la regla del viejo Hilel: lo que es odioso para ti, no se lo hagas a tu prójimo. El resto es comentario. Bajen, y estudien la ciudad con los pies."
+        ],
+        "combinados": [
+          "Antes de bajar, tres acuerdos. Todo lo que venga con asterisco pasó de verdad: está en los libros, en el Talmud, en Josefo. En la duda sobre por dónde ir, casi siempre es seguir derecho. Y lean las cartas en voz alta, el grupo entero junto, que la historia agarra más fuerte por el oído que por el ojo."
+        ]
+      },
+      "missao_abertura": {
+        "texto": "En el Shaar Yafo, la puerta del occidente, armen el retrato oficial de la corriente: pose de equipo, la mitad agachada adelante, la mitad de pie atrás, el capitán con el pie sobre una pelota que no existe. Serios como quien va a jugar una final. Saquen el retrato y envíenlo por la app: es él quien abre la búsqueda.",
+        "tipo": "foto",
+        "som": "inicio"
+      },
+      "etapas": [
+        {
+          "id": 1,
+          "titulo": "La puerta del occidente",
+          "trilha": "trilha-comeco",
+          "corredor": [
+            [
+              31.7768,
+              35.2277
+            ],
+            [
+              31.776842,
+              35.227914
+            ],
+            [
+              31.778622,
+              35.227333
+            ],
+            [
+              31.77862,
+              35.22735
+            ]
+          ],
+          "raio_m": 40,
+          "raio_chegada_m": 25,
+          "avanco": "foto",
+          "som_chegada": "chegada-suave",
+          "carta": [
+            {
+              "voz": "narrador",
+              "texto": "Llega una carta. Dicen que es de la letra de Rabban Gamliel, el viejo, el que enseña en el beit midrash de la ciudad alta."
+            },
+            {
+              "voz": "narrador",
+              "texto": "Dicen. Nadie vio al viejo escribir, y la cera del sello ya estaba fría cuando el mensajero llegó. Van a tener que decidir si confían sin tener prueba. Acostúmbrense a eso hoy."
+            },
+            {
+              "voz": "gamliel",
+              "texto": "Llegó uno más. Yeshua de Natzrat, maestro de la Galilea, muerto en una cruz por Roma como se cuelga a un ladrón. Historia repetida: Theudas* prometió partir el río y terminó con la cabeza en un poste; Yehudá el Galileo* tomó las armas en el año del censo y se volvió polvo, con los suyos detrás. El falso mesías termina siempre igual: el maestro cae, la banda se esconde, el nombre se borra."
+            },
+            {
+              "voz": "gamliel",
+              "texto": "Solo que este no se borró. El maestro cayó y su gente no corrió. Sigue en Yerushalayim, repartiendo pan, jurando que la muerte no tuvo la última palabra."
+            },
+            {
+              "voz": "gamliel",
+              "texto": "El veredicto queda para después. Primero, los ojos. Bajen, pisen donde esa gente pisa, escuchen con el propio oído. Vuelvan y díganme si es un puñal más esperando su hora, o algo que la Casa nunca vio. Entren por la puerta del occidente. Confío más en los ojos de ustedes que en mi apuro."
+            }
+          ],
+          "direcoes": [
+            "Entren por la puerta del occidente, el Shaar Yafo, y suban la cuesta del Patriarcado Latino.",
+            "En el camino, el Palacio de los Caballeros. Guarden el nombre, y sigan derecho, sin bajar.",
+            "Sigan derecho hasta encontrar la imagen de la Virgen María en la pared. Ahí se detiene el grupo."
+          ],
+          "marcos": [
+            {
+              "nome": "La Virgen María",
+              "ponto": [
+                31.77862,
+                35.22735
+              ]
+            }
+          ],
+          "beats": [
+            {
+              "ponto": [
+                31.778385,
+                35.226432
+              ],
+              "raio_m": 25,
+              "texto": "Palacio de los Caballeros. Dentro de mil años, cruzados van a levantar un reino sobre esta piedra y soñar con el Templo de vuelta.",
+              "simbolo": "templarios",
+              "som": "sino"
+            },
+            {
+              "ponto": [
+                31.777777,
+                35.227211
+              ],
+              "raio_m": 25,
+              "texto": "A la izquierda, la cruz. Es el modo que usa Roma para colgar a quien llama rebelde. Así mataron al tal mesías de la Galilea.",
+              "simbolo": "cruz"
+            }
+          ],
+          "missao": "Frente a la imagen de la Virgen María, foto del grupo entero discutiendo con ella: señalando, cuestionando, cara de quien tiene una pregunta atravesada en la garganta. Saquen la foto y envíenla por la app.",
+          "revela": "Encontraron gente que conoció a la tal María. Una judía como cualquier otra. Tuvo otros hijos además de Yeshua, nunca dijo que el hijo era D-os, ni que ella era virgen. Eso lo inventaron mucho después, lejos de aquí, sin preguntarle nunca a ella.",
+          "fotos": [
+            "img/etapas/fariseus-e1-a-ladeira-inicio.jpg",
+            "img/etapas/fariseus-e1-d-patriarcado-latino.jpg",
+            "img/etapas/fariseus-e1-b-cruz.jpg",
+            "img/etapas/fariseus-e1-c-virgem.jpg"
+          ],
+          "item": {
+            "nome": "La carta del viejo",
+            "glifo": "carta",
+            "sobre": "La orden de Rabban Gamliel, bajo el sello frío: ver antes de juzgar. La única arma que él exige, ustedes la traen en la cara desde la cuna: el par que ve antes de que la boca condene.",
+            "espelho": {
+              "nome": "El audio reenviado",
+              "glifo": "audio",
+              "texto": "La carta llegaba sin firma, y aun así se volvía verdad en la boca de quien la pasaba. Hoy es el audio en tu bolsillo: un 'me contaron que esa clase de judío', una captura de pantalla, un titular con el veredicto ya pegado. El viejo mandó ver antes de creer. ¿De cuántos judíos ya sabes todo sin haberte acercado nunca a uno?"
+            }
+          },
+          "senha_desbloqueio": "MIRIAM"
+        },
+        {
+          "id": 2,
+          "titulo": "Los mensajeros",
+          "trilha": "trilha-murmurio",
+          "corredor": [
+            [
+              31.77862,
+              35.22735
+            ],
+            [
+              31.778953,
+              35.228707
+            ],
+            [
+              31.779614,
+              35.228899
+            ],
+            [
+              31.779635,
+              35.229664
+            ]
+          ],
+          "raio_m": 40,
+          "raio_chegada_m": 25,
+          "avanco": "foto",
+          "som_chegada": "chegada-media",
+          "carta": [
+            {
+              "voz": "narrador",
+              "texto": "Llega una nota pequeña, doblada, letra apurada de quien escribió a escondidas."
+            },
+            {
+              "voz": "bilhete",
+              "texto": "Ustedes vinieron detrás de un ejército. Van a encontrar red de pescador. Esa gente no tiene espada. Reparte el pan y espera."
+            },
+            {
+              "voz": "narrador",
+              "texto": "Un ejército, sabrían qué hacer. Un puñal también. Nadie les enseñó qué hacer con una banda que reparte pan y espera lo mismo que ustedes esperan cada amanecer en el rezo."
+            },
+            {
+              "voz": "narrador",
+              "texto": "Hay algo peor en el aire, y esta parte se ve sin carta: basta el par que el viejo exigió. Yerushalayim se está comiendo a sí misma. Hombres esconden un puñal en el pliegue del manto, los sicarios*, se mezclan con la multitud de la fiesta y clavan la hoja en la espalda de otro judío, dentro del propio Templo. Este año, gente de la ciudad tomó el Monte y mató al sumo sacerdote*, y dejó el cuerpo fuera del muro, sin sepultura. Roma ni llegó, y la sangre que corre ya es de hermano."
+            },
+            {
+              "voz": "narrador",
+              "texto": "Hasta nuestra casa ya probó ese veneno. Hubo un día en que Beit Shammai y Beit Hilel discreparon tanto que clavaron una espada en el piso de la casa de estudio*: quien entra, entra; quien sale, no sale. Los sabios recuerdan ese día como uno de los peores que vivió Israel. Pelear por Torá todavía es vida. El veneno viene después, el día en que un lado deja de creer que el otro ama al mismo Cielo."
+            }
+          ],
+          "eco": "Ustedes conocen una ciudad que se come por dentro. Ya la vieron con otro nombre, más cerca de casa.",
+          "direcoes": [
+            "Aquí es el barrio de los otros. Caminen pegados. Cuando haya que elegir, rechacen el Bab el-Jadid, y al final sigan el San Francisco, nunca la Casa Nova.",
+            "Más adelante, en la pared, un retrato en piedra con inscripciones griegas. Es la señal del camino: bajen por ahí la calle de los mensajeros, la Ar-Rusul, siempre bajando.",
+            "Bajen hasta encontrar al falso mesías. Ahí se detienen."
+          ],
+          "marcos": [
+            {
+              "nome": "El rostro en la pared",
+              "ponto": [
+                31.779635,
+                35.229664
+              ]
+            }
+          ],
+          "beats": [
+            {
+              "ponto": [
+                31.778953,
+                35.228707
+              ],
+              "raio_m": 25,
+              "texto": "Doblaron bien, en la Ar-Rusul, la calle de los mensajeros.",
+              "simbolo": "seta",
+              "som": "coragem"
+            }
+          ],
+          "missao": "Frente al rostro pintado en la pared, el maestro de Natzrat, el grupo lo encara en silencio. Saquen la foto y envíenla por la app.",
+          "revela": "Guarden ese rostro. Murió sin imaginar lo que los gentiles, siglos después, iban a construir sobre su nombre.",
+          "fotos": [
+            "img/etapas/fariseus-e2-a-sao-francisco.jpg",
+            "img/etapas/fariseus-e2-b-mulher-da-roda.jpg",
+            "img/etapas/fariseus-e3-b-yeshu-parede.jpg"
+          ],
+          "item": {
+            "nome": "La red del pescador",
+            "glifo": "rede",
+            "sobre": "Vinieron detrás de espadas y encontraron esto: cuerda, nudo, remiendo, olor a lago. La espada sirve para mantener al otro lejos. La red es lo contrario: abraza antes de sacar del agua.",
+            "espelho": {
+              "nome": "El mismo sidur",
+              "glifo": "sidur",
+              "texto": "Bajaron detrás de un ejército y encontraron a un pescador repartiendo pan. El miedo pinta al otro grande y armado; de cerca, él reza el mismo Shemá que tú. Ya tienes el nombre del grupo de judíos que te asusta de lejos: los que no sirven en el ejército, los que rezan con guitarra, los que solo visten de negro. Acércate a uno, a uno solo. ¿Sigue siendo el ejército que armaste en tu cabeza, o es red de pescador?"
+            }
+          },
+          "senha_desbloqueio": "NATZRAT"
+        },
+        {
+          "id": 3,
+          "titulo": "La bajada que engaña",
+          "trilha": "trilha-gerudo",
+          "corredor": [
+            [
+              31.779635,
+              35.229664
+            ],
+            [
+              31.779597,
+              35.229736
+            ],
+            [
+              31.77895,
+              35.229235
+            ],
+            [
+              31.777623,
+              35.229297
+            ],
+            [
+              31.777516,
+              35.229951
+            ]
+          ],
+          "raio_m": 40,
+          "raio_chegada_m": 25,
+          "avanco": "foto",
+          "som_chegada": "chegada-media",
+          "carta": [
+            {
+              "voz": "narrador",
+              "texto": "Capitán, detén al grupo. Todos en círculo. Lee despacio, en voz alta."
+            },
+            {
+              "voz": "circulo",
+              "texto": "Hay un hombre pintado en esa pared, mirándolos. Es él. El maestro de Natzrat, el motivo de que estemos aquí. Esa gente es judía: reza el Shemá que ustedes rezan, llora por el mismo Templo. No vino de afuera. Se sienta del otro lado de la misma mesa."
+            },
+            {
+              "voz": "circulo",
+              "texto": "Y cabe mucha gente debajo de un solo nombre. Está el pescador que reparte el pan sin preguntar quién eres, y espera al Mashiach con el alma entera, igual que ustedes en el rezo del amanecer. Y está el otro, que ya ve en la multitud un cuchillo, y sueña con convertir la espera en revuelta. En toda casa es así: los que aman al Cielo, y los que se visten con el nombre del Cielo para encender su propio fuego."
+            },
+            {
+              "voz": "circulo",
+              "texto": "Una banda no se mide por lo peor que tiene adentro, ni por lo mejor. Se mide uno por uno, en la cara, de cerca, a la distancia en que la red trabaja: ¿este espera, o este arma revuelta en nombre del Cielo? El viejo sabía eso cuando mandó ver antes de juzgar."
+            },
+            {
+              "voz": "circulo",
+              "texto": "Y lo que esa gente cree eriza la piel: que el maestro se levantó de la tumba, que la muerte no se quedó con la última palabra. Ahí viene el susto. La resurrección de los muertos es nuestra fe. Es ella la que nos separa de los saduceos, que se ríen de quien espera a los muertos de vuelta. En ese punto, esa gente está de nuestro lado de la sala."
+            },
+            {
+              "voz": "circulo",
+              "texto": "Esperar, esperan los dos lados. La pelea es por la hora. Ellos dicen que el Mashiach ya vino, que estuvo aquí y se fue. Miren por la ventana: Roma sigue mandando, el impuesto sigue subiendo, el mundo sigue torcido. ¿Qué venida fue esa, que dejó todo igual?"
+            },
+            {
+              "voz": "circulo",
+              "texto": "Ellos esperan con el ojo en el ayer, en un hombre que ya pasó. Ustedes esperan con el ojo en lo que todavía viene. Dos pueblos leyendo una hora distinta en el mismo cielo. No es la primera vez que nuestro pueblo pierde a un maestro y corre detrás de su nombre. El error de quien corrió, el tiempo lo cobra. El brazo que no fue a buscarlo, ese queda en nuestra cuenta."
+            },
+            {
+              "voz": "narrador",
+              "texto": "Cierren el círculo y sigan."
+            }
+          ],
+          "eco": "¿Qué venida fue esa, que dejó el mundo torcido? Ustedes vienen de dos mil años después. La pregunta sigue abierta. El Mashiach todavía no vino.",
+          "direcoes": [
+            "Al lado, el monasterio etíope. Doblen ahí.",
+            "Busquen la torre: ella los guiará hacia arriba.",
+            "En el cartel Christian Quarter, doblen a la izquierda.",
+            "Sigan derecho hasta la barbería Al-Zouhor. Ahí, doblen a la izquierda. Izquierda de nuevo, y luego a la derecha, hacia adentro de la plaza.",
+            "La plaza se abre. Ahí se detienen."
+          ],
+          "marcos": [
+            {
+              "nome": "La plaza",
+              "ponto": [
+                31.777516,
+                35.229951
+              ]
+            }
+          ],
+          "beats": [
+            {
+              "ponto": [
+                31.77895,
+                35.229235
+              ],
+              "raio_m": 25,
+              "texto": "Aquí la corriente dobla hacia el Christian Quarter. El shuk ya llama desde lejos.",
+              "simbolo": "shuk"
+            }
+          ],
+          "missao": "Frente a la cara de monstruo en la pared, el grupo entero caído en el piso haciéndose el herido, la ciudad que se lastima sola. Saquen la foto y envíenla por la app.",
+          "fotos": [
+            "img/etapas/fariseus-e3-a-torre-verde.jpg",
+            "img/etapas/fariseus-e4-a-barbearia-al-zouhor.jpg",
+            "img/etapas/fariseus-e4-b-fonte-cara.jpg"
+          ],
+          "item": {
+            "nome": "El Mesías diferente",
+            "glifo": "ampulheta",
+            "sobre": "Dos esperas bajo el mismo cielo. Ellos miran hacia ayer, hacia un maestro que vino y se fue. Ustedes miran hacia el día que todavía no amaneció. Guarden el nombre de ese día: hacia él tira la corriente.",
+            "espelho": {
+              "nome": "El cartel del rey",
+              "glifo": "cartaz_rei",
+              "texto": "Allá atrás, los dos lados esperaban al Mashiach; la pelea era por la hora. Uno de ellos juraba que ya había venido y se había ido. Hoy todavía hay judíos que amaron a un maestro con el alma entera y llenan la calle de carteles pidiendo que vuelva y reine ahora. El amor es verdadero. Esperar al Mashiach junta al pueblo entero; decir que ya vino lo parte. ¿Conoces alguna espera que camine cerca de esa línea? Y guarden esto: la segunda mitad de la llave del portón es el nombre del día que todavía no amaneció. Mañana."
+            }
+          },
+          "senha_desbloqueio": "SICARIOS"
+        },
+        {
+          "id": 4,
+          "titulo": "El mercado y la llave",
+          "trilha": "trilha-murmurio",
+          "corredor": [
+            [
+              31.777516,
+              35.229951
+            ],
+            [
+              31.776975,
+              35.230372
+            ],
+            [
+              31.776922,
+              35.230357
+            ],
+            [
+              31.776764,
+              35.230985
+            ]
+          ],
+          "raio_m": 50,
+          "raio_chegada_m": 30,
+          "avanco": "codigo",
+          "sobe_video": true,
+          "som_chegada": "chegada-forte",
+          "carta": [
+            {
+              "voz": "narrador",
+              "texto": "Llega una carta del viejo, y la tinta está corrida en un solo punto, donde la mano se detuvo."
+            },
+            {
+              "voz": "gamliel",
+              "texto": "Shaul de Tarso cayó en el camino de Damasco. Guarden ese nombre, y guarden de qué lado empezó."
+            },
+            {
+              "voz": "narrador",
+              "texto": "Shaul es de los nuestros. Se sentó a los pies de Rabban Gamliel*, en el mismo piso que ustedes, memorizó los mismos versos, reza el mismo Shemá. Y se volvió cazador de los suyos. Al romano lo dejaba pasar; al idólatra también. Su caza era el judío: gente que había puesto la fe en un mesías muerto en una cruz. Andaba de puerta en puerta con autorización sellada en la bolsa, arrastrando de vuelta hombres y mujeres atados. A cada puerta que rompía, la certeza de estar sirviendo al Cielo."
+            },
+            {
+              "voz": "narrador",
+              "texto": "Entonces, en el camino abierto, algo lo derribó. El cazador que corría a cegar a los otros se levantó ciego. Cuando la vista volvió, había cambiado de lado, y de nombre: Shaul se volvió Pablo. Pasó a anunciar, de plaza en plaza, lo que había jurado arrancar de raíz. Y fue él, más que nadie, quien llevó a ese mesías fuera de casa, a pueblos que nunca habían oído del D-os de Israel. La pelea que empezó entre hermanos, él la abrió al mundo entero."
+            },
+            {
+              "voz": "narrador",
+              "texto": "Miren su bolsa. Cada uno carga un poco de celo ahí adentro. El mismo celo que levanta la Casa es el que rompe la puerta del hermano. Shaul persiguió al Cielo creyendo que servía al Cielo. Un destrozo de ese tamaño no necesita odio: una certeza que nunca dudó de sí alcanza sola."
+            },
+            {
+              "voz": "gamliel",
+              "texto": "Hay reshaim en el medio, siempre hay: gente que se viste con el nombre del Cielo para encender su propio fuego. Pero la mayoría es judío común, que se dejó llevar por un mesías que prometió y se fue. Con ese, ninguna pelea: a ese uno se acerca y lo trae. La espada de Shaul no trajo de vuelta ni a uno. De vuelta se trae tirando de la manga, no arrastrando con la soga."
+            },
+            {
+              "voz": "gamliel",
+              "texto": "Cuando apresaron a los primeros de esa gente y el Sanedrín quiso matarlos, fui yo quien frenó a la corte*. Si esto viene de hombre, se deshace solo. Si viene de D-os, ustedes no lo deshacen, y encima se van a ver peleando contra el Cielo. Dejen que el tiempo juzgue lo que el apuro no sabe."
+            },
+            {
+              "voz": "narrador",
+              "texto": "La carta que cierra el camino es corta. Letra del viejo, esta vez sin ningún apuro."
+            },
+            {
+              "voz": "gamliel",
+              "texto": "Los mandé detrás de un ejército, y me trajeron hermanos. Hermanos que leen una hora distinta en el mismo cielo, que tal vez estén equivocados sobre la hora, y aun así se sientan a la misma mesa que nosotros. Hay mucho judío bueno ahí adentro, gente que creyó de corazón y ya no puede volver atrás. A ese no lo soltamos."
+            },
+            {
+              "voz": "gamliel",
+              "texto": "Déjenme decir lo más difícil que aprendí en ochenta años. Se puede tener toda la razón sobre los muertos, callar a los saduceos, ganar cada ronda de la discusión, y aun así perderlo todo. Basta empezar a odiar a quien espera de un modo distinto del tuyo."
+            },
+            {
+              "voz": "gamliel",
+              "texto": "Vayan al corazón de la ciudad. Crucen el mercado de los otros sin comprar pelea. Lleguen enteros al lugar donde la piedra sigue de pie, mientras siga."
+            }
+          ],
+          "direcoes": [
+            "Desde la plaza, entren por el portón de la foto y doblen a la derecha.",
+            "Vayan en dirección al mercado, y no se olviden de cumplir la misión: es acá, en el túnel, donde sucede.",
+            "Ahí, tomen el camino donde el mercado se abre hacia el barrio judío nuevo y la bajada al Templo.",
+            "Deténganse bajo el cartel de la calle. El nombre del portón está escrito ahí, en inglés, en letras grandes: es la primera mitad de la llave."
+          ],
+          "marcos": [
+            {
+              "nome": "El cartel de la llave",
+              "ponto": [
+                31.776764,
+                35.230985
+              ]
+            }
+          ],
+          "beats": [],
+          "missao": "Entrando al shuk por este túnel, graben el video del grupo en dos filas, marchando como soldado que cruza la tierra de los otros sin bajar la cabeza. Griten: ¡Torá, Torá, Torá! Envíen el video por la app. Después, la puerta: escriban el nombre de la puerta que está en el cartel y, pegada a él, la palabra que El Mesías diferente guarda en la bolsa de ustedes. Giren el objeto en el bolso: el reverso lo cuenta.",
+          "fotos": [
+            "img/etapas/fariseus-e5-a-portao-colunas.jpg",
+            "img/etapas/fariseus-e5-b-passagem-porta-azul.jpg",
+            "img/etapas/fariseus-e5-c-chain-gate.jpg"
+          ],
+          "item": {
+            "nome": "La regla de Hilel",
+            "glifo": "regua",
+            "sobre": "Lo que es odioso para ti, no se lo hagas al prójimo. El resto es comentario. Shaul se sabía esa regla de memoria y rompió puertas con ella bajo el brazo: certeza le sobraba, sin un rasguño. Lo que faltó dentro de él es el contrario exacto de esa certeza, y cabe aquí en la bolsa: pesa poco y sujeta la mano.",
+            "espelho": {
+              "nome": "La piedra en la mano",
+              "glifo": "pedra",
+              "texto": "La regla medía al prójimo con una sola cuenta: lo que es odioso para ti, no se lo hagas a él. Hoy la misma mano suelta la regla y agarra la piedra, contra quien maneja en Shabat por su calle, contra quien se viste distinto, siempre en nombre del Cielo. El destrozo no necesita odio: una certeza que nunca dudó de sí alcanza sola. ¿Dónde tu certeza ya se volvió piedra en la mano?"
+            }
+          },
+          "codigo_no_local": true,
+          "senha_desbloqueio": "CHAIN GATE MANANA"
+        },
+        {
+          "id": 5,
+          "titulo": "La subida a los tejados",
+          "trilha": "trilha-jerusalem",
+          "corredor": [
+            [
+              31.776764,
+              35.230985
+            ],
+            [
+              31.776725,
+              35.231025
+            ],
+            [
+              31.776719,
+              35.231471
+            ],
+            [
+              31.776621,
+              35.231844
+            ],
+            [
+              31.776767,
+              35.231761
+            ]
+          ],
+          "raio_m": 50,
+          "raio_chegada_m": 30,
+          "avanco": "video",
+          "sobe_video": true,
+          "som_chegada": "chegada-forte",
+          "carta": [
+            {
+              "voz": "narrador",
+              "texto": "La última carta espera allá arriba. Aquí abajo, lo que llega es una escalera: el camino deja de ser historia y se vuelve subida."
+            },
+            {
+              "voz": "viajante",
+              "texto": "Están casi en lo alto. Desde arriba se ve entera la ciudad donde pasaron la noche perdiéndose. Suban despacio: el escalón gastado resbala, y la certeza sube mal. Lleven la duda, que pesa poco y sujeta la mano. Al final, busquen el beit midrash perdido, con la ciudad entera alrededor."
+            }
+          ],
+          "direcoes": [
+            "Bajen en dirección al Templo.",
+            "Suban a la derecha, en dirección a la plugat.",
+            "Y en la vida, cuando el camino se abra en dos: devuelvan territorios, hagan las paces, defiendan a las minorías. Por ahí, y solo por ahí, se llega a lo alto.",
+            "Antes de seguir, no olviden cumplir la misión de este punto.",
+            "Pasen junto al árbol y sigan hasta lo alto, los tejados. Ahí termina la búsqueda."
+          ],
+          "marcos": [
+            {
+              "nome": "El árbol",
+              "ponto": [
+                31.776621,
+                35.231844
+              ]
+            },
+            {
+              "nome": "Los tejados",
+              "ponto": [
+                31.776767,
+                35.231761
+              ]
+            }
+          ],
+          "beats": [],
+          "missao": "En lo alto, el video del grupo girando junto al árbol, al son de Torat Hashem Temima. Graben y envíen el video por la app.",
+          "fotos": [
+            "img/etapas/fariseus-e5-d-escada-plugat-hakotel.jpg",
+            "img/etapas/fariseus-final-a-telhados-torre.jpg",
+            "img/etapas/fariseus-final-b-patio-shuk.jpg"
+          ],
+          "item": {
+            "nome": "La llave de la piedra",
+            "glifo": "chave",
+            "sobre": "Roma nunca tuvo copia de esta llave. Probó la puerta de la Casa con hacha y con impuesto, siempre por el lado de la calle, y perdió el tiempo: la tranca queda del lado que da a la casa. Por ese lado cayó la puerta. Por ese lado vuelve a abrirse.",
+            "espelho": {
+              "nome": "El espejo",
+              "glifo": "espelho",
+              "texto": "Desde el callejón, cada banda de judíos parecía una emboscada; desde lo alto, es una sola ciudad, y cabe en una mirada. La llave de la última puerta siempre estuvo por dentro, en la mano de quien vivía ahí; Roma ni sabía qué puerta era. Mañana te quitas la ropa de fariseo y vuelves a tu movimiento, a los roces de siempre. La Casa cayó con espacio de sobra ahí adentro. ¿Qué puerta, en tu vida judía, solo tú puedes abrir por dentro?"
+            }
+          },
+          "senha_desbloqueio": "YAVNE"
+        },
+        {
+          "id": 6,
+          "titulo": "El beit midrash escondido",
+          "trilha": "trilha-jerusalem",
+          "som_chegada": "chegada-forte",
+          "corredor": [
+            [
+              31.777376,
+              35.2312
+            ]
+          ],
+          "raio_m": 45,
+          "carta": [
+            {
+              "texto": "Desde los techos se ve la ciudad entera. Bajen de ella. Cerca de acá existe un beit midrash que parece abandonado: puerta cerrada, ningún cartel. Parece. Adentro estudian los alumnos de los alumnos de los alumnos del Gaón de Vilna, con tejelet en el tsitsit y tefilín el día entero. Un grupo entre cuatro mil que nuestro pueblo tiene hoy. Yavne sigue viva detrás de esa puerta. Encuéntrenla. El beit midrash es lo que debería unirnos. Nunca dividirnos.",
+              "voz": "narrador"
+            }
+          ],
+          "direcoes": [
+            "Queda a pocos pasos del patio. Busquen una puerta con cara de lugar abandonado. Las apariencias mienten. Si hace falta, pregunten: ¿dónde estudian los alumnos del Gaón de Vilna?",
+            "Cuando la encuentren, quédense juntos en la puerta. El madrich tiene la palabra que sella la noche."
+          ],
+          "marcos": [
+            {
+              "nome": "El beit midrash escondido",
+              "ponto": [
+                31.777376,
+                35.2312
+              ]
+            }
+          ],
+          "missao": "Encuentren el beit midrash que parece abandonado y lleguen juntos hasta su puerta. Ahí, el madrich dice la palabra que sella la noche.",
+          "fotos": [
+            "img/etapas/beit-midrash-final.jpg"
+          ],
+          "senha_desbloqueio": "AHAVAT"
+        }
+      ],
+      "ponto_final": [
+        31.776767,
+        35.231761
+      ],
+      "foto_final": "img/etapas/fariseus-final-b-patio-shuk.jpg",
+      "fragmento_final": [
+        {
+          "voz": "narrador",
+          "texto": "Capitán, el grupo ya está en lo alto, la última parada. Pongan a todos de frente a la ciudad allá abajo."
+        },
+        {
+          "voz": "gamliel",
+          "texto": "Miren alrededor. Ese mar de techos de piedra, tela y cúpula es el shuk, el mismo mercado donde se perdieron toda la noche. Allá adentro, cada callejón parecía una trampa. Desde aquí arriba es una sola ciudad, y cabe en una mirada."
+        },
+        {
+          "voz": "gamliel",
+          "texto": "Todavía les falta encontrar el beit midrash escondido. Paren, quédense quietos, y escuchen. Tal vez suban voces: gente joven inclinada sobre los libros, repitiendo la Torá en voz alta, del mismo modo que hace dos mil años. O tal vez suba solo el silencio."
+        },
+        {
+          "voz": "gamliel",
+          "texto": "Pasaron la noche detrás del Templo. Necesito avisarles antes de que se le acerquen. Dentro de dos años, en el año 70, cae. Roma quema la ciudad y derriba la piedra, y esta vez no se vuelve a levantar. Nunca más."
+        },
+        {
+          "voz": "gamliel",
+          "texto": "Y cuando los sabios se sienten a entender por qué, el primer nombre de la lista va a ser el nuestro, antes que el de Roma. Con el enemigo ya en el portón, tres facciones judías* van a partir la ciudad y quemar, con la propia mano, los almacenes de trigo que alcanzaban para aguantar años de sitio*. El hambre que va a matar a media ciudad va a ser hambre plantada por judíos."
+        },
+        {
+          "voz": "gamliel",
+          "texto": "Ustedes conocen a Kamtza y Bar Kamtza*: una invitación cambiada, un hombre humillado en una fiesta, la sala entera callada. Por una pequeñez de ese tamaño cayó la Casa. Le pusieron nombre cuando ya era ceniza: sinat chinam, odio gratuito. El incendio que ninguna legión necesita encender: entra por el lado de la tranca, el que da a la casa."
+        },
+        {
+          "voz": "gamliel",
+          "texto": "El milagro es de nuestra casa. Rabban Yochanan ben Zakkai vio que la piedra estaba perdida. Se hizo el muerto, y los alumnos lo cargaron fuera de la ciudad en un cajón*, porque los radicales mataban a quien hablara de paz. Frente al general de Roma, podía pedir cualquier cosa. Pidió una escuela: una sala en Yavne, media docena de sabios adentro. Roma sabía pesar oro, muralla y ejército. Un pueblo guardado en un libro, su balanza nunca supo pesarlo. El muro se quemó. La voz no."
+        },
+        {
+          "voz": "gamliel",
+          "texto": "La lección que queda es corta. Bajaron creyendo que la misión era juzgar a una banda. Abran la bolsa y relean las piezas: ver antes de juzgar, acercarse, apostar al día que todavía no amaneció, desconfiar de la certeza sin rasguño, guardar la tranca del lado de casa. Para un espía, peso muerto. Para un alumno, caja de herramientas. La noche entera fue clase. El alumno eran ustedes. La piedra cae. La pregunta que pasa de boca a oído, no hay Roma que la derribe."
+        },
+        {
+          "voz": "viajante",
+          "texto": "Ahora la parte que solo ustedes, que vinieron de lejos, pueden oír. El viejo los matriculó en una escuela sin cartel y sin muro, y escondió la lista de útiles dentro de las piezas: los ojos, el de cerca, el mañana, la duda, el lado de adentro. Hasta la contraseña de la primera pantalla era la apuesta entera en una sola palabra. La voz que salió de aquí en un cajón cruzó Babilonia, España, la bodega de los barcos, y fue a dar al Kidush, a la peulá del movimiento, a la discusión que se vuelve madrugada."
+        },
+        {
+          "voz": "viajante",
+          "texto": "Ustedes oyeron esa voz toda la vida sin saber su nombre. Cuando llegue la próxima pelea, y siempre llega, recuerden lo que vieron desde lo alto: la Casa cayó por odio gratuito, entre hermanos que amaban al mismo D-os, y la escuela del viejo queda de pie mientras ustedes no se suelten la mano unos a otros. La Casa cabía en todos. Fueron los que estaban adentro los que no cupieron. No dejen que ese fuego los encuentre de nuevo."
+        },
+        {
+          "texto": "La escuela de ustedes está armada. Falta la última materia, y no se aprende en un aula: bajen al Kotel.",
+          "voz": "viajante"
+        },
+        {
+          "texto": "Encuentren allá a cinco judíos de cinco casas: un chassid, un litai, un dati leumi, un chiloni, un sefaradi. Cinco que no rezan igual, no visten igual, no votan igual.",
+          "voz": "viajante"
+        },
+        {
+          "texto": "Hagan una ronda con los cinco. Canten Am Hanetzach Lo Mefached MiDerech Aruca, el pueblo eterno no le teme al camino largo, y bailen hasta que la ronda se vuelva una sola. Después cuéntenles lo que vieron esta noche: esta ciudad cayó de sinat chinam, odio gratuito, y solo queda de pie por ahavat Israel. Vayan.",
+          "voz": "viajante"
+        }
+      ],
+      "revelacao_sacola": {
+        "titulo": "La bolsa entera",
+        "texto": "Cinco piezas, y ahora juntas. La carta del viejo: ver antes de juzgar. La red: no era ejército. El Mesías diferente: esperaba como ustedes, no era un hereje de afuera. La regla de Hilel: el celo que rompe la puerta del hermano era el de ustedes. Y la llave. Sumen todo. El falso mesías no era el enemigo. Ni los zelotes, ni los saduceos. Era la Casa peleando con todos y con todo, olvidando la regla del viejo Hilel. El incendio empezó adentro."
+      }
+    },
+    {
+      "id": "zelotes-es",
+      "seita": "Zelotes",
+      "senha_entrada": "PUNAL",
+      "cor": "#8f3a1e",
+      "ponto_inicial": [
+        31.776225,
+        35.228744
+      ],
+      "_nota_rota": "Rota irma em espanhol da rota 'zelotes' (traduzida em 23/07/2026; campos tecnicos 1:1 com a PT, so texto muda). Senha de entrada PUNAL (sem enye: o normalizar() do app reduz PUNAL/punal igual). Codigos = codigo fisico + palavra ES escondida no item: 5359+HAMBRE (los armamentos), 198+TRIGO (la llave de los almacenes), 10+FUEGO (la antorcha), 728+ESPALDA (el punal corto). Leitura reversa no fragmento final: espalda > fuego > trigo > hambre. Reservas do madrich identicas a PT: KANAI, SICA, KANAIM, MASSADA, AHAVAT. Mecanica completa: ver a _nota_rota da rota PT 'zelotes'.",
+      "abertura": {
+        "viajante": [
+          "Esta noche bajan al año 68, y eligieron el lado de la espada. Roma acampa en las colinas y el Templo todavía respira, por poco tiempo.",
+          "Van a ponerse en la piel de los zelotes. Los que no esperan mesías, no estudian mientras el enemigo pisa, y juran sacar a Roma de aquí por la fuerza. Ustedes ya vieron gente así. Gente que ama tanto su propia tierra que está lista para quemarla junto con el enemigo. Bajen, y fíjense a quién llaman cobarde."
+        ],
+        "identidade": [
+          "Ustedes no le tienen miedo a nadie. Mientras los fariseos discuten la ley y los saduceos le aprietan la mano al gobernador, ustedes compraron armas.",
+          "Esconden el puñal corto en el pliegue del manto, y en la multitud de la fiesta clavan la hoja en quien se vende a Roma. El sumo sacerdote que lamió la bota del enemigo ya apareció muerto, sin sepultura, fuera del muro. Fueron ustedes.*",
+          "Roma tiene un nombre para ustedes, y ustedes lo cargan como medalla: terroristas. No lo niegan, se jactan. Le tiran el terror en la cara a quien entrega la Tierra al imperio, a los enemigos de D-os, a los que ensucian Eretz Israel Shlemá con la sandalia de Roma. El miedo trabaja antes que el puñal. Que el traidor duerma mal sabiendo que ustedes existen.",
+          "Un sabio, Yochanan ben Zakkai, vio la guerra llegar y se hizo el muerto: salió de la ciudad dentro de un cajón para negociar con Roma una escuelita en Yavne.* Ustedes tienen una palabra para eso: cobardía. Mientras él salva libros, ustedes salvan Jerusalén. Torá dicha en un pie no frena una legión. Un puñal sí."
+        ],
+        "combinados": [
+          "Aquí la carta es corta y la misión es gruesa. Cumplan y sigan caminando. En el camino llegan órdenes que son historia: lo que ustedes ya hicieron y lo que están por hacer. Todo lo que venga con asterisco pasó de verdad. Y atención a la bolsa: cada pieza esconde una palabra, señalada por imagen, nunca escrita en la letra. Cuando una puerta pida la palabra de una pieza, relean la pieza con calma. Ojo de ronda la encuentra en menos de un minuto."
+        ]
+      },
+      "etapas": [
+        {
+          "id": 1,
+          "titulo": "La ronda",
+          "som_chegada": "chegada-suave",
+          "trilha": "trilha-comeco",
+          "corredor": [
+            [
+              31.776225,
+              35.228744
+            ],
+            [
+              31.775034,
+              35.228744
+            ],
+            [
+              31.775268,
+              35.229831
+            ]
+          ],
+          "raio_m": 50,
+          "avanco": "foto",
+          "carta": [
+            {
+              "voz": "narrador",
+              "texto": "Empiecen la ronda. Ojos en todo, mano cerca del hierro. La ciudad está llena para la fiesta, y la multitud es el mejor escondite de quien camina callado. Ustedes salen a ver quién sigue siendo de los nuestros, y quién ya se acostó con Roma."
+            },
+            {
+              "voz": "circulo",
+              "texto": "Pasen la contraseña de boca en boca, caminando. Las armas están pagadas. Los puñales, escondidos. Falta poco para que estalle la revuelta."
+            }
+          ],
+          "direcoes": [
+            "Sigan derecho, como quien vigila: en silencio, mirando cada puerta.",
+            "Pasen por el Tauná Coffee House, pegados a la muralla. Hay hermanos soñando con huir por encima de esas piedras. Ustedes se quedaron a pelear.",
+            "La primera vuelta es en el Fiuden, el famoso Santiago. Entren ahí.",
+            "Sigan hasta que una yeshiva levante su fachada frente a ustedes. Deténganse y cumplan la misión."
+          ],
+          "marcos": [
+            {
+              "nome": "La yeshiva de los que no pelean",
+              "ponto": [
+                31.775268,
+                35.229831
+              ]
+            }
+          ],
+          "missao": "Frente a la Yeshivas Bircas HaTorah. Esos eligieron el libro y le dieron la espalda a la guerra. ¡Fariseos cobardes! Foto del grupo encarando la fachada, cara de bravo, señalando y gritándoles que bajen a pelear.",
+          "fotos": [
+            "img/etapas/zelotes-e1-c-migdal.jpg",
+            "img/etapas/zelotes-e1-a-st-james.jpg",
+            "img/etapas/zelotes-e1-b-yeshiva.jpg",
+            "img/etapas/zelotes-e1-d-ref.jpg"
+          ],
+          "item": {
+            "nome": "El puñal corto",
+            "glifo": "lamina",
+            "sobre": "Corto, de esconder en el pliegue de la ropa. Entra por donde nadie está mirando: por el lado del cuerpo que no tiene ojos.",
+            "espelho": {
+              "nome": "El cartel del traidor",
+              "glifo": "cartaz_traidor",
+              "texto": "El sicario no cazaba romanos: se mezclaba en la fiesta y clavaba la hoja en la espalda de otro judío, siempre en nombre de D-os. La hoja de hoy empieza antes de la hoja. Empieza en el cartel que pinta al otro judío de traidor, en el primer ministro dibujado de enemigo. Un sábado a la noche, el cartel se volvió bala en un acto, en la mano de un joven religioso seguro de servir al Cielo. ¿Qué hace que un judío mire al otro y ya vea un traidor? La palabra que guarda este objeto: espalda."
+            }
+          },
+          "senha_desbloqueio": "KANAI"
+        },
+        {
+          "id": 2,
+          "titulo": "La bajada armada",
+          "trilha": "trilha-marcha",
+          "som_chegada": "chegada-suave",
+          "beats": [
+            {
+              "ponto": [
+                31.77563,
+                35.230031
+              ],
+              "raio_m": 20,
+              "simbolo": "seta",
+              "texto": "Túnel de los nuestros. Manos zelotes fortificaron esta piedra para el día que al fin llegó.",
+              "som": "coragem"
+            }
+          ],
+          "corredor": [
+            [
+              31.775268,
+              35.229831
+            ],
+            [
+              31.775992,
+              35.230232
+            ]
+          ],
+          "raio_m": 50,
+          "avanco": "foto",
+          "carta": [
+            {
+              "voz": "narrador",
+              "texto": "Mientras ustedes afilan el hierro, los sacerdotes de lino blanco comen de la mesa de Roma y a eso lo llaman salvar el Templo. Se salvan la panza. El sumo sacerdote besa el anillo del gobernador y jura que es por la paz. Esa paz es un cuello acostumbrado a la bota. Un guerrero no reza en el altar de quien se vendió."
+            }
+          ],
+          "direcoes": [
+            "A la izquierda, hacia la calle Ararat.",
+            "Pasen bajo los túneles, sin correr. Fueron los nuestros los que los fortificaron.",
+            "Bajen la Deir al-Syrian, el callejón del monasterio sirio. Deténganse en las escaleras."
+          ],
+          "marcos": [
+            {
+              "nome": "Las escaleras del Deir al-Syrian",
+              "ponto": [
+                31.775992,
+                35.230232
+              ]
+            }
+          ],
+          "missao": "Súbanse a las escaleras y quédense en posición de quien está armado, mirando hacia abajo, vigilando la calle. Alguien saca la foto desde abajo. Cumplida la misión, ustedes reciben los armamentos.",
+          "fotos": [
+            "img/etapas/zelotes-e2-a-deir-al-syrian.jpg",
+            "img/etapas/zelotes-e2-b-ref.jpg"
+          ],
+          "item": {
+            "nome": "Los armamentos",
+            "glifo": "estrela",
+            "sobre": "Espadas y puñales comprados a las apuradas. La plata salió del pan de las mesas: hay familias que durmieron sin cenar para que estas armas existan. La panza de la ciudad lo va a cobrar.",
+            "espelho": {
+              "nome": "El chaleco táctico",
+              "glifo": "colete",
+              "texto": "El hierro se juntaba en secreto, y cada hoja nueva era un pan menos en la mesa de la ciudad. Hoy el civil también se arma solo, se pone el chaleco, sube la colina, y entrena para el día en que la ley del país ya no le sirva. Toda fuerza guardada contra el enemigo termina encontrando una mano y un vecino. ¿Cuánto de tu comunidad ya se gastó afilando la próxima pelea, en vez de llenar la despensa para el invierno? La palabra que guarda este objeto: hambre. Es ella la que abre, pegada al número del lugar."
+            }
+          },
+          "senha_desbloqueio": "SICA"
+        },
+        {
+          "id": 3,
+          "titulo": "El número en la piedra",
+          "trilha": "trilha-murmurio",
+          "som_chegada": "chegada-media",
+          "corredor": [
+            [
+              31.775992,
+              35.230232
+            ],
+            [
+              31.77613,
+              35.230464
+            ],
+            [
+              31.776032,
+              35.230823
+            ],
+            [
+              31.775751,
+              35.230852
+            ]
+          ],
+          "raio_m": 50,
+          "avanco": "codigo",
+          "codigo_no_local": true,
+          "carta": [
+            {
+              "voz": "narrador",
+              "texto": "No todos de nuestro lado tienen estómago para esto. Hay zelotes que susurran perdonar a este, conversar con aquel, esperar un poco más. Lo llaman prudencia. Nosotros lo llamamos debilidad, y la debilidad parte un grupo más rápido que una espada romana. Memoricen la cara de quien duda. Un día esa cuenta se cobra."
+            }
+          ],
+          "direcoes": [
+            "La bifurcación pide una elección. Resuelvan el acertijo: entre Shamir y Rabin, soy Shamir. Entre Peres y Bibi, soy Bibi. ¿Hacia qué lado tiran esos dos? Sigan por ahí.",
+            "En la próxima bifurcación, sigan al Rebe de Lubavitch, y entren bajo el túnel.",
+            "Al comienzo del túnel, encuentren el número en la piedra. Léanlo, guárdenlo, y bajen las escaleras correctas."
+          ],
+          "marcos": [
+            {
+              "nome": "El número en la piedra",
+              "ponto": [
+                31.775751,
+                35.230852
+              ]
+            }
+          ],
+          "missao": "Encuentren el número pintado en la piedra, al comienzo del túnel. Es él quien manda en las escaleras correctas. Escriban los cuatro números sin el guion y, pegada a ellos, la palabra que los armamentos guardan. Giren el objeto en el bolso: el reverso lo cuenta.",
+          "fotos": [
+            "img/etapas/zelotes-e3-a-codigo.jpg",
+            "img/etapas/zelotes-e3-b-ref.jpg"
+          ],
+          "item": {
+            "nome": "La llave de los almacenes",
+            "glifo": "chave",
+            "sobre": "La llave de los almacenes donde la ciudad guarda el grano de los años malos. Detrás de esa puerta duerme lo que se vuelve pan en todas las mesas: el oro que se come.",
+            "espelho": {
+              "nome": "El fósforo en el granero",
+              "glifo": "fosforo",
+              "texto": "El trigo encerrado habría sostenido a la ciudad por años de sitio. Los zelotes prefirieron quemarlo todo, para que nadie tuviera la opción de esperar en vez de pelear. El trigo común de hoy es lo que sostiene la casa en pie en el invierno: el ejército que todos comparten, las instituciones, el respeto mínimo por quien vota distinto. Siempre aparece quien prefiera incendiar lo común antes que repartirlo con el otro lado. En tu sociedad, ¿quién ya está con el fósforo encendido cerca del granero? La palabra que guarda este objeto: trigo."
+            }
+          },
+          "senha_desbloqueio": "5359HAMBRE"
+        },
+        {
+          "id": 4,
+          "titulo": "El Cardo de los romanos",
+          "trilha": "trilha-roma",
+          "som_chegada": "chegada-media",
+          "beats": [
+            {
+              "ponto": [
+                31.775576,
+                35.230957
+              ],
+              "raio_m": 20,
+              "simbolo": "shuk",
+              "texto": "Pisen despacio. Cada laja de este piso fue asentada por mano judía que Roma obligó.",
+              "som": "item"
+            }
+          ],
+          "corredor": [
+            [
+              31.775751,
+              35.230852
+            ],
+            [
+              31.775402,
+              35.231063
+            ]
+          ],
+          "raio_m": 50,
+          "avanco": "codigo",
+          "codigo_no_local": true,
+          "carta": [
+            {
+              "voz": "narrador",
+              "texto": "Aquí abajo es obra de Roma. Columna recta, piedra carísima, una avenida rasgada en medio de nuestra ciudad solo para que el imperio desfile. Mientras Jerusalén se aprieta el cinturón, Roma levanta plazas. Y cada una de estas piedras fue asentada por mano judía obligada. Miren bien el piso. Memoricen ese odio. Todavía va a tener uso."
+            }
+          ],
+          "direcoes": [
+            "Bajen las escaleras y doblen a la derecha.",
+            "Abajo es el Cardo Romano, donde Roma hizo sus plazas. Un día nosotros derribamos esto.",
+            "Deténganse bajo el cartel moorwohS yrleweJ aiadaH ⇄. Es la puerta de la próxima fase."
+          ],
+          "marcos": [
+            {
+              "nome": "El letrero Hadaia",
+              "ponto": [
+                31.775402,
+                35.231063
+              ]
+            }
+          ],
+          "missao": "Bajo el letrero yrleweJ aiadaH ⇄, descubran de qué década es. El año exacto se perdió, la década quedó ahí. Escriban los tres números y, pegada a ellos, la palabra que la llave de los almacenes guarda. Giren el objeto en el bolso: el reverso lo cuenta.",
+          "fotos": [
+            "img/etapas/zelotes-e4-a-cardo.jpg"
+          ],
+          "item": {
+            "nome": "La antorcha",
+            "glifo": "estrela",
+            "sobre": "Un palo, un trapo, brea. Encendida, come sin tener boca, crece comiendo, y manda el humo adelante para avisar que viene.",
+            "espelho": {
+              "nome": "El bidón en el olivo",
+              "glifo": "galao",
+              "texto": "Levantaron la antorcha contra Roma, y bajó sobre el propio trigo. El fuego es así: lo enciendes apuntando al enemigo, y no sabe leer mapa ni frontera. Todavía hay quien vacíe el bidón en el olivo del vecino y en la puerta de la casa del otro, y a eso lo llame amor por Israel. Amor que necesita gasolina ya es otra cosa. Lo que enciendes contra el de afuera, ¿quién garantiza que frena antes de llegar a lo tuyo? La palabra que guarda este objeto: fuego."
+            }
+          },
+          "senha_desbloqueio": "198TRIGO"
+        },
+        {
+          "id": 8,
+          "titulo": "La yeshiva de los cabalistas",
+          "guia_diamante": true,
+          "trilha": "trilha-murmurio",
+          "som_chegada": "chegada-media",
+          "corredor": [
+            [
+              31.775402,
+              35.231063
+            ],
+            [
+              31.774459,
+              35.232059
+            ]
+          ],
+          "raio_m": 50,
+          "avanco": "codigo",
+          "codigo_no_local": true,
+          "carta": [
+            {
+              "voz": "narrador",
+              "texto": "Sigan el diamante. Se detiene en una puerta baja: la yeshiva de los cabalistas, el Sha'ar Shamaim, el Portón de los Cielos. Ahí adentro, hombres pasan la noche sumando las letras del Nombre, esperando que la salvación baje del cielo por su cuenta. Buena gente. Inofensiva como llovizna. La superstición no frena una legión. Lleven el número de la puerta y sigan: la respuesta que ellos buscan en el alfabeto, ustedes la cargan en la mano, con olor a brea."
+            }
+          ],
+          "direcoes": [
+            "Sigan el diamante hasta la puerta de la yeshiva Sha'ar Shamaim. Sin instrucción de calle: solo el punto en el mapa."
+          ],
+          "marcos": [
+            {
+              "nome": "La yeshiva Sha'ar Shamaim",
+              "ponto": [
+                31.774459,
+                35.232059
+              ]
+            }
+          ],
+          "missao": "En la arcada de la puerta de la yeshiva, encuentren el número grabado en la piedra. Escriban el número y, pegada a él, la palabra que la antorcha guarda. Giren el objeto en el bolso: el reverso lo cuenta.",
+          "fotos": [
+            "img/etapas/zelotes-e5b-cabalista.jpg"
+          ],
+          "senha_desbloqueio": "10FUEGO"
+        },
+        {
+          "id": 5,
+          "titulo": "La orden del trigo",
+          "guia_diamante": true,
+          "trilha": "trilha-gerudo",
+          "som_chegada": "chegada-media",
+          "corredor": [
+            [
+              31.774459,
+              35.232059
+            ],
+            [
+              31.775334,
+              35.232246
+            ]
+          ],
+          "raio_m": 60,
+          "avanco": "codigo",
+          "codigo_no_local": true,
+          "carta": [
+            {
+              "voz": "narrador",
+              "texto": "Aquí mandamos nosotros. Ustedes entran en la parte más protegida de la ciudad, y la orden camina con la cabeza en alto, con el sello del comando. Capitán, lee en voz alta."
+            },
+            {
+              "voz": "circulo",
+              "texto": "Orden a los nuestros de la ciudad alta. Cuando estalle la revuelta, olviden por una noche el campamento de Roma. El primer blanco queda dentro de los muros: los almacenes.* Granero lleno deja a la ciudad sentada, contando sacos, esperando que el sitio pase, lista para negociar la rendición. Quemen la espera. Con el depósito en ceniza queda un solo camino, y es el nuestro: pelear ahora, con todo, hasta el final. Ustedes tienen la llave. Ustedes tienen la antorcha. La ciudad todavía va a agradecer."
+            }
+          ],
+          "direcoes": [
+            "Sigan el diamante encendido en el mapa. Sin más instrucción: solo el punto, y los pies de ustedes."
+          ],
+          "marcos": [
+            {
+              "nome": "El punto del teléfono",
+              "ponto": [
+                31.775334,
+                35.232246
+              ]
+            }
+          ],
+          "missao": "Al llegar, busquen en la pared el teléfono escrito en el cartel de los caraítas. Los tres últimos números abren las próximas instrucciones. Escriban los tres números y, pegada a ellos, la palabra que el puñal corto guarda. Está con ustedes desde la primera calle. Giren el objeto en el bolso: el reverso lo cuenta.",
+          "fotos": [
+            "img/etapas/zelotes-e5-a-telefone.jpg",
+            "img/etapas/zelotes-e5-c-ref.jpg"
+          ],
+          "item": {
+            "nome": "La mecha corta",
+            "glifo": "ampulheta",
+            "sobre": "Un dedo de cuerda encerada, y nada más. Granero lleno es de quien aguanta esperar; ustedes cortaron la espera al tamaño de la cuerda. Lo que quedó camina con paso doblado, llega siempre antes de la hora y tiene fama de enemiga de la perfección. Ustedes le dieron otro nombre: coraje.",
+            "espelho": {
+              "nome": "La maqueta del Templo",
+              "glifo": "templo",
+              "texto": "El zelote no sabía esperar: quería el ataque ahora, y a la prisa la llamaba coraje. Hoy la misma mecha quiere forzar la hora de D-os: apurar la redención por la fuerza, subir al Monte antes de tiempo, armar la maqueta del Tercer Templo y resolver dos mil años de espera dentro de un mandato. Hay frutos que solo el tiempo madura, y arrancarlos verdes estropea el árbol. ¿Qué estás tratando de forzar antes de la hora?"
+            }
+          },
+          "senha_desbloqueio": "728ESPALDA"
+        },
+        {
+          "id": 6,
+          "titulo": "El barrio protegido",
+          "trilha": "trilha-revolta",
+          "som_chegada": "chegada-forte",
+          "beats": [
+            {
+              "ponto": [
+                31.775767,
+                35.232726
+              ],
+              "raio_m": 20,
+              "simbolo": "seta",
+              "texto": "Aquí rezan los que confunden oración con muralla. Pasen sin tocar, es nuestro pueblo.",
+              "som": "sino"
+            }
+          ],
+          "corredor": [
+            [
+              31.775334,
+              35.232246
+            ],
+            [
+              31.775683,
+              35.232602
+            ],
+            [
+              31.775767,
+              35.232726
+            ],
+            [
+              31.776126,
+              35.232702
+            ]
+          ],
+          "raio_m": 50,
+          "avanco": "foto",
+          "carta": [
+            {
+              "voz": "narrador",
+              "texto": "Justo enfrente, un centro de estudios: fariseos sionistas, gente de nuestra gente, la noche entera en el libro. Son de nuestro pueblo. A ellos nadie los toca. Pero miren: estudian como quien tiene tiempo, y ustedes saben que el tiempo se acabó. La mecha en el bolsillo de ustedes es corta a propósito: esta noche, el apuro tiene razón. Guarden el desprecio, y guarden la mano."
+            }
+          ],
+          "direcoes": [
+            "Frente a la sinagoga caraíta, doblen a la izquierda, y a la izquierda de nuevo.",
+            "No entren al túnel. Sigan por el patio y bajen las escaleras del fondo.",
+            "No doblen en dirección al Kotel. Crucen el túnel angosto.",
+            "Al salir, ante la duda, vayan hacia donde están el Aish y el Nahal Haim. Pero no sigan la flecha: sigan la dirección en la que está el cartel.",
+            "En la primera izquierda, un árbol en el patio. Deténganse ahí."
+          ],
+          "marcos": [
+            {
+              "nome": "El árbol del patio",
+              "ponto": [
+                31.776126,
+                35.232702
+              ]
+            }
+          ],
+          "missao": "En el árbol del patio, la última prueba antes de lo alto. Giren alrededor del árbol gritando juntos: ¡Vamos a quemar, vamos a ganar, somos los terroristas! Graben ese grito en video en el celular de ustedes, que va a tener su turno al final. Después manden por la app una foto del grupo en el árbol, y reciban la última llave.",
+          "fotos": [
+            "img/etapas/zelotes-e6-a-arvore.jpg"
+          ],
+          "item": {
+            "nome": "El grito de la revuelta",
+            "glifo": "estrela",
+            "sobre": "Vamos a ganar, gritado juntos, en el volumen más alto que la calle aguanta. ¿Tan alto por qué? Porque debajo del grito vive un bicho frío, que hiela la panza y traba la rodilla a la hora de encender el fuego. El grito es una manta. Cuanto más alto, menos escuchan al bicho.",
+            "espelho": {
+              "nome": "El megáfono",
+              "glifo": "megafone",
+              "texto": "Vamos a ganar, gritado juntos, con el puño en el aire. El grito es bueno porque no deja lugar para la duda, y la duda era lo único capaz de sujetar la mano antes del fuego. La certeza que no parpadea es el combustible más barato del mercado, y el que prende más rápido. Hoy vive en el coro de las redes, en el hashtag que llama traidor al otro campo. ¿Cuál es el grito que tu grupo repite con los ojos cerrados, y qué ayudó ya a quemar?"
+            }
+          },
+          "senha_desbloqueio": "KANAIM"
+        },
+        {
+          "id": 7,
+          "titulo": "El techo del shuk",
+          "trilha": "trilha-jerusalem",
+          "som_chegada": "chegada-forte",
+          "corredor": [
+            [
+              31.776126,
+              35.232702
+            ],
+            [
+              31.776666,
+              35.23278
+            ],
+            [
+              31.776458,
+              35.23318
+            ],
+            [
+              31.776868,
+              35.232684
+            ],
+            [
+              31.77678,
+              35.231647
+            ]
+          ],
+          "raio_m": 60,
+          "avanco": "foto",
+          "carta": [
+            {
+              "voz": "narrador",
+              "texto": "Suban. Desde arriba se ve Jerusalén entera: llena, dorada, creyendo que Roma es lluvia que pasa. Miren bien, porque es la última vez que está así. Acá arriba el grito no llega. Y sin el grito, aparece el miedo que él tapó toda la noche. Dejen subir el miedo. Después tráguenselo y quédense de pie. Ustedes juraron defender esta ciudad. Claven en la memoria la imagen de ella llena. Va a hacer falta."
+            }
+          ],
+          "direcoes": [
+            "Vuelvan y doblen a la izquierda.",
+            "Bajen las escaleras hasta el patio con vista al Templo (Talmud Torá Moriá).",
+            "Vayan por las escaleras del patio y crucen hacia el mini patio.",
+            "Desde acá se ve el Muro. En nuestra época, desde acá se veía el Templo entero. Sáquense una foto acá.",
+            "Después vuelvan por donde vinieron y tomen el shuk: doblen a la izquierda y suban.",
+            "Antes del cruce del shuk que va a la Rova, izquierda en la Plugat HaKotel.",
+            "Ante la próxima duda, sigan los números: 325-338.",
+            "Suban. Arriba, doblen a la izquierda y bajen la escalera: los deja en el patio. ¿Y quién dijo que terminaba bajando? El patio termina arriba: en el techo del shuk. Es casi el fin del camino de ustedes."
+          ],
+          "marcos": [
+            {
+              "nome": "El techo del shuk",
+              "ponto": [
+                31.77678,
+                35.231647
+              ]
+            },
+            {
+              "nome": "El mini patio del Muro",
+              "ponto": [
+                31.776458,
+                35.23318
+              ]
+            }
+          ],
+          "missao": "Llegaron a lo alto. Desde aquí los zelotes miran la ciudad que juraron defender. Foto de la corriente entera en el techo del shuk, de frente a Jerusalén.",
+          "fotos": [
+            "img/etapas/zelotes-e7-a-patio.jpg"
+          ],
+          "senha_desbloqueio": "MASSADA",
+          "raio_chegada_m": 45
+        },
+        {
+          "id": 9,
+          "titulo": "El beit midrash escondido",
+          "trilha": "trilha-jerusalem",
+          "som_chegada": "chegada-forte",
+          "corredor": [
+            [
+              31.777376,
+              35.2312
+            ]
+          ],
+          "raio_m": 45,
+          "carta": [
+            {
+              "texto": "El camino del fuego termina en Masada, y ustedes ya saben cómo termina Masada. Existe otro camino, y empieza cerca de acá: un beit midrash que parece abandonado. Parece. Adentro, los alumnos de los alumnos de los alumnos del Gaón de Vilna estudian hasta hoy, con tejelet en el tsitsit y tefilín el día entero. Un grupo entre cuatro mil que nuestro pueblo tiene. Donde ustedes solo vieron debilidad esta noche, vive la fuerza que quedó. Encuentren la puerta. El beit midrash es lo que debería unirnos. Nunca dividirnos.",
+              "voz": "narrador"
+            }
+          ],
+          "direcoes": [
+            "Queda a pocos pasos del patio. Busquen una puerta con cara de lugar abandonado. Las apariencias mienten. Si hace falta, pregunten: ¿dónde estudian los alumnos del Gaón de Vilna?",
+            "Cuando la encuentren, quédense juntos en la puerta. El madrich tiene la palabra que sella la noche."
+          ],
+          "marcos": [
+            {
+              "nome": "El beit midrash escondido",
+              "ponto": [
+                31.777376,
+                35.2312
+              ]
+            }
+          ],
+          "missao": "Encuentren el beit midrash que parece abandonado y lleguen juntos hasta su puerta. Ahí, el madrich dice la palabra que sella la noche.",
+          "fotos": [
+            "img/etapas/beit-midrash-final.jpg"
+          ],
+          "senha_desbloqueio": "AHAVAT"
+        }
+      ],
+      "ponto_final": [
+        31.77678,
+        35.231647
+      ],
+      "fragmento_final": [
+        {
+          "voz": "narrador",
+          "texto": "Capitán, el grupo ya está en el techo del shuk, lo alto de la ciudad. Pongan a todos de frente a Jerusalén. Después de esta lectura no viene misión."
+        },
+        {
+          "voz": "circulo",
+          "texto": "Pasaron la noche jurando expulsar a Roma por la fuerza. Escuchen lo que hizo la fuerza. Dentro de dos años, en el año 70, el Templo cae. Roma quema la ciudad y derriba la piedra, y esta vez no se vuelve a levantar."
+        },
+        {
+          "voz": "circulo",
+          "texto": "Antes, abran la bolsa que llenaron toda la noche. El puñal corto. Los armamentos. La llave de los almacenes. La antorcha. La mecha corta. El grito de la revuelta. Pieza por pieza juntada con orgullo, seguros de que era el arsenal que iba a derribar a Roma. Ahora escuchen para qué sirvió."
+        },
+        {
+          "voz": "circulo",
+          "texto": "Con el enemigo ya en el portón, fueron facciones judías como la nuestra las que rasgaron la ciudad por dentro.* La llave que ustedes guardaron abrió los almacenes de la propia Jerusalén. La antorcha bajó sobre el depósito lleno, y el fuego de los nuestros se comió las reservas que aguantaban años de sitio.* La mecha corta venció el miedo a pasar hambre. Media Jerusalén murió de hambre plantada por judíos, con las herramientas de la bolsa de ustedes. Cuando ya era ceniza, le pusieron nombre: sinat chinam, odio gratuito."
+        },
+        {
+          "voz": "circulo",
+          "texto": "Ahora las palabras. Cada puerta de esta noche se abrió con una palabra escondida en una pieza de la bolsa, y ustedes las escribieron todas con el propio dedo. Hambre. Trigo. Fuego. Espalda. Léanlas de atrás para adelante: la hoja en la espalda del hermano, el fuego en el trigo, el hambre en la ciudad. Ustedes deletrearon la caída de Jerusalén una puerta por vez. Y ninguna contraseña era sobre Roma."
+        },
+        {
+          "voz": "viajante",
+          "texto": "Ustedes vienen de dos mil años después, y saben cómo termina. Los del puñal que sobraron de la ciudad en ceniza bajaron el desierto y subieron a una piedra alta. Su nombre el madrich lo sostuvo toda la noche: era la última contraseña, Massada. Tres años después de caer la ciudad, Roma subió la rampa y encontró novecientos cuerpos allá arriba: eligieron la propia mano antes que el mercado de esclavos.* El puñal empezó en la espalda de un hermano. Terminó en la propia mano."
+        },
+        {
+          "voz": "viajante",
+          "texto": "El cobarde del cajón salvó la voz que estudia hasta hoy. De los valientes del puñal quedó el silencio de una piedra en el desierto. Mañana ustedes se quitan la ropa de zelote y vuelven al movimiento, a las mismas peleas de siempre. Recuerden lo que vieron desde aquí arriba: se puede amar una ciudad con toda la fuerza del mundo, y ser el fuego que se la come. La Casa cayó porque los que estaban adentro no cupieron unos en otros."
+        },
+        {
+          "voz": "narrador",
+          "texto": "Las tres corrientes llegaron al mismo techo, cada una por su camino. Fariseos, saduceos, zelotes. De aquí en adelante, la última instrucción es la misma para todos."
+        },
+        {
+          "texto": "El fuego de ustedes sigue encendido. Esta noche aprende a calentar en vez de quemar: bajen al Kotel.",
+          "voz": "narrador"
+        },
+        {
+          "texto": "Encuentren allá a cinco judíos de cinco casas: un chassid, un litai, un dati leumi, un chiloni, un sefaradi. Cinco que no rezan igual, no visten igual, no votan igual.",
+          "voz": "narrador"
+        },
+        {
+          "texto": "Hagan una ronda con los cinco. Canten Am Hanetzach Lo Mefached MiDerech Aruca, el pueblo eterno no le teme al camino largo, y bailen hasta que la ronda se vuelva una sola. Después cuéntenles lo que vieron esta noche: esta ciudad cayó de sinat chinam, odio gratuito, y solo queda de pie por ahavat Israel. Vayan.",
+          "voz": "narrador"
+        }
+      ],
+      "foto_final": "img/etapas/zelotes-e7-a-patio.jpg",
+      "missao_abertura": {
+        "texto": "Antes de la primera calle, el retrato de la ronda: el grupo entero en fila cerrada, hombro con hombro, cara de quien cuida la ciudad. El que tenga capucha, que la levante. Saquen el retrato y envíenlo por la app: es el que abre la búsqueda.",
+        "tipo": "foto",
+        "som": "inicio"
+      }
     }
   ]
 }
