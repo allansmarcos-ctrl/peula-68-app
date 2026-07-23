@@ -169,9 +169,27 @@ function primarAudio() {
   // a etapa restaurada (e as seguintes com a MESMA trilha) ficam mudas
   if (trilhaAtual && trilhaAtual.paused) { try { const p = trilhaAtual.play(); if (p && p.catch) p.catch(() => {}); } catch (e) {} }
 }
+let somAtivo = null;   // som pontual tocando agora: a trilha espera ele acabar
+function aoAcabarSom(a, cb) {
+  const done = () => {
+    clearTimeout(tm);
+    a.removeEventListener('ended', done); a.removeEventListener('error', done);
+    if (somAtivo === a) somAtivo = null;
+    cb();
+  };
+  const tm = setTimeout(done, 12000);   // som que nunca dispara "ended" nao pode deixar a trilha muda
+  a.addEventListener('ended', done);
+  a.addEventListener('error', done);
+}
 function tocarSom(nome) {
   const a = audioEl(nome);
   if (!a) return;
+  // um som fala SOZINHO: a trilha de fundo segura a respiracao e volta quando ele acaba
+  somAtivo = a;
+  if (trilhaAtual && !trilhaAtual.paused) { try { trilhaAtual.pause(); } catch (e) {} }
+  aoAcabarSom(a, () => {
+    if (trilhaAtual && trilhaAtual.paused) { try { const p = trilhaAtual.play(); if (p && p.catch) p.catch(() => {}); } catch (e) {} }
+  });
   try { a.muted = false; a.currentTime = 0; const p = a.play(); if (p && p.catch) p.catch(() => {}); } catch (e) {}
 }
 // trilha de fundo por etapa: musica ambiente em loop, volume baixo, some ao trocar de etapa.
@@ -187,8 +205,11 @@ function tocarTrilha(nome) {
   a._trilha = nome;
   a.loop = true;
   a.volume = 0.45;   // fundo: acompanha sem abafar quem le a carta em voz alta
-  try { a.muted = false; a.currentTime = 0; const p = a.play(); if (p && p.catch) p.catch(() => {}); } catch (e) {}
   trilhaAtual = a;
+  if (somAtivo && !somAtivo.paused && !somAtivo.ended) {
+    return;   // um som pontual esta falando: quando ele acabar, o callback dele retoma ESTA trilha (pausada)
+  }
+  try { a.muted = false; a.currentTime = 0; const p = a.play(); if (p && p.catch) p.catch(() => {}); } catch (e) {}
 }
 function pararTrilha() {
   const a = trilhaAtual;
