@@ -549,12 +549,11 @@
           "som_chegada": "chegada-forte",
           "corredor": [
             [
-              31.776767,
-              35.231761
+              31.777376,
+              35.2312
             ]
           ],
           "raio_m": 45,
-          "_gps_pendente": "PROVISORIO: trocar pelo ponto real do beit midrash quando o Allan marcar (rota ADM FINAL-JOGO)",
           "carta": [
             {
               "texto": "Dos telhados se vê a cidade inteira. Desçam dela. Perto daqui existe um beit midrash que parece abandonado: porta fechada, nenhuma placa. Parece. Lá dentro estudam os alunos dos alunos dos alunos do Gaon de Vilna, com tchelet no tsitsit e tefilin o dia inteiro. Um grupo entre quatro mil que o nosso povo tem hoje. Yavne continua viva atrás dessa porta. Achem ela. O beit midrash é o que deveria nos unir. Nunca dividir.",
@@ -569,8 +568,8 @@
             {
               "nome": "O beit midrash escondido",
               "ponto": [
-                31.776767,
-                35.231761
+                31.777376,
+                35.2312
               ]
             }
           ],
@@ -1832,12 +1831,11 @@
           "som_chegada": "chegada-forte",
           "corredor": [
             [
-              31.77678,
-              35.231647
+              31.777376,
+              35.2312
             ]
           ],
           "raio_m": 45,
-          "_gps_pendente": "PROVISORIO: trocar pelo ponto real do beit midrash quando o Allan marcar (rota ADM FINAL-JOGO)",
           "carta": [
             {
               "texto": "O caminho do fogo termina em Massada, e vocês já sabem como termina Massada. Existe outro caminho, e ele começa perto daqui: um beit midrash que parece abandonado. Parece. Lá dentro, os alunos dos alunos dos alunos do Gaon de Vilna estudam até hoje, com tchelet no tsitsit e tefilin o dia inteiro. Um grupo entre quatro mil que o nosso povo tem. Onde vocês só viram fraqueza esta noite, mora a força que sobrou. Achem a porta. O beit midrash é o que deveria nos unir. Nunca dividir.",
@@ -1852,8 +1850,8 @@
             {
               "nome": "O beit midrash escondido",
               "ponto": [
-                31.77678,
-                35.231647
+                31.777376,
+                35.2312
               ]
             }
           ],
