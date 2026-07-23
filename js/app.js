@@ -358,6 +358,9 @@ function ligarEventos() {
 
   // tela de grupo (criar ou entrar numa equipe)
   $('grupo-criar').addEventListener('click', criarGrupo);
+  // sussurro (beats/revela): toque fecha na hora; o marcador no mapa guarda o texto pra reler
+  const sus = $('sussurro');
+  if (sus) sus.addEventListener('click', fecharSussurro);
   // dificuldade (so estetica): marca o chip, guarda e responde com um toast de estilo
   document.querySelectorAll('.dif-chip').forEach((ch) => {
     ch.addEventListener('click', () => {
@@ -983,7 +986,7 @@ function avancarEtapa() {
   etapaAtual++;
   salvarEstado();
   empurrarSincronia(); // avisa a sala; os outros celulares revelam a nova carta
-  if (etapaAtual > rotaAtiva.etapas.length) { if (revela) mostrarSussurro(revela, null, 8000); mostrarFinal(); return; }
+  if (etapaAtual > rotaAtiva.etapas.length) { if (revela) mostrarSussurro(revela, null, 14000); mostrarFinal(); return; }
   toast(TEXTOS.etapa_avancou);
   // o mapa se preenche: carimba a etapa recém-cumprida e a câmera voa até ela (o "achei")
   desenharCarimbos(true);
@@ -992,7 +995,7 @@ function avancarEtapa() {
     const alvo = corrFeita[corrFeita.length - 1];
     setTimeout(() => { mapa.invalidateSize(); voarPara(alvo, Math.max(mapa.getZoom(), CONFIG.zoom.inicial), 1.1); }, 160);
   }
-  if (revela) setTimeout(() => mostrarSussurro(revela, null, 8000), 950); // quando a nova carta ja entrou
+  if (revela) setTimeout(() => mostrarSussurro(revela, null, 14000), 950); // quando a nova carta ja entrou
   setTimeout(entrarEtapa, 700); // deixa o carimbo estampar antes de trocar a carta
 }
 
@@ -3101,7 +3104,7 @@ function verificarBeats(et) {
 }
 
 function dispararBeat(b) {
-  mostrarSussurro(b.texto, b.simbolo, 7000);   // o pop de mensagem no mapa
+  mostrarSussurro(b.texto, b.simbolo, 14000);   // o pop de mensagem no mapa (14s: da pra ler andando; o marcador guarda o texto no toque)
   desenharMarcadorBeat(b);                      // o marcador com o glifo fica no mapa
   if (b.som) tocarSom(b.som);
 }
@@ -3136,7 +3139,7 @@ function mostrarSussurro(texto, simbolo, ms) {
   el.classList.remove('oculto');
   requestAnimationFrame(() => el.classList.add('visivel'));
   clearTimeout(mostrarSussurro._t);
-  mostrarSussurro._t = setTimeout(fecharSussurro, ms || 6500);
+  mostrarSussurro._t = setTimeout(fecharSussurro, ms || 10000);
 }
 function fecharSussurro() {
   const el = $('sussurro');
