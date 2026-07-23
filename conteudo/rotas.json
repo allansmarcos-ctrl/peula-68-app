@@ -1418,7 +1418,9 @@
             }
           ],
           "missao": "Sob o letreiro yrleweJ aiadaH ⇄, marquem de que década ele é. O ano exato foi esquecido, mas a década está ali. Digitem os três números.",
-          "fotos": [],
+          "fotos": [
+            "img/etapas/zelotes-e4-a-cardo.jpg"
+          ],
           "item": {
             "nome": "A tocha",
             "glifo": "estrela",
