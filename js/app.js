@@ -18,6 +18,7 @@ const CHAVE_GRAVOU = 'peula68_gravou';         // etapas com video enviado/"ja g
 const CHAVE_NOME = 'peula68_nome';             // nome do jogador neste aparelho
 const CHAVE_PAPEL = 'peula68_papel';           // papel na sala (traidor: pontos + batidos); so o sorteado tem carga
 const CHAVE_DIF = 'peula68_dif';               // dificuldade escolhida (SO estetica: o jogo e identico)
+const CHAVE_ODIO = 'peula68_odio';             // ultimo odio visto da sala (nao reprisar veneno apos reload)
 const DIF_ROTULOS = { easy: 'EASY', medium: 'MEDIUM', hard: 'HARD', ultra: 'ULTRA HARD' };
 const CHAVE_BEATS = 'peula68_beats';           // beats ja disparados por etapa (o pop do mapa nao repete)
 const CHAVE_SACOLA = 'peula68_sacola_';        // + rota.id: a revelacao da sacola cheia ja disparou (auto uma vez)
@@ -1141,7 +1142,7 @@ function puxarSincronia() {
   if (!sala || sincronizando) return;
   sincronizando = true;
   rpcSup('peula_estado', { p_sala: sala })
-    .then((r) => aplicarSincronia(r && r[0] && r[0].etapa))
+    .then((r) => { aplicarSincronia(r && r[0] && r[0].etapa); tratarOdio(r && r[0] && (r[0].odio != null ? r[0].odio : null)); })
     .catch(() => {})
     .then(() => {
       sincronizando = false;
@@ -3503,6 +3504,26 @@ function reenviarPontosTraidor() {
   traidorPendentes = [];
   fila.forEach((id) => enviarPontoTraidor(id));
 }
+// sinat chinam no ar: quando o odio da sala sobe (o traidor acendeu um ponto), TODOS os
+// celulares do grupo mostram o sussurro do veneno ("voltem ao caminho" + o boato). O grupo
+// le como voz do lugar; so a revelacao final conta quem plantou.
+let odioVisto = null;
+function lerOdioVisto() {
+  try { const v = JSON.parse(localStorage.getItem(CHAVE_ODIO)); if (v && v.sala === sala) return v.n; } catch (e) {}
+  return null;
+}
+function salvarOdioVisto(n) { try { localStorage.setItem(CHAVE_ODIO, JSON.stringify({ sala: sala, n: n })); } catch (e) {} }
+function tratarOdio(n) {
+  if (n == null || window.SOLO || !sala) return;
+  if (odioVisto === null) odioVisto = lerOdioVisto();
+  if (odioVisto === null) { odioVisto = n; salvarOdioVisto(n); return; }   // 1a leitura da sala: nao reprisa
+  if (n > odioVisto) {
+    const lista = [TEXTOS.odio_sussurro_1, TEXTOS.odio_sussurro_2, TEXTOS.odio_sussurro_3, TEXTOS.odio_sussurro_4].filter(Boolean);
+    if (lista.length) mostrarSussurro(lista[(n - 1) % lista.length], null, 16000);
+    odioVisto = n; salvarOdioVisto(n);
+  } else if (n < odioVisto) { odioVisto = n; salvarOdioVisto(n); }   // sala zerada/limpa: realinha
+}
+
 function consultarRevelacao() {
   if (window.SOLO || !sala || !rotaAtiva) return;
   rpcSup('peula_revelacao', { p_sala: sala, p_total: rotaAtiva.etapas.length }).then((r) => {
