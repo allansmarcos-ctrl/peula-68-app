@@ -2691,18 +2691,19 @@ function mostrarItemGanho(it) {
   $('item-ganho-sobre').textContent = it.sobre;
   const reduz = reduzMovimento();
   el.classList.toggle('sem-bau', reduz);
-  el.classList.remove('oculto');
+  el.classList.remove('oculto', 'texto-visivel');
   requestAnimationFrame(() => el.classList.add('visivel'));
+  agendarCerimonia(() => el.classList.add('texto-visivel'), reduz ? 0 : 1500);   // o bau fala primeiro; o texto entra depois
   agendarCerimonia(destacarSacola, reduz ? 250 : 980);   // a peca guardada: a sacola se destaca
-  // o item FICA na tela ate um toque (precisa dar tempo de LER: o "sobre" guarda o segredo do
-  // codigo); teto de 45s pra nao prender a tela se ninguem tocar
+  // a cerimonia: o bau abre no palco, o texto entra ~1.5s depois (CSS), e o card FICA ate o X
+  // (nada de fechar por toque acidental); teto de 60s pra nao prender a tela pra sempre
   const fechar = () => {
-    el.onclick = null;
-    el.classList.remove('visivel');
+    el.classList.remove('visivel', 'texto-visivel');
     agendarCerimonia(() => el.classList.add('oculto'), 400);
   };
-  el.onclick = fechar;
-  agendarCerimonia(fechar, 45000);
+  const x = $('item-ganho-fechar');
+  if (x) x.onclick = fechar;
+  agendarCerimonia(fechar, 60000);
 }
 // timers da cerimonia reunidos: a tela final (mostrarFinal) limpa tudo de uma vez, sem sobrar som/pisca
 function agendarCerimonia(fn, ms) {
@@ -2713,8 +2714,6 @@ function agendarCerimonia(fn, ms) {
 function limparCerimoniaItem() {
   (mostrarItemGanho._timers || []).forEach(clearTimeout);
   mostrarItemGanho._timers = [];
-  const ig = $('item-ganho');
-  if (ig) ig.onclick = null;
   const b = $('botao-inventario');
   if (b) b.classList.remove('sacola-destaca');
 }

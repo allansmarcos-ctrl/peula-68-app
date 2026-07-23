@@ -1268,6 +1268,25 @@ input[type="text"]:focus { border-color: var(--dourado); }
 #papel-secreto .overlay-cartela { max-width: 360px; }
 #nome-input { text-align: center; }
 
+/* ---------- cerimonia do item: bau primeiro, texto depois, X pra fechar ---------- */
+#item-ganho .item-ganho-cartela { position: relative; }
+#item-ganho-fechar {
+  position: absolute; top: 6px; right: 6px; width: 38px; height: 38px;
+  border-radius: 50%; border: 1px solid rgba(184, 134, 11, .55);
+  background: rgba(20, 13, 6, .8); color: #e3b855; font-size: 16px; cursor: pointer;
+}
+/* com bau: o texto do item espera a tampa abrir e o glifo emergir (o JS solta .texto-visivel ~1.5s depois) */
+#item-ganho:not(.sem-bau) #item-ganho-nome,
+#item-ganho:not(.sem-bau) #item-ganho-sobre {
+  opacity: 0; transform: translateY(6px);
+  transition: opacity .5s ease-out, transform .5s ease-out;
+}
+#item-ganho.texto-visivel #item-ganho-nome,
+#item-ganho.texto-visivel #item-ganho-sobre { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  #item-ganho:not(.sem-bau) #item-ganho-nome, #item-ganho:not(.sem-bau) #item-ganho-sobre { opacity: 1; transform: none; transition: none; }
+}
+
 /* ---------- galeria de um toque: as fotos de referencia da etapa ---------- */
 .galeria-cartela { max-width: 420px; width: calc(100vw - 28px); max-height: 84vh; overflow-y: auto; }
 #galeria-lista { display: flex; flex-direction: column; gap: 10px; margin: 10px 0 12px; }

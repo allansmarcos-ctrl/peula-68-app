@@ -1375,11 +1375,11 @@
           "item": {
             "nome": "O punhal curto",
             "glifo": "lamina",
-            "sobre": "A lâmina do sicário, curta porque a distância é curta. Entra embaixo do ombro, pelo lado do corpo onde homem nenhum tem olhos. O freguês morre sem ver a mão. Primeira peça da noite.",
+            "sobre": "Curto, de esconder na dobra da roupa. Entra por onde ninguém está olhando: pelo lado do corpo que não tem olhos.",
             "espelho": {
               "nome": "O cartaz do traidor",
               "glifo": "cartaz_traidor",
-              "texto": "O sicário não caçava romano: se misturava na festa e cravava a lâmina nas costas de outro judeu, sempre em nome de D'us. A lâmina de hoje começa antes da lâmina. Começa no cartaz que pinta o outro judeu de traidor, no primeiro-ministro desenhado de inimigo. Num sábado à noite, o cartaz virou bala num comício, na mão de um jovem religioso certo de servir o Céu. O que faz um judeu olhar pro outro e já enxergar um traidor?"
+              "texto": "O sicário não caçava romano: se misturava na festa e cravava a lâmina nas costas de outro judeu, sempre em nome de D'us. A lâmina de hoje começa antes da lâmina. Começa no cartaz que pinta o outro judeu de traidor, no primeiro-ministro desenhado de inimigo. Num sábado à noite, o cartaz virou bala num comício, na mão de um jovem religioso certo de servir o Céu. O que faz um judeu olhar pro outro e já enxergar um traidor? A palavra que este objeto guarda: costas."
             }
           },
           "senha_desbloqueio": "KANAI"
@@ -1441,11 +1441,11 @@
           "item": {
             "nome": "Os armamentos",
             "glifo": "estrela",
-            "sobre": "Ferro comprado calado, pago com o pão das mesas. Cada lâmina nova, uma janta que não veio em alguma casa. Esse preço a cidade ainda vai sentir no estômago, por anos.",
+            "sobre": "Espadas e punhais comprados às pressas. O dinheiro saiu do pão das mesas: tem família que dormiu sem jantar pra essas armas existirem. A barriga da cidade ainda vai cobrar.",
             "espelho": {
               "nome": "O colete tático",
               "glifo": "colete",
-              "texto": "O ferro se juntava em segredo, e cada lâmina nova era um pão a menos na mesa da cidade. Hoje o civil também se arma sozinho, veste o colete, sobe a colina, e treina para o dia em que a lei do país não servir mais. Toda força guardada contra o inimigo acaba achando uma mão e um vizinho. Quanto da sua comunidade já foi gasto afiando a próxima briga, em vez de encher a despensa pro inverno?"
+              "texto": "O ferro se juntava em segredo, e cada lâmina nova era um pão a menos na mesa da cidade. Hoje o civil também se arma sozinho, veste o colete, sobe a colina, e treina para o dia em que a lei do país não servir mais. Toda força guardada contra o inimigo acaba achando uma mão e um vizinho. Quanto da sua comunidade já foi gasto afiando a próxima briga, em vez de encher a despensa pro inverno? A palavra que este objeto guarda: fome. É ela que abre, colada no número do local."
             }
           },
           "senha_desbloqueio": "SICA"
@@ -1496,7 +1496,7 @@
               ]
             }
           ],
-          "missao": "Achem o número pintado na pedra, no começo do túnel. É ele que manda nas escadas certas. Digitem os quatro números sem o traço e, colados neles, a palavra que os armamentos guardam.",
+          "missao": "Achem o número pintado na pedra, no começo do túnel. É ele que manda nas escadas certas. Digitem os quatro números sem o traço e, colados neles, a palavra que os armamentos guardam. Virem o objeto na sacola: o verso conta.",
           "fotos": [
             "img/etapas/zelotes-e3-a-codigo.jpg",
             "img/etapas/zelotes-e3-b-ref.jpg"
@@ -1504,11 +1504,11 @@
           "item": {
             "nome": "A chave dos armazéns",
             "glifo": "chave",
-            "sobre": "Atrás da pedra a cidade guarda o ouro que se come: o grão que vira pão, saca em cima de saca, o bastante pra aguentar anos de cerco com as portas fechadas. Agora o número da pedra é de vocês. A cidade não sabe.",
+            "sobre": "A chave dos armazéns onde a cidade tranca o grão dos anos maus. Atrás dessa porta dorme o que vira pão na mesa de todo mundo: o ouro que se come.",
             "espelho": {
               "nome": "O fósforo no celeiro",
               "glifo": "fosforo",
-              "texto": "O trigo trancado seguraria a cidade por anos de cerco. Os zelotes preferiram queimar tudo, pra que ninguém tivesse a opção de esperar em vez de lutar. O trigo comum de hoje é o que segura a casa de pé no inverno: o exército que todos dividem, as instituições, o respeito mínimo por quem vota diferente. Sempre aparece quem prefira incendiar o comum a repartir com o outro lado. Na sua sociedade, quem já está com o fósforo aceso perto do celeiro?"
+              "texto": "O trigo trancado seguraria a cidade por anos de cerco. Os zelotes preferiram queimar tudo, pra que ninguém tivesse a opção de esperar em vez de lutar. O trigo comum de hoje é o que segura a casa de pé no inverno: o exército que todos dividem, as instituições, o respeito mínimo por quem vota diferente. Sempre aparece quem prefira incendiar o comum a repartir com o outro lado. Na sua sociedade, quem já está com o fósforo aceso perto do celeiro? A palavra que este objeto guarda: trigo."
             }
           },
           "senha_desbloqueio": "5359FOME"
@@ -1563,18 +1563,18 @@
               ]
             }
           ],
-          "missao": "Sob o letreiro yrleweJ aiadaH ⇄, descubram de que década ele é. O ano exato se perdeu, a década ficou ali. Digitem os três números e, colados neles, a palavra que a chave dos armazéns guarda.",
+          "missao": "Sob o letreiro yrleweJ aiadaH ⇄, descubram de que década ele é. O ano exato se perdeu, a década ficou ali. Digitem os três números e, colados neles, a palavra que a chave dos armazéns guarda. Virem o objeto na sacola: o verso conta.",
           "fotos": [
             "img/etapas/zelotes-e4-a-cardo.jpg"
           ],
           "item": {
             "nome": "A tocha",
             "glifo": "estrela",
-            "sobre": "Pano, breu e um cabo de pau. O que vai nascer na ponta come sem ter boca, cresce comendo, e manda a fumaça na frente pra avisar que chegou. Roma acha que ele tem dono. Ninguém avisou Roma.",
+            "sobre": "Um pau, um pano, breu. Acesa, ela come sem ter boca, cresce comendo, e manda a fumaça na frente pra avisar que vem.",
             "espelho": {
               "nome": "O galão na oliveira",
               "glifo": "galao",
-              "texto": "Ergueram a tocha contra Roma, e ela desceu sobre o próprio trigo. O fogo é assim: você acende mirando o inimigo, e ele não sabe ler mapa nem fronteira. Ainda tem quem despeje o galão na oliveira do vizinho e na porta da casa do outro, e chame isso de amor por Israel. Amor que precisa de gasolina já é outra coisa. O que você acende contra o de fora, quem garante que para antes de chegar no seu?"
+              "texto": "Ergueram a tocha contra Roma, e ela desceu sobre o próprio trigo. O fogo é assim: você acende mirando o inimigo, e ele não sabe ler mapa nem fronteira. Ainda tem quem despeje o galão na oliveira do vizinho e na porta da casa do outro, e chame isso de amor por Israel. Amor que precisa de gasolina já é outra coisa. O que você acende contra o de fora, quem garante que para antes de chegar no seu? A palavra que este objeto guarda: fogo."
             }
           },
           "senha_desbloqueio": "198TRIGO"
@@ -1616,7 +1616,7 @@
               ]
             }
           ],
-          "missao": "Na arcada da porta da yeshiva, achem o número gravado na pedra. Digitem o número e, colada nele, a palavra que a tocha guarda.",
+          "missao": "Na arcada da porta da yeshiva, achem o número gravado na pedra. Digitem o número e, colada nele, a palavra que a tocha guarda. Virem o objeto na sacola: o verso conta.",
           "fotos": [
             "img/etapas/zelotes-e5b-cabalista.jpg"
           ],
@@ -1663,7 +1663,7 @@
               ]
             }
           ],
-          "missao": "Ao chegar, procurem na parede o telefone escrito na placa dos caraítas. Os três últimos números abrem as próximas instruções. Digitem os três números e, colada neles, a palavra que o punhal curto guarda. Ele está com vocês desde a primeira rua.",
+          "missao": "Ao chegar, procurem na parede o telefone escrito na placa dos caraítas. Os três últimos números abrem as próximas instruções. Digitem os três números e, colada neles, a palavra que o punhal curto guarda. Ele está com vocês desde a primeira rua. Virem o objeto na sacola: o verso conta.",
           "fotos": [
             "img/etapas/zelotes-e5-a-telefone.jpg",
             "img/etapas/zelotes-e5-c-ref.jpg"
