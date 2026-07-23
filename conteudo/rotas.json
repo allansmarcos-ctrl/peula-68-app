@@ -114,6 +114,7 @@
         {
           "id": 2,
           "titulo": "Os mensageiros",
+          "trilha": "trilha-murmurio",
           "corredor": [
             [
               31.778597,
@@ -183,6 +184,7 @@
         {
           "id": 3,
           "titulo": "A descida que engana",
+          "trilha": "trilha-gerudo",
           "corredor": [
             [
               31.779624,
@@ -267,6 +269,7 @@
         {
           "id": 4,
           "titulo": "O corredor dos outros",
+          "trilha": "trilha-murmurio",
           "corredor": [
             [
               31.778958,
@@ -342,6 +345,7 @@
         {
           "id": 5,
           "titulo": "O mercado e a travessia",
+          "trilha": "trilha-gerudo",
           "corredor": [
             [
               31.777513,
@@ -406,6 +410,7 @@
         {
           "id": 6,
           "titulo": "A subida aos telhados",
+          "trilha": "trilha-jerusalem",
           "corredor": [
             [
               31.7769,
