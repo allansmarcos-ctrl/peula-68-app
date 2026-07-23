@@ -642,7 +642,8 @@
       "revelacao_sacola": {
         "titulo": "A sacola inteira",
         "texto": "Cinco peças, e agora juntas. A carta do velho: ver antes de julgar. A rede: não era exército. O Messias diferente: esperava como vocês, não era herege de fora. A régua de Hilel: o zelo que arromba a porta do irmão era o de vocês. E a chave. Somem tudo. O falso messias não era o inimigo. Nem os zelotes, nem os saduceus. Era a Casa brigando com todos e com tudo, esquecendo a régua do velho Hilel. O incêndio começou dentro."
-      }
+      },
+      "trilha_abertura": "trilha-abertura"
     },
     {
       "id": "fariseus-teste",
@@ -1917,7 +1918,8 @@
         "texto": "Antes da primeira rua, o retrato da ronda: o grupo inteiro em fila cerrada, ombro com ombro, cara de quem guarda a cidade. Quem tiver capuz, levanta. Tirem o retrato e enviem pelo app: é ele que abre a caça.",
         "tipo": "foto",
         "som": "inicio"
-      }
+      },
+      "trilha_abertura": "trilha-abertura"
     },
     {
       "id": "fariseus-es",
@@ -2550,7 +2552,8 @@
       "revelacao_sacola": {
         "titulo": "La bolsa entera",
         "texto": "Cinco piezas, y ahora juntas. La carta del viejo: ver antes de juzgar. La red: no era ejército. El Mesías diferente: esperaba como ustedes, no era un hereje de afuera. La regla de Hilel: el celo que rompe la puerta del hermano era el de ustedes. Y la llave. Sumen todo. El falso mesías no era el enemigo. Ni los zelotes, ni los saduceos. Era la Casa peleando con todos y con todo, olvidando la regla del viejo Hilel. El incendio empezó adentro."
-      }
+      },
+      "trilha_abertura": "trilha-abertura"
     },
     {
       "id": "zelotes-es",
@@ -3175,7 +3178,8 @@
         "texto": "Antes de la primera calle, el retrato de la ronda: el grupo entero en fila cerrada, hombro con hombro, cara de quien cuida la ciudad. El que tenga capucha, que la levante. Saquen el retrato y envíenlo por la app: es el que abre la búsqueda.",
         "tipo": "foto",
         "som": "inicio"
-      }
+      },
+      "trilha_abertura": "trilha-abertura"
     }
   ]
 }

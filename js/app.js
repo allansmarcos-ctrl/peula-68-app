@@ -230,6 +230,7 @@ function pararTrilha() {
 function coletarSonsDaRota(rota) {
   const s = new Set();
   if (rota && rota.missao_abertura && rota.missao_abertura.som) s.add(rota.missao_abertura.som);
+  if (rota && rota.trilha_abertura) s.add(rota.trilha_abertura);
   if (rota && rota.revelacao_sacola) s.add('sino');   // a virada da sacola cheia toca o sino: prima junto (iOS)
   (rota && rota.etapas || []).forEach(et => {
     if (et.som_chegada) s.add(et.som_chegada);
@@ -652,6 +653,9 @@ function entrarNoJogo(rota, etapa, novoJogo) {
 function mostrarAbertura() {
   const ab = rotaAtiva.abertura;
   if (!ab || (!ab.viajante && !ab.identidade)) { mostrarGateInicial(); return; } // seita sem abertura: direto pro gate
+  // musica da leitura de abertura (o clique que trouxe ate aqui destrava o autoplay);
+  // segue tocando no gate e para sozinha quando a E1 troca de trilha
+  if (rotaAtiva.trilha_abertura) tocarTrilha(rotaAtiva.trilha_abertura);
   const blocos = []
     .concat((ab.viajante || []).map(t => ({ voz: 'viajante', texto: t })))
     .concat((ab.identidade || []).map(t => ({ voz: 'identidade', texto: t })))
