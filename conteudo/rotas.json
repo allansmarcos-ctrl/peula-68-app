@@ -544,7 +544,7 @@
         },
         {
           "id": 6,
-          "titulo": "O beit midrash abandonado",
+          "titulo": "O beit midrash escondido",
           "trilha": "trilha-jerusalem",
           "som_chegada": "chegada-forte",
           "corredor": [
@@ -557,24 +557,24 @@
           "_gps_pendente": "PROVISORIO: trocar pelo ponto real do beit midrash quando o Allan marcar (rota ADM FINAL-JOGO)",
           "carta": [
             {
-              "texto": "Dos telhados se vê a cidade inteira. Desçam dela. Perto daqui existe um beit midrash abandonado: bancos vazios, poeira sentada onde havia voz. Yavne começou assim, numa sala que todos deram por morta e alguém teimou em encher de novo. Achem essa porta. A última lição espera atrás dela.",
+              "texto": "Dos telhados se vê a cidade inteira. Desçam dela. Perto daqui existe um beit midrash que parece abandonado: porta fechada, nenhuma placa. Parece. Lá dentro estudam os alunos dos alunos dos alunos do Gaon de Vilna, com tchelet no tsitsit e tefilin o dia inteiro. Um grupo entre quatro mil que o nosso povo tem hoje. Yavne continua viva atrás dessa porta. Achem ela. O beit midrash é o que deveria nos unir. Nunca dividir.",
               "voz": "narrador"
             }
           ],
           "direcoes": [
-            "Fica a poucos passos do telhado. Procurem a porta que ninguém abre há tempo demais; se precisarem, perguntem: onde se estudava aqui, e hoje não se estuda?",
+            "Fica a poucos passos do pátio. Procurem uma porta com cara de lugar abandonado. As aparências mentem. Se precisarem, perguntem: onde estudam os alunos do Gaon de Vilna?",
             "Quando acharem, fiquem juntos na porta. O madrich tem a palavra que sela a noite."
           ],
           "marcos": [
             {
-              "nome": "O beit midrash abandonado",
+              "nome": "O beit midrash escondido",
               "ponto": [
                 31.776767,
                 35.231761
               ]
             }
           ],
-          "missao": "Achem o beit midrash abandonado e cheguem juntos até a porta dele. Lá, o madrich fala a palavra que sela a noite.",
+          "missao": "Achem o beit midrash que parece abandonado e cheguem juntos até a porta dele. Lá, o madrich fala a palavra que sela a noite.",
           "fotos": [],
           "senha_desbloqueio": "AHAVAT"
         }
@@ -1825,7 +1825,7 @@
         },
         {
           "id": 9,
-          "titulo": "O beit midrash abandonado",
+          "titulo": "O beit midrash escondido",
           "trilha": "trilha-jerusalem",
           "som_chegada": "chegada-forte",
           "corredor": [
@@ -1838,24 +1838,24 @@
           "_gps_pendente": "PROVISORIO: trocar pelo ponto real do beit midrash quando o Allan marcar (rota ADM FINAL-JOGO)",
           "carta": [
             {
-              "texto": "O caminho do fogo termina em Massada, e vocês já sabem como termina Massada. Existe outro caminho, e ele começa perto daqui: um beit midrash abandonado, bancos vazios, nenhuma voz. Onde a cidade parou de estudar, alguém precisa ser o primeiro a voltar. Achem essa porta.",
+              "texto": "O caminho do fogo termina em Massada, e vocês já sabem como termina Massada. Existe outro caminho, e ele começa perto daqui: um beit midrash que parece abandonado. Parece. Lá dentro, os alunos dos alunos dos alunos do Gaon de Vilna estudam até hoje, com tchelet no tsitsit e tefilin o dia inteiro. Um grupo entre quatro mil que o nosso povo tem. Onde vocês só viram fraqueza esta noite, mora a força que sobrou. Achem a porta. O beit midrash é o que deveria nos unir. Nunca dividir.",
               "voz": "narrador"
             }
           ],
           "direcoes": [
-            "Fica a poucos passos do telhado. Procurem a porta que ninguém abre há tempo demais; se precisarem, perguntem: onde se estudava aqui, e hoje não se estuda?",
+            "Fica a poucos passos do pátio. Procurem uma porta com cara de lugar abandonado. As aparências mentem. Se precisarem, perguntem: onde estudam os alunos do Gaon de Vilna?",
             "Quando acharem, fiquem juntos na porta. O madrich tem a palavra que sela a noite."
           ],
           "marcos": [
             {
-              "nome": "O beit midrash abandonado",
+              "nome": "O beit midrash escondido",
               "ponto": [
                 31.77678,
                 35.231647
               ]
             }
           ],
-          "missao": "Achem o beit midrash abandonado e cheguem juntos até a porta dele. Lá, o madrich fala a palavra que sela a noite.",
+          "missao": "Achem o beit midrash que parece abandonado e cheguem juntos até a porta dele. Lá, o madrich fala a palavra que sela a noite.",
           "fotos": [],
           "senha_desbloqueio": "AHAVAT"
         }
