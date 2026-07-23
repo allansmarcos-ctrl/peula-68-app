@@ -129,7 +129,7 @@
   "papel_aviso": "Olhe sozinho. Cole a tela no peito. O que está escrito aqui morre com você até o fim da noite.",
   "papel_revelar": "Estou sozinho. Abrir.",
   "papel_fechar": "Queimar a carta",
-  "papel_traidor": "Esta noite o ódio escolheu você. Ninguém sabe. Ninguém pode saber. No seu mapa vão acender pontos que só você enxerga: leve o grupo até cada um deles sem nunca dar o motivo. Peça com cara de inocente: preciso de um banheiro; vem ver esse ângulo pra foto; conheço um atalho. Cada ponto alcançado acende uma brasa embaixo da cidade. Ninguém vai ver você acender. Minta com calma. Sorria. Sirva bem.",
+  "papel_traidor": "Esta noite o ódio escolheu você. Ninguém sabe. Ninguém pode saber. No seu mapa vão acender pontos que só você enxerga: leve o GRUPO até cada um deles. Regras do ofício: 1. Nunca vá sozinho. Brasa sem o grupo junto não vale e ainda te entrega. 2. Use motivo bom: preciso de um banheiro; vem ver esse ângulo; tenho certeza que é por aqui. 3. Às vezes, só puxe todo mundo pro rumo errado sem explicar nada. Gente segue quem anda com decisão. 4. O truque de mestre: chegou, acendeu? Seja o PRIMEIRO a dizer: acho que não é por aqui, vamos voltar. Quem manda voltar nunca é suspeito. Se te acusarem, ria. Minta com calma. Sorria. Sirva bem.",
   "odio_rotulo": "Brasas acesas",
   "traidor_toast_ponto": "Mais uma brasa acesa. Ninguém viu.",
   "traidor_pontos_rotulo": "Brasa por acender",
